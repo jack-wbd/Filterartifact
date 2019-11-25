@@ -1,0 +1,11 @@
+ManifestFileVersion: 0
+CRC: 2507753214
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: ui_root.unity3d
+      Dependencies:
+        Dependency_0: loginatlas.unity3d
+    Info_1:
+      Name: loginatlas.unity3d
+      Dependencies: {}

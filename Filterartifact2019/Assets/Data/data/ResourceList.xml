@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Resourselist>
+<ui>
+<Bundle id="RUP_Main" preload="1" EnvirUse="city" file="ui/prefab/ui_maininterface.unity3d" name=""/>
+<Atlas>
+</Atlas>
+</ui>
+</Resourselist>
