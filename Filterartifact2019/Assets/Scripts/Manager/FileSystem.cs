@@ -215,11 +215,20 @@ public class FileSystem
                 UnityEngine.Object objTemp = m_abGameData.LoadAsset(strFileName);
                 if (ReferenceEquals(objTemp, null))
                 {
-
+                    Debug.LogError("LoadXml not Exist " + strFileName);
+                    return null;
                 }
-            }
-        }
 
+                string strData = objTemp.ToString();
+                return strData;
+
+            }
+            return null;
+        }
+        else
+        {
+
+        }
     }
     //----------------------------------------------------------------------------
 }
