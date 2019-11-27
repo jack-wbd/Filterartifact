@@ -41,6 +41,7 @@ public class ResourceListData : DataBase
     {
         base.Initialize();
         m_gameInitPreLoadRes = new List<string>();
+        m_dicResourseList = new Dictionary<string, sAssetInfo>();
         return true;
     }
     //----------------------------------------------------------------------------

@@ -34,7 +34,9 @@ using UnityEngine;
 
 public class AssetsManager : Manager
 {
+    //----------------------------------------------------------------------------
     private static AssetsManager m_Singlton;
+    //----------------------------------------------------------------------------
     private static AssetsManager CreateInstance()
     {
         if (m_Singlton != null)
@@ -44,10 +46,12 @@ public class AssetsManager : Manager
         m_Singlton = new AssetsManager();
         return m_Singlton;
     }
+    //----------------------------------------------------------------------------
     public static AssetsManager Instance()
     {
         return m_Singlton;
     }
+    //----------------------------------------------------------------------------
     private static void Release()
     {
         if (m_Singlton != null)
@@ -55,7 +59,7 @@ public class AssetsManager : Manager
             m_Singlton = null;
         }
     }
-
+    //----------------------------------------------------------------------------
     private struct AssetCube
     {
         public object objAsset;
@@ -70,7 +74,7 @@ public class AssetsManager : Manager
             }
         }
     }
-
+    //----------------------------------------------------------------------------
     private Dictionary<string, AssetCube> m_dictAsset = new Dictionary<string, AssetCube>();//当前所有的资源
 
     public object GetAssetObjByID(string strAssetID)

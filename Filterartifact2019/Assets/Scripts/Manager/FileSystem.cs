@@ -52,7 +52,7 @@ public class FileSystem
     private Dictionary<string, CLoadData> m_dicLoad = null;
     private Queue<sNeedLoadData> m_queueNeedLoad = null;
     private bool m_bHaveNeedLoad = false;
-
+    public static AssetBundle m_abGameData = null;
     //----------------------------------------------------------------------------
     public void InitFileSystem()
     {
@@ -199,6 +199,27 @@ public class FileSystem
             m_bHaveNeedLoad = true;
         }
         return true;
+    }
+    //----------------------------------------------------------------------------
+    public string LoadXml(string strFile)
+    {
+        string strFileName = strFile;
+        if (!strFile.EndsWith(".xml"))
+        {
+            strFileName = strFile + ".xml";
+        }
+        if (m_abGameData != null)
+        {
+            if (m_abGameData.Contains(strFileName))
+            {
+                UnityEngine.Object objTemp = m_abGameData.LoadAsset(strFileName);
+                if (ReferenceEquals(objTemp, null))
+                {
+
+                }
+            }
+        }
+
     }
     //----------------------------------------------------------------------------
 }
