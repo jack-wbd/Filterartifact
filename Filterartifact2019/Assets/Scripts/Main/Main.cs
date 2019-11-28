@@ -33,56 +33,59 @@ using DG.Tweening;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Networking;
-public class Main : MonoBehaviour
+namespace Filterartifact
 {
-    UILogoView m_logoView = null;
-    UIDownload m_uiDownload = null;
-    GameApp gameApp = null;
-    //----------------------------------------------------------------------------
-    void Start()
+    public class Main : MonoBehaviour
     {
-        gameApp = new GameApp();
-        DontDestroyOnLoad(gameObject);
-        StartCoroutine(GetRootAssetBundle());
-    }
-    //----------------------------------------------------------------------------
-    void Update()
-    {
-        if (gameApp != null)
+        UILogoView m_logoView = null;
+        UIDownload m_uiDownload = null;
+        GameApp gameApp = null;
+        //----------------------------------------------------------------------------
+        void Start()
         {
-            gameApp.Update();
+            gameApp = new GameApp();
+            DontDestroyOnLoad(gameObject);
+            StartCoroutine(GetRootAssetBundle());
         }
-    }
-    //----------------------------------------------------------------------------
-    IEnumerator GetRootAssetBundle()
-    {
-        var depsPath = Application.streamingAssetsPath + "/StreamingAssets";
-        AssetBundle depsAb = AssetBundle.LoadFromFile(depsPath);
-        AssetBundleManifest manifest = depsAb.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
-        string[] deps = manifest.GetAllDependencies("ui_root.unity3d");
-        for (int i = 0; i < deps.Length; i++)
+        //----------------------------------------------------------------------------
+        void Update()
         {
-            AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + deps[i]);
+            if (gameApp != null)
+            {
+                gameApp.Update();
+            }
         }
-        var path = Application.streamingAssetsPath + "/ui_root.unity3d";
-        UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(path);
-        yield return www.SendWebRequest();
-        AssetBundle ab = DownloadHandlerAssetBundle.GetContent(www);
-        GameObject temp = ab.LoadAsset<GameObject>("ui_root");
-        GameObject m_root = Instantiate(temp);
-        m_root.name = "ui_root";
-        m_logoView = new UILogoView(this);
-        m_uiDownload = new UIDownload(this);
+        //----------------------------------------------------------------------------
+        IEnumerator GetRootAssetBundle()
+        {
+            var depsPath = Application.streamingAssetsPath + "/StreamingAssets";
+            AssetBundle depsAb = AssetBundle.LoadFromFile(depsPath);
+            AssetBundleManifest manifest = depsAb.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+            string[] deps = manifest.GetAllDependencies("ui_root.unity3d");
+            for (int i = 0; i < deps.Length; i++)
+            {
+                AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + deps[i]);
+            }
+            var path = Application.streamingAssetsPath + "/ui_root.unity3d";
+            UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(path);
+            yield return www.SendWebRequest();
+            AssetBundle ab = DownloadHandlerAssetBundle.GetContent(www);
+            GameObject temp = ab.LoadAsset<GameObject>("ui_root");
+            GameObject m_root = Instantiate(temp);
+            m_root.name = "ui_root";
+            m_logoView = new UILogoView(this);
+            m_uiDownload = new UIDownload(this);
 
-    }
-    //----------------------------------------------------------------------------
-    public void ShowUIDownload()
-    {
-        m_uiDownload.Show();
-    }
-    //----------------------------------------------------------------------------
-    private void OnDestroy()
-    {
+        }
+        //----------------------------------------------------------------------------
+        public void ShowUIDownload()
+        {
+            m_uiDownload.Show();
+        }
+        //----------------------------------------------------------------------------
+        private void OnDestroy()
+        {
 
+        }
     }
 }

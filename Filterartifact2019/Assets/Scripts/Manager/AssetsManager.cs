@@ -31,87 +31,88 @@
 //------------------------------------------------------------------------------
 using System.Collections.Generic;
 using UnityEngine;
-
-public class AssetsManager : Manager
+namespace Filterartifact
 {
-    //----------------------------------------------------------------------------
-    private static AssetsManager m_Singlton;
-    //----------------------------------------------------------------------------
-    private static AssetsManager CreateInstance()
+    public class AssetsManager : Manager
     {
-        if (m_Singlton != null)
+        //----------------------------------------------------------------------------
+        private static AssetsManager m_Singlton;
+        //----------------------------------------------------------------------------
+        private static AssetsManager CreateInstance()
         {
-            m_Singlton = null;
-        }
-        m_Singlton = new AssetsManager();
-        return m_Singlton;
-    }
-    //----------------------------------------------------------------------------
-    public static AssetsManager Instance()
-    {
-        return m_Singlton;
-    }
-    //----------------------------------------------------------------------------
-    private static void Release()
-    {
-        if (m_Singlton != null)
-        {
-            m_Singlton = null;
-        }
-    }
-    //----------------------------------------------------------------------------
-    private struct AssetCube
-    {
-        public object objAsset;
-
-        public static AssetCube Clear
-        {
-            get
+            if (m_Singlton != null)
             {
-                AssetCube cube;
-                cube.objAsset = null;
-                return cube;
+                m_Singlton = null;
+            }
+            m_Singlton = new AssetsManager();
+            return m_Singlton;
+        }
+        //----------------------------------------------------------------------------
+        public static AssetsManager Instance()
+        {
+            return m_Singlton;
+        }
+        //----------------------------------------------------------------------------
+        private static void Release()
+        {
+            if (m_Singlton != null)
+            {
+                m_Singlton = null;
             }
         }
-    }
-    //----------------------------------------------------------------------------
-    private Dictionary<string, AssetCube> m_dictAsset = new Dictionary<string, AssetCube>();//当前所有的资源
-
-    public object GetAssetObjByID(string strAssetID)
-    {
-        if (string.IsNullOrEmpty(strAssetID))
+        //----------------------------------------------------------------------------
+        private struct AssetCube
         {
-            Debug.LogWarning("the assetID is null");
+            public object objAsset;
+
+            public static AssetCube Clear
+            {
+                get
+                {
+                    AssetCube cube;
+                    cube.objAsset = null;
+                    return cube;
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        private Dictionary<string, AssetCube> m_dictAsset = new Dictionary<string, AssetCube>();//当前所有的资源
+
+        public object GetAssetObjByID(string strAssetID)
+        {
+            if (string.IsNullOrEmpty(strAssetID))
+            {
+                Debug.LogWarning("the assetID is null");
+                return null;
+            }
+            AssetCube cube;
+
+            if (m_dictAsset.TryGetValue(strAssetID, out cube))
+            {
+                return cube.objAsset;
+            }
             return null;
         }
-        AssetCube cube;
-
-        if (m_dictAsset.TryGetValue(strAssetID, out cube))
+        //----------------------------------------------------------------------------
+        public bool LoadAssetRes<T, U>(string strAssetID, Callback<T, U> call)
         {
-            return cube.objAsset;
+
+            if (call == null)
+                return false;
+
+            if (string.IsNullOrEmpty(strAssetID))
+                return false;
+
+            AssetCube cube;
+            if (m_dictAsset.TryGetValue(strAssetID, out cube))
+            {
+                Callback<string, object> callBack = call as Callback<string, object>;
+                callBack(strAssetID, cube.objAsset);
+                return true;
+            }
+            return FileSystem.Instance().StartLoad(strAssetID, call);
+
         }
-        return null;    
     }
-    //----------------------------------------------------------------------------
-    public bool LoadAssetRes<T, U>(string strAssetID, Callback<T, U> call)
-    {
-
-        if (call == null)
-            return false;
-
-        if (string.IsNullOrEmpty(strAssetID))
-            return false;
-
-        AssetCube cube;
-        if (m_dictAsset.TryGetValue(strAssetID, out cube))
-        {
-            Callback<string, object> callBack = call as Callback<string, object>;
-            callBack(strAssetID, cube.objAsset);
-            return true;
-        }
-        return FileSystem.Instance().StartLoad(strAssetID, call);
-
-    }
-
 }
 

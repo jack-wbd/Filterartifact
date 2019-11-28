@@ -30,56 +30,53 @@
 //	WorldManager.cs
 //------------------------------------------------------------------------------
 
-
-public class WorldManager
+namespace Filterartifact
 {
-    //----------------------------------------------------------------------------
-    public static WorldManager m_tSingleton = null;
-    //----------------------------------------------------------------------------
-    public static WorldManager CreateInstance()
+    public class WorldManager
     {
-        if (m_tSingleton != null)
+        //----------------------------------------------------------------------------
+        public static WorldManager m_tSingleton = null;
+        //----------------------------------------------------------------------------
+        public static WorldManager CreateInstance()
         {
-            m_tSingleton = null;
-        }
-        m_tSingleton = new WorldManager();
+            if (m_tSingleton != null)
+            {
+                m_tSingleton = null;
+            }
+            m_tSingleton = new WorldManager();
 
-        return m_tSingleton;
-    }
-    //----------------------------------------------------------------------------
-    public static WorldManager Instance()
-    {
-        return m_tSingleton;
-    }
-    //----------------------------------------------------------------------------
-    public static void ReleaseInstance()
-    {
-        if (m_tSingleton != null)
+            return m_tSingleton;
+        }
+        //----------------------------------------------------------------------------
+        public static WorldManager Instance()
         {
-            m_tSingleton = null;
+            return m_tSingleton;
+        }
+        //----------------------------------------------------------------------------
+        public static void ReleaseInstance()
+        {
+            if (m_tSingleton != null)
+            {
+                m_tSingleton = null;
+            }
+        }
+        //----------------------------------------------------------------------------
+        public virtual void Destroy()
+        {
+            ReleaseInstance();
+        }
+        //----------------------------------------------------------------------------
+        public virtual void Update()
+        {
+            if (FileSystem.Instance() == null)
+            {
+                FileSystem.CreateInstance();
+            }
+            if (FileSystem.Instance() != null)
+            {
+                FileSystem.Instance().Update();
+            }
         }
     }
-    //----------------------------------------------------------------------------
-    public virtual void Destroy()
-    {
-        ReleaseInstance();
-    }
-    //----------------------------------------------------------------------------
-    public virtual void Update()
-    {
-        if (FileSystem.Instance() == null)
-        {
-            FileSystem.CreateInstance();
-        }
-        if (FileSystem.Instance() != null)
-        {
-            FileSystem.Instance().Update();
-        }
-    }
-    //----------------------------------------------------------------------------
-
-    //----------------------------------------------------------------------------
-
-    //----------------------------------------------------------------------------
 }
 

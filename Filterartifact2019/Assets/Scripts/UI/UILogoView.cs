@@ -36,60 +36,62 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-
-public class UILogoView
+namespace Filterartifact
 {
-    private GameObject m_root;
-    private Transform m_logoTrans;
-    private CanvasGroup m_logoGroup;
-    private CanvasGroup m_healthGroup;
-    private GameObject m_logoGo;
-    private GameObject m_healthGo;
-    private Main m_parent;
-    //----------------------------------------------------------------------------
-    public UILogoView(Main _parent)
+    public class UILogoView
     {
-        m_parent = _parent;
-        m_root = GameObject.Find("ui_root");
-        m_logoTrans = m_root.transform.Find("Camera/Canvas/ui_logo");
-        m_logoGo = m_logoTrans.Find("Logo").gameObject;
-        m_logoGroup = m_logoGo.GetComponent<CanvasGroup>();
-        m_healthGo = m_logoTrans.Find("health").gameObject;
-        m_healthGroup = m_healthGo.GetComponent<CanvasGroup>();
-        Tweener logoTweener = m_logoGroup.DOFade(1, 1);
-        logoTweener.OnComplete(OnLogoImageShowFinish);
-    }
-    //----------------------------------------------------------------------------
-    private void OnLogoImageShowFinish()
-    {
-        Tweener logoTweener = m_logoGroup.DOFade(0, 2);
-        logoTweener.OnComplete(OnLogoImageHideFinish);
-
-    }
-    //----------------------------------------------------------------------------
-    private void OnLogoImageHideFinish()
-    {
-        Tweener healthTweener = m_healthGroup.DOFade(1, 1);
-        healthTweener.OnComplete(OnHealthTextShowFinish);
-    }
-    //----------------------------------------------------------------------------
-    private void OnHealthTextShowFinish()
-    {
-        Tweener healthTweener = m_healthGroup.DOFade(0, 2);
-        healthTweener.OnComplete(OnHealthTextHideFinish);
-    }
-    //----------------------------------------------------------------------------
-    private void OnHealthTextHideFinish()
-    {
-        OnDestroy();
-        m_parent.ShowUIDownload();
-    }
-    //----------------------------------------------------------------------------
-    public void OnDestroy()
-    {
-        if (m_logoTrans != null)
+        private GameObject m_root;
+        private Transform m_logoTrans;
+        private CanvasGroup m_logoGroup;
+        private CanvasGroup m_healthGroup;
+        private GameObject m_logoGo;
+        private GameObject m_healthGo;
+        private Main m_parent;
+        //----------------------------------------------------------------------------
+        public UILogoView(Main _parent)
         {
-            UnityEngine.Object.DestroyImmediate(m_logoTrans.gameObject);
+            m_parent = _parent;
+            m_root = GameObject.Find("ui_root");
+            m_logoTrans = m_root.transform.Find("Camera/Canvas/ui_logo");
+            m_logoGo = m_logoTrans.Find("Logo").gameObject;
+            m_logoGroup = m_logoGo.GetComponent<CanvasGroup>();
+            m_healthGo = m_logoTrans.Find("health").gameObject;
+            m_healthGroup = m_healthGo.GetComponent<CanvasGroup>();
+            Tweener logoTweener = m_logoGroup.DOFade(1, 1);
+            logoTweener.OnComplete(OnLogoImageShowFinish);
+        }
+        //----------------------------------------------------------------------------
+        private void OnLogoImageShowFinish()
+        {
+            Tweener logoTweener = m_logoGroup.DOFade(0, 2);
+            logoTweener.OnComplete(OnLogoImageHideFinish);
+
+        }
+        //----------------------------------------------------------------------------
+        private void OnLogoImageHideFinish()
+        {
+            Tweener healthTweener = m_healthGroup.DOFade(1, 1);
+            healthTweener.OnComplete(OnHealthTextShowFinish);
+        }
+        //----------------------------------------------------------------------------
+        private void OnHealthTextShowFinish()
+        {
+            Tweener healthTweener = m_healthGroup.DOFade(0, 2);
+            healthTweener.OnComplete(OnHealthTextHideFinish);
+        }
+        //----------------------------------------------------------------------------
+        private void OnHealthTextHideFinish()
+        {
+            OnDestroy();
+            m_parent.ShowUIDownload();
+        }
+        //----------------------------------------------------------------------------
+        public void OnDestroy()
+        {
+            if (m_logoTrans != null)
+            {
+                UnityEngine.Object.DestroyImmediate(m_logoTrans.gameObject);
+            }
         }
     }
 }

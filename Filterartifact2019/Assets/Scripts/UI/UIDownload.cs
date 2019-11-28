@@ -31,34 +31,64 @@
 //------------------------------------------------------------------------------
 using UnityEngine;
 using UnityEngine.UI;
-
-public class UIDownload
+namespace Filterartifact
 {
-    private GameObject m_root;
-    private Transform m_tans;
-    private GameObject m_uiDownload;
-    private Text m_version;
-    private Slider m_progressBar;
-    private Text m_proTips;
-    private Main m_parent;
-    public UIDownload(Main _parent)
+    public class UIDownload
     {
-        m_parent = _parent;
-        m_root = GameObject.Find("ui_root");
-        m_uiDownload = m_root.transform.Find("Camera/Canvas/ui_download").gameObject;
-        m_tans = m_uiDownload.transform;
-        m_version = m_tans.Find("version").GetComponent<Text>();
-        m_progressBar = m_tans.Find("progressBar").GetComponent<Slider>();
-        m_proTips = m_progressBar.transform.Find("schedule").GetComponent<Text>();
-    }
-
-    public void Show()
-    {
-        if (m_uiDownload)
+        //----------------------------------------------------------------------------
+        private GameObject m_root;
+        private Transform m_tans;
+        private GameObject m_uiDownload;
+        private Text m_version;
+        private Slider m_progressBar;
+        private Text m_proTips;
+        private Main m_parent;
+        //----------------------------------------------------------------------------
+        public UIDownload(Main _parent)
         {
-            m_uiDownload.SetActive(true);
+            m_parent = _parent;
+            m_root = GameObject.Find("ui_root");
+            m_uiDownload = m_root.transform.Find("Camera/Canvas/ui_download").gameObject;
+            m_tans = m_uiDownload.transform;
+            m_version = m_tans.Find("version").GetComponent<Text>();
+            m_progressBar = m_tans.Find("progressBar").GetComponent<Slider>();
+            m_proTips = m_progressBar.transform.Find("schedule").GetComponent<Text>();
+            Messenger.AddListener<UpdateState>(DgMsgID.DgMsg_InitStatChange, InitStateChange);
+        }
+        //----------------------------------------------------------------------------
+        public void Show()
+        {
+            if (m_uiDownload)
+            {
+                m_uiDownload.SetActive(true);
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void InitStateChange(UpdateState state)
+        {
+            switch (state)
+            {
+                case UpdateState.Update_Load_VersionUrl:
+                    break;
+                case UpdateState.Load_Gamedata:
+                    m_proTips.text = "正在加载数据";
+                    break;
+                case UpdateState.Catch_GameRes:
+                    m_proTips.text = "正在解压资源";
+                    break;
+                case UpdateState.Init_Game:
+                    m_proTips.text = "正在初始化游戏";
+                    break;
+                default:
+                    break;
+            }
+        }
+        //----------------------------------------------------------------------------
+        public void OnDestroy()
+        {
+            Messenger.RemoveListener<UpdateState>(DgMsgID.DgMsg_InitStatChange, InitStateChange);
         }
     }
-
+    //----------------------------------------------------------------------------
 }
 

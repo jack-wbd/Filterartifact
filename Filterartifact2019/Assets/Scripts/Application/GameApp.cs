@@ -29,46 +29,49 @@
 //------------------------------------------------------------------------------
 //	GameApp.cs
 //------------------------------------------------------------------------------
-public class GameApp : IGameApp
+namespace Filterartifact
 {
-    //----------------------------------------------------------------------------
-    public override bool Initialize()
+    public class GameApp : IGameApp
     {
-        base.Initialize();
-        if (WorldManager.Instance() != null)
+        //----------------------------------------------------------------------------
+        public override bool Initialize()
         {
-            WorldManager.CreateInstance();
+            base.Initialize();
+            if (WorldManager.Instance() != null)
+            {
+                WorldManager.CreateInstance();
+            }
+            return true;
         }
-        return true;
-    }
-    //----------------------------------------------------------------------------
-    public override void Finalized()
-    {
-        base.Finalized();
-        if (WorldManager.Instance() != null)
+        //----------------------------------------------------------------------------
+        public override void Finalized()
         {
-            WorldManager.Instance().Destroy();
+            base.Finalized();
+            if (WorldManager.Instance() != null)
+            {
+                WorldManager.Instance().Destroy();
+            }
         }
-    }
-    //----------------------------------------------------------------------------
-    public override void Update()
-    {
-        base.Update();
-        if (WorldManager.Instance() != null)
+        //----------------------------------------------------------------------------
+        public override void Update()
         {
-            WorldManager.Instance().Update();
+            base.Update();
+            if (WorldManager.Instance() != null)
+            {
+                WorldManager.Instance().Update();
+            }
         }
+        //----------------------------------------------------------------------------
+        public override void LateUpdate()
+        {
+            base.LateUpdate();
+        }
+        //----------------------------------------------------------------------------
+        public override void Destroy()
+        {
+            base.Destroy();
+        }
+        //----------------------------------------------------------------------------
     }
-    //----------------------------------------------------------------------------
-    public override void LateUpdate()
-    {
-        base.LateUpdate();
-    }
-    //----------------------------------------------------------------------------
-    public override void Destroy()
-    {
-        base.Destroy();
-    }
-    //----------------------------------------------------------------------------
 }
 
