@@ -71,6 +71,7 @@ namespace Filterartifact
             if (FileSystem.Instance() == null)
             {
                 FileSystem.CreateInstance();
+                FileSystem.Instance().InitFileSystem();
             }
             if (FileSystem.Instance() != null)
             {
