@@ -57,6 +57,8 @@ namespace Filterartifact
         private bool m_bHaveNeedLoad = false;
         public static AssetBundle m_abGameData = null;
         private ConfigData m_ConfigData;
+        private int m_devLoadGameDataLeftCount = -1;
+        private AssetsManager m_assetManager = null;
         //----------------------------------------------------------------------------
         public bool InitFileSystem(string strPath = null)
         {
@@ -118,6 +120,7 @@ namespace Filterartifact
         public void InitDev()
         {
             Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Load_Gamedata);
+            m_devLoadGameDataLeftCount = 1;
         }
         //----------------------------------------------------------------------------
         public static FileSystem CreateInstance()
@@ -174,7 +177,15 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void UpdateDev()
         {
-
+            if (m_devLoadGameDataLeftCount > 0)
+            {
+                m_devLoadGameDataLeftCount--;
+            }
+            else if (m_devLoadGameDataLeftCount == 0)
+            {
+                m_ResourceList.LoadResourceListFileDev();
+                m_devLoadGameDataLeftCount = -1;
+            }
         }
         //----------------------------------------------------------------------------
         private void UpdateCheckFileOK()
@@ -195,8 +206,7 @@ namespace Filterartifact
             m_nNeedLoadDepsCount = 0;
             for (int i = 0; i < m_MaxDepsCount; i++)
             {
-
-                AssetsManager.Instance().LoadAssetRes<string, UnityEngine.Object>(depsList[i], LoadFinishedCallBack);
+                AssetsManager.LoadAssetRes<string, UnityEngine.Object>(depsList[i], LoadFinishedCallBack);
             }
         }
         //----------------------------------------------------------------------------
@@ -267,46 +277,55 @@ namespace Filterartifact
             {
                 strFileName = strFile + ".xml";
             }
+            return LoadFile(strFileName);
+        }
+        //----------------------------------------------------------------------------
+        public string LoadFile(string strFile)
+        {
             if (m_abGameData != null)
             {
-                if (m_abGameData.Contains(strFileName))
+                string strFileName = GameUtil.GetAssetName(m_abGameData, strFile);
+                Debug.LogFormat("strFile:{0} Load strFileName:{1}", strFile, strFileName);
+                if (!string.IsNullOrEmpty(strFileName))
                 {
                     UnityEngine.Object objTemp = m_abGameData.LoadAsset(strFileName);
                     if (ReferenceEquals(objTemp, null))
                     {
-                        Debug.LogError("LoadXml not Exist " + strFileName);
+                        Debug.LogError("LoadXml not Exist" + strFileName);
                         return null;
                     }
 
                     string strData = objTemp.ToString();
                     return strData;
-
                 }
-                return null;
             }
             else
             {
-                if (!string.IsNullOrEmpty(m_ConfigData.m_strDataDir))
+                Debug.Log("m_abGameData is null");
+                if (m_ConfigData.m_strDataDir != "")
                 {
-
-                    if (File.Exists(m_ConfigData.m_strDataDir + strFileName))
+                    if (File.Exists(m_ConfigData.m_strDataDir + strFile))
                     {
-                        UnityWebRequest www = new UnityWebRequest("file:///" + m_ConfigData.m_strDataDir + strFileName);
-                        while (!www.isDone)
-                        {
-
-                        }
-                        if (www.error != null)
-                        {
-                            Debug.LogError(www.error);
-                            return null;
-                        }
-
-                        return www.downloadHandler.text;
+                        return File.ReadAllText(m_ConfigData.m_strDataDir + strFile);
+                    }
+                    else
+                    {
+                        Debug.LogError(m_ConfigData.m_strDataDir + strFile + " is not exist!");
                     }
                 }
             }
             return null;
+        }
+        //----------------------------------------------------------------------------
+        public AssetsManager assetsManager
+        {
+            get
+            {
+                if (m_assetManager == null)
+                {
+                    m_assetManager =WorldManager.Instance().GetLayer<AssetLayer>().
+                }
+            }
         }
         //----------------------------------------------------------------------------
     }

@@ -36,31 +36,6 @@ namespace Filterartifact
     public class AssetsManager : Manager
     {
         //----------------------------------------------------------------------------
-        private static AssetsManager m_Singlton;
-        //----------------------------------------------------------------------------
-        private static AssetsManager CreateInstance()
-        {
-            if (m_Singlton != null)
-            {
-                m_Singlton = null;
-            }
-            m_Singlton = new AssetsManager();
-            return m_Singlton;
-        }
-        //----------------------------------------------------------------------------
-        public static AssetsManager Instance()
-        {
-            return m_Singlton;
-        }
-        //----------------------------------------------------------------------------
-        private static void Release()
-        {
-            if (m_Singlton != null)
-            {
-                m_Singlton = null;
-            }
-        }
-        //----------------------------------------------------------------------------
         private struct AssetCube
         {
             public object objAsset;
@@ -96,7 +71,6 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public bool LoadAssetRes<T, U>(string strAssetID, Callback<T, U> call)
         {
-
             if (call == null)
                 return false;
 

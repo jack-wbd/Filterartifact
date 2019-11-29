@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Resourselist>
+<deps>
+<Bundle id="RUP_Main" preload="1" EnvirUse="city" file="loginatlas.unity3d" name=""/>
+</deps>
+</Resourselist>

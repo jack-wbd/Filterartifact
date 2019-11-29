@@ -85,8 +85,11 @@
     <Compile Include="Assets\Scripts\GameState\GameMain\GameState_Logo.cs" />
     <Compile Include="Assets\Scripts\GameState\GameMain\GameState_Main.cs" />
     <Compile Include="Assets\Scripts\GameState\Update\GameState_Update.cs" />
+    <Compile Include="Assets\Scripts\GameUtil.cs" />
+    <Compile Include="Assets\Scripts\Layer\AssetLayer.cs" />
     <Compile Include="Assets\Scripts\Main\Main.cs" />
     <Compile Include="Assets\Scripts\Manager\AssetsManager.cs" />
+    <Compile Include="Assets\Scripts\Manager\BaseLayer.cs" />
     <Compile Include="Assets\Scripts\Manager\CallBack.cs" />
     <Compile Include="Assets\Scripts\Manager\FileSystem.cs" />
     <Compile Include="Assets\Scripts\Manager\Manager.cs" />
@@ -95,8 +98,8 @@
     <Compile Include="Assets\Scripts\Message\SpreadMsg\DelegateMsgID.cs" />
     <Compile Include="Assets\Scripts\UI\UIDownload.cs" />
     <Compile Include="Assets\Scripts\UI\UILogoView.cs" />
+    <None Include="Assets\Data\data\ResourseList.xml" />
     <None Include="Assets\Resources\config.xml" />
-    <None Include="Assets\Data\data\ResourceList.xml" />
     <None Include="Assets\DOTween\readme.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>E:/Filterartifact2019/Filterartifact/Filterartifact2019/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

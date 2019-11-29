@@ -83,7 +83,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void LoadResourceListFileDev()
         {
-            string strResourceList = FileSystem.Instance().LoadXml("/Common/Resourselist");
+            string strResourceList = FileSystem.Instance().LoadXml("/Resourselist");
             InitResourseListFile(strResourceList);
         }
         //----------------------------------------------------------------------------
@@ -143,8 +143,13 @@ namespace Filterartifact
             int nFlage = strFile.LastIndexOf(".");
             string strTemp = strFile.Substring(0, nFlage);
             nFlage = strTemp.LastIndexOf("/");
-            strTemp = strTemp.Substring(nFlage + 1);
-            return strTemp;
+            if (nFlage > 0)
+            {
+                strTemp = strTemp.Substring(nFlage + 1);
+                return strTemp;
+            }
+            else
+                return strTemp;
         }
         //----------------------------------------------------------------------------
     }

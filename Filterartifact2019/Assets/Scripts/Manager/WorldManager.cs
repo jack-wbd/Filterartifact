@@ -1,4 +1,6 @@
-﻿//------------------------------------------------------------------------------
+﻿using System;
+using System.Collections.Generic;
+//------------------------------------------------------------------------------
 /**
 	\file	WorldManager.cs
 
@@ -37,6 +39,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public static WorldManager m_tSingleton = null;
         public GameState_Main m_gameStateMain = null;
+        private Dictionary<Type, BaseLayer> m_dictLayer = null;
+        private Dictionary<Type, BaseLayer>.Enumerator m_itor;
         //----------------------------------------------------------------------------
         public static WorldManager CreateInstance()
         {
@@ -94,6 +98,16 @@ namespace Filterartifact
                 FileSystem.Instance().Update();
             }
         }
+        //----------------------------------------------------------------------------
+        public T GetLayer<T>() where T : BaseLayer
+        {
+            if (m_dictLayer.ContainsKey(typeof(T)))
+            {
+                return m_dictLayer[typeof(T)] as T;
+            }
+            return null;
+        }
+
         //----------------------------------------------------------------------------
     }
 }
