@@ -42,11 +42,9 @@ namespace Filterartifact
         private Text m_version;
         private Slider m_progressBar;
         private Text m_proTips;
-        private Main m_parent;
         //----------------------------------------------------------------------------
-        public UIDownload(Main _parent)
+        public UIDownload()
         {
-            m_parent = _parent;
             m_root = GameObject.Find("ui_root");
             m_uiDownload = m_root.transform.Find("Camera/Canvas/ui_download").gameObject;
             m_tans = m_uiDownload.transform;
@@ -71,13 +69,13 @@ namespace Filterartifact
                 case UpdateState.Update_Load_VersionUrl:
                     break;
                 case UpdateState.Load_Gamedata:
-                    m_proTips.text = "正在加载数据";
+                    m_proTips.text = "正在加载数据...";
                     break;
                 case UpdateState.Catch_GameRes:
-                    m_proTips.text = "正在解压资源";
+                    m_proTips.text = "正在解压资源...";
                     break;
                 case UpdateState.Init_Game:
-                    m_proTips.text = "正在初始化游戏";
+                    m_proTips.text = "正在初始化游戏...";
                     break;
                 default:
                     break;

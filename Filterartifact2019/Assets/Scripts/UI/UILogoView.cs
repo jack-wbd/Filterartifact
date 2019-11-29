@@ -30,11 +30,6 @@
 //	UILogoView.cs
 //------------------------------------------------------------------------------
 using DG.Tweening;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 namespace Filterartifact
 {
@@ -46,11 +41,9 @@ namespace Filterartifact
         private CanvasGroup m_healthGroup;
         private GameObject m_logoGo;
         private GameObject m_healthGo;
-        private Main m_parent;
         //----------------------------------------------------------------------------
-        public UILogoView(Main _parent)
+        public UILogoView()
         {
-            m_parent = _parent;
             m_root = GameObject.Find("ui_root");
             m_logoTrans = m_root.transform.Find("Camera/Canvas/ui_logo");
             m_logoGo = m_logoTrans.Find("Logo").gameObject;
@@ -83,14 +76,14 @@ namespace Filterartifact
         private void OnHealthTextHideFinish()
         {
             OnDestroy();
-            m_parent.ShowUIDownload();
+            LauncherManager.Instance.ShowUIDownload();
         }
         //----------------------------------------------------------------------------
         public void OnDestroy()
         {
             if (m_logoTrans != null)
             {
-                UnityEngine.Object.DestroyImmediate(m_logoTrans.gameObject);
+                Object.DestroyImmediate(m_logoTrans.gameObject);
             }
         }
     }

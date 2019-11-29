@@ -37,9 +37,9 @@ namespace Filterartifact
         public override bool Initialize()
         {
             base.Initialize();
-            if (WorldManager.Instance() == null)
+            if (WorldManager.CreateInstance() != null)
             {
-                WorldManager.CreateInstance();
+                WorldManager.Instance().CreateWorld();
             }
             return true;
         }
@@ -56,10 +56,6 @@ namespace Filterartifact
         public override void Update()
         {
             base.Update();
-            if (WorldManager.Instance() ==null)
-            {
-                WorldManager.CreateInstance();
-            }
             if (WorldManager.Instance() != null)
             {
                 WorldManager.Instance().Update();

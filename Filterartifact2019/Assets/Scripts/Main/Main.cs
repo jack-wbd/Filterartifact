@@ -1,5 +1,4 @@
-﻿//------------------------------------------------------------------------------
-using DG.Tweening;
+﻿//------------------------------------------------------------------------------s
 /**
 	\file	Main.cs
 
@@ -30,57 +29,50 @@ using DG.Tweening;
 //------------------------------------------------------------------------------
 //	Main.cs
 //------------------------------------------------------------------------------
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Networking;
 namespace Filterartifact
 {
     public class Main : MonoBehaviour
     {
-        UILogoView m_logoView = null;
-        UIDownload m_uiDownload = null;
         GameApp gameApp = null;
+        LauncherManager launcherManager = null;
         //----------------------------------------------------------------------------
         void Start()
         {
-            gameApp = new GameApp();
             DontDestroyOnLoad(gameObject);
-            StartCoroutine(GetRootAssetBundle());
+            StartLauncher();
+        }
+        //----------------------------------------------------------------------------
+        void StartLauncher()
+        {
+            launcherManager = new LauncherManager();
+            launcherManager.Initialization();
         }
         //----------------------------------------------------------------------------
         void Update()
         {
+            if (launcherManager != null)
+            {
+                launcherManager.Update();
+                if (launcherManager.IsLauncherFinish())
+                {
+                    launcherManager.SetLauncherFinish(false);
+                    StartAppGame();
+                }
+            }
             if (gameApp != null)
             {
                 gameApp.Update();
             }
         }
         //----------------------------------------------------------------------------
-        IEnumerator GetRootAssetBundle()
+        void StartAppGame()
         {
-            var depsPath = Application.streamingAssetsPath + "/StreamingAssets";
-            AssetBundle depsAb = AssetBundle.LoadFromFile(depsPath);
-            AssetBundleManifest manifest = depsAb.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
-            string[] deps = manifest.GetAllDependencies("ui_root.unity3d");
-            for (int i = 0; i < deps.Length; i++)
+            gameApp = new GameApp();
+            if (gameApp != null)
             {
-                AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + deps[i]);
+                gameApp.Initialize();
             }
-            var path = Application.streamingAssetsPath + "/ui_root.unity3d";
-            UnityWebRequest www = UnityWebRequestAssetBundle.GetAssetBundle(path);
-            yield return www.SendWebRequest();
-            AssetBundle ab = DownloadHandlerAssetBundle.GetContent(www);
-            GameObject temp = ab.LoadAsset<GameObject>("ui_root");
-            GameObject m_root = Instantiate(temp);
-            m_root.name = "ui_root";
-            m_logoView = new UILogoView(this);
-            m_uiDownload = new UIDownload(this);
-
-        }
-        //----------------------------------------------------------------------------
-        public void ShowUIDownload()
-        {
-            m_uiDownload.Show();
         }
         //----------------------------------------------------------------------------
         private void OnDestroy()

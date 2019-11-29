@@ -36,6 +36,7 @@ namespace Filterartifact
     {
         //----------------------------------------------------------------------------
         public static WorldManager m_tSingleton = null;
+        public GameState_Main m_gameStateMain = null;
         //----------------------------------------------------------------------------
         public static WorldManager CreateInstance()
         {
@@ -61,6 +62,21 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public virtual bool CreateWorld()
+        {
+            CreateMainState();
+            return true;
+        }
+        //----------------------------------------------------------------------------
+        private void CreateMainState()
+        {
+            m_gameStateMain = new GameState_Main((int)GameStateType.GST_Main, null);
+            if (!ReferenceEquals(m_gameStateMain, null))
+            {
+                m_gameStateMain.Init();
+            }
+        }
+        //----------------------------------------------------------------------------
         public virtual void Destroy()
         {
             ReleaseInstance();
@@ -68,16 +84,17 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public virtual void Update()
         {
-            if (FileSystem.Instance() == null)
+            if (!ReferenceEquals(m_gameStateMain, null))
             {
-                FileSystem.CreateInstance();
-                FileSystem.Instance().InitFileSystem();
+                m_gameStateMain.Update();
             }
+
             if (FileSystem.Instance() != null)
             {
                 FileSystem.Instance().Update();
             }
         }
+        //----------------------------------------------------------------------------
     }
 }
 
