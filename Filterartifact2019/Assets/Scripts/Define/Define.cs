@@ -92,6 +92,7 @@ public struct sAssetInfo
     public bool bPreLoad;
     public eUseEnvir eEnvirUse;
     public string strFile;
+    public string assetName;//游戏里用的文件路径
     public EAssetType eAssetType;
     public List<string> childListAssetID;
     public bool bAlwaysCache;
@@ -106,6 +107,7 @@ public struct sAssetInfo
             temp.strID = "";
             temp.strName = "";
             temp.strFile = "";
+            temp.assetName = "";
             temp.bPreLoad = true;
             temp.eAssetType = EAssetType.eGameObject;
             temp.eEnvirUse = eUseEnvir.none;

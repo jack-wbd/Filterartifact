@@ -66,6 +66,30 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public void IniDataLayer()
+        {
+            DoInitDataLayer();
+        }
+        //----------------------------------------------------------------------------
+        public void CreateLayer()
+        {
+            DoCreateLayer();
+        }
+        //----------------------------------------------------------------------------
+        private bool DoInitDataLayer()
+        {
+            m_dictLayer = new Dictionary<Type, BaseLayer>();
+            return true;
+        }
+        //----------------------------------------------------------------------------
+        private void DoCreateLayer()
+        {
+            AssetLayer t = new AssetLayer();
+            t.Initialize();
+            m_dictLayer.Add(typeof(AssetLayer), t);
+        }
+
+        //----------------------------------------------------------------------------
         public virtual bool CreateWorld()
         {
             CreateMainState();
@@ -107,7 +131,7 @@ namespace Filterartifact
             }
             return null;
         }
-
+        //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
     }
 }

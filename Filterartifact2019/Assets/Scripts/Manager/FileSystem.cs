@@ -44,6 +44,7 @@ namespace Filterartifact
             File_Init,
             File_LoadingGamedata,
             File_LoadedGamedata,
+            File_ParseGameData,
             File_DeCompress,
             File_OK
         }
@@ -59,6 +60,15 @@ namespace Filterartifact
         private ConfigData m_ConfigData;
         private int m_devLoadGameDataLeftCount = -1;
         private AssetsManager m_assetManager = null;
+        private bool m_bBundleDataLoaded = false;
+        private int m_nNeedParseDataCount = 0;
+        private int m_nCurPaseDataCount = 0;
+        private int m_nNeedLoadMaxPerFrame = 120; //每帧加载最大负载
+        private Dictionary<string, List<string>> m_bundleDependenciseDict;
+        private Dictionary<string, AssetBundle> m_assetBundleDict = null;
+        public static string m_strStreamAssetsDir = null;
+        public static string m_strPersistenDir = null;
+        private List<string> m_audioAssetList = null;
         //----------------------------------------------------------------------------
         public bool InitFileSystem(string strPath = null)
         {
@@ -167,6 +177,223 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void UpdatePhone()
         {
+            switch (m_state)
+            {
+                case FileSystemState.File_Init:
+                    break;
+                case FileSystemState.File_LoadingGamedata:
+                    break;
+                case FileSystemState.File_LoadedGamedata:
+                    break;
+                case FileSystemState.File_ParseGameData:
+                    UpdateParseGameData();
+                    break;
+                case FileSystemState.File_DeCompress:
+                    break;
+                case FileSystemState.File_OK:
+                    break;
+                default:
+                    break;
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void UpdateParseGameData()
+        {
+            if (m_nCurPaseDataCount >= m_nNeedParseDataCount)
+            {
+                WorldManager.Instance().CreateLayer();
+                GoState(FileSystemState.File_OK);
+                LoadDepRes();
+                return;
+            }
+            ++m_nCurPaseDataCount;
+
+        }
+        //----------------------------------------------------------------------------
+        private void UpdateLoadRes()
+        {
+            if (m_state != FileSystemState.File_OK)
+            {
+                return;
+            }
+
+        }
+        //----------------------------------------------------------------------------
+        private void CheckNeedLoadData()
+        {
+            if (m_bHaveNeedLoad)
+            {
+                int nCount = m_queueNeedLoad.Count;
+                if (nCount == 0)
+                {
+                    m_bHaveNeedLoad = false;
+                }
+                nCount = nCount > m_nNeedLoadMaxPerFrame ? m_nNeedLoadMaxPerFrame : nCount;
+                for (int i = 0; i < nCount; i++)
+                {
+                    StartLoad(m_queueNeedLoad.Dequeue());
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void StartLoad(sNeedLoadData needLoad)
+        {
+            string strAssetID = needLoad.strAssetID;
+            UnityEngine.Object obj = assetsManager.GetAssetObjByID(strAssetID);
+            if (obj != null)
+            {
+                Callback<string, UnityEngine.Object> callback = needLoad.callback as Callback<string, UnityEngine.Object>;
+                callback(strAssetID, obj);
+                return;
+            }
+
+            sAssetInfo info = sAssetInfo.zero;
+            m_ResourceList.GetAssetBundleInfo(strAssetID, ref info);
+            string strBaseDir = GetResDirByPath(info.strFile);
+            string path = info.strFile;
+
+            if (m_bundleDependenciseDict.ContainsKey(path))
+            {
+                List<string> strDependecise = m_bundleDependenciseDict[path];
+                for (int i = 0; i < strDependecise.Count; i++)
+                {
+                    if (!m_assetBundleDict.ContainsKey(strDependecise[i]))
+                    {
+                        AssetBundle tempBundle = AssetBundle.LoadFromFile(GetResPathByName(strDependecise[i]));
+                        if (tempBundle != null)
+                        {
+                            m_assetBundleDict.Add(strDependecise[i], tempBundle);
+                        }
+                        else
+                        {
+                            Debug.LogErrorFormat("资源加载失败：{0}", strDependecise[i]);
+                        }
+                    }
+                }
+                path = strBaseDir + path;
+                AssetBundle bundle = null;
+                if (!m_assetBundleDict.ContainsKey(path))
+                {
+                    bundle = AssetBundle.LoadFromFile(path);
+                    if (bundle != null)
+                    {
+                        m_assetBundleDict.Add(info.strFile, bundle);
+                    }
+                    else
+                    {
+                        Debug.LogErrorFormat("资源加载失败:{0}", path);
+                    }
+                }
+                else
+                {
+                    bundle = m_assetBundleDict[info.strFile];
+                }
+
+                string loadAssetName = string.IsNullOrEmpty(info.assetName) ? info.strName : info.assetName;
+
+                UnityEngine.Object tempObj = bundle.LoadAsset(loadAssetName);
+                ProcessAsset(strAssetID, obj, needLoad.callback, info.eAssetType);
+                ProcessStreamedAsset(info, obj, bundle);
+                return;
+            }
+
+            needLoad.callback?.Invoke(strAssetID, null);
+            return;
+        }
+        //----------------------------------------------------------------------------
+        public void ProcessAsset(string strAssetID, UnityEngine.Object objAsset, Delegate call, EAssetType type)
+        {
+            assetsManager.AddAssetList(strAssetID, objAsset, type);
+            (call as Callback<string, UnityEngine.Object>)?.Invoke(strAssetID, objAsset);
+            call = null;
+        }
+        //----------------------------------------------------------------------------
+        public void ProcessStreamedAsset(sAssetInfo info, UnityEngine.Object objAsset, AssetBundle bundle)
+        {
+
+            if (string.IsNullOrEmpty(info.strFile) || objAsset == null || bundle == null)
+            {
+                return;
+            }
+            if (info.eAssetType == EAssetType.eAudio)
+            {
+                AudioClip clip = objAsset as AudioClip;
+                if (clip.loadType == AudioClipLoadType.Streaming)
+                {
+                    if (!m_audioAssetList.Contains(info.strFile))
+                    {
+                        m_audioAssetList.Add(info.strFile);
+                    }
+                    assetsManager.AddAssetBundleList(info.strID, bundle);
+                }
+            }
+
+
+        }
+        //----------------------------------------------------------------------------
+        public string GetResPathByName(string strName)
+        {
+            return GetResDirByPath(strName);
+        }
+        //----------------------------------------------------------------------------
+        public string GetResDirByPath(string path)
+        {
+            string strBaseDir;
+            if (RuntimePlatform.Android == Application.platform)
+            {
+                if (m_ConfigData.m_strLocal == "1")
+                {
+                    strBaseDir = m_strStreamAssetsDir;
+                }
+                else if (File.Exists(m_strPersistenDir + path))
+                {
+                    strBaseDir = m_strPersistenDir;
+                }
+                else
+                {
+                    strBaseDir = m_strStreamAssetsDir;
+                }
+            }
+            else if (RuntimePlatform.IPhonePlayer == Application.platform)
+            {
+                if (m_ConfigData.m_strLocal == "1")
+                {
+                    strBaseDir = m_strStreamAssetsDir;
+                }
+                else if (File.Exists(m_strPersistenDir + path))
+                {
+                    strBaseDir = m_strPersistenDir;
+                }
+                else
+                {
+                    strBaseDir = m_strStreamAssetsDir;
+                }
+
+            }
+            else if (RuntimePlatform.WebGLPlayer == Application.platform)
+            {
+                strBaseDir = m_strStreamAssetsDir;
+            }
+            else
+            {
+                if (m_ConfigData.m_strResDir == "")
+                {
+                    strBaseDir = m_strStreamAssetsDir;
+                }
+                else
+                {
+                    if (File.Exists(m_ConfigData.m_strResDir + path))
+                    {
+                        strBaseDir = m_ConfigData.m_strResDir;
+                    }
+                    else
+                    {
+                        strBaseDir = m_strStreamAssetsDir;
+                    }
+                }
+            }
+
+            return strBaseDir;
 
         }
         //----------------------------------------------------------------------------
@@ -177,6 +404,25 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void UpdateDev()
         {
+            switch (m_state)
+            {
+                case FileSystemState.File_Init:
+                    break;
+                case FileSystemState.File_LoadingGamedata:
+                    break;
+                case FileSystemState.File_LoadedGamedata:
+                    break;
+                case FileSystemState.File_ParseGameData:
+                    UpdateParseGameData();
+                    break;
+                case FileSystemState.File_DeCompress:
+                    break;
+                case FileSystemState.File_OK:
+
+                    break;
+                default:
+                    break;
+            }
             if (m_devLoadGameDataLeftCount > 0)
             {
                 m_devLoadGameDataLeftCount--;
@@ -185,13 +431,24 @@ namespace Filterartifact
             {
                 m_ResourceList.LoadResourceListFileDev();
                 m_devLoadGameDataLeftCount = -1;
+                m_bBundleDataLoaded = true;
             }
         }
         //----------------------------------------------------------------------------
         private void UpdateCheckFileOK()
         {
-            GoState(FileSystemState.File_OK);
-            LoadDepRes();
+            if (m_bBundleDataLoaded)
+            {
+                m_bBundleDataLoaded = false;
+                GoState(FileSystemState.File_ParseGameData);
+                WorldManager.Instance().IniDataLayer();
+            }
+            else
+            {
+                GoState(FileSystemState.File_OK);
+                LoadDepRes();
+            }
+
         }
         //----------------------------------------------------------------------------
         public static void GoState(FileSystemState state)
@@ -206,7 +463,7 @@ namespace Filterartifact
             m_nNeedLoadDepsCount = 0;
             for (int i = 0; i < m_MaxDepsCount; i++)
             {
-                AssetsManager.LoadAssetRes<string, UnityEngine.Object>(depsList[i], LoadFinishedCallBack);
+                assetsManager.LoadAssetRes<string, UnityEngine.Object>(depsList[i], LoadFinishedCallBack);
             }
         }
         //----------------------------------------------------------------------------
@@ -247,7 +504,7 @@ namespace Filterartifact
                 return false;
             }
 
-            object obj = AssetsManager.Instance().GetAssetObjByID(strAssetID);
+            object obj = assetsManager.GetAssetObjByID(strAssetID);
             if (obj != null)
             {
                 Callback<string, object> callback = result as Callback<string, object>;
@@ -323,20 +580,24 @@ namespace Filterartifact
             {
                 if (m_assetManager == null)
                 {
-                    m_assetManager =WorldManager.Instance().GetLayer<AssetLayer>().
+                    m_assetManager = WorldManager.Instance().GetLayer<AssetLayer>().GetManager();
                 }
+                return m_assetManager;
             }
         }
         //----------------------------------------------------------------------------
     }
     //需要下载的数据缓存
+    //----------------------------------------------------------------------------
     public struct sNeedLoadData
     {
         public string strAssetID;
         public Callback<string, UnityEngine.Object> callback;
     }
+    //----------------------------------------------------------------------------
     public class CLoadData
     {
+        //----------------------------------------------------------------------------
         public UnityWebRequest www = null;
         public bool bAllCache = false;
         public bool bLoadedOK = false;
@@ -349,7 +610,7 @@ namespace Filterartifact
         private bool m_bLoadWWW = false;
         private bool m_bLoadAsset = false;
         private bool m_bLoadAllOK = false;
-
+        //----------------------------------------------------------------------------
         public Type GetType(EAssetType eType)
         {
             switch (eType)
@@ -364,6 +625,7 @@ namespace Filterartifact
                     return typeof(UnityEngine.Object);
             }
         }
+        //----------------------------------------------------------------------------
         public bool LoadAssetOK()
         {
             if (m_syncReq == null && www != null)
@@ -379,7 +641,7 @@ namespace Filterartifact
             }
             return false;
         }
-
+        //----------------------------------------------------------------------------
         public bool LoadOK()
         {
             if (m_bLoadWWW)
@@ -395,6 +657,7 @@ namespace Filterartifact
             return m_bLoadAllOK;
 
         }
+        //----------------------------------------------------------------------------
         public UnityEngine.Object GetAsset()
         {
             if (bundle != null)
@@ -411,6 +674,7 @@ namespace Filterartifact
             else
                 return null;
         }
+        //----------------------------------------------------------------------------
         public void Disponse()
         {
             if (www != null)
@@ -426,6 +690,11 @@ namespace Filterartifact
                 m_syncReq = null;
             }
         }
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+
     }
 }
 
