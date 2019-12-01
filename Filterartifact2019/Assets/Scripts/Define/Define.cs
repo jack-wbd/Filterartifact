@@ -142,8 +142,17 @@ public enum UpdateState
 {
     Update_Load_VersionUrl,
     Load_Gamedata,
+    Parse_GameData,
     Catch_GameRes,
     Init_Game,
+}
+//----------------------------------------------------------------------------
+public struct XmlFile
+{
+    //----------------------------------------------------------------------------
+    public static string LoadingTexture = "Common/LoadingConfig.xml";
+
+    //----------------------------------------------------------------------------
 }
 //----------------------------------------------------------------------------
 

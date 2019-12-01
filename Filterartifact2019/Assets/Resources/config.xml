@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<datadir>E:\Filterartifact2019\Filterartifact\Filterartifact2019\Assets\Data\data</datadir>
+	<datadir>E:\Filterartifact\Filterartifact\Filterartifact2019\Assets\Data\data\</datadir>
 	<resdir></resdir>
 	<local></local>
 	<platform>115.159.96.34:8000</platform>

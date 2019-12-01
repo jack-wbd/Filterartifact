@@ -32,6 +32,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -58,6 +59,31 @@ namespace Filterartifact
             }
             return null;
         }
+        //----------------------------------------------------------------------------
+        //Write a value to the stream
+        static public void Write(BinaryWriter writer,string v)
+        {
+            if (string.IsNullOrEmpty(v))
+            {
+                writer.Write("n");
+            }
+            else
+            {
+                writer.Write(v);
+            }
+        }
+        //----------------------------------------------------------------------------
+        //Read a value from the stream
+        static public string ReadString(BinaryReader reader)
+        {
+            string strValue = reader.ReadString();
+            if (strValue.Equals("n"))
+            {
+                return null;
+            }
+            return strValue;
+        }
+        //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------

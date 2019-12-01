@@ -89,6 +89,21 @@ namespace Filterartifact
             return FileSystem.Instance().StartLoad(strAssetID, call);
 
         }
+        //----------------------------------------------------------------------------
+        public void UnLoadAsset(string strAsset)
+        {
+            if (string.IsNullOrEmpty(strAsset))
+            {
+                return;
+            }
+            AssetCube cube;
+            if (m_dictAsset.TryGetValue(strAsset,out cube))
+            {
+                UnLoadAsset(strAsset, cube);
+                m_dictAsset.Remove(strAsset);
+            }
+
+        }
         //------------------------------------------------------------------------
         public override bool Initialized()
         {

@@ -72,11 +72,13 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public bool InitFileSystem(string strPath = null)
         {
+            m_bundleDependenciseDict = new Dictionary<string, List<string>>();
             m_ResourceList = new ResourceListData();
             m_ResourceList.Initialize();
             m_dicLoad = new Dictionary<string, CLoadData>();
             m_queueNeedLoad = new Queue<sNeedLoadData>();
             m_ConfigData = new ConfigData();
+            InitAllAssetManifest();
             string strData = null;
             UnityEngine.Object objTemp = Resources.Load("config");
             if (ReferenceEquals(objTemp, null))
@@ -175,6 +177,21 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        private void InitAllAssetManifest()
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        void InitAssetManifest(string mainfestName)
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        void InitAssetManifset(string manifestName)
+        {
+
+        }
+        //----------------------------------------------------------------------------
         private void UpdatePhone()
         {
             switch (m_state)
@@ -216,7 +233,7 @@ namespace Filterartifact
             {
                 return;
             }
-
+            CheckNeedLoadData();
         }
         //----------------------------------------------------------------------------
         private void CheckNeedLoadData()
@@ -418,7 +435,7 @@ namespace Filterartifact
                 case FileSystemState.File_DeCompress:
                     break;
                 case FileSystemState.File_OK:
-
+                    UpdateLoadRes();
                     break;
                 default:
                     break;
@@ -441,6 +458,7 @@ namespace Filterartifact
             {
                 m_bBundleDataLoaded = false;
                 GoState(FileSystemState.File_ParseGameData);
+                Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Parse_GameData);
                 WorldManager.Instance().IniDataLayer();
             }
             else
@@ -472,9 +490,13 @@ namespace Filterartifact
             ++m_nNeedLoadDepsCount;
             if (m_nNeedLoadDepsCount >= m_MaxDepsCount)
             {
-                GoState(FileSystemState.File_DeCompress);
-
+                LoadLoadingTextureFirstTime();
             }
+        }
+        //----------------------------------------------------------------------------
+        public void LoadLoadingTextureFirstTime()
+        {
+
         }
         //----------------------------------------------------------------------------
         private List<string> GetDepsResList()

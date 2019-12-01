@@ -70,6 +70,7 @@ namespace Filterartifact
                     break;
                 case UpdateState.Load_Gamedata:
                     m_proTips.text = "正在加载数据...";
+                    m_progressBar.value = 1;
                     break;
                 case UpdateState.Catch_GameRes:
                     m_proTips.text = "正在解压资源...";
