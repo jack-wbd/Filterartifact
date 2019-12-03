@@ -52,6 +52,7 @@ namespace Filterartifact
             m_progressBar = m_tans.Find("progressBar").GetComponent<Slider>();
             m_proTips = m_progressBar.transform.Find("schedule").GetComponent<Text>();
             Messenger.AddListener<UpdateState>(DgMsgID.DgMsg_InitStatChange, InitStateChange);
+            Messenger.AddListener<float>(DgMsgID.DgMsg_UpdateGameProgress, UpdateGameProgress);
         }
         //----------------------------------------------------------------------------
         public void Show()
@@ -83,9 +84,15 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        private void UpdateGameProgress(float f)
+        {
+            m_progressBar.value = f;
+        }
+        //----------------------------------------------------------------------------
         public void OnDestroy()
         {
             Messenger.RemoveListener<UpdateState>(DgMsgID.DgMsg_InitStatChange, InitStateChange);
+            Messenger.RemoveListener<float>(DgMsgID.DgMsg_UpdateGameProgress, UpdateGameProgress);
         }
     }
     //----------------------------------------------------------------------------

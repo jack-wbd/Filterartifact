@@ -36,6 +36,7 @@ namespace Filterartifact
         DgMsg_Invaild = 0,
         DgMsg_InitStatChange = 0x10000001,
         DgMsg_FileSystemOK = 0x10000002,
+        DgMsg_UpdateGameProgress = 0x10000003,
     }
 }
 

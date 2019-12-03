@@ -496,7 +496,18 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void LoadLoadingTextureFirstTime()
         {
-
+            LoadingUIManager.Instance().PreLoadLoadingTexture(delegate (string strAssetID, UnityEngine.Object obj)
+                {
+                    GoInitGame();
+                }, true);
+        }
+        //----------------------------------------------------------------------------
+        private void GoInitGame()
+        {
+            GoState(FileSystemState.File_OK);
+            Messenger.Broadcast(DgMsgID.DgMsg_UpdateGameProgress, 1f);
+            Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Init_Game);
+            Messenger.Broadcast(DgMsgID.DgMsg_FileSystemOK);
         }
         //----------------------------------------------------------------------------
         private List<string> GetDepsResList()
@@ -526,17 +537,22 @@ namespace Filterartifact
                 return false;
             }
 
-            object obj = assetsManager.GetAssetObjByID(strAssetID);
+            UnityEngine.Object obj = assetsManager.GetAssetObjByID(strAssetID);
             if (obj != null)
             {
                 Callback<string, object> callback = result as Callback<string, object>;
                 callback(strAssetID, obj);
                 return true;
             }
-            CLoadData data = null;
-            if (m_dicLoad.TryGetValue(strAssetID, out data))
+            AssetBundle bundle = null;
+            if (m_assetBundleDict.TryGetValue(info.strFile, out bundle))
             {
-                data.loadBack = (Callback<T, U>)data.loadBack + result;
+                Callback<string, UnityEngine.Object> callback = result as Callback<string, UnityEngine.Object>;
+                string loadAssetName = string.IsNullOrEmpty(info.assetName) ? info.strName : info.assetName;
+                obj = bundle.LoadAsset(loadAssetName);
+                ProcessAsset(strAssetID, obj, callback, info.eAssetType);
+                ProcessStreamedAsset(info, obj, bundle);
+
             }
             else
             {
