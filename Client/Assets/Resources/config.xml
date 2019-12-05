@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<datadir>E:\Filterartifact\Client\Assets\Data\data</datadir>
+	<resdir></resdir>
+	<local>1</local>
+	<platform>115.159.96.34:8000</platform>
+	<huandong>115.159.96.34:8001</huandong>
+	<prelog>115.159.96.34:8002</prelog>
+	<enjoymiPassPortdev>tpassport.enjoymi.com/v2</enjoymiPassPortdev>
+	<enjoymiPassPort>passport.enjoymi.com/v2</enjoymiPassPort>
+	<Package>1</Package>
+</config>
