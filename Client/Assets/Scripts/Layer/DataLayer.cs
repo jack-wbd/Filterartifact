@@ -59,6 +59,7 @@ namespace Filterartifact
             base.Initialize();
             m_fileSer = new XmlDataSerialize();
             m_fileSer.Initialize();
+            RigisterCollection();
             return true;
         }
         //----------------------------------------------------------------------------
@@ -76,7 +77,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void InitRigisterCollection()
         {
-
+            AddCollection(typeof(ResourceListData), new ResourceListData());
         }
         //----------------------------------------------------------------------------
         public Queue<DataBase> GetNeedParseDataQue()
@@ -86,7 +87,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void RigisterCollection()
         {
-
+            AddCollection(typeof(LoadingConfigData), new LoadingConfigData());
         }
         //----------------------------------------------------------------------------
         public BinaryWriter GetStreamWriter()

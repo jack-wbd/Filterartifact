@@ -43,6 +43,7 @@ namespace Filterartifact
         private Dictionary<Type, BaseLayer>.Enumerator m_itor;
         private DataLayer m_layerData = null;
         private int nLayerNum = 0;
+        public ScreenUnit screenUnit;
         //----------------------------------------------------------------------------
         public static WorldManager CreateInstance()
         {
@@ -92,6 +93,7 @@ namespace Filterartifact
         public virtual bool CreateWorld()
         {
             CreateMainState();
+            screenUnit = new ScreenUnit();
             return true;
         }
         //----------------------------------------------------------------------------
