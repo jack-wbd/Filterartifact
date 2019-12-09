@@ -40,11 +40,30 @@ using UnityEngine;
 namespace Filterartifact
 {
     //----------------------------------------------------------------------------
+    public struct sUIUseInfo
+    {
+        public string strAsset;
+        public UIController uiCtrl;
+        public eUseEnvir eEnvirUse;
+        public bool bReload;
+    }
+    //----------------------------------------------------------------------------
     public class UISystem : IPreLoad
     {
         //----------------------------------------------------------------------------
         public static UISystem m_sys;
         private GameObject m_objUIRoot;
+        private Dictionary<string, sUI> m_dictUIClass;
+        private ResourceListData m_data;
+        private Dictionary<Type, eUseEnvir> m_dictUIType_Env = new Dictionary<Type, eUseEnvir>();
+        public Dictionary<string, sUIUseInfo> m_dictAllUICtrl = new Dictionary<string, sUIUseInfo>();
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        public struct sUI
+        {
+            public int nAssetID;
+            public UIBase uI;
+        }
         //----------------------------------------------------------------------------
         public bool Initialize()
         {
@@ -87,8 +106,48 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public bool HasUIClass(string strAssetID)
+        {
+            if (m_dictUIClass.ContainsKey(strAssetID))
+            {
+                return true;
+            }
+            return false;
+        }
         //----------------------------------------------------------------------------
+        public void GetAssetInfo(string strID, ref sAssetInfo info)
+        {
+            m_data.GetAssetBundleInfo(strID, ref info);
+        }
         //----------------------------------------------------------------------------
+        public void AddUITypeEnvToDict(Type type, eUseEnvir env)
+        {
+
+            if (!m_dictUIType_Env.ContainsKey(type))
+            {
+                m_dictUIType_Env.Add(type, env);
+            }
+            else
+            {
+                eUseEnvir envout;
+                m_dictUIType_Env.TryGetValue(type, out envout);
+                if (envout != env)
+                {
+                    Debug.LogWarning("AddUITypeEnvToDict value env not equal origin value!");
+                }
+            }
+
+        }
+        //----------------------------------------------------------------------------
+        public bool HasUIController(string key)
+        {
+            return m_dictAllUICtrl.ContainsKey(key);
+        }
+        //----------------------------------------------------------------------------
+        public void AddUIController(string key,sUIUseInfo uiCtrl)
+        {
+            m_dictAllUICtrl.Add(key, uiCtrl);
+        }
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
     }

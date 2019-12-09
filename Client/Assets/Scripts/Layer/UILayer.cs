@@ -1,4 +1,5 @@
-﻿//------------------------------------------------------------------------------
+﻿using System.Collections.Generic;
+//------------------------------------------------------------------------------
 /**
 	\file	UILayer.cs
 
@@ -30,21 +31,21 @@
 //	UILayer.cs
 //------------------------------------------------------------------------------
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Filterartifact
 {
     //----------------------------------------------------------------------------
     public class UILayer : BaseLayer
     {
         //----------------------------------------------------------------------------
+        private UISystem m_uiSystem;
+        private Dictionary<string, string> m_assetClassMap;
+        //----------------------------------------------------------------------------
         public override bool Initialize()
         {
-            return base.Initialize();
+
+            m_assetClassMap = new Dictionary<string, string>();
+            CreateUISystem();
+            return true;
         }
         //----------------------------------------------------------------------------
         public void RegisterUIControl()
@@ -52,7 +53,60 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public TCtrl Register<TCtrl, TBase>(string strAssetID, IMsgPipe pipe, bool bLocal = true, eUIImpower _impower = eUIImpower.Default)
+            where TCtrl : UIController, new()
+            where TBase : UIBase, new()
+        {
+            UISystem system = GetUISystem();
+            if (system.HasUIClass(strAssetID))
+            {
+                return default;
+            }
+            sAssetInfo info = sAssetInfo.zero;
+            system.GetAssetInfo(strAssetID, ref info);
+            system.AddUITypeEnvToDict(typeof(TBase), info.eEnvirUse);
+            bool bflag = system.HasUIController(strAssetID);
+            if (bflag)
+            {
+                return null;
+            }
+            TBase t_base = new TBase();
+            t_base.strAssetID = strAssetID;
+            TCtrl t = new TCtrl();
+            t.impower = _impower;
+            t.SetBaseInfo(strAssetID, system, bLocal, typeof(TBase), typeof(TCtrl).Name);
+            t.InitCtrl();
 
+            //Newbie
+            m_assetClassMap[strAssetID] = t.strCtrl;
+
+            sUIUseInfo useInfo;
+            useInfo.strAsset = strAssetID;
+            useInfo.uiCtrl = t;
+            useInfo.eEnvirUse = info.eEnvirUse;
+            useInfo.bReload = info.bPreLoad;
+            system.AddUIController(strAssetID, useInfo);
+            pipe.PlugInMsgPipe(t);
+
+            return t;
+        }
+        //----------------------------------------------------------------------------
+        public UISystem GetUISystem()
+        {
+            return m_uiSystem;
+        }
+        //----------------------------------------------------------------------------
+        private bool CreateUISystem()
+        {
+            if (m_uiSystem == null)
+            {
+                m_uiSystem = new UISystem();
+                m_uiSystem.Initialize();
+            }
+            return true;
+        }
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------

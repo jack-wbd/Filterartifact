@@ -114,6 +114,7 @@
     <Compile Include="Assets\Scripts\Util\GameUtil.cs" />
     <None Include="Assets\Data\data\ResourseList.xml" />
     <None Include="Assets\Resources\config.xml" />
+    <None Include="Assets\Data\data\Common\LoadingConfig.xml" />
     <None Include="Assets\DOTween\readme.txt" />
     <Reference Include="Unity.Timeline.Editor">
       <HintPath>E:/Filterartifact/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>

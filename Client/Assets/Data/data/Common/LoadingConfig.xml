@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--type{1：闯关；2：创建角色；9：新手副本；6：大厅（城镇）；10：挑战跑酷}-->
+<LoadingConfig>
+	<Texture name="1" TextureAssetID="picture1" weight="20"/>
+	<Texture name="2" TextureAssetID="picture2" weight="20"/>
+	<Texture name="3" TextureAssetID="picture3" weight="20"/>
+	<Texture name="4" TextureAssetID="picture4" weight="20"/>
+	<Texture name="5" TextureAssetID="picture5" weight="20"/>
+</LoadingConfig>

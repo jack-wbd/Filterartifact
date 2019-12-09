@@ -62,6 +62,7 @@ namespace Filterartifact
         public Image panel;
         protected UISystem m_system;
         static private bool useFullScreenBg = true;
+        public string strAssetID = "";
         //----------------------------------------------------------------------------
         private eUIImpower _impower = eUIImpower.Default;
         public eUIImpower impower
@@ -145,8 +146,6 @@ namespace Filterartifact
                 {
                     boxCollider.size = vec3;
                 }
-
-
             }
         }
         //----------------------------------------------------------------------------

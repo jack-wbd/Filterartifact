@@ -70,6 +70,7 @@ namespace Filterartifact
         public static string m_strPersistenDir = null;
         private List<string> m_audioAssetList = null;
         private TextAsset m_assetText = null;
+        private Queue<DataBase> m_queNeedParse = null;
         //----------------------------------------------------------------------------
         public bool InitFileSystem(string strPath = null)
         {
@@ -231,6 +232,8 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        private DataBase m_dataTemp = null;
+        //----------------------------------------------------------------------------
         private void UpdateParseGameData()
         {
             if (m_nCurPaseDataCount >= m_nNeedParseDataCount)
@@ -240,6 +243,8 @@ namespace Filterartifact
                 LoadDepRes();
                 return;
             }
+            m_dataTemp = m_queNeedParse.Dequeue();
+            m_dataTemp.Initialize();
             ++m_nCurPaseDataCount;
 
         }
@@ -477,6 +482,13 @@ namespace Filterartifact
                 GoState(FileSystemState.File_ParseGameData);
                 Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Parse_GameData);
                 WorldManager.Instance().IniDataLayer();
+                m_queNeedParse = WorldManager.Instance().GetLayer<DataLayer>().GetNeedParseDataQue();
+                if (m_queNeedParse != null)
+                {
+                    m_nNeedParseDataCount = m_queNeedParse.Count;
+                    m_nCurPaseDataCount = 0;
+                    Messenger.Broadcast<float>(DgMsgID.DgMsg_UpdateGameProgress, 0f);
+                }
             }
             else
             {

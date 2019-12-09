@@ -1683,8 +1683,8 @@ E:\Filterartifact\Client\Temp\bin\Debug\UnityEngine.VideoModule.xml
 E:\Filterartifact\Client\Temp\bin\Debug\UnityEngine.WindModule.xml
 E:\Filterartifact\Client\Temp\bin\Debug\UnityEngine.XRModule.xml
 E:\Filterartifact\Client\Temp\bin\Debug\DOTween.xml
-E:\Filterartifact\Client\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
 E:\Filterartifact\Client\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
 E:\Filterartifact\Client\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 E:\Filterartifact\Client\obj\Debug\Assembly-CSharp.dll
 E:\Filterartifact\Client\obj\Debug\Assembly-CSharp.pdb
+E:\Filterartifact\Client\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
