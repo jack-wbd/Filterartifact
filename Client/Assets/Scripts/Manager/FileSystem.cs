@@ -155,11 +155,27 @@ namespace Filterartifact
             InitSerializeData();
             if (m_ConfigData.m_strDataDir == "")
             {
+
                 if (m_ConfigData.m_strResDir == "")
                 {
-
+                    StartInitData(m_strStreamAssetsDir + "gamedata/gamedata.unity3d");
                 }
+                else
+                {
+                    StartInitData("file:///" + m_strStreamAssetsDir + "gamedata/gamedata.unity3d");
+                }
+
+                GoState(FileSystemState.File_LoadingGamedata);
+
             }
+            else
+            {
+                Messenger.Broadcast(DgMsgID.DgMsg_UpdateGameProgress, 1.0f);
+                Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Load_Gamedata);
+                m_devLoadGameDataLeftCount = 1;
+            }
+
+
         }
         //----------------------------------------------------------------------------
         public bool StartInitData(string strBundlePath)
@@ -167,7 +183,8 @@ namespace Filterartifact
             Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Load_Gamedata);
             m_abGameData = AssetBundle.LoadFromFile(strBundlePath);
             m_ResourceList.LoadResourceListFileFromBundle();
-
+            m_bBundleDataLoaded = true;
+            return true;
         }
         //----------------------------------------------------------------------------
         private void InitSerializeData()
@@ -521,7 +538,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void UpdateCheckFileOK()
         {
-            if (m_bBundleDataLoaded)
+            if (m_bBundleDataLoaded && m_bSerializeDataLoaded)
             {
                 m_bBundleDataLoaded = false;
                 GoState(FileSystemState.File_ParseGameData);
@@ -534,13 +551,12 @@ namespace Filterartifact
                     m_nCurPaseDataCount = 0;
                     Messenger.Broadcast<float>(DgMsgID.DgMsg_UpdateGameProgress, 0f);
                 }
+                else
+                {
+                    GoState(FileSystemState.File_OK);
+                    LoadDepRes();
+                }
             }
-            else
-            {
-                GoState(FileSystemState.File_OK);
-                LoadDepRes();
-            }
-
         }
         //----------------------------------------------------------------------------
         public static void GoState(FileSystemState state)

@@ -86,7 +86,9 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void LoadResourceListFileDev()
         {
-            string strResourceList = FileSystem.Instance().LoadXml("/Resourselist");
+            string strResourceList = FileSystem.Instance().LoadXml_Resourselist_other(Application.streamingAssetsPath + "/Resourselist_2");
+            InitResourseList_2File(strResourceList);
+            strResourceList = FileSystem.Instance().LoadXml("/Common/Resourselist");
             InitResourseListFile(strResourceList);
         }
         //----------------------------------------------------------------------------
@@ -109,17 +111,50 @@ namespace Filterartifact
                     m_dicResourseList[info.strID] = info;
                     m_gameInitPreLoadRes.Add(element.GetAttribute("id"));
                 }
+
+                nodeList = node.SelectSingleNode("uitexture").ChildNodes;
+                nNodeCount = nodeList.Count;
+                for (int i = 0; i < nNodeCount; i++)
+                {
+                    XmlElement element = nodeList[i] as XmlElement;
+                    InsertResourseList(ref element, EAssetType.eTexture);
+                }
+
+
+
             }
             return true;
         }
         //----------------------------------------------------------------------------
         public sAssetInfo InsertResourseList(ref XmlElement element, EAssetType type = EAssetType.eGameObject)
         {
-
+            sAssetInfo info = ParseResourseList(ref element, type);
+            AddElement(ref m_dicResourseList, info.strID, info);
+            return info;
+        }
+        //----------------------------------------------------------------------------
+        public sAssetInfo ParseResourseList(ref XmlElement element, EAssetType type = EAssetType.eGameObject)
+        {
             sAssetInfo info = sAssetInfo.zero;
             info.strID = element.GetAttribute("id");
+            info.assetName = element.GetAttribute("name");
+            if (!string.IsNullOrEmpty(info.assetName))
+            {
+                info.strName = ParseName(info.assetName);
+            }
             info.strFile = element.GetAttribute("file").ToLower();
-            info.strName = ParseName(info.strFile);
+            info.strRealFile = element.GetAttribute("file").ToLower();
+
+            if (string.IsNullOrEmpty(info.strName))
+            {
+                info.strName = ParseName(info.strFile);
+            }
+
+            if (string.IsNullOrEmpty(info.assetName))
+            {
+                info.assetName = info.strName;
+            }
+            info.bundleName = ParseName(info.strFile);
             info.bPreLoad = InitToBool(element.GetAttribute("preload"));
             info.eAssetType = type;
             if (element.HasAttribute("EnvirUse"))
@@ -127,8 +162,23 @@ namespace Filterartifact
                 info.ParseEnvir(element.GetAttribute("EnvirUse"));
             }
             else
+            {
                 info.ParseEnvir("");
+            }
             return info;
+        }
+        //----------------------------------------------------------------------------
+        public void AddElement<T1, T2>(ref Dictionary<T1, T2> dict, T1 nID, T2 strName)
+        {
+
+            if (dict.ContainsKey(nID))
+            {
+                string LogStr = string.Format("ResourseList 表配置重复: BundleId={0}", nID);
+                Debug.Log(LogStr);
+                return;
+            }
+
+            dict.Add(nID, strName);
 
         }
         //----------------------------------------------------------------------------

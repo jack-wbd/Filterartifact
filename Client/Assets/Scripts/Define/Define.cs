@@ -98,6 +98,8 @@ public struct sAssetInfo
     public bool bAlwaysCache;
     public bool bDeps;
     public string strDepsname;
+    public string strRealFile;
+    public string bundleName;
     //----------------------------------------------------------------------------
     public static sAssetInfo zero
     {
@@ -115,6 +117,8 @@ public struct sAssetInfo
             temp.bAlwaysCache = false;
             temp.bDeps = false;
             temp.strDepsname = "";
+            temp.strRealFile = "";
+            temp.bundleName = "";
             return temp;
         }
     }
