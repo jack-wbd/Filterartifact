@@ -71,6 +71,7 @@ namespace Filterartifact
         private List<string> m_audioAssetList = null;
         private TextAsset m_assetText = null;
         private Queue<DataBase> m_queNeedParse = null;
+        private bool m_bSerializeDataLoaded = false;
         //----------------------------------------------------------------------------
         public bool InitFileSystem(string strPath = null)
         {
@@ -151,6 +152,50 @@ namespace Filterartifact
         {
             Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Load_Gamedata);
             m_devLoadGameDataLeftCount = 1;
+            InitSerializeData();
+            if (m_ConfigData.m_strDataDir == "")
+            {
+                if (m_ConfigData.m_strResDir == "")
+                {
+
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        public bool StartInitData(string strBundlePath)
+        {
+            Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Load_Gamedata);
+            m_abGameData = AssetBundle.LoadFromFile(strBundlePath);
+            m_ResourceList.LoadResourceListFileFromBundle();
+
+        }
+        //----------------------------------------------------------------------------
+        private void InitSerializeData()
+        {
+            AssetBundle bundleData = null;
+            string strBineryFilePath = m_strPersistenDir + "gamedata/binery.unity3d";
+            if (File.Exists(strBineryFilePath))
+            {
+                bundleData = AssetBundle.LoadFromFile(strBineryFilePath);
+            }
+            else
+            {
+                strBineryFilePath = m_strStreamAssetsDir + "gamedata/binery.unity3d";
+                if (File.Exists(strBineryFilePath))
+                {
+                    bundleData = AssetBundle.LoadFromFile(strBineryFilePath);
+
+                }
+            }
+
+            if (bundleData != null)
+            {
+                m_assetText = bundleData.LoadAsset<TextAsset>("binery");
+                bundleData.Unload(false);
+                bundleData = null;
+            }
+
+            m_bSerializeDataLoaded = true;
         }
         //----------------------------------------------------------------------------
         public static FileSystem CreateInstance()
@@ -651,6 +696,25 @@ namespace Filterartifact
                 }
                 return m_assetManager;
             }
+        }
+        //----------------------------------------------------------------------------
+        public string LoadXml_Resourselist_other(string strFile)
+        {
+            string strFileName = strFile;
+            if (!strFile.EndsWith(".xml"))
+            {
+                strFileName = strFile + ".xml";
+            }
+            if (File.Exists(strFileName))
+            {
+                return File.ReadAllText(strFileName);
+            }
+            else
+            {
+                Debug.LogError(strFileName + "is not exist!");
+            }
+
+            return null;
         }
         //----------------------------------------------------------------------------
     }

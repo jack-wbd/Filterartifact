@@ -31,6 +31,8 @@
 //------------------------------------------------------------------------------
 using System.Collections.Generic;
 using System.Xml;
+using UnityEngine;
+
 namespace Filterartifact
 {
     public class ResourceListData : DataBase
@@ -38,6 +40,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private List<string> m_gameInitPreLoadRes = null;//游戏初始化预加载资源列表
         public Dictionary<string, sAssetInfo> m_dicResourseList = null;
+        private Dictionary<string, List<string>> m_dictResourseList_1 = null;//临时保存每个UI里面用到了那些图集和字体
         //----------------------------------------------------------------------------
         public override bool Initialize()
         {
@@ -152,5 +155,87 @@ namespace Filterartifact
                 return strTemp;
         }
         //----------------------------------------------------------------------------
+        public void LoadResourceListFileFromBundle()
+        {
+#if DEBUG
+            string strResourceList = FileSystem.Instance().LoadXml_Resourselist_other(Application.streamingAssetsPath + "/Resourselist_2");
+#else
+            string strResourceList = FileSystem.Instance().LoadXml("Common/Resourselist_2");//从bundle里读取
+#endif
+
+            InitResourseList_2File(strResourceList);
+            strResourceList = FileSystem.Instance().LoadXml("Common/Resourselist");
+            InitResourceListFile(strResourceList);
+        }
+        //----------------------------------------------------------------------------
+        public bool InitResourseList_2File(string strXmlData)
+        {
+            if (strXmlData == null)
+            {
+                Debug.LogError("read Resourselist_2.xml error");
+                return false;
+            }
+            string XmlData = strXmlData;
+            XmlDocument xmlDoc = new XmlDocument();
+            xmlDoc.LoadXml(XmlData);
+            XmlNode node = xmlDoc.SelectSingleNode("Resourselist");
+            if (node != null)
+            {
+                XmlNodeList nodeList = node.SelectSingleNode("uideps").ChildNodes;
+                int nNodeCount = nodeList.Count;
+                for (int i = 0; i < nNodeCount; i++)
+                {
+                    XmlElement element = nodeList[i] as XmlElement;
+                    if (element != null)
+                    {
+                        InsertResourseList_1(ref element);
+                    }
+                }
+            }
+            return true;
+        }
+        //----------------------------------------------------------------------------
+        public void InsertResourseList_1(ref XmlElement element)
+        {
+            string strID = element.GetAttribute("id");
+            strID = strID.ToLower();
+            XmlNodeList nodeList = element.ChildNodes;
+            if (nodeList != null)
+            {
+                int nCount = nodeList.Count;
+                List<string> list = new List<string>();
+                for (int i = 0; i < nCount; i++)
+                {
+                    XmlElement ele = nodeList[i] as XmlElement;
+                    if (ele.HasAttribute("id"))
+                    {
+                        list.Add(ele.GetAttribute("id"));
+                    }
+
+                }
+
+                if (!string.IsNullOrEmpty(strID))
+                {
+                    int indexEnd = strID.LastIndexOf(".");
+                    if (indexEnd != -1)
+                    {
+                        string listStr = strID.Substring(0, indexEnd);
+                        if (m_dictResourseList_1 != null && !m_dictResourseList_1.ContainsKey(listStr))
+                        {
+                            m_dictResourseList_1.Add(listStr, list);
+                        }
+                        else
+                        {
+                            Debug.LogError("ResourseList_1 has same key id: " + strID);
+                        }
+                    }
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+
     }
 }
