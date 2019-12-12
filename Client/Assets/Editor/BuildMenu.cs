@@ -46,7 +46,7 @@ public class BuildMenu : EditorWindow
     [MenuItem("AssetBundle/全部打包/Windows64", false, 1000)]
     public static void BuildAllAssetBundleForWindows64()
     {
-
+        ExportAssetBundle.CreateAssetBundleAll_Win64();
     }
 
 }
