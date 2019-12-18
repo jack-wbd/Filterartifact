@@ -379,13 +379,13 @@ class PackagerUI
             {
                 List<string> depslist = new List<string>();
                 GameObject objSource = (GameObject)PrefabUtility.InstantiatePrefab(tempObj);
-                UIBundle bundle = objSource.GetComponentInChildren<UIBundle>();
+                //UIBundle bundle = objSource.GetComponentInChildren<UIBundle>();
                 Image[] arrSpr = objSource.GetComponentsInChildren<Image>(true);
                 ParticleSystem[] arrPart = objSource.GetComponentsInChildren<ParticleSystem>(true);
-                FindUse[] arrUse = objSource.GetComponentsInChildren<FindUse>(true);
-                for (int i = 0; i < arrUse.Length; i++)
+                //FindUse[] arrUse = objSource.GetComponentsInChildren<FindUse>(true);
+                for (int i = 0; i < arrSpr.Length; i++)
                 {
-                    UnityEngine.Object.DestroyImmediate(arrUse[i]);
+                    UnityEngine.Object.DestroyImmediate(arrSpr[i]);
                 }
 
                 Component[] arrTemp = null;
