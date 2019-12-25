@@ -695,7 +695,7 @@ namespace Filterartifact
                     }
                     else
                     {
-                        Debug.LogError(m_ConfigData.m_strDataDir + strFile + " is not exist!");
+                        Debug.LogError(m_ConfigData.m_strDataDir + "  strFile:  " + strFile + " is not exist!");
                     }
                 }
             }

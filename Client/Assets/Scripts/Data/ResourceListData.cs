@@ -88,7 +88,7 @@ namespace Filterartifact
         {
             string strResourceList = FileSystem.Instance().LoadXml_Resourselist_other(Application.streamingAssetsPath + "/Resourselist_2");
             InitResourseList_2File(strResourceList);
-            strResourceList = FileSystem.Instance().LoadXml("/Common/Resourselist");
+            strResourceList = FileSystem.Instance().LoadXml("Common/Resourselist");
             InitResourseListFile(strResourceList);
         }
         //----------------------------------------------------------------------------

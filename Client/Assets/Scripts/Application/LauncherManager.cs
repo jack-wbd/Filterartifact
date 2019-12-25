@@ -59,7 +59,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void LoadUIRoot()
         {
-            var depsPath = Application.streamingAssetsPath + "/StreamingAssets";
+            var depsPath = Application.streamingAssetsPath + "/uiasset";
             AssetBundle depsAb = AssetBundle.LoadFromFile(depsPath);
             AssetBundleManifest manifest = depsAb.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
             string[] deps = manifest.GetAllDependencies("ui_root.unity3d");
@@ -67,7 +67,7 @@ namespace Filterartifact
             {
                 AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + deps[i]);
             }
-            var path = Application.streamingAssetsPath + "/ui_root.unity3d";
+            var path = Application.streamingAssetsPath + "/prefab/ui_root.unity3d";
             if (File.Exists(path))
             {
                 AssetBundle bundle = AssetBundle.LoadFromFile(path);
