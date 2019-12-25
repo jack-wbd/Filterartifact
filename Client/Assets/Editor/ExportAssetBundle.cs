@@ -29,21 +29,14 @@
 //------------------------------------------------------------------------------
 //	ExportAssetBundle.cs
 //------------------------------------------------------------------------------
-
-
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+using UnityEditor;
 
 public class ExportAssetBundle
 {
     //----------------------------------------------------------------------------
     public static void CreateAssetBundleAll_Win64()
     {
-
+        PackagerUI.CreateAssetBundleAll(BuildTarget.StandaloneWindows64);
     }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
