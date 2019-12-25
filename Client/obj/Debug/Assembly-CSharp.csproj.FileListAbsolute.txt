@@ -1972,3 +1972,4 @@ E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.csproj.CoreCom
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.dll
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.pdb
+E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache

@@ -59,13 +59,13 @@ class PackagerUI
     {
 
         m_bIsProjectBundle = true;
-        var path = "Assets/ToExport";
-        var copyPath = Application.dataPath + "/../CopyToExport";
-        if (Directory.Exists(copyPath))
-            FileUtils.DeleteDir(copyPath);
-        FileUtils.CopyFolder(path, copyPath, true);
+        //var path = "Assets/ToExport";
+        //var copyPath = Application.dataPath + "/../CopyToExport";
+        //if (Directory.Exists(copyPath))
+        //    FileUtils.DeleteDir(copyPath);
+        //FileUtils.CopyFolder(path, copyPath, true);
         PackageAssetBundle(null, target);
-        FileUtils.CopyFolder(copyPath, path, true);
+        //FileUtils.CopyFolder(copyPath, path, true);
 
     }
     //----------------------------------------------------------------------------
@@ -308,18 +308,16 @@ class PackagerUI
     {
         if (fileRelativePath.Contains("/ui/prefab/") && !fileRelativePath.Contains("ui_root"))
         {
-            UnityEngine.Object tempObj = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>(fileRelativePath);
+            Object tempObj = AssetDatabase.LoadAssetAtPath<Object>(fileRelativePath);
             if (tempObj != null)
             {
                 List<string> depslist = new List<string>();
                 GameObject objSource = (GameObject)PrefabUtility.InstantiatePrefab(tempObj);
-                //UIBundle bundle = objSource.GetComponentInChildren<UIBundle>();
                 Image[] arrSpr = objSource.GetComponentsInChildren<Image>(true);
                 ParticleSystem[] arrPart = objSource.GetComponentsInChildren<ParticleSystem>(true);
-                //FindUse[] arrUse = objSource.GetComponentsInChildren<FindUse>(true);
                 for (int i = 0; i < arrSpr.Length; i++)
                 {
-                    UnityEngine.Object.DestroyImmediate(arrSpr[i]);
+                    Object.DestroyImmediate(arrSpr[i]);
                 }
 
                 Component[] arrTemp = null;
@@ -358,7 +356,7 @@ class PackagerUI
                     m_obj = null;
                 }
 
-                UnityEngine.Object.DestroyImmediate(objSource);
+                Object.DestroyImmediate(objSource);
             }
             else
             {
@@ -386,7 +384,7 @@ class PackagerUI
             {
                 continue;
             }
-            string name = (temp.sprite as UnityEngine.Object).name;
+            string name = (temp.sprite as Object).name;
             if (list.Contains(name))
             {
                 continue;
