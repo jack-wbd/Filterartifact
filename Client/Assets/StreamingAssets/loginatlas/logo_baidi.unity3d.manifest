@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 1633590151
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ded97847a0bb0e4ef78b02c80259d38a
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/loginatlas/logo_baidi.png
+Dependencies: []

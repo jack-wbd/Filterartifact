@@ -1968,7 +1968,6 @@ E:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\UnityEngine.VideoModule.x
 E:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\UnityEngine.WindModule.xml
 E:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\UnityEngine.XRModule.xml
 E:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\DOTween.xml
-E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.csprojAssemblyReference.cache
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.csproj.CoreCompileInputs.cache
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.csproj.CopyComplete
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp.dll

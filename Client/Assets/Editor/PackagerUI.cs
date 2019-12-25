@@ -30,7 +30,6 @@
 //	PackagerUI.cs
 //------------------------------------------------------------------------------
 
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml;
@@ -48,31 +47,53 @@ class PackagerUI
     }
     //----------------------------------------------------------------------------
     public static bool m_bIsProjectBundle = false;
-    private static List<ConfigurationElement> elementList = new List<ConfigurationElement>();
     private static List<AssetBundleBuild> buildList = new List<AssetBundleBuild>();
     static List<string> m_missingFont = new List<string>();
-    private static string m_ResourcePath = Application.dataPath + "/ToExport";
+    private static string m_ResourcePath = Application.dataPath + "/Data";
     private static Dictionary<string, List<string>> list_ResourseListXml_UIDeps = new Dictionary<string, List<string>>();
-    static UnityEngine.Object m_obj = null;
+    static Object m_obj = null;
     private static string m_ExtName = ".unity3d";
-    private static string m_assetPath = Application.dataPath + "/../StreamingAssets/";
+    private static string m_assetPath = Application.streamingAssetsPath;
     //----------------------------------------------------------------------------
     public static void CreateAssetBundleAll(BuildTarget target)
     {
+
         m_bIsProjectBundle = true;
         var path = "Assets/ToExport";
         var copyPath = Application.dataPath + "/../CopyToExport";
         if (Directory.Exists(copyPath))
-        {
             FileUtils.DeleteDir(copyPath);
-        }
         FileUtils.CopyFolder(path, copyPath, true);
         PackageAssetBundle(null, target);
+        FileUtils.CopyFolder(copyPath, path, true);
+
+    }
+    //----------------------------------------------------------------------------
+    public static void CreateAssetBundleSelect(BuildTarget target)
+    {
+        m_bIsProjectBundle = false;
+        string[] paths = GetSelectAssetPaths();
+        PackageAssetBundle(paths, target);
+    }
+    //----------------------------------------------------------------------------
+    public static string[] GetSelectAssetPaths()
+    {
+        List<string> pathList = new List<string>();
+        Object[] SelectedObjs = Selection.GetFiltered(typeof(Object), SelectionMode.DeepAssets);
+        if (SelectedObjs.Length > 0)
+        {
+            for (int i = 0; i < SelectedObjs.Length; i++)
+            {
+                string pathTemp = AssetDatabase.GetAssetPath(SelectedObjs[i]);
+                pathTemp = Application.dataPath.Replace("Assets", "") + pathTemp;
+                pathList.Add(pathTemp);
+            }
+        }
+        return pathList.ToArray();
     }
     //----------------------------------------------------------------------------
     public static void PackageAssetBundle(string[] paths, BuildTarget target)
     {
-        GetConfigurationFiles();
         Clear();
         if (paths == null) //全部打包
         {
@@ -126,11 +147,16 @@ class PackagerUI
         }
         FileUtils.CopyFolder(ExportPath, m_assetPath, true);
         WriteLabelMissingFile();
+        if (Directory.Exists(ExportPath))
+        {
+            FileUtils.DeleteDir(ExportPath);
+        }
+        Debug.LogError("打包完成");
     }
     //----------------------------------------------------------------------------
     static void WriteLabelMissingFile()
     {
-        string fileTXT = ExportPath + "/UILabel_Missing.txt";
+        string fileTXT = ExportPath + "/" + "UILabel_Missing.txt";
         FileStream file = new FileStream(fileTXT, FileMode.Create);
         StreamWriter write = new StreamWriter(file);
         for (int i = 0; i < m_missingFont.Count; i++)
@@ -145,7 +171,7 @@ class PackagerUI
     //----------------------------------------------------------------------------
     static void WriteToResourseList()
     {
-        string xmlPath = ExportPath + "Resourselist_2.xml";
+        string xmlPath = ExportPath + "/" + "Resourselist_2.xml";
         if (File.Exists(xmlPath))
         {
             File.Delete(xmlPath);
@@ -211,7 +237,7 @@ class PackagerUI
         string path = systemInfo.FullName.Replace("\\", "/");
         string fileName = systemInfo.Name;
         string relativePath = path.Substring((m_ResourcePath + "/").Length);
-        if (path.EndsWith(".meta") || path.EndsWith(".DS_Store") || path.EndsWith("packager.xml"))
+        if (path.EndsWith(".meta") || path.EndsWith(".DS_Store"))
         {
             return;
         }
@@ -229,134 +255,42 @@ class PackagerUI
             strTempPath += strTempPath.Substring(0, strTempPath.LastIndexOf("."));
         }
 
-        if (IsInConfiguration(strTempPath))//包含
+        //不包含(1.文件夹，2.文件)
+        if (systemInfo is FileInfo) //是否为文件
         {
-            string bundleName = string.Empty;
-            if (InMatchConfiguration(strTempPath, out bundleName))//相等
+            if (!path.EndsWith(".meta") && !path.EndsWith("DS_Store") && !path.EndsWith("packager.xml"))
             {
-
-                if (strTempPath.Contains("{0}"))
+                string fileRelativePath = path.Substring(Application.dataPath.Replace("Assets", "").Length);//Asset开头的相对路径
+                string bundleName = relativePath.Substring(0, relativePath.LastIndexOf("."));
+                BuildGroup(bundleName, new string[] { fileRelativePath });
+                GetUIDependecise(fileName, fileRelativePath);
+            }
+        }
+        else//文件夹
+        {
+            string tempRelativePath = string.Empty;
+            if (strTempPath.Contains("/"))
+            {
+                string tempPath = strTempPath.Substring(strTempPath.LastIndexOf("/") + 1);
+                if (!strTempPath.Contains("{0}"))
                 {
-                    string[] tempList = strTempPath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    string[] relativeList = relativePath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                    //替换bundleName
-                    for (int i = 0; i < relativeList.Length; i++)
-                    {
-                        if (relativeList[i] != tempList[i])
-                        {
-                            if (bundleName.Contains(tempList[i]))
-                            {
-                                bundleName = bundleName.Replace(tempList[i], relativeList[i]);
-                            }
-                        }
-                    }
+                    tempRelativePath = strTempPath.Replace(tempPath, "{0}");
                 }
-                List<string> list = new List<string>();
-                string[] files = Directory.GetFiles(systemInfo.FullName, "*.*", SearchOption.AllDirectories);
-
-                foreach (var file in files)
+                else if (!strTempPath.Contains("{1}"))
                 {
-                    string filePath = file.Replace("\\", "/");
-                    if (!filePath.EndsWith(".meta") && !filePath.EndsWith(".DS_Store"))
-                    {
-                        string fileRelativePath = filePath.Substring(Application.dataPath.Replace("Assets", "").Length);//Asset开头的相对路径
-                        list.Add(fileRelativePath);
-                        GetUIDependecise(fileName, fileRelativePath);
-                    }
+                    tempRelativePath = strTempPath.Replace(tempPath, "{1}");
                 }
-                if (list.Count > 0)
+                else if (!strTempPath.Contains("{2}"))
                 {
-                    BuildGroup(bundleName, list.ToArray());
+                    tempRelativePath = strTempPath.Replace(tempPath, "{2}");
+
                 }
             }
             else
             {
-                GetFileSystemInfos(systemInfo.FullName, strTempPath);
+                tempRelativePath = strTempPath;
             }
-        }
-        else //不包含(1.文件夹，2.文件)
-        {
-            if (systemInfo is FileInfo) //是否为文件
-            {
-                if (!path.EndsWith(".meta") && !path.EndsWith("DS_Store") && !path.EndsWith("packager.xml"))
-                {
-                    string fileRelativePath = path.Substring(Application.dataPath.Replace("Assets", "").Length);//Asset开头的相对路径
-                    string bundleName = relativePath.Substring(0, relativePath.LastIndexOf("."));
-                    BuildGroup(bundleName, new string[] { fileRelativePath });
-                    GetUIDependecise(fileName, fileRelativePath);
-                }
-            }
-            else//文件夹
-            {
-                string tempRelativePath = string.Empty;
-                if (strTempPath.Contains("/"))
-                {
-                    string tempPath = strTempPath.Substring(strTempPath.LastIndexOf("/") + 1);
-                    if (!strTempPath.Contains("{0}"))
-                    {
-                        tempRelativePath = strTempPath.Replace(tempPath, "{0}");
-                    }
-                    else if (!strTempPath.Contains("{1}"))
-                    {
-                        tempRelativePath = strTempPath.Replace(tempPath, "{1}");
-                    }
-                    else if (!strTempPath.Contains("{2}"))
-                    {
-                        tempRelativePath = strTempPath.Replace(tempPath, "{2}");
-
-                    }
-                }
-                else
-                {
-                    tempRelativePath = strTempPath;
-                }
-
-                if (IsInConfiguration(tempRelativePath))
-                {
-                    string bundleName = string.Empty;
-                    if (InMatchConfiguration(tempRelativePath, out bundleName))//相等
-                    {
-                        string[] tempList = tempRelativePath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                        string[] relativeList = relativePath.Split(new char[] { '/' }, StringSplitOptions.RemoveEmptyEntries);
-                        //替换bundleName
-                        for (int i = 0; i < relativeList.Length; i++)
-                        {
-                            if (relativeList[i] != tempList[i])
-                            {
-                                if (bundleName.Contains(tempList[i]))
-                                {
-                                    bundleName = bundleName.Replace(tempList[i], relativeList[i]);
-                                }
-                            }
-                        }
-
-                        List<string> list = new List<string>();
-
-                        string[] files = Directory.GetFiles(systemInfo.FullName, "*.*", SearchOption.AllDirectories);
-                        foreach (var file in files)
-                        {
-                            string filePath = file.Replace("\\", "/");
-                            if (!filePath.EndsWith(".meta") && !filePath.EndsWith(".DS_Store"))
-                            {
-                                string fileRelativePath = filePath.Substring((Application.dataPath.Replace("Assets", "")).Length); //Asset开头的相对路径
-                                list.Add(fileRelativePath);
-
-                                GetUIDependecise(fileName, fileRelativePath);
-                            }
-                        }
-                        if (list.Count > 0)
-                            BuildGroup(bundleName, list.ToArray());
-                    }
-                    else //不相等
-                    {
-                        GetFileSystemInfos(systemInfo.FullName, tempRelativePath);
-                    }
-                }
-                else //不包含
-                {
-                    GetFileSystemInfos(systemInfo.FullName, tempRelativePath);
-                }
-            }
+            GetFileSystemInfos(systemInfo.FullName, tempRelativePath);
         }
     }
 
@@ -461,56 +395,6 @@ class PackagerUI
         }
     }
     //----------------------------------------------------------------------------
-    static bool IsInConfiguration(string path)
-    {
-        for (int i = 0; i < elementList.Count; i++)
-        {
-            if (elementList[i].path.Contains(path))
-            {
-                return true;
-            }
-        }
-        return false;
-    }
-    //----------------------------------------------------------------------------
-    static bool InMatchConfiguration(string path, out string bundleName)
-    {
-        for (int i = 0; i < elementList.Count; i++)
-        {
-            if (elementList[i].path == path)
-            {
-                bundleName = elementList[i].name;
-                return true;
-            }
-        }
-        bundleName = string.Empty;
-        return false;
-    }
-    //----------------------------------------------------------------------------
-    static void GetConfigurationFiles()
-    {
-        elementList.Clear();
-        string tempPaht = string.Format("{0}/ToExport/packager.xml", Application.dataPath);
-        if (File.Exists(tempPaht))
-        {
-            XmlDocument xmlDoucument = new XmlDocument();
-            xmlDoucument.Load(tempPaht);
-            XmlNode node = xmlDoucument.SelectSingleNode("packgerPath");
-            XmlElement xmlElement = node.SelectSingleNode("batch").FirstChild as XmlElement;
-            while (xmlElement != null)
-            {
-                if (xmlElement.HasAttribute("path"))
-                {
-                    ConfigurationElement element = new ConfigurationElement();
-                    element.path = xmlElement.GetAttribute("path");
-                    element.name = xmlElement.GetAttribute("name");
-                    elementList.Add(element);
-                }
-                xmlElement = xmlElement.NextSibling as XmlElement;
-            }
-        }
-    }
-    //----------------------------------------------------------------------------
     public static void Clear()
     {
         ClearExportPath();
@@ -552,19 +436,7 @@ class PackagerUI
         get
         {
             string dataPath = Application.dataPath;
-            if (dataPath.Contains("Project_Audio"))
-            {
-                dataPath = dataPath.Replace("Assets", "") + "audioasset";
-            }
-            else if (dataPath.Contains("Project_Effect"))
-            {
-                dataPath = dataPath.Replace("Assets", "") + "effectasset";
-            }
-            else if (dataPath.Contains("Project_Scene"))
-            {
-                dataPath = dataPath.Replace("Assets", "") + "sceneasset";
-            }
-            else if (dataPath.Contains("Project_UI"))
+            if (dataPath.Contains("Client"))
             {
                 dataPath = dataPath.Replace("Assets", "") + "uiasset";
             }
@@ -572,14 +444,5 @@ class PackagerUI
         }
     }
     //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-
-
 }
 

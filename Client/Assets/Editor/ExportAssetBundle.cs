@@ -39,6 +39,10 @@ public class ExportAssetBundle
         PackagerUI.CreateAssetBundleAll(BuildTarget.StandaloneWindows64);
     }
     //----------------------------------------------------------------------------
+    public static void CreateAssetBundleSelect_Win64()
+    {
+        PackagerUI.CreateAssetBundleSelect(BuildTarget.StandaloneWindows64);
+    }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------

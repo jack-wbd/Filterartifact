@@ -1,0 +1,106 @@
+ManifestFileVersion: 0
+CRC: 788836882
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: data/common/loadingconfig.unity3d
+      Dependencies: {}
+    Info_1:
+      Name: data/resourselist.unity3d
+      Dependencies: {}
+    Info_2:
+      Name: loginatlas/01_wjzs_001_002_001.unity3d
+      Dependencies: {}
+    Info_3:
+      Name: loginatlas/01_wjzs_001_004.unity3d
+      Dependencies: {}
+    Info_4:
+      Name: loginatlas/01_wjzs_002_013_001.unity3d
+      Dependencies: {}
+    Info_5:
+      Name: loginatlas/01_wjzs_002_013_002.unity3d
+      Dependencies: {}
+    Info_6:
+      Name: loginatlas/01_wjzs_002_013_032.unity3d
+      Dependencies: {}
+    Info_7:
+      Name: loginatlas/01_wjzs_002_013_033.unity3d
+      Dependencies: {}
+    Info_8:
+      Name: loginatlas/01_wjzs_002_013_034.unity3d
+      Dependencies: {}
+    Info_9:
+      Name: loginatlas/01_wjzs_002_013_035.unity3d
+      Dependencies: {}
+    Info_10:
+      Name: loginatlas/01_wjzs_002_023_001.unity3d
+      Dependencies: {}
+    Info_11:
+      Name: loginatlas/aodikuang.unity3d
+      Dependencies: {}
+    Info_12:
+      Name: loginatlas/dljm_logo.unity3d
+      Dependencies: {}
+    Info_13:
+      Name: loginatlas/download_loading.unity3d
+      Dependencies: {}
+    Info_14:
+      Name: loginatlas/igslogo.unity3d
+      Dependencies: {}
+    Info_15:
+      Name: loginatlas/loading_di.unity3d
+      Dependencies: {}
+    Info_16:
+      Name: loginatlas/loading_di2.unity3d
+      Dependencies: {}
+    Info_17:
+      Name: loginatlas/logo_baidi.unity3d
+      Dependencies: {}
+    Info_18:
+      Name: loginatlas/number0.unity3d
+      Dependencies: {}
+    Info_19:
+      Name: loginatlas/number1.unity3d
+      Dependencies: {}
+    Info_20:
+      Name: loginatlas/number2.unity3d
+      Dependencies: {}
+    Info_21:
+      Name: loginatlas/number3.unity3d
+      Dependencies: {}
+    Info_22:
+      Name: loginatlas/number4.unity3d
+      Dependencies: {}
+    Info_23:
+      Name: loginatlas/number5.unity3d
+      Dependencies: {}
+    Info_24:
+      Name: loginatlas/number6.unity3d
+      Dependencies: {}
+    Info_25:
+      Name: loginatlas/number7.unity3d
+      Dependencies: {}
+    Info_26:
+      Name: loginatlas/number8.unity3d
+      Dependencies: {}
+    Info_27:
+      Name: loginatlas/number9.unity3d
+      Dependencies: {}
+    Info_28:
+      Name: loginatlas/xsyd_d2.unity3d
+      Dependencies: {}
+    Info_29:
+      Name: loginatlas/xsyd_d3.unity3d
+      Dependencies: {}
+    Info_30:
+      Name: loginatlas/xsyd_d4.unity3d
+      Dependencies: {}
+    Info_31:
+      Name: prefab/ui_root.unity3d
+      Dependencies:
+        Dependency_0: loginatlas/dljm_logo.unity3d
+        Dependency_1: loginatlas/download_loading.unity3d
+        Dependency_2: loginatlas/igslogo.unity3d
+        Dependency_3: loginatlas/xsyd_d2.unity3d
+        Dependency_4: loginatlas/xsyd_d3.unity3d
+        Dependency_5: loginatlas/xsyd_d4.unity3d
