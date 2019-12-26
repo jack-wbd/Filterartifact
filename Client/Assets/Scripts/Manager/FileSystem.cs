@@ -308,7 +308,7 @@ namespace Filterartifact
             m_dataTemp = m_queNeedParse.Dequeue();
             m_dataTemp.Initialize();
             ++m_nCurPaseDataCount;
-
+            Messenger.Broadcast(DgMsgID.DgMsg_UpdateGameProgress, (float)m_nCurPaseDataCount / m_nNeedParseDataCount);
         }
         //----------------------------------------------------------------------------
         private void UpdateLoadRes()
@@ -549,7 +549,8 @@ namespace Filterartifact
                 {
                     m_nNeedParseDataCount = m_queNeedParse.Count;
                     m_nCurPaseDataCount = 0;
-                    Messenger.Broadcast<float>(DgMsgID.DgMsg_UpdateGameProgress, 0f);
+                    Messenger.Broadcast(DgMsgID.DgMsg_UpdateGameProgress, 0f);
+
                 }
                 else
                 {

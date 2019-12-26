@@ -42,6 +42,7 @@ namespace Filterartifact
         private Text m_version;
         private Slider m_progressBar;
         private Text m_proTips;
+        private Text m_processLab;
         //----------------------------------------------------------------------------
         public UIDownload()
         {
@@ -50,7 +51,9 @@ namespace Filterartifact
             m_tans = m_uiDownload.transform;
             m_version = m_tans.Find("version").GetComponent<Text>();
             m_progressBar = m_tans.Find("progressBar").GetComponent<Slider>();
+            m_progressBar.value = 0;
             m_proTips = m_progressBar.transform.Find("schedule").GetComponent<Text>();
+            m_processLab = m_progressBar.transform.Find("FillArea/lab").GetComponent<Text>();
             Messenger.AddListener<UpdateState>(DgMsgID.DgMsg_InitStatChange, InitStateChange);
             Messenger.AddListener<float>(DgMsgID.DgMsg_UpdateGameProgress, UpdateGameProgress);
         }
@@ -71,13 +74,19 @@ namespace Filterartifact
                     break;
                 case UpdateState.Load_Gamedata:
                     m_proTips.text = "正在加载数据...";
-                    m_progressBar.value = 1;
+                    m_processLab.enabled = false;
                     break;
                 case UpdateState.Catch_GameRes:
                     m_proTips.text = "正在解压资源...";
+                    m_processLab.enabled = true;
                     break;
                 case UpdateState.Init_Game:
                     m_proTips.text = "正在初始化游戏...";
+                    m_processLab.enabled = false;
+                    break;
+                case UpdateState.Parse_GameData:
+                    m_proTips.text = "正在解析游戏数据...";
+                    m_processLab.enabled = true;
                     break;
                 default:
                     break;
@@ -87,13 +96,21 @@ namespace Filterartifact
         private void UpdateGameProgress(float f)
         {
             m_progressBar.value = f;
+            m_processLab.text = (f * 100).ToString("f2") + "%";
         }
         //----------------------------------------------------------------------------
         public void OnDestroy()
         {
             Messenger.RemoveListener<UpdateState>(DgMsgID.DgMsg_InitStatChange, InitStateChange);
             Messenger.RemoveListener<float>(DgMsgID.DgMsg_UpdateGameProgress, UpdateGameProgress);
+            m_progressBar = null;
         }
+        //----------------------------------------------------------------------------
+        private void DoGameInitFinished()
+        {
+            m_progressBar.value = 1;
+        }
+        //----------------------------------------------------------------------------
     }
     //----------------------------------------------------------------------------
 }

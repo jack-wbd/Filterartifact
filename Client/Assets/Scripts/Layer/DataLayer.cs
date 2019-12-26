@@ -75,11 +75,6 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        public void InitRigisterCollection()
-        {
-            AddCollection(typeof(ResourceListData), new ResourceListData());
-        }
-        //----------------------------------------------------------------------------
         public Queue<DataBase> GetNeedParseDataQue()
         {
             return m_queNeedToParse;

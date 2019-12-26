@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3334861391
+CRC: 428459948
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0f4ef0851d06f69d54183ac0c344da9d
+    Hash: d1b611303a3b4ef584ff2333e2c4dfcc
   TypeTreeHash:
     serializedVersion: 2
     Hash: 5ad585dd02dfb5016c0dad519eab8f49
@@ -12,5 +12,5 @@ ClassTypes:
 - Class: 49
   Script: {instanceID: 0}
 Assets:
-- Assets/Data/data/ResourseList.xml
+- Assets/Data/data/Common/ResourseList.xml
 Dependencies: []
