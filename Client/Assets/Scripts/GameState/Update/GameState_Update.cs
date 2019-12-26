@@ -89,7 +89,10 @@ namespace Filterartifact
             if (m_bFileSystemOK)
             {
                 m_bFileSystemOK = false;
-                Debug.Log("InitGame start");
+                Resources.UnloadUnusedAssets();//释放未使用的资源
+                Debug.LogError("资源已被释放");     
+                Messenger.Broadcast(DgMsgID.DgMsg_ActiveLoadUI);
+                Debug.LogError("InitGame End");
             }
         }
         //----------------------------------------------------------------------------

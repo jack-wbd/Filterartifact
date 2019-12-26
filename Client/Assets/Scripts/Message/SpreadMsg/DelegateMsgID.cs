@@ -37,6 +37,8 @@ namespace Filterartifact
         DgMsg_InitStatChange = 0x10000001,
         DgMsg_FileSystemOK = 0x10000002,
         DgMsg_UpdateGameProgress = 0x10000003,
+        DgMsg_NtyUILoading_Finish = 0x10000004,
+        DgMsg_ActiveLoadUI = 0x10000005,
     }
 }
 
