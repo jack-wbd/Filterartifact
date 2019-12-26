@@ -43,11 +43,11 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         protected override void OnStateInit()
         {
-            base.OnStateInit();
             AddSubState(GameStateFactory.CreateState(GameStateType.GST_Loading, this));
             AddSubState(GameStateFactory.CreateState(GameStateType.GST_Login, this));
             AddSubState(GameStateFactory.CreateState(GameStateType.GST_Update, this));
             AddSubState(GameStateFactory.CreateState(GameStateType.GST_Logo, this));
+            base.OnStateInit();
             SetSubState((int)GameStateType.GST_Logo, null);
         }
         //----------------------------------------------------------------------------

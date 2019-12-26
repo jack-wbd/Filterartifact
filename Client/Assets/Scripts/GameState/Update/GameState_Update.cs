@@ -53,7 +53,6 @@ namespace Filterartifact
         {
             base.OnStateInit();
             Messenger.AddListener(DgMsgID.DgMsg_FileSystemOK, FileSystemOK);
-
         }
         //----------------------------------------------------------------------------
         protected override void OnStateDestroy()
