@@ -82,7 +82,7 @@ namespace Filterartifact
         private void DoCreateLayer()
         {
 
-            m_layerData.SaveStreamData();       
+            m_layerData.SaveStreamData();
             AssetLayer t = new AssetLayer();
             t.Initialize();
             m_dictLayer.Add(typeof(AssetLayer), t);
@@ -108,7 +108,20 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public virtual void Destroy()
         {
+            DestroyLayer();
             ReleaseInstance();
+        }
+        //----------------------------------------------------------------------------
+        private void DestroyLayer()
+        {
+            if (m_dictLayer == null)
+            {
+                return;
+            }
+            foreach (KeyValuePair<Type, BaseLayer> temp in m_dictLayer)
+            {
+                temp.Value.Finalized();
+            }
         }
         //----------------------------------------------------------------------------
         public virtual void Update()
@@ -149,7 +162,7 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
-        private T AddLayerToDict<T>() where T:BaseLayer,new()
+        private T AddLayerToDict<T>() where T : BaseLayer, new()
         {
             T t = new T();
             m_dictLayer.Add(t.GetType(), t);

@@ -68,13 +68,14 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public bool Initialize()
         {
+            Messenger.AddListener(DgMsgID.DgMsg_ActiveLoadUI, OnActiveLoadUI);
             m_sys = this;
             return true;
         }
         //----------------------------------------------------------------------------
         public void Finalized()
         {
-
+            Messenger.RemoveListener(DgMsgID.DgMsg_ActiveLoadUI, OnActiveLoadUI);
         }
         //----------------------------------------------------------------------------
         public GameObject GetUIRoot()
