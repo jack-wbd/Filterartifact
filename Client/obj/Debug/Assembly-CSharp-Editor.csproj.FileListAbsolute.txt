@@ -2085,3 +2085,4 @@ D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompileInpu
 D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.dll
 D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.pdb
+D:\Filterartifact\Client\Temp\bin\Debug\UnityEditor.Android.Extensions.dll

@@ -35,6 +35,7 @@ namespace Filterartifact
     public class Main : MonoBehaviour
     {
         GameApp gameApp = null;
+        GameUI gameUI = null;
         LauncherManager launcherManager = null;
         //----------------------------------------------------------------------------
         void Start()
@@ -72,6 +73,13 @@ namespace Filterartifact
             if (gameApp != null)
             {
                 gameApp.Initialize();
+            }
+
+            gameUI = new GameUI();
+
+            if (gameUI != null)
+            {
+                gameUI.Initialize();
             }
         }
         //----------------------------------------------------------------------------

@@ -44,6 +44,7 @@ namespace Filterartifact
         private DataLayer m_layerData = null;
         private int nLayerNum = 0;
         public ScreenUnit screenUnit;
+        private StageLayer m_layerStage = null;
         //----------------------------------------------------------------------------
         public static WorldManager CreateInstance()
         {
@@ -81,8 +82,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void DoCreateLayer()
         {
-
             m_layerData.SaveStreamData();
+            m_layerStage = AddLayerToDict<StageLayer>();
             AssetLayer t = new AssetLayer();
             t.Initialize();
             m_dictLayer.Add(typeof(AssetLayer), t);

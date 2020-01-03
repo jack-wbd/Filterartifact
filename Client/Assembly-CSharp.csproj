@@ -79,6 +79,7 @@
     <Compile Include="Assets\Scripts\Base\ILoadResult.cs" />
     <Compile Include="Assets\Scripts\Base\IMsgPipe.cs" />
     <Compile Include="Assets\Scripts\Base\IPreLoad.cs" />
+    <Compile Include="Assets\Scripts\Base\StageLoad.cs" />
     <Compile Include="Assets\Scripts\Data\ConfigData.cs" />
     <Compile Include="Assets\Scripts\Data\DataBase.cs" />
     <Compile Include="Assets\Scripts\Data\LoadingConfigData.cs" />
@@ -94,6 +95,8 @@
     <Compile Include="Assets\Scripts\Layer\DataLayer.cs" />
     <Compile Include="Assets\Scripts\Layer\SingleBineryData.cs" />
     <Compile Include="Assets\Scripts\Layer\SingleDataSerialize.cs" />
+    <Compile Include="Assets\Scripts\Layer\StageLayer.cs" />
+    <Compile Include="Assets\Scripts\Layer\UIHistory.cs" />
     <Compile Include="Assets\Scripts\Layer\UILayer.cs" />
     <Compile Include="Assets\Scripts\Layer\XmlDataSerialize.cs" />
     <Compile Include="Assets\Scripts\Main\Main.cs" />
@@ -106,6 +109,7 @@
     <Compile Include="Assets\Scripts\Manager\WorldManager.cs" />
     <Compile Include="Assets\Scripts\Message\DelegateMsg\Messenger.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\DelegateMsgID.cs" />
+    <Compile Include="Assets\Scripts\Message\SpreadMsg\MsgID.cs" />
     <Compile Include="Assets\Scripts\UI\ScreenUnit.cs" />
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />

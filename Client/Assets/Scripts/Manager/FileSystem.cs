@@ -118,6 +118,11 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
+        public ResourceListData GetResData()
+        {
+            return m_ResourceList;
+        }
+        //----------------------------------------------------------------------------
         public byte[] GetSerializeByte()
         {
             if (m_assetText != null)

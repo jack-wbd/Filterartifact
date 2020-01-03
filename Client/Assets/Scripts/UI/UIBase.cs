@@ -63,6 +63,7 @@ namespace Filterartifact
         protected UISystem m_system;
         static private bool useFullScreenBg = true;
         public string strAssetID = "";
+        public string strCtrl = "";
         //----------------------------------------------------------------------------
         private eUIImpower _impower = eUIImpower.Default;
         public eUIImpower impower
@@ -149,7 +150,27 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public void RegisterViewMsg()
+        {
+            RegisterMsg<string, Transform>((int)DgMsgID.DgMsg_InitStatChange, OnChangeChildParent);
+            RegisterMsg((int)MsgID.Msg_NewBie_RestoreUIParent, OnRestoreChildParent);
+            RegisterMsg<string, int>((int)MsgID.Msg_NewBie_DyUIScrollViewEvent, OnDyUIScrollViewEvent);
+        }
         //----------------------------------------------------------------------------
+        public void OnChangeChildParent(string childpath, Transform _newparent)
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        public void OnRestoreChildParent()
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        public void OnDyUIScrollViewEvent(string childPath, int index)
+        {
+
+        }
         //----------------------------------------------------------------------------
 
     }

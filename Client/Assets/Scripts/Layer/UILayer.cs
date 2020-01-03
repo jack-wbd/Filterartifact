@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 //------------------------------------------------------------------------------
 /**
 	\file	UILayer.cs
@@ -42,7 +43,6 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public override bool Initialize()
         {
-
             m_assetClassMap = new Dictionary<string, string>();
             CreateUISystem();
             return true;
@@ -116,7 +116,41 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public void Show(string strkey, Object arg = null, bool _bEffect = true)
+        {
+            if (SystemOpenHookMessage(strkey))
+            {
+                return;
+            }
+
+            UIController uiCtrl = m_uiSystem.GetUIControllerById(strkey);
+            if (uiCtrl != null)
+            {
+                uiCtrl.bEffect = _bEffect;
+                UIHistory.Show(strkey, arg, uiCtrl.impower);
+                uiCtrl.Show(arg);
+            }
+
+        }
         //----------------------------------------------------------------------------
+        //系统开放屏蔽VIP等上层入口比较多的功能
+        private bool SystemOpenHookMessage(string controller)
+        {
+
+            if (WorldManager.Instance() == null)
+            {
+                return false;
+            }
+
+            if (controller == null)
+            {
+                return false;
+
+            }
+
+            return false;
+
+        }
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
     }

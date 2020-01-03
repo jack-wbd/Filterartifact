@@ -30,12 +30,18 @@
 //	IMsgPipe.cs
 //------------------------------------------------------------------------------
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
 
 namespace Filterartifact
 {
+    public delegate void MsgCallback();
+    public delegate void MsgCallback<T>(T arg1);
+    public delegate void MsgCallback<T, U>(T arg1, U arg2);
+    public delegate void MsgCallback<T, U, V>(T arg1, U arg2, V arg3);
+    public delegate void MsgCallback<T, U, V, X>(T arg1, U arg2, V arg3, X arg4);
     public class IMsgPipe
     {
         //variable
@@ -45,6 +51,7 @@ namespace Filterartifact
         private bool m_bSwitchMsgUp2Down = false;
         protected IMsgPipe m_pParentPipe;
         protected List<IMsgPipe> m_listChildPipe = null;
+        private Dictionary<int, Delegate> m_dictMsgCall = null;
         //function
         //----------------------------------------------------------------------------
         virtual public bool ProcessMsg(IMsg msg, IMsgPipe fromWhere = null)
@@ -82,6 +89,43 @@ namespace Filterartifact
                 else
                     m_dictMsgFunc.Add(nMsgID, info);
             }
+        }
+        //----------------------------------------------------------------------------
+        //无参数
+        public void RegisterMsg(int nMsgID,MsgCallback callback)
+        {
+            if (callback!=null)
+            {
+                AddMsg(nMsgID, callback);
+            }
+        }
+        //----------------------------------------------------------------------------
+        //-----------------------------------T,U--------------------------------------
+        public void RegisterMsg<T, U>(int nMsgID, MsgCallback<T, U> callback)
+        {
+            if (callback != null)
+            {
+
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void AddMsg(int nMsgID, Delegate callback)
+        {
+            if (m_dictMsgCall == null)
+            {
+                m_dictMsgCall = new Dictionary<int, Delegate>();
+            }
+            if (m_dictMsgCall.ContainsKey(nMsgID))
+            {
+                Debug.LogWarning("the same ID already exists!");
+                m_dictMsgCall.Remove(nMsgID);
+                m_dictMsgCall.Add(nMsgID, callback);
+            }
+            else
+            {
+                m_dictMsgCall.Add(nMsgID, callback);
+            }
+
         }
         //----------------------------------------------------------------------------
         protected bool DispatchMsg(IMsg msg)

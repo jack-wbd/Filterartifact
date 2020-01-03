@@ -1,19 +1,19 @@
 ﻿//------------------------------------------------------------------------------
 /**
-	\file	GameState_Login.cs
+	\file	StageLoad.cs
 
-	Copyright (c) 2019, BoYue. All rights reserved.
+	Copyright (c) 2020, BoYue. All rights reserved.
 
 	<PRE>
 
 	模块名称：<文件所属的模块名称>
-	文件名称：GameState_Login.cs
+	文件名称：StageLoad.cs
 	摘    要：<描述该文件实现的主要功能>
 
 	当前版本：1.0
-	建立日期：2019/11/29
-	作    者：wangbodong
-	电子邮件：wangbodong@BoYue.com
+	建立日期：2020/1/3
+	作    者：SYSTEM
+	电子邮件：SYSTEM@BoYue.com
 	备    注：<其它说明>
 
 	</PRE>
@@ -27,43 +27,30 @@
 //------------------------------------------------------------------------------
 
 //------------------------------------------------------------------------------
-//	GameState_Login.cs
+//	StageLoad.cs
 //------------------------------------------------------------------------------
 
 namespace Filterartifact
 {
     //----------------------------------------------------------------------------
-    public class GameState_Login : GameState
+    public class StageLoad
     {
         //----------------------------------------------------------------------------
-        public GameState_Login(int stateid, State parent) : base(stateid, parent)
+        public StageLoad()
+        {
+            Messenger.AddListener(DgMsgID.DgMsg_NtyUILoading_Finish, OnUILoadOK);
+        }
+        //----------------------------------------------------------------------------
+        private void RemoveMsgListener()
+        {
+            Messenger.RemoveListener(DgMsgID.DgMsg_NtyUILoading_Finish, OnUILoadOK);
+        }
+        //----------------------------------------------------------------------------
+        private void OnUILoadOK()
         {
 
         }
         //----------------------------------------------------------------------------
-        protected override void OnStateInit()
-        {
-            base.OnStateInit();
-        }
-        //----------------------------------------------------------------------------
-        protected override void OnStateBegin(object[] parameter)
-        {
-            base.OnStateBegin(parameter);
-            Messenger.AddListener(DgMsgID.DgMsg_NtyUILoading_Finish, OnUILoadOk);
-        }
-        //----------------------------------------------------------------------------
-        protected override void OnStateEnd()
-        {
-            base.OnStateEnd();
 
-        }
-        //----------------------------------------------------------------------------
-        private void OnUILoadOk()
-        {
-            Messenger.RemoveListener(DgMsgID.DgMsg_NtyUILoading_Finish, OnUILoadOk);
-            Messenger.Broadcast(DgMsgID.DgUI_ShowUI, "UILoginCtrl");
-        }
-        //----------------------------------------------------------------------------
-        //----------------------------------------------------------------------------
     }
 }

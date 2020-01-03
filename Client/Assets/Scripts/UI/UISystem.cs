@@ -59,6 +59,7 @@ namespace Filterartifact
         private List<string> m_listUIRes = null;
         private List<UIController> m_listPreLoadEnvir = new List<UIController>();
         public static int CurAssetCount = 0;
+        private Dictionary<string, int> m_dictUseCount;
         //----------------------------------------------------------------------------
         public struct sUI
         {
@@ -83,8 +84,21 @@ namespace Filterartifact
             return m_objUIRoot;
         }
         //----------------------------------------------------------------------------
-        public void AcitivePreLoad()
+        public virtual void AcitivePreLoad()
         {
+
+            if (m_nTotalCount == 0)
+            {
+                DoFinish();
+                return;
+            }
+            for (int i = 0; i < m_nTotalCount; i++)
+            {
+                if (!assetManager.LoadAssetRes<string, UnityEngine.Object>(m_listUIRes[i], OnLoadCallBack))
+                {
+                    CheckFinish();
+                }
+            }
 
         }
         //----------------------------------------------------------------------------
@@ -202,6 +216,31 @@ namespace Filterartifact
                 ctrl.InitViewer(null);
             }
             m_listPreLoadEnvir.Clear();
+        }
+        //----------------------------------------------------------------------------
+        public UIController GetUIControllerById(string key)
+        {
+            if (m_dictAllUICtrl.ContainsKey(key))
+            {
+                return m_dictAllUICtrl[key].uiCtrl;
+            }
+            return null;
+        }
+        //----------------------------------------------------------------------------
+        public void AddUseAtlas(string strAtlas)
+        {
+            if (string.IsNullOrEmpty(strAtlas))
+            {
+                return;
+            }
+            if (m_dictUseCount.ContainsKey(strAtlas))
+            {
+                m_dictUseCount[strAtlas]++;
+            }
+            else
+            {
+                m_dictUseCount.Add(strAtlas, 1);
+            }
         }
         //----------------------------------------------------------------------------
         AssetsManager assetManager

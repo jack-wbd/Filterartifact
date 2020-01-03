@@ -42,6 +42,11 @@ namespace Filterartifact
         protected bool m_bLocal = true;
         protected Type uiClass;
         public string strCtrl;
+        public bool bEffect = true;
+        private bool m_bIsShow = false;
+        protected bool isViewLoadedComplete = false;
+        private object m_paramData;
+        public bool m_bHasAddAtlas = false;
         //----------------------------------------------------------------------------
         public void LoadFinishedEx(string strAssetID, UnityEngine.Object obj)
         {
@@ -65,7 +70,7 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        public virtual void SetBaseInfo(string strAssetName,UISystem system,bool bLocal,Type uiType,string strCtrlName)
+        public virtual void SetBaseInfo(string strAssetName, UISystem system, bool bLocal, Type uiType, string strCtrlName)
         {
             strAssetID = strAssetName;
             m_uiSystem = system;
@@ -79,12 +84,49 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        public virtual void InitViewer(object arg,bool bflag =false)
+        public virtual void InitViewer(object arg, bool bflag = false)
         {
-            
+            m_paramData = arg;
+            m_bIsShow = bflag;
+            if (viewer == null)
+            {
+                if (!m_bHasAddAtlas)
+                {
+                    AddUseAtlas();
+                }
+
+                viewer = Activator.CreateInstance(uiClass) as UIBase;
+                viewer.strCtrl = strCtrl;
+                viewer.impower = impower;
+                viewer.RegisterViewMsg();
+            }
         }
         //----------------------------------------------------------------------------
+        private void AddUseAtlas()
+        {
+            m_bHasAddAtlas = true;
+            ResourceListData data = FileSystem.Instance().GetResData();
+            sAssetInfo info = sAssetInfo.zero;
+            data.GetAssetBundleInfo(strAssetID, ref info);
+            if (info.childListAssetID != null && info.childListAssetID.Count > 0)
+            {
+                int nTotalCount = info.childListAssetID.Count;
+                for (int i = 0; i < nTotalCount; i++)
+                {
+                    m_uiSystem.AddUseAtlas(info.childListAssetID[i]);
+                }
+            }
+
+        }
         //----------------------------------------------------------------------------
+        public virtual void Show(object arg = null)
+        {
+            m_bIsShow = true;
+            if (!isViewLoadedComplete)
+            {
+                InitViewer(arg, true);
+            }
+        }
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
     }
