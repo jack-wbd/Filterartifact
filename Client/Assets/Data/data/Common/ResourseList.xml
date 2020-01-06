@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Resourselist>
 <deps>
-        <Bundle id="RUP_Main" preload="1" EnvirUse="city" file="loginatlas.unity3d" name=""/>
+        <Bundle id="RUP_Main" preload="1" EnvirUse="city" file="ui/loginatlas.unity3d" name=""/>
 </deps>
-<uitexture>
-		<Bundle id="picture1" preload="0" file="ui/uitexture/uiloading/{0}/picture1.unity3d" name=""/>
-		<Bundle id="picture2" preload="0" file="ui/uitexture/uiloading/{0}/picture2.unity3d" name=""/>
-		<Bundle id="picture3" preload="0" file="ui/uitexture/uiloading/{0}/picture3.unity3d" name=""/>
-		<Bundle id="picture4" preload="0" file="ui/uitexture/uiloading/{0}/picture4.unity3d" name=""/>
-		<Bundle id="picture5" preload="0" file="ui/uitexture/uiloading/{0}/picture5.unity3d" name=""/>
-</uitexture>
+	<uitexture>
+		<Bundle id="picture1" preload="0" file="ui/switchpic/picture1.unity3d" name=""/>
+		<Bundle id="picture2" preload="0" file="ui/switchpic/picture2.unity3d" name=""/>
+		<Bundle id="picture3" preload="0" file="ui/switchpic/picture3.unity3d" name=""/>
+		<Bundle id="picture4" preload="0" file="ui/switchpic/picture4.unity3d" name=""/>
+		<Bundle id="picture5" preload="0" file="ui/switchpic/picture5.unity3d" name=""/>
+	</uitexture>
 </Resourselist>

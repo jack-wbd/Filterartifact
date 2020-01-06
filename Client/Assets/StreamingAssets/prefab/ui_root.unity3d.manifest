@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1023676950
+CRC: 2625678432
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8308a8b841fbb8ffdbab5f29c474dd8b
+    Hash: 3cdd14c7300aa0f1f6f466cc296be6e2
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9a3df7f28d6aa52b86b9f646a36b4db9
@@ -52,9 +52,9 @@ ClassTypes:
 Assets:
 - Assets/Data/prefab/ui_root.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/loginatlas/dljm_logo.unity3d
-- D:/Filterartifact/Client/uiasset/loginatlas/download_loading.unity3d
-- D:/Filterartifact/Client/uiasset/loginatlas/igslogo.unity3d
-- D:/Filterartifact/Client/uiasset/loginatlas/xsyd_d2.unity3d
-- D:/Filterartifact/Client/uiasset/loginatlas/xsyd_d3.unity3d
-- D:/Filterartifact/Client/uiasset/loginatlas/xsyd_d4.unity3d
+- D:/Filterartifact/Client/uiasset/ui/loginatlas/dljm_logo.unity3d
+- D:/Filterartifact/Client/uiasset/ui/loginatlas/download_loading.unity3d
+- D:/Filterartifact/Client/uiasset/ui/loginatlas/igslogo.unity3d
+- D:/Filterartifact/Client/uiasset/ui/loginatlas/xsyd_d2.unity3d
+- D:/Filterartifact/Client/uiasset/ui/loginatlas/xsyd_d3.unity3d
+- D:/Filterartifact/Client/uiasset/ui/loginatlas/xsyd_d4.unity3d

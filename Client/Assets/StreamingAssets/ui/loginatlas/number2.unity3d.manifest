@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 432202683
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 01aac56e27b0aa56c4d91a96593c5cfd
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/loginatlas/number2.png
+Dependencies: []
