@@ -59,6 +59,7 @@ namespace Filterartifact
         private List<string> m_listUIRes = null;
         private List<UIController> m_listPreLoadEnvir = new List<UIController>();
         public static int CurAssetCount = 0;
+        public static int MaxAssetCount = 0;
         private Dictionary<string, int> m_dictUseCount;
         //----------------------------------------------------------------------------
         public struct sUI
@@ -153,6 +154,11 @@ namespace Filterartifact
                 }
             }
 
+        }
+        //----------------------------------------------------------------------------
+        public static bool LoadUIOK()
+        {
+            return CurAssetCount >= MaxAssetCount;
         }
         //----------------------------------------------------------------------------
         public bool HasUIController(string key)

@@ -74,7 +74,9 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         protected override void OnUpdate()
         {
-            base.OnUpdate();
+
+            DoSkip();
+
             if (m_bWait)
             {
                 m_fWaitTime -= Time.deltaTime;
@@ -89,10 +91,21 @@ namespace Filterartifact
             if (m_bFileSystemOK)
             {
                 m_bFileSystemOK = false;
+                m_bFileSystemInit = true;
                 Resources.UnloadUnusedAssets();//释放未使用的资源
                 Debug.LogError("资源已被释放");     
                 Messenger.Broadcast(DgMsgID.DgMsg_ActiveLoadUI);
                 Debug.LogError("InitGame End");
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void DoSkip()
+        {
+            if (m_bFileSystemInit)
+            {
+                if (UISystem.LoadUIOK())
+                {
+                }
             }
         }
         //----------------------------------------------------------------------------
