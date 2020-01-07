@@ -71,8 +71,30 @@ namespace Filterartifact
         public bool Initialize()
         {
             Messenger.AddListener(DgMsgID.DgMsg_ActiveLoadUI, OnActiveLoadUI);
+            m_listUIRes = new List<string>();
             m_sys = this;
             return true;
+        }
+        //----------------------------------------------------------------------------
+        public virtual void AddPreLoadAsset(string strAssetID)
+        {
+
+            if (string.IsNullOrEmpty(strAssetID))
+            {
+                return;
+            }
+            if (m_listUIRes.Contains(strAssetID))
+            {
+                return;
+            }
+
+            m_listUIRes.Add(strAssetID);
+
+        }
+        //----------------------------------------------------------------------------
+        public void PreLoadUIByUseType(eUseEnvir eUse)
+        {
+
         }
         //----------------------------------------------------------------------------
         public void Finalized()

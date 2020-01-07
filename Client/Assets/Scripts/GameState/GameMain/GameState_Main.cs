@@ -34,11 +34,15 @@ namespace Filterartifact
 {
     public class GameState_Main : GameState
     {
+        //member variable
+        private GameStateType nextGameType = GameStateType.GST_Invaild;
+        private object[] state_parameter = null;
+        //----------------------------------------------------------------------------
         //constructor 
         //----------------------------------------------------------------------------
         public GameState_Main(int stateid, State parent) : base(stateid, parent)
         {
-
+            RegisterMsg((int)MsgID.MSG_MSG_GOTOLOGIN, OnGoToLogin);
         }
         //----------------------------------------------------------------------------
         protected override void OnStateInit()
@@ -56,9 +60,39 @@ namespace Filterartifact
             base.OnStateDestroy();
         }
         //----------------------------------------------------------------------------
+        public void OnGoToLogin()
+        {
+            SetNextGameType(GameStateType.GST_Login);
+        }
         //----------------------------------------------------------------------------
+        void SetNextGameType(GameStateType gameStateType, object[] parameter = null)
+        {
+            nextGameType = gameStateType;
+            state_parameter = parameter;
+        }
         //----------------------------------------------------------------------------
+        protected override void OnUpdate()
+        {
+            base.OnUpdate();
+            WaitingGotoSubState();
+        }
         //----------------------------------------------------------------------------
+        void WaitingGotoSubState()
+        {
+            if (nextGameType != GameStateType.GST_Invaild)
+            {
+                if (state_parameter != null)
+                {
+                    GotoSubState((int)nextGameType, state_parameter);
+                }
+                else
+                {
+                    GotoSubState((int)nextGameType);
+                }
+                nextGameType = GameStateType.GST_Invaild;
+                state_parameter = null;
+            }
+        }
         //----------------------------------------------------------------------------
     }
 }

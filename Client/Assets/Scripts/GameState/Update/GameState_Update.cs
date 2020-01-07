@@ -37,11 +37,8 @@ namespace Filterartifact
     class GameState_Update : GameState
     {
         //----------------------------------------------------------------------------
-        private bool m_bPreloadComplete = false;
         private bool m_bFileSystemInit = false;
         private bool m_bFileSystemOK = false;
-        private bool m_bWait = false;
-        private float m_fWaitTime = 1f;
         //----------------------------------------------------------------------------
         public GameState_Update(int stateid, State parent) : base(stateid, parent)
         {
@@ -63,8 +60,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         protected override void OnStateBegin(object[] parameter)
         {
-            base.OnStateBegin(parameter);
-            m_bWait = true;
+            FileSystem.CreateInstance();
+            FileSystem.Instance().InitFileSystem();
         }
         //----------------------------------------------------------------------------
         protected override void OnStateEnd()
@@ -74,20 +71,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         protected override void OnUpdate()
         {
-
             DoSkip();
-
-            if (m_bWait)
-            {
-                m_fWaitTime -= Time.deltaTime;
-                if (m_fWaitTime <= 0)
-                {
-                    m_fWaitTime = 1f;
-                    m_bWait = false;
-                    FileSystem.CreateInstance();
-                    FileSystem.Instance().InitFileSystem();
-                }
-            }
             if (m_bFileSystemOK)
             {
                 m_bFileSystemOK = false;
@@ -105,8 +89,22 @@ namespace Filterartifact
             {
                 if (UISystem.LoadUIOK())
                 {
+                    //OnPreLoadBGM();//加载背景音乐
+                    m_bFileSystemInit = false;
+                    WorldManager.Instance().ProMsgToState((int)MsgID.MSG_MSG_GOTOLOGIN);
                 }
             }
+        }
+        //----------------------------------------------------------------------------
+        private void OnPreLoadBGM()
+        {
+            AssetsManager m_maniAsset = WorldManager.Instance().GetLayer<AssetLayer>().GetManager();
+            m_maniAsset.LoadAssetRes<string, Object>("RAB_bgm_opening", OnLoadCallBack);
+        }
+        //----------------------------------------------------------------------------
+        private void OnLoadCallBack(string strAssetID, Object obj)
+        {
+
         }
         //----------------------------------------------------------------------------
         private void FileSystemOK()

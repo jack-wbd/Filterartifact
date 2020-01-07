@@ -171,6 +171,14 @@ namespace Filterartifact
             return t;
         }
         //----------------------------------------------------------------------------
+        public void ProMsgToState(int msgId)
+        {
+            if (ReferenceEquals(m_gameStateMain,null))
+            {
+                return;
+            }
+            m_gameStateMain.ProcessMsg(msgId);
+        }
         //----------------------------------------------------------------------------
     }
 }
