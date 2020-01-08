@@ -47,6 +47,7 @@ namespace Filterartifact
             base.Initialize();
             m_gameInitPreLoadRes = new List<string>();
             m_dicResourseList = new Dictionary<string, sAssetInfo>();
+            m_dictResourseList_1 = new Dictionary<string, List<string>>();
             return true;
         }
         //----------------------------------------------------------------------------
