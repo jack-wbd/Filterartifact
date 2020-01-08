@@ -10,4 +10,7 @@
 		<Bundle id="picture4" preload="0" file="ui/switchpic/picture4.unity3d" name=""/>
 		<Bundle id="picture5" preload="0" file="ui/switchpic/picture5.unity3d" name=""/>
 	</uitexture>
+	<ui>
+	    <Bundle id="RUP_Login" preload="1" EnvirUse="login" file="ui/prefab/ui_login.unity3d" name=""/>
+	</ui>
 </Resourselist>

@@ -61,6 +61,8 @@ namespace Filterartifact
         public static int CurAssetCount = 0;
         public static int MaxAssetCount = 0;
         private Dictionary<string, int> m_dictUseCount;
+        private List<string> m_listOtherUIRes = null;
+        private List<string> m_listUnload;
         //----------------------------------------------------------------------------
         public struct sUI
         {
@@ -72,6 +74,8 @@ namespace Filterartifact
         {
             Messenger.AddListener(DgMsgID.DgMsg_ActiveLoadUI, OnActiveLoadUI);
             m_listUIRes = new List<string>();
+            m_listOtherUIRes = new List<string>();
+            m_listUnload = new List<string>();
             m_sys = this;
             return true;
         }
@@ -94,7 +98,60 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void PreLoadUIByUseType(eUseEnvir eUse)
         {
+            m_listUIRes.Clear();
+            UIController ctrlTemp = null;
+            foreach (var item in m_dictAllUICtrl)
+            {
+                if (item.Value.eEnvirUse == eUse && item.Value.bReload)
+                {
+                    ctrlTemp = item.Value.uiCtrl;
+                    m_listPreLoadEnvir.Add(ctrlTemp);
+                    ctrlTemp.StageLoadViewer();
+                }
+            }
+            for (int i = 0; i < m_listOtherUIRes.Count; i++)
+            {
+                if (m_dictAllUICtrl.ContainsKey(m_listOtherUIRes[i]))
+                {
+                    ctrlTemp = m_dictAllUICtrl[m_listOtherUIRes[i]].uiCtrl;
+                    m_listPreLoadEnvir.Add(ctrlTemp);
+                    ctrlTemp.StageLoadViewer();
+                }
+            }
+            m_listOtherUIRes.Clear();
+            m_nTotalCount = m_listUIRes.Count;
+            MaxAssetCount = m_nTotalCount;
+            CurAssetCount = 0;
 
+
+        }
+        //----------------------------------------------------------------------------
+        private void CheckNoUseAtlas()
+        {
+            m_listUnload.Clear();
+
+            foreach (var item in m_dictUseCount)
+            {
+                if (item.Value <= 0)
+                {
+                    m_listUnload.Add(item.Key);
+                }
+            }
+
+            foreach (var strAsset in m_listUnload)
+            {
+                m_dictUseCount.Remove(strAsset);
+                UnLoadUIAsset(strAsset);
+            }
+
+        }
+        //----------------------------------------------------------------------------
+        private void UnLoadUIAsset(string strAssetID)
+        {
+            if (assetManager!=null)
+            {
+                assetManager.TobeDelAsset(strAssetID);
+            }
         }
         //----------------------------------------------------------------------------
         public void Finalized()
@@ -122,11 +179,6 @@ namespace Filterartifact
                     CheckFinish();
                 }
             }
-
-        }
-        //----------------------------------------------------------------------------
-        public void AddPreLoadAsset(string strAssetID)
-        {
 
         }
         //----------------------------------------------------------------------------

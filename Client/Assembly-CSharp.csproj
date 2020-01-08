@@ -110,6 +110,8 @@
     <Compile Include="Assets\Scripts\Message\DelegateMsg\Messenger.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\DelegateMsgID.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\MsgID.cs" />
+    <Compile Include="Assets\Scripts\UI\Login\UILogin.cs" />
+    <Compile Include="Assets\Scripts\UI\Login\UILoginCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\ScreenUnit.cs" />
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />

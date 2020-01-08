@@ -204,6 +204,10 @@ namespace Filterartifact
            m_dictToBeDelAsset.Remove(strAssetID);
         }
         //----------------------------------------------------------------------------
+        public void TobeDelAsset(string strAsset)
+        {
+            m_dictToBeDelAsset[strAsset] = 0;
+        }
         //----------------------------------------------------------------------------
     }
 }

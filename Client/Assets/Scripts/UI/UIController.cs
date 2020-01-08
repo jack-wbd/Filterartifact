@@ -128,6 +128,23 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public virtual void StageLoadViewer()
+        {
+            m_uiSystem.AddPreLoadAsset(strAssetID);
+            ResourceListData data = FileSystem.Instance().GetResData();
+            sAssetInfo info = sAssetInfo.zero;
+            data.GetAssetBundleInfo(strAssetID, ref info);
+            if (info.childListAssetID != null && info.childListAssetID.Count > 0)
+            {
+                int nTotalCount = info.childListAssetID.Count;
+                for (int i = 0; i < nTotalCount; i++)
+                {
+                    m_uiSystem.AddPreLoadAsset(info.childListAssetID[i]);
+                    m_uiSystem.AddUseAtlas(info.childListAssetID[i]);
+                }
+            }
+            m_bHasAddAtlas = true;
+        }
         //----------------------------------------------------------------------------
     }
 }

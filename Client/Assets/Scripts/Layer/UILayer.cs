@@ -40,17 +40,19 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private UISystem m_uiSystem;
         private Dictionary<string, string> m_assetClassMap;
+
         //----------------------------------------------------------------------------
         public override bool Initialize()
         {
             m_assetClassMap = new Dictionary<string, string>();
+
             CreateUISystem();
             return true;
         }
         //----------------------------------------------------------------------------
         public void RegisterUIControl()
         {
-
+            Register<UILoginCtrl, UILogin>("RUP_Login", this);
         }
         //----------------------------------------------------------------------------
         public TCtrl Register<TCtrl, TBase>(string strAssetID, IMsgPipe pipe, bool bLocal = true, eUIImpower _impower = eUIImpower.Default)
