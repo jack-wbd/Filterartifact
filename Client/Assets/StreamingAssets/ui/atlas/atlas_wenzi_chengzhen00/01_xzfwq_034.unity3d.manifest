@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 3600431361
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: c7b3b907759b1dc004354db7754397d5
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/atlas_wenzi_chengzhen00/01_xzfwq_034.png
+Dependencies: []

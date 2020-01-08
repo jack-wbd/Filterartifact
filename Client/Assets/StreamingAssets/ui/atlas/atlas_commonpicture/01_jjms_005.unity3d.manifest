@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 558760227
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: e3dab48174ba49c81ce9872f3ed9a4ba
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/atlas_commonpicture/01_jjms_005.png
+Dependencies: []

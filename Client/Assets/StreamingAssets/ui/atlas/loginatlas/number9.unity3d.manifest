@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 4135215655
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: be88f816b5f0ddcf96b605a41f0b411d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/loginatlas/number9.png
+Dependencies: []

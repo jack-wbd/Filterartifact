@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 551835686
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 269ce115b2e24a647fde8a6ebfec254f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/loginatlas/01_wjzs_002_013_035.png
+Dependencies: []

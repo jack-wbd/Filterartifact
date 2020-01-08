@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 3435087274
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: ee1ac1fd7fc1bf198fb80dec23d4510d
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/atlas_commonpicture/01_dl_04417.png
+Dependencies: []

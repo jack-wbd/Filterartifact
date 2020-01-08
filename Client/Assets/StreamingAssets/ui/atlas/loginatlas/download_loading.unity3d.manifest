@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 946263086
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 23a57f384705d343012ac3c6e33e6b50
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/loginatlas/Download_loading.png
+Dependencies: []

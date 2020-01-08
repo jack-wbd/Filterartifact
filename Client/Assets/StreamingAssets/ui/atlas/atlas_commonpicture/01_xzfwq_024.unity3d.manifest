@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 857691938
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4dfe09a5c4464ac838958b5888b7de05
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/atlas_commonpicture/01_xzfwq_024.png
+Dependencies: []

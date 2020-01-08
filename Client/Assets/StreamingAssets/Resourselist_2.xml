@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Resourselist>
+  <uideps>
+    <Bundle id="ui_empty_root.prefab" />
+    <Bundle id="ui_login.prefab">
+      <Bundle id="Background" />
+      <Bundle id="heidi" />
+      <Bundle id="01_dl_04417" />
+      <Bundle id="logo001" />
+      <Bundle id="01_wjzs_001_005" />
+    </Bundle>
+  </uideps>
+</Resourselist>
