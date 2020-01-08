@@ -73,6 +73,7 @@ namespace Filterartifact
         public bool Initialize()
         {
             Messenger.AddListener(DgMsgID.DgMsg_ActiveLoadUI, OnActiveLoadUI);
+            Messenger.AddListener<eUseEnvir>(DgMsgID.DgMsg_PreLoadUI, OnPreLoadUI);
             m_listUIRes = new List<string>();
             m_listOtherUIRes = new List<string>();
             m_listUnload = new List<string>();
@@ -94,6 +95,11 @@ namespace Filterartifact
 
             m_listUIRes.Add(strAssetID);
 
+        }
+        //----------------------------------------------------------------------------
+        private void OnPreLoadUI(eUseEnvir eUse)
+        {
+            PreLoadUIByUseType(eUse);
         }
         //----------------------------------------------------------------------------
         public void PreLoadUIByUseType(eUseEnvir eUse)
@@ -157,6 +163,7 @@ namespace Filterartifact
         public void Finalized()
         {
             Messenger.RemoveListener(DgMsgID.DgMsg_ActiveLoadUI, OnActiveLoadUI);
+            Messenger.RemoveListener<eUseEnvir>(DgMsgID.DgMsg_PreLoadUI, OnPreLoadUI);
         }
         //----------------------------------------------------------------------------
         public GameObject GetUIRoot()
