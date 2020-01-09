@@ -79,6 +79,8 @@ namespace Filterartifact
                 }
                 bundle.Unload(false);
                 depsAb.Unload(false);
+                bundle = null;
+                depsAb = null;
             }
             GoToRun();
         }

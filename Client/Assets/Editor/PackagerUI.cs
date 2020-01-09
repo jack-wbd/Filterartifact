@@ -151,6 +151,11 @@ class PackagerUI
             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(m_obj));
             m_obj = null;
         }
+
+        depsAb.Unload(false);
+        manifest = null;
+        depsAb = null;
+
         Debug.LogError("打包完成");
     }
     //----------------------------------------------------------------------------
