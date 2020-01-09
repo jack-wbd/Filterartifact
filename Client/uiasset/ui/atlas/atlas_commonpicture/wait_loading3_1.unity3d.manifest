@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 1984952257
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 9db911dab4916ee82877f2d2d13bf30b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/atlas_commonpicture/wait_loading3_1.png
+Dependencies: []

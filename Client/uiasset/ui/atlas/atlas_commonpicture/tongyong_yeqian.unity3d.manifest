@@ -1,0 +1,18 @@
+ManifestFileVersion: 0
+CRC: 827748860
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: a4120c4212a03aae7b6d75af32b1b30c
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/atlas_commonpicture/tongyong_yeqian.png
+Dependencies: []

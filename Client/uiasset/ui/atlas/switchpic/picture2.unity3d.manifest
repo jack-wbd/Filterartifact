@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 220265700
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: abdfdfde42cf62da62ae41c1cb90af1e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: f19fbf085e00d23fbc8d6cf7b345590b
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/switchpic/picture2.png
+Dependencies: []

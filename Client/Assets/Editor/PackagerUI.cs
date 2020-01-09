@@ -57,15 +57,18 @@ class PackagerUI
     //----------------------------------------------------------------------------
     public static void CreateAssetBundleAll(BuildTarget target)
     {
+        if (Directory.Exists(m_assetPath))
+        {
+            FileUtils.DeleteDir(m_assetPath);
+        }
+
+        if (Directory.Exists(ExportPath))
+        {
+            FileUtils.DeleteDir(ExportPath);
+        }
 
         m_bIsProjectBundle = true;
-        //var path = "Assets/ToExport";
-        //var copyPath = Application.dataPath + "/../CopyToExport";
-        //if (Directory.Exists(copyPath))
-        //    FileUtils.DeleteDir(copyPath);
-        //FileUtils.CopyFolder(path, copyPath, true);
         PackageAssetBundle(null, target);
-        //FileUtils.CopyFolder(copyPath, path, true);
 
     }
     //----------------------------------------------------------------------------
@@ -132,16 +135,8 @@ class PackagerUI
 
         CreateAssetBundle(target);
 
-        if (Directory.Exists(m_assetPath))
-        {
-            FileUtils.DeleteDir(m_assetPath);
-        }
         FileUtils.CopyFolder(ExportPath, m_assetPath, true);
         WriteLabelMissingFile();
-        if (Directory.Exists(ExportPath))
-        {
-            FileUtils.DeleteDir(ExportPath);
-        }
         if (m_bIsProjectBundle)
         {
             for (int i = 0; i < fileNameList.Count; i++)
