@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3035683332
+CRC: 4167634735
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2bea26aea90a34e6596741d4eaf1a3f2
+    Hash: fbd110a9f29faf3e748971570cd823d6
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9a3df7f28d6aa52b86b9f646a36b4db9
@@ -52,9 +52,4 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_root.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas/dljm_logo.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas/download_loading.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas/igslogo.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas/xsyd_d2.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas/xsyd_d3.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas/xsyd_d4.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d

@@ -136,6 +136,7 @@ class PackagerUI
         CreateAssetBundle(target);
 
         FileUtils.CopyFolder(ExportPath, m_assetPath, true);
+
         WriteLabelMissingFile();
         if (m_bIsProjectBundle)
         {
@@ -171,6 +172,8 @@ class PackagerUI
         write.Flush();
         write.Close();
         file.Close();
+        write.Dispose();
+        file.Dispose();
         m_missingFont.Clear();
     }
     //----------------------------------------------------------------------------
@@ -216,6 +219,7 @@ class PackagerUI
         xml.Save(sw);
         sw.WriteLine();
         sw.Close();
+        sw.Dispose();
     }
     //----------------------------------------------------------------------------
     public static void CreateAssetBundle(BuildTarget target)
@@ -240,6 +244,7 @@ class PackagerUI
         }
 
     }
+    static string atlasStr = "ui/atlas";
     //----------------------------------------------------------------------------
     static void SetAssetBundleGroup(FileSystemInfo systemInfo, string strTempPath)
     {
@@ -271,6 +276,10 @@ class PackagerUI
             {
                 string fileRelativePath = path.Substring(Application.dataPath.Replace("Assets", "").Length);//Asset开头的相对路径
                 string bundleName = relativePath.Substring(0, relativePath.LastIndexOf("."));
+                if (fileRelativePath.Contains(atlasStr))
+                {
+                    bundleName = bundleName.Substring(0, bundleName.LastIndexOf("/"));
+                }
                 BuildGroup(bundleName, new string[] { fileRelativePath });
                 if (fileRelativePath.Contains("ui/prefab/") && !fileRelativePath.Contains("ui_empty_root"))
                 {

@@ -75,16 +75,19 @@ namespace Filterartifact
             {
                 m_bwData.Flush();
                 m_bwData.Close();
+                m_bwData.Dispose();
                 m_bwData = null;
             }
             if (m_brData != null)
             {
                 m_brData.Close();
+                m_brData.Dispose();
                 m_brData = null;
             }
             if (m_fsFile != null)
             {
                 m_fsFile.Close();
+                m_fsFile.Dispose();
                 m_fsFile = null;
             }
         }

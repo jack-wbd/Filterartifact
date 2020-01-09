@@ -1,0 +1,28 @@
+ManifestFileVersion: 0
+CRC: 583766715
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 01b9c4f8a449408950394882c22bf44b
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/chengzhen00atlas/dian019.png
+- Assets/Data/ui/atlas/chengzhen00atlas/denglu_1.png
+- Assets/Data/ui/atlas/chengzhen00atlas/01_xzfwq_034.png
+- Assets/Data/ui/atlas/chengzhen00atlas/01_wjzs_002_013_004.png
+- Assets/Data/ui/atlas/chengzhen00atlas/01_wjzs_001_005.png
+- Assets/Data/ui/atlas/chengzhen00atlas/tuijiantu.png
+- Assets/Data/ui/atlas/chengzhen00atlas/jiaobiao_tuijian.png
+- Assets/Data/ui/atlas/chengzhen00atlas/logo001.png
+- Assets/Data/ui/atlas/chengzhen00atlas/logo002.png
+- Assets/Data/ui/atlas/chengzhen00atlas/01_xzfwq_035.png
+- Assets/Data/ui/atlas/chengzhen00atlas/01_xzfwq_036.png
+Dependencies: []

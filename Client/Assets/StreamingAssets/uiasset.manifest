@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2275629615
+CRC: 1382317534
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,297 +9,38 @@ AssetBundleManifest:
       Name: data/common/resourselist.unity3d
       Dependencies: {}
     Info_2:
-      Name: ui/atlas/atlas_commonpicture/01_dl_04417.unity3d
-      Dependencies: {}
-    Info_3:
-      Name: ui/atlas/atlas_commonpicture/01_gmyb_078_001.unity3d
-      Dependencies: {}
-    Info_4:
-      Name: ui/atlas/atlas_commonpicture/01_jjms_005.unity3d
-      Dependencies: {}
-    Info_5:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_001_003.unity3d
-      Dependencies: {}
-    Info_6:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_001_004.unity3d
-      Dependencies: {}
-    Info_7:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_001_006.unity3d
-      Dependencies: {}
-    Info_8:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_001_007.unity3d
-      Dependencies: {}
-    Info_9:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_001_008.unity3d
-      Dependencies: {}
-    Info_10:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_001_010_003.unity3d
-      Dependencies: {}
-    Info_11:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_001_010_004.unity3d
-      Dependencies: {}
-    Info_12:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_002_013_033.unity3d
-      Dependencies: {}
-    Info_13:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_002_013_034.unity3d
-      Dependencies: {}
-    Info_14:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_010.unity3d
-      Dependencies: {}
-    Info_15:
-      Name: ui/atlas/atlas_commonpicture/01_wjzs_091.unity3d
-      Dependencies: {}
-    Info_16:
-      Name: ui/atlas/atlas_commonpicture/01_xzfwq_023.unity3d
-      Dependencies: {}
-    Info_17:
-      Name: ui/atlas/atlas_commonpicture/01_xzfwq_024.unity3d
-      Dependencies: {}
-    Info_18:
-      Name: ui/atlas/atlas_commonpicture/01_xzfwq_026.unity3d
-      Dependencies: {}
-    Info_19:
-      Name: ui/atlas/atlas_commonpicture/01_xzfwq_027.unity3d
-      Dependencies: {}
-    Info_20:
-      Name: ui/atlas/atlas_commonpicture/01_xzfwq_029.unity3d
-      Dependencies: {}
-    Info_21:
-      Name: ui/atlas/atlas_commonpicture/01_xzfwq_030.unity3d
-      Dependencies: {}
-    Info_22:
-      Name: ui/atlas/atlas_commonpicture/01_xzfwq_031.unity3d
-      Dependencies: {}
-    Info_23:
-      Name: ui/atlas/atlas_commonpicture/01_zj_xue2tiaodiban.unity3d
-      Dependencies: {}
-    Info_24:
-      Name: ui/atlas/atlas_commonpicture/baidian.unity3d
-      Dependencies: {}
-    Info_25:
-      Name: ui/atlas/atlas_commonpicture/cz_botton_di.unity3d
-      Dependencies: {}
-    Info_26:
-      Name: ui/atlas/atlas_commonpicture/dian007.unity3d
-      Dependencies: {}
-    Info_27:
-      Name: ui/atlas/atlas_commonpicture/dian008.unity3d
-      Dependencies: {}
-    Info_28:
-      Name: ui/atlas/atlas_commonpicture/dian009.unity3d
-      Dependencies: {}
-    Info_29:
-      Name: ui/atlas/atlas_commonpicture/dian016.unity3d
-      Dependencies: {}
-    Info_30:
-      Name: ui/atlas/atlas_commonpicture/dian017.unity3d
-      Dependencies: {}
-    Info_31:
-      Name: ui/atlas/atlas_commonpicture/dian018.unity3d
-      Dependencies: {}
-    Info_32:
-      Name: ui/atlas/atlas_commonpicture/download_loading.unity3d
-      Dependencies: {}
-    Info_33:
-      Name: ui/atlas/atlas_commonpicture/download_loading1.unity3d
-      Dependencies: {}
-    Info_34:
-      Name: ui/atlas/atlas_commonpicture/download_loading4.unity3d
-      Dependencies: {}
-    Info_35:
-      Name: ui/atlas/atlas_commonpicture/haiwai001.unity3d
-      Dependencies: {}
-    Info_36:
-      Name: ui/atlas/atlas_commonpicture/haiwai002.unity3d
-      Dependencies: {}
-    Info_37:
-      Name: ui/atlas/atlas_commonpicture/haiwai003.unity3d
-      Dependencies: {}
-    Info_38:
-      Name: ui/atlas/atlas_commonpicture/haiwai004.unity3d
-      Dependencies: {}
-    Info_39:
-      Name: ui/atlas/atlas_commonpicture/haiwai005.unity3d
-      Dependencies: {}
-    Info_40:
-      Name: ui/atlas/atlas_commonpicture/haiwai006.unity3d
-      Dependencies: {}
-    Info_41:
-      Name: ui/atlas/atlas_commonpicture/haiwai007.unity3d
-      Dependencies: {}
-    Info_42:
-      Name: ui/atlas/atlas_commonpicture/heidi.unity3d
-      Dependencies: {}
-    Info_43:
-      Name: ui/atlas/atlas_commonpicture/jj_paihang_01.unity3d
-      Dependencies: {}
-    Info_44:
-      Name: ui/atlas/atlas_commonpicture/tongyong_yeqian.unity3d
-      Dependencies: {}
-    Info_45:
-      Name: ui/atlas/atlas_commonpicture/tongyong_yeqian1.unity3d
-      Dependencies: {}
-    Info_46:
-      Name: ui/atlas/atlas_commonpicture/tongyong_yeqian2.unity3d
-      Dependencies: {}
-    Info_47:
-      Name: ui/atlas/atlas_commonpicture/wait_loading3_1.unity3d
-      Dependencies: {}
-    Info_48:
-      Name: ui/atlas/atlas_commonpicture/wait_loading3_di.unity3d
-      Dependencies: {}
-    Info_49:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/01_wjzs_001_005.unity3d
-      Dependencies: {}
-    Info_50:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/01_wjzs_002_013_004.unity3d
-      Dependencies: {}
-    Info_51:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/01_xzfwq_034.unity3d
-      Dependencies: {}
-    Info_52:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/01_xzfwq_035.unity3d
-      Dependencies: {}
-    Info_53:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/01_xzfwq_036.unity3d
-      Dependencies: {}
-    Info_54:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/denglu_1.unity3d
-      Dependencies: {}
-    Info_55:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/dian019.unity3d
-      Dependencies: {}
-    Info_56:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/jiaobiao_tuijian.unity3d
-      Dependencies: {}
-    Info_57:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/logo001.unity3d
-      Dependencies: {}
-    Info_58:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/logo002.unity3d
-      Dependencies: {}
-    Info_59:
-      Name: ui/atlas/atlas_wenzi_chengzhen00/tuijiantu.unity3d
-      Dependencies: {}
-    Info_60:
-      Name: ui/atlas/loginatlas/01_wjzs_001_002_001.unity3d
-      Dependencies: {}
-    Info_61:
-      Name: ui/atlas/loginatlas/01_wjzs_001_004.unity3d
-      Dependencies: {}
-    Info_62:
-      Name: ui/atlas/loginatlas/01_wjzs_002_013_001.unity3d
-      Dependencies: {}
-    Info_63:
-      Name: ui/atlas/loginatlas/01_wjzs_002_013_002.unity3d
-      Dependencies: {}
-    Info_64:
-      Name: ui/atlas/loginatlas/01_wjzs_002_013_032.unity3d
-      Dependencies: {}
-    Info_65:
-      Name: ui/atlas/loginatlas/01_wjzs_002_013_033.unity3d
-      Dependencies: {}
-    Info_66:
-      Name: ui/atlas/loginatlas/01_wjzs_002_013_034.unity3d
-      Dependencies: {}
-    Info_67:
-      Name: ui/atlas/loginatlas/01_wjzs_002_013_035.unity3d
-      Dependencies: {}
-    Info_68:
-      Name: ui/atlas/loginatlas/01_wjzs_002_023_001.unity3d
-      Dependencies: {}
-    Info_69:
-      Name: ui/atlas/loginatlas/aodikuang.unity3d
-      Dependencies: {}
-    Info_70:
-      Name: ui/atlas/loginatlas/dljm_logo.unity3d
-      Dependencies: {}
-    Info_71:
-      Name: ui/atlas/loginatlas/download_loading.unity3d
-      Dependencies: {}
-    Info_72:
-      Name: ui/atlas/loginatlas/igslogo.unity3d
-      Dependencies: {}
-    Info_73:
-      Name: ui/atlas/loginatlas/loading_di.unity3d
-      Dependencies: {}
-    Info_74:
-      Name: ui/atlas/loginatlas/loading_di2.unity3d
-      Dependencies: {}
-    Info_75:
-      Name: ui/atlas/loginatlas/logo_baidi.unity3d
-      Dependencies: {}
-    Info_76:
-      Name: ui/atlas/loginatlas/number0.unity3d
-      Dependencies: {}
-    Info_77:
-      Name: ui/atlas/loginatlas/number1.unity3d
-      Dependencies: {}
-    Info_78:
-      Name: ui/atlas/loginatlas/number2.unity3d
-      Dependencies: {}
-    Info_79:
-      Name: ui/atlas/loginatlas/number3.unity3d
-      Dependencies: {}
-    Info_80:
-      Name: ui/atlas/loginatlas/number4.unity3d
-      Dependencies: {}
-    Info_81:
-      Name: ui/atlas/loginatlas/number5.unity3d
-      Dependencies: {}
-    Info_82:
-      Name: ui/atlas/loginatlas/number6.unity3d
-      Dependencies: {}
-    Info_83:
-      Name: ui/atlas/loginatlas/number7.unity3d
-      Dependencies: {}
-    Info_84:
-      Name: ui/atlas/loginatlas/number8.unity3d
-      Dependencies: {}
-    Info_85:
-      Name: ui/atlas/loginatlas/number9.unity3d
-      Dependencies: {}
-    Info_86:
-      Name: ui/atlas/loginatlas/xsyd_d2.unity3d
-      Dependencies: {}
-    Info_87:
-      Name: ui/atlas/loginatlas/xsyd_d3.unity3d
-      Dependencies: {}
-    Info_88:
-      Name: ui/atlas/loginatlas/xsyd_d4.unity3d
-      Dependencies: {}
-    Info_89:
-      Name: ui/atlas/switchpic/picture1.unity3d
-      Dependencies: {}
-    Info_90:
-      Name: ui/atlas/switchpic/picture2.unity3d
-      Dependencies: {}
-    Info_91:
-      Name: ui/atlas/switchpic/picture3.unity3d
-      Dependencies: {}
-    Info_92:
-      Name: ui/atlas/switchpic/picture4.unity3d
-      Dependencies: {}
-    Info_93:
-      Name: ui/atlas/switchpic/picture5.unity3d
-      Dependencies: {}
-    Info_94:
       Name: ui/prefab/ui_empty_root.unity3d
       Dependencies: {}
-    Info_95:
+    Info_3:
       Name: ui/prefab/ui_login.unity3d
       Dependencies:
-        Dependency_0: ui/atlas/atlas_commonpicture/01_dl_04417.unity3d
-        Dependency_1: ui/atlas/atlas_commonpicture/heidi.unity3d
-        Dependency_2: ui/atlas/atlas_wenzi_chengzhen00/01_wjzs_001_005.unity3d
-        Dependency_3: ui/atlas/atlas_wenzi_chengzhen00/logo001.unity3d
-    Info_96:
+        Dependency_0: ui/atlas/chengzhen00atlas.unity3d
+        Dependency_1: ui/atlas/commonpictureatlas.unity3d
+    Info_4:
       Name: ui/prefab/ui_root.unity3d
       Dependencies:
-        Dependency_0: ui/atlas/loginatlas/dljm_logo.unity3d
-        Dependency_1: ui/atlas/loginatlas/download_loading.unity3d
-        Dependency_2: ui/atlas/loginatlas/igslogo.unity3d
-        Dependency_3: ui/atlas/loginatlas/xsyd_d2.unity3d
-        Dependency_4: ui/atlas/loginatlas/xsyd_d3.unity3d
-        Dependency_5: ui/atlas/loginatlas/xsyd_d4.unity3d
+        Dependency_0: ui/atlas/loginatlas.unity3d
+    Info_5:
+      Name: ui/atlas/chengzhen00atlas.unity3d
+      Dependencies: {}
+    Info_6:
+      Name: ui/atlas/commonpictureatlas.unity3d
+      Dependencies: {}
+    Info_7:
+      Name: ui/atlas/loginatlas.unity3d
+      Dependencies: {}
+    Info_8:
+      Name: ui/picture/switchpic/picture1.unity3d
+      Dependencies: {}
+    Info_9:
+      Name: ui/picture/switchpic/picture2.unity3d
+      Dependencies: {}
+    Info_10:
+      Name: ui/picture/switchpic/picture3.unity3d
+      Dependencies: {}
+    Info_11:
+      Name: ui/picture/switchpic/picture4.unity3d
+      Dependencies: {}
+    Info_12:
+      Name: ui/picture/switchpic/picture5.unity3d
+      Dependencies: {}
