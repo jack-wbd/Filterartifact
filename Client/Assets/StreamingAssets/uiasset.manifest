@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 209492778
+CRC: 2994435289
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -289,7 +289,11 @@ AssetBundleManifest:
       Dependencies: {}
     Info_95:
       Name: ui/prefab/ui_login.unity3d
-      Dependencies: {}
+      Dependencies:
+        Dependency_0: ui/atlas/atlas_commonpicture/01_dl_04417.unity3d
+        Dependency_1: ui/atlas/atlas_commonpicture/heidi.unity3d
+        Dependency_2: ui/atlas/atlas_wenzi_chengzhen00/01_wjzs_001_005.unity3d
+        Dependency_3: ui/atlas/atlas_wenzi_chengzhen00/logo001.unity3d
     Info_96:
       Name: ui/prefab/ui_root.unity3d
       Dependencies:

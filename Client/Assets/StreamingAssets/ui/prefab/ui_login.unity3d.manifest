@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 387559512
+CRC: 833277363
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 6a2f67632fea3cf85ff6bf968bf08f5f
+    Hash: 959d99762675fb061b78e3bba4f8444b
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3f3c2767f4ae76718c907e3de606c5e2
+    Hash: 9c3fc8254416132c305015ece7e3afb2
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -20,10 +20,14 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
+  Script: {instanceID: 0}
+- Class: 213
   Script: {instanceID: 0}
 - Class: 222
   Script: {instanceID: 0}
@@ -31,4 +35,8 @@ ClassTypes:
   Script: {instanceID: 0}
 Assets:
 - Assets/Data/ui/prefab/ui_login.prefab
-Dependencies: []
+Dependencies:
+- D:/Filterartifact/Client/uiasset/ui/atlas/atlas_commonpicture/01_dl_04417.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/atlas_commonpicture/heidi.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/atlas_wenzi_chengzhen00/01_wjzs_001_005.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/atlas_wenzi_chengzhen00/logo001.unity3d

@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Resourselist>
   <uideps>
-    <Bundle id="ui_empty_root.prefab" />
-    <Bundle id="ui_login.prefab" />
+    <Bundle id="ui_login.prefab">
+      <Bundle id="ui/atlas/atlas_commonpicture/01_dl_04417.unity3d" />
+      <Bundle id="ui/atlas/atlas_commonpicture/heidi.unity3d" />
+      <Bundle id="ui/atlas/atlas_wenzi_chengzhen00/01_wjzs_001_005.unity3d" />
+      <Bundle id="ui/atlas/atlas_wenzi_chengzhen00/logo001.unity3d" />
+    </Bundle>
+    <Bundle id="ui_root.prefab">
+      <Bundle id="ui/atlas/loginatlas/dljm_logo.unity3d" />
+      <Bundle id="ui/atlas/loginatlas/download_loading.unity3d" />
+      <Bundle id="ui/atlas/loginatlas/igslogo.unity3d" />
+      <Bundle id="ui/atlas/loginatlas/xsyd_d2.unity3d" />
+      <Bundle id="ui/atlas/loginatlas/xsyd_d3.unity3d" />
+      <Bundle id="ui/atlas/loginatlas/xsyd_d4.unity3d" />
+    </Bundle>
   </uideps>
 </Resourselist>

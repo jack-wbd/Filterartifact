@@ -129,18 +129,9 @@ class PackagerUI
                 }
             }
         }
+
         CreateAssetBundle(target);
 
-        if (m_bIsProjectBundle)
-        {
-            WriteToResourseList();
-            list_ResourseListXml_UIDeps.Clear();
-        }
-        else if (!m_bIsProjectBundle && m_obj != null)
-        {
-            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(m_obj));
-            m_obj = null;
-        }
         if (Directory.Exists(m_assetPath))
         {
             FileUtils.DeleteDir(m_assetPath);
@@ -150,6 +141,20 @@ class PackagerUI
         if (Directory.Exists(ExportPath))
         {
             FileUtils.DeleteDir(ExportPath);
+        }
+        if (m_bIsProjectBundle)
+        {
+            for (int i = 0; i < fileNameList.Count; i++)
+            {
+                GetUIDependecise(fileNameList[i], fileNameListPath[i]);
+            }
+            WriteToResourseList();
+            list_ResourseListXml_UIDeps.Clear();
+        }
+        else if (!m_bIsProjectBundle && m_obj != null)
+        {
+            AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(m_obj));
+            m_obj = null;
         }
         Debug.LogError("打包完成");
     }
@@ -171,7 +176,7 @@ class PackagerUI
     //----------------------------------------------------------------------------
     static void WriteToResourseList()
     {
-        string xmlPath = ExportPath + "/" + "Resourselist_2.xml";
+        string xmlPath = m_assetPath + "/" + "Resourselist_2.xml";
         if (File.Exists(xmlPath))
         {
             File.Delete(xmlPath);
@@ -219,11 +224,15 @@ class PackagerUI
         BuildPipeline.BuildAssetBundles(ExportPath, buildList.ToArray(), options, target);
         AssetDatabase.Refresh();
     }
+    static List<string> fileNameList = new List<string>();
+    static List<string> fileNameListPath = new List<string>();
     //----------------------------------------------------------------------------
     static void GetFileSystemInfos(string path, string tempConfiguration)
     {
         DirectoryInfo folder = new DirectoryInfo(path);
         FileSystemInfo[] fileInfos = folder.GetFileSystemInfos();
+        fileNameList.Clear();
+        fileNameListPath.Clear();
         for (int i = 0; i < fileInfos.Length; i++)
         {
             string path0 = fileInfos[i].FullName.Replace("\\", "/");
@@ -263,7 +272,14 @@ class PackagerUI
                 string fileRelativePath = path.Substring(Application.dataPath.Replace("Assets", "").Length);//Asset开头的相对路径
                 string bundleName = relativePath.Substring(0, relativePath.LastIndexOf("."));
                 BuildGroup(bundleName, new string[] { fileRelativePath });
-                GetUIDependecise(fileName, fileRelativePath);
+                if (fileRelativePath.Contains("ui/prefab/") && !fileRelativePath.Contains("ui_empty_root"))
+                {
+                    fileNameList.Add(fileName);
+                    char[] cha = { 'u', 'i' };
+                    fileRelativePath = fileRelativePath.Substring(fileRelativePath.IndexOfAny(cha));//ui开头的相对路径
+                    fileRelativePath = fileRelativePath.Substring(0, fileRelativePath.LastIndexOf(".")) + m_ExtName;
+                    fileNameListPath.Add(fileRelativePath);
+                }
             }
         }
         else//文件夹
@@ -304,63 +320,31 @@ class PackagerUI
         buildList.Add(build);
     }
     //----------------------------------------------------------------------------
+    static string depsPath = Application.streamingAssetsPath + "/uiasset";
+    static AssetBundle depsAb = null;
+    static AssetBundleManifest manifest = null;
+    //----------------------------------------------------------------------------
     static void GetUIDependecise(string fileName, string fileRelativePath)
     {
-        if (fileRelativePath.Contains("/ui/prefab/") && !fileRelativePath.Contains("ui_root"))
+        if (depsAb == null)
         {
-            Object tempObj = AssetDatabase.LoadAssetAtPath<Object>(fileRelativePath);
-            if (tempObj != null)
+            depsAb = AssetBundle.LoadFromFile(depsPath);
+        }
+        if (manifest == null)
+        {
+            manifest = depsAb.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
+        }
+        string[] deps = manifest.GetAllDependencies(fileRelativePath);
+        List<string> depsList = new List<string>();
+        for (int i = 0; i < deps.Length; i++)
+        {
+            depsList.Add(deps[i]);
+        }
+        if (list_ResourseListXml_UIDeps != null)
+        {
+            if (!list_ResourseListXml_UIDeps.ContainsKey(fileName))
             {
-                List<string> depslist = new List<string>();
-                GameObject objSource = (GameObject)PrefabUtility.InstantiatePrefab(tempObj);
-                Image[] arrSpr = objSource.GetComponentsInChildren<Image>(true);
-                ParticleSystem[] arrPart = objSource.GetComponentsInChildren<ParticleSystem>(true);
-                for (int i = 0; i < arrSpr.Length; i++)
-                {
-                    Object.DestroyImmediate(arrSpr[i]);
-                }
-
-                Component[] arrTemp = null;
-                for (int i = 0; i < arrPart.Length; i++)
-                {
-                    arrTemp = arrPart[i].GetComponents<Component>();
-                    for (int j = 0; j < arrTemp.Length; j++)
-                    {
-                        if (arrTemp[j] == null)
-                        {
-                            Debug.LogError("please delete or check missing script :" + arrPart[i].name);
-                        }
-                    }
-                }
-                if (list_ResourseListXml_UIDeps != null)
-                {
-                    if (!list_ResourseListXml_UIDeps.ContainsKey(fileName))
-                    {
-                        list_ResourseListXml_UIDeps.Add(fileName, depslist);
-                    }
-
-                    AddXmlUIDeps(arrSpr, ref depslist);
-                }
-                if (m_bIsProjectBundle)
-                {
-#pragma warning disable CS0618 // 类型或成员已过时
-                    tempObj = PrefabUtility.ReplacePrefab(objSource, tempObj, ReplacePrefabOptions.ConnectToPrefab);
-#pragma warning restore CS0618 // 类型或成员已过时
-
-                }
-                else
-                {
-#pragma warning disable CS0618 // 类型或成员已过时
-                    tempObj = PrefabUtility.CreatePrefab("Asset/" + objSource.name + ".prefab", objSource);
-#pragma warning restore CS0618 // 类型或成员已过时
-                    m_obj = null;
-                }
-
-                Object.DestroyImmediate(objSource);
-            }
-            else
-            {
-                Debug.LogFormat("No have the path: {0} ", fileRelativePath);
+                list_ResourseListXml_UIDeps.Add(fileName, depsList);
             }
         }
     }
