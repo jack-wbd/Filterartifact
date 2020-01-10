@@ -42,6 +42,8 @@ namespace Filterartifact
         DgUI_ShowUI = 0x10000006,
         DgUI_HideLastUI = 0x10000007,
         DgMsg_PreLoadUI = 0x10000008,
+        DgMsg_RegisterAllUI = 0x10000009,
+        DgMsg_InitAfterMain = 0x10000010,
     }
 }
 

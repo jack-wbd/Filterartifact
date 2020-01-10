@@ -63,11 +63,13 @@ namespace Filterartifact
         private Dictionary<string, int> m_dictUseCount;
         private List<string> m_listOtherUIRes = null;
         private List<string> m_listUnload;
+        private int m_nUIClassIndex;
+        private Transform m_rootAttachTrans;
         //----------------------------------------------------------------------------
         public struct sUI
         {
             public int nAssetID;
-            public UIBase uI;
+            public UIBase ui;
         }
         //----------------------------------------------------------------------------
         public bool Initialize()
@@ -77,6 +79,7 @@ namespace Filterartifact
             m_listUIRes = new List<string>();
             m_listOtherUIRes = new List<string>();
             m_listUnload = new List<string>();
+            m_dictUIClass = new Dictionary<string, sUI>();
             m_sys = this;
             return true;
         }
@@ -132,6 +135,21 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public void Update()
+        {
+           foreach (var element in m_dictUIClass)
+           {
+                if (element.Value.ui.IsShow)
+                {
+                    element.Value.ui.Update();
+                }
+           }
+           foreach (var element in m_dictAllUICtrl)
+           {
+                element.Value.uiCtrl.Update();
+           }
+        }
+        //----------------------------------------------------------------------------
         private void CheckNoUseAtlas()
         {
             m_listUnload.Clear();
@@ -154,7 +172,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void UnLoadUIAsset(string strAssetID)
         {
-            if (assetManager!=null)
+            if (assetManager != null)
             {
                 assetManager.TobeDelAsset(strAssetID);
             }
@@ -234,7 +252,6 @@ namespace Filterartifact
                     Debug.LogWarning("AddUITypeEnvToDict value env not equal origin value!");
                 }
             }
-
         }
         //----------------------------------------------------------------------------
         public static bool LoadUIOK()
@@ -328,6 +345,48 @@ namespace Filterartifact
             {
                 m_dictUseCount.Add(strAtlas, 1);
             }
+        }
+        //----------------------------------------------------------------------------
+        public bool InitializeAferMain()
+        {
+            m_data = FileSystem.Instance().GetResData();
+            InitUIRoot();
+            Messenger.Broadcast(DgMsgID.DgMsg_RegisterAllUI);
+            return true;
+        }
+        //----------------------------------------------------------------------------
+        private void InitUIRoot()
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        public int AddUIClass(string strAssetID, UIBase ui)
+        {
+            if (m_dictUIClass.ContainsKey(strAssetID))
+            {
+                Debug.LogError(string.Format("ui strAssetID:{0} is already exist!", strAssetID));
+                return m_nUIClassIndex;
+            }
+
+            if (ui == null)
+            {
+                Debug.LogError(string.Format("ui strAssetID:{0} UIBase is null!", strAssetID));
+            }
+            ++m_nUIClassIndex;
+            ui.SetUIIndex(m_nUIClassIndex);
+            sUI uiTemp;
+            uiTemp.nAssetID = 0;
+            uiTemp.ui = ui;
+            m_dictUIClass.Add(strAssetID, uiTemp);
+            AddChildUI(ui.GetUIObject().transform);
+            return m_nUIClassIndex;
+        }
+        //----------------------------------------------------------------------------
+        public void AddChildUI(Transform transUI)
+        {
+            transUI.parent = m_rootAttachTrans;
+            transUI.localRotation = Quaternion.identity;
+            transUI.localScale = Vector3.one;
         }
         //----------------------------------------------------------------------------
         AssetsManager assetManager

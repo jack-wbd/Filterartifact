@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 734800831
+CRC: 1581084261
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 60bfed40cc71efe7a526508783fef3d8
+    Hash: fba0da498db4edb2e8ce72f55167b9c5
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9c3fc8254416132c305015ece7e3afb2
@@ -36,5 +36,6 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_login.prefab
 Dependencies:
+- D:/Filterartifact/Client/uiasset/font/gameusefont.unity3d
 - D:/Filterartifact/Client/uiasset/ui/atlas/chengzhen00atlas.unity3d
 - D:/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d

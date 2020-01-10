@@ -121,7 +121,47 @@ namespace Filterartifact
                     InsertResourseList(ref element, EAssetType.eTexture);
                 }
 
-
+                nodeList = node.SelectSingleNode("ui").ChildNodes;
+                nNodeCount = nodeList.Count;
+                for (int i = 0; i < nNodeCount; i++)
+                {
+                    XmlElement element = null;
+                    if (nodeList[i].Name.Equals("Atlas"))
+                    {
+                        XmlNodeList AtlasList = nodeList[i].ChildNodes;
+                        int nAtlasCount = AtlasList.Count;
+                        for (int j = 0; j < nAtlasCount; j++)
+                        {
+                            element = AtlasList[i] as XmlElement;
+                            InsertResourseList(ref element, EAssetType.eAtlas);
+                        }
+                    }
+                    else
+                    {
+                        element = nodeList[i] as XmlElement;
+                        sAssetInfo info = InsertResourseList(ref element);
+                        string strFile = info.strFile;
+                        int indexBegin = strFile.LastIndexOf("/") + 1;
+                        int indexEnd = strFile.LastIndexOf(".");
+                        int Length = indexEnd - indexBegin;
+                        if (Length > 0)
+                        {
+                            string id = strFile.Substring(indexBegin, indexEnd - indexBegin);
+                            if (m_dictResourseList_1 != null && m_dictResourseList_1.ContainsKey(id))
+                            {
+                                List<string> list = m_dictResourseList_1[id];
+                                int nCount = list.Count;
+                                for (int j = 0; j < nCount; j++)
+                                {
+                                    if (m_dicResourseList.ContainsKey(info.strID))
+                                    {
+                                        m_dicResourseList[info.strID].childListAssetID.Add(list[j]);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
 
             }
             return true;

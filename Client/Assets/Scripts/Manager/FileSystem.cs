@@ -118,6 +118,33 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
+        public Dictionary<string, List<string>> GetBundleDepsDict()
+        {
+            return m_bundleDependenciseDict;
+        }
+        //----------------------------------------------------------------------------
+        void InitAssetManifest(string manifestName)
+        {
+            AssetBundle bundleManifest = null;
+            var path = GameUtil.GetDataPath(manifestName);
+            bundleManifest = AssetBundle.LoadFromFile(path);
+            if (bundleManifest != null)
+            {
+                AssetBundleManifest manifest = bundleManifest.LoadAsset("AssetBundleManifest") as AssetBundleManifest;
+                string[] assetBundles = manifest.GetAllAssetBundles();
+                for (int i = 0; i < assetBundles.Length; i++)
+                {
+                    string[] tempDependencise = manifest.GetAllDependencies(assetBundles[i]);
+                    List<string> dependeciseList = new List<string>(tempDependencise);
+                    if (!assetBundles[i].Contains("ui_root") && dependeciseList != null && manifestName == "uiasset")
+                    {
+
+                    }
+                }
+
+            }
+        }
+        //----------------------------------------------------------------------------
         public ResourceListData GetResData()
         {
             return m_ResourceList;

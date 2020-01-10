@@ -65,6 +65,10 @@ namespace Filterartifact
             {
                 gameApp.Update();
             }
+            if (gameUI != null)
+            {
+                gameUI.Update();
+            }
         }
         //----------------------------------------------------------------------------
         void StartAppGame()

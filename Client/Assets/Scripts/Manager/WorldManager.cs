@@ -173,11 +173,16 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void ProMsgToState(int msgId)
         {
-            if (ReferenceEquals(m_gameStateMain,null))
+            if (ReferenceEquals(m_gameStateMain, null))
             {
                 return;
             }
             m_gameStateMain.ProcessMsg(msgId);
+        }
+        //---------------------------------------------------------------------------- 
+        public void InitGame()
+        {
+            Messenger.Broadcast(DgMsgID.DgMsg_InitAfterMain);
         }
         //----------------------------------------------------------------------------
     }

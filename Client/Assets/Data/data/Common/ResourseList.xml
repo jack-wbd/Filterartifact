@@ -11,6 +11,8 @@
 		<Bundle id="picture5" preload="0" file="ui/switchpic/picture5.unity3d" name=""/>
 	</uitexture>
 	<ui>
-	    <Bundle id="RUP_Login" preload="1" EnvirUse="login" file="ui/prefab/ui_login.unity3d" name=""/>
+	<Atlas>	
+	</Atlas>
+	    <Bundle id="RUP_Login" preload="1" EnvirUse="login" file="ui/prefab/ui_login.unity3d" name=""/>	    
 	</ui>
 </Resourselist>

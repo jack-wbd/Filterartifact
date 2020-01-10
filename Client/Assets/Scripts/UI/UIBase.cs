@@ -64,6 +64,33 @@ namespace Filterartifact
         static private bool useFullScreenBg = true;
         public string strAssetID = "";
         public string strCtrl = "";
+        protected int m_nUIIndex;
+        public bool IsShow = false;
+        //----------------------------------------------------------------------------
+        public bool Create()
+        {
+            InitLayout();
+            if (!OnCreate())
+            {
+                return false;
+            }
+            return true;
+        }
+        //----------------------------------------------------------------------------
+        public void Update()
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        public virtual void OnDestroy()
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        protected virtual bool OnCreate()
+        {
+            return true;
+        }
         //----------------------------------------------------------------------------
         private eUIImpower _impower = eUIImpower.Default;
         public eUIImpower impower
@@ -79,6 +106,11 @@ namespace Filterartifact
         public void SetParent(UIBase _parent)
         {
             parent = _parent;
+        }
+        //----------------------------------------------------------------------------
+        public GameObject GetUIObject()
+        {
+            return m_objUI;
         }
         //----------------------------------------------------------------------------
         public UIBase GetParent()
@@ -121,6 +153,11 @@ namespace Filterartifact
         protected virtual void InitDepth()
         {
 
+        }
+        //----------------------------------------------------------------------------
+        public void SetUIIndex(int nUIIndex)
+        {
+            m_nUIIndex = nUIIndex;
         }
         //----------------------------------------------------------------------------
         protected virtual void InitAdaption()

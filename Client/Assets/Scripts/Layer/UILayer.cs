@@ -50,6 +50,15 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
+        public bool InitializeAfterMain()
+        {
+            if (m_uiSystem != null)
+            {
+                m_uiSystem.InitializeAferMain();
+            }
+            return true;
+        }
+        //----------------------------------------------------------------------------
         public void RegisterUIControl()
         {
             Register<UILoginCtrl, UILogin>("RUP_Login", this);
@@ -91,6 +100,14 @@ namespace Filterartifact
             pipe.PlugInMsgPipe(t);
 
             return t;
+        }
+        //----------------------------------------------------------------------------
+        public override void Update()
+        {
+            if (m_uiSystem != null)
+            {
+                m_uiSystem.Update();
+            }
         }
         //----------------------------------------------------------------------------
         public UISystem GetUISystem()

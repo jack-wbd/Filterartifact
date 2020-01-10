@@ -47,10 +47,46 @@ namespace Filterartifact
         protected bool isViewLoadedComplete = false;
         private object m_paramData;
         public bool m_bHasAddAtlas = false;
+        private bool m_bNeededResLoadOK = false;
+        public bool m_bWaitToCricle = false;
+        int m_connectCount = 0;
         //----------------------------------------------------------------------------
         public void LoadFinishedEx(string strAssetID, UnityEngine.Object obj)
         {
 
+        }
+        //----------------------------------------------------------------------------
+        public virtual void Update()
+        {
+            if (m_bNeededResLoadOK && m_connectCount <= 0)
+            {
+                SetLoadedOK(false);
+                DoLoadUIFinish();
+            }
+        }
+        //----------------------------------------------------------------------------
+        public void SetLoadedOK(bool bOK)
+        {
+            m_bNeededResLoadOK = bOK;
+        }
+        //----------------------------------------------------------------------------
+        public void DoLoadUIFinish()
+        {
+            DoCreate();
+        }
+        //----------------------------------------------------------------------------
+        public void DoCreate()
+        {
+            if (m_bLocal)
+            {
+                m_uiSystem.AddUIClass(strAssetID, viewer);
+                viewer.strAssetID = strAssetID;
+                if (!viewer.Create())
+                {
+                    viewer.OnDestroy();
+                    return;
+                }
+            }
         }
         //----------------------------------------------------------------------------
         private eUIImpower _impower = eUIImpower.Default;

@@ -29,11 +29,6 @@
 //------------------------------------------------------------------------------
 //	GameUI.cs
 //------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Filterartifact
 {
@@ -47,6 +42,8 @@ namespace Filterartifact
         {
             m_layerUI = new UILayer();
             m_layerUI.Initialize();
+            Messenger.AddListener(DgMsgID.DgMsg_RegisterAllUI, OnRegisterAllUI);
+            Messenger.AddListener(DgMsgID.DgMsg_InitAfterMain, OnInitAferMain);
             Messenger.AddListener<string>(DgMsgID.DgUI_ShowUI, OnShowUI);
             return true;
         }
@@ -59,13 +56,39 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public override void Update()
+        {
+           if (m_layerUI!=null)
+           {
+                m_layerUI.Update();
+           }
+        }
         //----------------------------------------------------------------------------
+        private void OnRegisterAllUI()
+        {
+            if (m_layerUI!=null)
+            {
+                m_layerUI.RegisterUIControl();
+            }
+        }
         //----------------------------------------------------------------------------
         public override void Destroy()
         {
             base.Destroy();
             Messenger.RemoveListener<string>(DgMsgID.DgUI_ShowUI, OnShowUI);
+            Messenger.RemoveListener(DgMsgID.DgMsg_RegisterAllUI, OnRegisterAllUI);
+            Messenger.RemoveListener(DgMsgID.DgMsg_InitAfterMain, OnInitAferMain);
         }
+        //----------------------------------------------------------------------------
+        private void OnInitAferMain()
+        {
+            if (m_layerUI!=null)
+            {
+                m_layerUI.InitializeAfterMain();
+            }
+        }
+        //----------------------------------------------------------------------------
+
     }
     //----------------------------------------------------------------------------
 }

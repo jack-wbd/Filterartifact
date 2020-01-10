@@ -2,6 +2,7 @@
 <Resourselist>
   <uideps>
     <Bundle id="ui_login.prefab">
+      <Bundle id="font/gameusefont.unity3d" />
       <Bundle id="ui/atlas/chengzhen00atlas.unity3d" />
       <Bundle id="ui/atlas/commonpictureatlas.unity3d" />
     </Bundle>
