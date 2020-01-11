@@ -1787,6 +1787,8 @@ E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.dll
 E:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.pdb
+D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csprojAssemblyReference.cache
+D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompileInputs.cache
 D:\Filterartifact\Client\Temp\bin\Debug\Assembly-CSharp-Editor.dll
 D:\Filterartifact\Client\Temp\bin\Debug\Assembly-CSharp-Editor.pdb
 D:\Filterartifact\Client\Temp\bin\Debug\Boo.Lang.dll
@@ -1921,6 +1923,7 @@ D:\Filterartifact\Client\Temp\bin\Debug\Unity.TextMeshPro.Editor.dll
 D:\Filterartifact\Client\Temp\bin\Debug\Unity.Timeline.dll
 D:\Filterartifact\Client\Temp\bin\Debug\Unity.Timeline.Editor.dll
 D:\Filterartifact\Client\Temp\bin\Debug\Unity.VSCode.Editor.dll
+D:\Filterartifact\Client\Temp\bin\Debug\UnityEditor.Android.Extensions.dll
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEditor.dll
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEditor.Graphs.dll
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEditor.TestRunner.dll
@@ -2080,9 +2083,6 @@ D:\Filterartifact\Client\Temp\bin\Debug\DOTween.xml
 D:\Filterartifact\Client\Temp\bin\Debug\DOTweenEditor.xml
 D:\Filterartifact\Client\Temp\bin\Debug\nunit.framework.pdb
 D:\Filterartifact\Client\Temp\bin\Debug\nunit.framework.xml
-D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csprojAssemblyReference.cache
-D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.CoreCompileInputs.cache
 D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.dll
 D:\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.pdb
-D:\Filterartifact\Client\Temp\bin\Debug\UnityEditor.Android.Extensions.dll

@@ -48,13 +48,13 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         protected override void OnStateBegin(object[] parameter)
         {
-            base.OnStateBegin(parameter);
             Messenger.AddListener(DgMsgID.DgMsg_NtyUILoading_Finish, OnUILoadOk);
+            Messenger.Broadcast(DgMsgID.DgMsg_PreLoadUI, eUseEnvir.login);
+            Messenger.Broadcast(DgMsgID.DgMsg_ActiveLoadUI);
         }
         //----------------------------------------------------------------------------
         protected override void OnStateEnd()
         {
-            base.OnStateEnd();
 
         }
         //----------------------------------------------------------------------------

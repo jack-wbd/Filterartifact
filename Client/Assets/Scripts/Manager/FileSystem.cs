@@ -294,11 +294,6 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        void InitAssetManifest(string mainfestName)
-        {
-
-        }
-        //----------------------------------------------------------------------------
         void InitAssetManifset(string manifestName)
         {
 

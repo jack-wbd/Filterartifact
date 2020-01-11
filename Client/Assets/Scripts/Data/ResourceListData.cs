@@ -132,7 +132,7 @@ namespace Filterartifact
                         int nAtlasCount = AtlasList.Count;
                         for (int j = 0; j < nAtlasCount; j++)
                         {
-                            element = AtlasList[i] as XmlElement;
+                            element = AtlasList[j] as XmlElement;
                             InsertResourseList(ref element, EAssetType.eAtlas);
                         }
                     }

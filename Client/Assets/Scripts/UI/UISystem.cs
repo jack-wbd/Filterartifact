@@ -80,6 +80,7 @@ namespace Filterartifact
             m_listOtherUIRes = new List<string>();
             m_listUnload = new List<string>();
             m_dictUIClass = new Dictionary<string, sUI>();
+            m_dictUseCount = new Dictionary<string, int>();
             m_sys = this;
             return true;
         }
@@ -137,17 +138,17 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void Update()
         {
-           foreach (var element in m_dictUIClass)
-           {
+            foreach (var element in m_dictUIClass)
+            {
                 if (element.Value.ui.IsShow)
                 {
                     element.Value.ui.Update();
                 }
-           }
-           foreach (var element in m_dictAllUICtrl)
-           {
+            }
+            foreach (var element in m_dictAllUICtrl)
+            {
                 element.Value.uiCtrl.Update();
-           }
+            }
         }
         //----------------------------------------------------------------------------
         private void CheckNoUseAtlas()
@@ -299,7 +300,7 @@ namespace Filterartifact
         {
             ++m_nAssetCount;
             CurAssetCount = m_nAssetCount;
-            if (m_nAssetCount > m_nTotalCount)
+            if (m_nAssetCount >= m_nTotalCount)
             {
                 DoFinish();
             }
@@ -358,6 +359,14 @@ namespace Filterartifact
         private void InitUIRoot()
         {
 
+        }
+        //----------------------------------------------------------------------------
+        public void RemoveUseAtlas(string strAtlas)
+        {
+            if (m_dictUseCount.ContainsKey(strAtlas))
+            {
+                m_dictUseCount[strAtlas]--;
+            }
         }
         //----------------------------------------------------------------------------
         public int AddUIClass(string strAssetID, UIBase ui)

@@ -347,7 +347,9 @@ class PackagerUI
         List<string> depsList = new List<string>();
         for (int i = 0; i < deps.Length; i++)
         {
-            depsList.Add(deps[i]);
+            var str = deps[i].Substring(deps[i].LastIndexOf("/") + 1);
+            var str1 = str.Substring(0, str.LastIndexOf("."));
+            depsList.Add(str1);
         }
         if (list_ResourseListXml_UIDeps != null)
         {
