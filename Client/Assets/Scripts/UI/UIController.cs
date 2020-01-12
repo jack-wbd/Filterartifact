@@ -11,7 +11,6 @@
 //------------------------------------------------------------------------------
 //	UIController.cs
 //------------------------------------------------------------------------------
-using System;
 /**
 \file	UIController.cs
 
@@ -31,6 +30,8 @@ Copyright (c) 2019, BoYue. All rights reserved.
 
 </PRE>
 */
+using System;
+using UnityEngine;
 namespace Filterartifact
 {
     public class UIController : IMsgPipe, ILoadResult
@@ -50,10 +51,30 @@ namespace Filterartifact
         private bool m_bNeededResLoadOK = false;
         public bool m_bWaitToCricle = false;
         int m_connectCount = 0;
+        public GameObject m_Obj = null;
         //----------------------------------------------------------------------------
         public void LoadFinishedEx(string strAssetID, UnityEngine.Object obj)
         {
-
+            if (obj != null && obj.GetType() != typeof(AssetBundle) && viewer != null)
+            {
+                GameObject m_Obj = UnityEngine.Object.Instantiate(obj) as GameObject;
+                viewer.strName = obj.name;
+                viewer.SetObjUI(m_Obj);
+                DeActiveForWait();
+                viewer.SetSystem(m_uiSystem);
+                viewer.LoadNeedRes(this);
+            }
+            else
+            {
+                if (viewer != null)
+                {
+                    viewer.OnDestroy();
+                }
+                else
+                {
+                    Debug.LogError(string.Format("LoadFinishedEx(); strAssetID:{0}", strAssetID));
+                }
+            }
         }
         //----------------------------------------------------------------------------
         public virtual void Update()
@@ -65,6 +86,47 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public void DoComplete()
+        {
+            isViewLoadedComplete = true;
+            initViewerComplete(m_paramData, m_bIsShow);
+        }
+        //----------------------------------------------------------------------------
+        protected virtual void initViewerComplete(object arg, bool bflag = true)
+        {
+            if (bflag)
+            {
+                Show(arg);
+            }
+            else
+                Hide();
+        }
+        //----------------------------------------------------------------------------
+        public virtual void Hide()
+        {
+            m_bIsShow = false;
+            if (!isViewLoadedComplete)
+            {
+                return;
+            }
+            viewer.bEffect = bEffect;
+            viewer.Hide();
+        }
+        //----------------------------------------------------------------------------
+        public virtual void FinalViewer()
+        {
+            if (viewer != null)
+            {
+                viewer = null;
+                isViewLoadedComplete = false;
+            }
+        }
+        //----------------------------------------------------------------------------
+        public bool IsViewLoadedComplete()
+        {
+            return isViewLoadedComplete;
+        }
+        //----------------------------------------------------------------------------
         public void SetLoadedOK(bool bOK)
         {
             m_bNeededResLoadOK = bOK;
@@ -72,7 +134,9 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void DoLoadUIFinish()
         {
+            m_bWaitToCricle = false;
             DoCreate();
+            DoComplete();
         }
         //----------------------------------------------------------------------------
         public void DoCreate()
@@ -87,6 +151,12 @@ namespace Filterartifact
                     return;
                 }
             }
+            DoCreateEx();
+        }
+        //----------------------------------------------------------------------------
+        public virtual void DoCreateEx()
+        {
+
         }
         //----------------------------------------------------------------------------
         private eUIImpower _impower = eUIImpower.Default;
@@ -135,7 +205,59 @@ namespace Filterartifact
                 viewer.strCtrl = strCtrl;
                 viewer.impower = impower;
                 viewer.RegisterViewMsg();
+                viewer.SetCtrl(this);
+                viewer.m_ctrl = this;
+                PlugInMsgPipe(viewer);
+                UnityEngine.Object obj = m_uiSystem.GetAssetBundle(strAssetID);
+                if (obj != null)
+                {
+                    m_Obj = UnityEngine.Object.Instantiate(obj) as GameObject;
+                    viewer.strName = obj.name;
+                    viewer.SetObjUI(m_Obj);
+                    DeActiveForWait();
+                    viewer.SetSystem(m_uiSystem);
+                    viewer.LoadNeedRes(this);
+                }
+                else
+                {
+                    if (!IsPreLoadView() && !LoadingUIManager.isInLoading && !("UICircleCtrl" == strCtrl))
+                    {
+                        CheckLoadWaitStart();
+                    }
+                    m_uiSystem.LoadUIAsset(strAssetID, LoadFinishedEx);
+                }
+
             }
+        }
+        //----------------------------------------------------------------------------
+        private void CheckLoadWaitStart()
+        {
+            SetLoadedOK(false);
+        }
+        //----------------------------------------------------------------------------
+        public bool IsPreLoadView()
+        {
+            ResourceListData data = FileSystem.Instance().GetResData();
+            if (data == null)
+            {
+                return false;
+            }
+            sAssetInfo info = sAssetInfo.zero;
+            data.GetAssetBundleInfo(strAssetID, ref info);
+            return info.bPreLoad;
+        }
+        //----------------------------------------------------------------------------
+        private void DeActiveForWait()
+        {
+            if (viewer == null || viewer.GetUIObject() == null)
+            {
+                return;
+            }
+            if (viewer.GetUIObject().activeSelf != false)
+            {
+                viewer.GetUIObject().SetActive(false);
+            }
+
         }
         //----------------------------------------------------------------------------
         private void AddUseAtlas()
@@ -161,6 +283,26 @@ namespace Filterartifact
             if (!isViewLoadedComplete)
             {
                 InitViewer(arg, true);
+            }
+        }
+        //----------------------------------------------------------------------------
+        public virtual void ShowOrHideUI(object arg =null)
+        {
+            if (!isViewLoadedComplete)
+            {
+                InitViewer(arg, true);
+                return;
+            }
+            if (!viewer.IsShow)
+            {
+                viewer.bEffect = bEffect;
+                viewer.strAssetID = this.strAssetID;
+                viewer.Show(arg);
+            }
+            else
+            {
+                viewer.bEffect = bEffect;
+                viewer.Hide();
             }
         }
         //----------------------------------------------------------------------------

@@ -136,6 +136,16 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public bool LoadUIAsset(string strAssetID,Callback<string,UnityEngine.Object> call)
+        {
+            return assetManager.LoadAssetRes(strAssetID, call);
+        }
+        //----------------------------------------------------------------------------
+        public UnityEngine.Object GetAssetBundle(string strAssetID)
+        {
+            return assetManager.GetAssetObjByID(strAssetID);
+        }
+        //----------------------------------------------------------------------------
         public void Update()
         {
             foreach (var element in m_dictUIClass)

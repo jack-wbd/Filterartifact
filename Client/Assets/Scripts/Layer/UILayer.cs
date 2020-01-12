@@ -96,7 +96,7 @@ namespace Filterartifact
             useInfo.uiCtrl = t;
             useInfo.eEnvirUse = info.eEnvirUse;
             useInfo.bReload = info.bPreLoad;
-            system.AddUIController(strAssetID, useInfo);
+            system.AddUIController(t.strCtrl, useInfo);
             pipe.PlugInMsgPipe(t);
 
             return t;

@@ -38,6 +38,7 @@ namespace Filterartifact
         private static LoadingUIManager m_tSingleton = null;
         private LoadingConfigData m_loadCongData = null;
         private string m_curTexture = string.Empty;
+        public static bool isInLoading = false;
         private AssetsManager m_assetmaneger = null;
         //----------------------------------------------------------------------------
         public static LoadingUIManager Instance()

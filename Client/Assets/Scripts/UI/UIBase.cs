@@ -63,9 +63,21 @@ namespace Filterartifact
         protected UISystem m_system;
         static private bool useFullScreenBg = true;
         public string strAssetID = "";
+        public string strName = "";
         public string strCtrl = "";
         protected int m_nUIIndex;
         public bool IsShow = false;
+        public bool bEffect = true;
+        public UIController m_ctrl;
+        public int m_nMaxNeed;
+        private bool bInitLayout = false;
+        private int m_nCurCount;
+        public bool m_bLoadResOK = false;
+        protected Dictionary<string, Transform> m_newParent = new Dictionary<string, Transform>();
+        protected int m_recordTime = 0;
+        private List<Transform> m_ChangedChild = new List<Transform>();
+        private List<Transform> m_OrigParent = new List<Transform>();
+        private List<Vector3> m_OrigPos = new List<Vector3>();
         //----------------------------------------------------------------------------
         public bool Create()
         {
@@ -83,6 +95,11 @@ namespace Filterartifact
         }
         //----------------------------------------------------------------------------
         public virtual void OnDestroy()
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        public virtual void Show(object arg = null)
         {
 
         }
@@ -113,6 +130,11 @@ namespace Filterartifact
             return m_objUI;
         }
         //----------------------------------------------------------------------------
+        public void SetSystem(UISystem system)
+        {
+            m_system = system;
+        }
+        //----------------------------------------------------------------------------
         public UIBase GetParent()
         {
             return parent;
@@ -139,7 +161,14 @@ namespace Filterartifact
             InitDepth();
         }
         //----------------------------------------------------------------------------
-        private bool bInitLayout = false;
+        public virtual void Hide()
+        {
+            IsShow = false;
+            if (m_objUI.activeSelf != false)
+            {
+                m_objUI.SetActive(false);
+            }
+        }
         //----------------------------------------------------------------------------
         protected virtual void InitLayout()
         {
@@ -150,9 +179,132 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public void LoadNeedRes(UIController ctrl)
+        {
+            m_ctrl = ctrl;
+            Debug.LogError(m_ctrl.strAssetID);
+        }
+        //----------------------------------------------------------------------------
         protected virtual void InitDepth()
         {
 
+        }
+        //----------------------------------------------------------------------------
+        private void CheckFinished()
+        {
+            if (m_nCurCount >= m_nMaxNeed)
+            {
+                try
+                {
+
+                }
+                catch (Exception ex)
+                {
+                    Debug.LogError(ex.Message);
+                    Debug.LogError(ex.StackTrace);
+                }
+                finally
+                {
+                    m_bLoadResOK = true;
+                    if (m_ctrl != null)
+                    {
+                        m_ctrl.SetLoadedOK(true);
+                    }
+                    if (m_newParent.Count > 0)
+                    {
+                        Dictionary<string, Transform>.Enumerator it = m_newParent.GetEnumerator();
+                        while (it.MoveNext())
+                        {
+                            DoChangeChildParent(it.Current.Key, it.Current.Value);
+                        }
+                    }
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        private float waitToShowTime;
+        protected Dictionary<string, Transform> m_dicParent = new Dictionary<string, Transform>();
+        //----------------------------------------------------------------------------
+        protected virtual void DoChangeChildParent(string childPath, Transform _newParent)
+        {
+            //没加载完毕
+            if (!m_bLoadResOK)
+            {
+
+                if (!m_newParent.ContainsKey(childPath))
+                {
+                    m_newParent[childPath] = _newParent;
+                    return;
+                }
+
+                if (m_recordTime > 0)
+                {
+                    if (!m_newParent.ContainsKey(childPath))
+                    {
+                        m_newParent[childPath] = _newParent;
+                    }
+                    return;
+                }
+
+                if (!IsShow)
+                {
+                    Debug.LogError("waitForShow");
+                    waitToShowTime = Time.time;
+                    if (!m_dicParent.ContainsKey(childPath))
+                    {
+                        m_dicParent[childPath] = _newParent;
+                    }
+                    return;
+                }
+
+                GameObject _childobj = GetChild(childPath);
+
+                if (_childobj == null)
+                {
+
+                }
+
+
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void CheckRestoreChildPosition(string childPath, Transform _newParent)
+        {
+            if (m_ChangedChild.Count > 0)
+            {
+                int _count = m_ChangedChild.Count;
+                for (int i = 0; i < _count; i++)
+                {
+                    if (childPath.Contains(m_ChangedChild[i].name))
+                    {
+                        m_ChangedChild[i].parent = m_OrigParent[i];
+                        m_ChangedChild[i].localPosition = m_OrigPos[i];
+                        m_ChangedChild[i].parent = _newParent;
+                        break;
+                    }
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        protected virtual GameObject GetChild(string strPath, bool logError = true)
+        {
+            Transform _child = m_uiTrans.Find(strPath);
+            if (_child == null)
+            {
+                if (logError)
+                {
+                    Debug.LogError(string.Format("Can not Find ChildPath:{0},UIAssetID:{1}", strPath, strAssetID));
+                }
+                return null;
+            }
+
+            return _child.gameObject;
+
+        }
+        //----------------------------------------------------------------------------
+        public virtual void SetCtrl(UIController ctrl)
+        {
+            m_ctrl = ctrl;
         }
         //----------------------------------------------------------------------------
         public void SetUIIndex(int nUIIndex)
