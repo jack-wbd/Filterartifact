@@ -30,6 +30,7 @@
 //	LauncherManager.cs
 //------------------------------------------------------------------------------
 
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -58,17 +59,19 @@ namespace Filterartifact
             LoadUIRoot();
             return true;
         }
+        private List<AssetBundle> bundleList = new List<AssetBundle>();
         //----------------------------------------------------------------------------
         private void LoadUIRoot()
         {
+            bundleList.Clear();
             var depsPath = Application.streamingAssetsPath + "/uiasset";
             AssetBundle depsAb = AssetBundle.LoadFromFile(depsPath);
             AssetBundleManifest manifest = depsAb.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
             string[] deps = manifest.GetAllDependencies("ui/prefab/ui_root.unity3d");
-
             for (int i = 0; i < deps.Length; i++)
             {
                 var depBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + deps[i]);
+                bundleList.Add(depBundle);
             }
             var path = Application.streamingAssetsPath + "/ui/prefab/ui_root.unity3d";
             if (File.Exists(path))
@@ -85,7 +88,16 @@ namespace Filterartifact
                 bundle = null;
                 depsAb = null;
             }
+
+            for (int i = 0; i < bundleList.Count; i++)
+            {
+                bundleList[i].Unload(false);
+                bundleList[i] = null;
+            }
+
+            Resources.UnloadUnusedAssets();
             GoToRun();
+
         }
         //----------------------------------------------------------------------------
         public void Update()
