@@ -52,4 +52,4 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_root.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
+- D:/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d

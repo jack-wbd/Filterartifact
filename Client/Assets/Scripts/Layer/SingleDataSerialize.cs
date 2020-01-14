@@ -71,6 +71,7 @@ namespace Filterartifact
             string binaryName = Path.GetFileName(m_binaryFileName);
             TextAsset asset = bundle.LoadAsset<TextAsset>(binaryName);
             bundle.Unload(false);
+            bundle = null;
             byte[] byteTemp = null;
             if (asset != null)
             {

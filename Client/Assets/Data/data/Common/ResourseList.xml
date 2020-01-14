@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Resourselist>
 <deps>
-        <Bundle id="RUP_Main" preload="1" EnvirUse="city" file="ui/loginatlas.unity3d" name=""/>
         <Bundle id="gameusefont" preload="1" EnvirUse="login" file="font/gameusefont.unity3d" name=""/>
 </deps>
 	<uitexture>
-		<Bundle id="picture1" preload="0" file="ui/switchpic/picture1.unity3d" name=""/>
-		<Bundle id="picture2" preload="0" file="ui/switchpic/picture2.unity3d" name=""/>
-		<Bundle id="picture3" preload="0" file="ui/switchpic/picture3.unity3d" name=""/>
-		<Bundle id="picture4" preload="0" file="ui/switchpic/picture4.unity3d" name=""/>
-		<Bundle id="picture5" preload="0" file="ui/switchpic/picture5.unity3d" name=""/>
+		<Bundle id="picture1" preload="0" file="ui/picture/switchpic/picture1.unity3d" name=""/>
+		<Bundle id="picture2" preload="0" file="ui/picture/switchpic/picture2.unity3d" name=""/>
+		<Bundle id="picture3" preload="0" file="ui/picture/switchpic/picture3.unity3d" name=""/>
+		<Bundle id="picture4" preload="0" file="ui/picture/switchpic/picture4.unity3d" name=""/>
+		<Bundle id="picture5" preload="0" file="ui/picture/switchpic/picture5.unity3d" name=""/>
 	</uitexture>
 	<ui>
 	<Atlas>	
-		<Bundle id="chengzhen00atlas" preload="0" EnvirUse="login" file="ui/atlas/chengzhen00atlas.unity3d" name=""/>
-		<Bundle id="commonpictureatlas" preload="0" EnvirUse="login" file="ui/atlas/commonpictureatlas.unity3d" name=""/>
+		<Bundle id="chengzhen00atlas" preload="1" EnvirUse="login" file="ui/atlas/chengzhen00atlas.unity3d" name=""/>
+		<Bundle id="commonpictureatlas" preload="1" EnvirUse="login" file="ui/atlas/commonpictureatlas.unity3d" name=""/>
+		<Bundle id="loginatlas" preload="1" EnvirUse="login" file="ui/atlas/loginatlas.unity3d" name=""/>
 	</Atlas>
 	    <Bundle id="RUP_Login" preload="1" EnvirUse="login" file="ui/prefab/ui_login.unity3d" name=""/>	    
 	</ui>

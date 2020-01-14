@@ -36,6 +36,6 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_login.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/font/gameusefont.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/chengzhen00atlas.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
+- D:/Filterartifact/Filterartifact/Client/uiasset/font/gameusefont.unity3d
+- D:/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/chengzhen00atlas.unity3d
+- D:/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d

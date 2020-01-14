@@ -83,22 +83,26 @@ namespace Filterartifact
             m_queueNeedLoad = new Queue<sNeedLoadData>();
             m_ConfigData = new ConfigData();
             InitAllAssetManifest();
-            string strData = null;
+            if (Application.isPlaying)
+            {
+                m_ConfigData = LauncherManager.Instance.GetConfigData();
+            }
+            else
+            {
+                m_ConfigData = new ConfigData();
+                m_ConfigData.m_strDataDir = strPath;
+            }
+
+            CheckPlatform();
             UnityEngine.Object objTemp = Resources.Load("config");
             if (ReferenceEquals(objTemp, null))
             {
                 return false;
             }
-            strData = objTemp.ToString();
+
+            var strData = objTemp.ToString();
             Resources.UnloadAsset(objTemp);
-            if (Application.isPlaying)
-            {
-                m_ConfigData.InitConfigFile(strData);
-            }
-            else
-            {
-                m_ConfigData.m_strDataDir = strPath;
-            }
+
             if (RuntimePlatform.IPhonePlayer == Application.platform)
             {
                 InitPhone();
@@ -115,12 +119,40 @@ namespace Filterartifact
             {
                 InitDev();
             }
+
             return true;
+        }
+        //----------------------------------------------------------------------------
+        public void CheckPlatform()
+        {
+            switch (Application.platform)
+            {
+                case RuntimePlatform.Android:
+                    m_strStreamAssetsDir = Application.streamingAssetsPath + "/";
+                    m_strPersistenDir = Application.persistentDataPath + "/";
+                    break;
+                case RuntimePlatform.IPhonePlayer:
+                    m_strStreamAssetsDir = Application.streamingAssetsPath + "/";
+                    m_strPersistenDir = Application.persistentDataPath + "/StreamingAssets/";
+                    break;
+                case RuntimePlatform.WebGLPlayer:
+                    m_strStreamAssetsDir = "StreamingAssets/";
+                    break;
+                default:
+                    m_strStreamAssetsDir = Application.streamingAssetsPath + "/";
+                    m_strPersistenDir = Application.persistentDataPath + "/StreamingAssets/";
+                    break;
+            }
         }
         //----------------------------------------------------------------------------
         public Dictionary<string, List<string>> GetBundleDepsDict()
         {
             return m_bundleDependenciseDict;
+        }
+        //----------------------------------------------------------------------------
+        void InitAllAssetManifest()
+        {
+            InitAssetManifest("uiasset");
         }
         //----------------------------------------------------------------------------
         void InitAssetManifest(string manifestName)
@@ -138,10 +170,29 @@ namespace Filterartifact
                     List<string> dependeciseList = new List<string>(tempDependencise);
                     if (!assetBundles[i].Contains("ui_root") && dependeciseList != null && manifestName == "uiasset")
                     {
-
+                        if (dependeciseList.Count > 0)
+                        {
+                            for (int j = dependeciseList.Count - 1; j >= 0; j--)
+                            {
+                                if (dependeciseList[j].Contains("gameusefont"))
+                                {
+                                    dependeciseList.Remove(dependeciseList[j]);
+                                }
+                            }
+                        }
                     }
-                }
+                    if (!m_bundleDependenciseDict.ContainsKey(assetBundles[i]))
+                    {
+                        m_bundleDependenciseDict.Add(assetBundles[i], dependeciseList);
+                    }
+                    else
+                    {
+                        Debug.LogError("have same key: " + assetBundles[i]);
+                    }
 
+                }
+                bundleManifest.Unload(false);
+                bundleManifest = null;
             }
         }
         //----------------------------------------------------------------------------
@@ -289,16 +340,6 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        private void InitAllAssetManifest()
-        {
-
-        }
-        //----------------------------------------------------------------------------
-        void InitAssetManifset(string manifestName)
-        {
-
-        }
-        //----------------------------------------------------------------------------
         private void UpdatePhone()
         {
             switch (m_state)
@@ -400,7 +441,7 @@ namespace Filterartifact
                 }
                 path = strBaseDir + path;
                 AssetBundle bundle = null;
-                if (!m_assetBundleDict.ContainsKey(path))
+                if (!m_assetBundleDict.ContainsKey(info.strFile))
                 {
                     bundle = AssetBundle.LoadFromFile(path);
                     if (bundle != null)
@@ -416,16 +457,15 @@ namespace Filterartifact
                 {
                     bundle = m_assetBundleDict[info.strFile];
                 }
-
                 string loadAssetName = string.IsNullOrEmpty(info.assetName) ? info.strName : info.assetName;
-
-                UnityEngine.Object tempObj = bundle.LoadAsset(loadAssetName);
-                ProcessAsset(strAssetID, obj, needLoad.callback, info.eAssetType);
-                ProcessStreamedAsset(info, obj, bundle);
+                UnityEngine.Object tempObj = bundle.LoadAsset<UnityEngine.Object>(loadAssetName);
+                ProcessAsset(strAssetID, tempObj, needLoad.callback, info.eAssetType);
+                ProcessStreamedAsset(info, tempObj, bundle);
                 return;
             }
 
             needLoad.callback?.Invoke(strAssetID, null);
+            Debug.LogError("配置了不存在的资源：" + path);
             return;
         }
         //----------------------------------------------------------------------------
@@ -455,13 +495,11 @@ namespace Filterartifact
                     assetsManager.AddAssetBundleList(info.strID, bundle);
                 }
             }
-
-
         }
         //----------------------------------------------------------------------------
         public string GetResPathByName(string strName)
         {
-            return GetResDirByPath(strName);
+            return GetResDirByPath(strName) + strName;
         }
         //----------------------------------------------------------------------------
         public string GetResDirByPath(string path)

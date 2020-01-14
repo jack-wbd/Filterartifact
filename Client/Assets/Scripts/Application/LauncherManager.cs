@@ -45,6 +45,7 @@ namespace Filterartifact
         public static LauncherManager Instance;
         UnityWebRequest m_wwwUIRoot;
         private bool m_bLauncherFinish = true;
+        private static ConfigData m_ConfigData = null;
         //----------------------------------------------------------------------------
         public LauncherManager()
         {
@@ -53,6 +54,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public bool Initialization()
         {
+            ParseConfig();
             LoadUIRoot();
             return true;
         }
@@ -63,9 +65,10 @@ namespace Filterartifact
             AssetBundle depsAb = AssetBundle.LoadFromFile(depsPath);
             AssetBundleManifest manifest = depsAb.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
             string[] deps = manifest.GetAllDependencies("ui/prefab/ui_root.unity3d");
+
             for (int i = 0; i < deps.Length; i++)
             {
-                AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + deps[i]);
+                var depBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + deps[i]);
             }
             var path = Application.streamingAssetsPath + "/ui/prefab/ui_root.unity3d";
             if (File.Exists(path))
@@ -114,6 +117,27 @@ namespace Filterartifact
         public void SetLauncherFinish(bool bFinish)
         {
             m_bLauncherFinish = bFinish;
+        }
+        //----------------------------------------------------------------------------
+        public ConfigData GetConfigData()
+        {
+            return m_ConfigData;
+        }
+        //----------------------------------------------------------------------------
+        public void ParseConfig()
+        {
+            if (m_ConfigData == null)
+            {
+                m_ConfigData = new ConfigData();
+            }
+            string strData = null;
+            Object objTemp = Resources.Load("config");
+            if (!ReferenceEquals(objTemp, null))
+            {
+                strData = objTemp.ToString();
+                Resources.UnloadAsset(objTemp);
+            }
+            m_ConfigData.InitConfigFile(strData);
         }
         //----------------------------------------------------------------------------
     }

@@ -52,9 +52,18 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        private Dictionary<string, AssetCube> m_dictAsset = new Dictionary<string, AssetCube>();//当前所有的资源
+        private Dictionary<string, AssetCube> m_dictAsset;//当前所有的资源
         private Dictionary<string, AssetBundle> m_dictStreamedAsset;
         private Dictionary<string, byte> m_dictToBeDelAsset;//待删除的资源
+        //------------------------------------------------------------------------
+        public override bool Initialized()
+        {
+            m_dictAsset = new Dictionary<string, AssetCube>();
+            m_dictStreamedAsset = new Dictionary<string, AssetBundle>();
+            m_dictToBeDelAsset = new Dictionary<string, byte>();
+            return true;
+        }
+        //----------------------------------------------------------------------------
         public Object GetAssetObjByID(string strAssetID)
         {
             if (string.IsNullOrEmpty(strAssetID))
@@ -82,12 +91,21 @@ namespace Filterartifact
             AssetCube cube;
             if (m_dictAsset.TryGetValue(strAssetID, out cube))
             {
-                Callback<string, object> callBack = call as Callback<string, object>;
+                Callback<string, Object> callBack = call as Callback<string, Object>;
                 callBack(strAssetID, cube.objAsset);
                 return true;
             }
             return FileSystem.Instance().StartLoad(strAssetID, call);
 
+        }
+        //----------------------------------------------------------------------------
+        public int GetAssetNum()
+        {
+            if (m_dictAsset != null)
+            {
+                return m_dictAsset.Count;
+            }
+            return 0;
         }
         //----------------------------------------------------------------------------
         public void UnLoadAsset(string strAsset)
@@ -97,18 +115,12 @@ namespace Filterartifact
                 return;
             }
             AssetCube cube;
-            if (m_dictAsset.TryGetValue(strAsset,out cube))
+            if (m_dictAsset.TryGetValue(strAsset, out cube))
             {
                 UnLoadAsset(strAsset, cube);
                 m_dictAsset.Remove(strAsset);
             }
 
-        }
-        //------------------------------------------------------------------------
-        public override bool Initialized()
-        {
-            m_dictAsset = new Dictionary<string, AssetCube>();
-            return base.Initialized();
         }
         //------------------------------------------------------------------------
         public void Destroy()
@@ -139,7 +151,28 @@ namespace Filterartifact
                     break;
             }
         }
-        //------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        public void UnloadAudioAsset()
+        {
+            List<string> unloadList = new List<string>();
+            ResourceListData data = FileSystem.Instance().GetResData();
+            var it = m_dictAsset.GetEnumerator();
+            while (it.MoveNext())
+            {
+                if (it.Current.Value.typeAsset == EAssetType.eAudio)
+                {
+                    unloadList.Add(it.Current.Key);
+                }
+            }
+            it.Dispose();
+
+            for (int i = 0; i < unloadList.Count; i++)
+            {
+                UnLoadAsset(unloadList[i]);
+            }
+
+        }
+        //----------------------------------------------------------------------------
         private void UnloadAudioAsset(string strAssetID, AssetCube cube)
         {
             AudioClip clip = cube.objAsset as AudioClip;
@@ -170,7 +203,7 @@ namespace Filterartifact
             }
             if (obj == null)
             {
-                Debug.LogError("load assetid: " + strAssetID + "no bundle");
+                Debug.LogError("load assetid: " + strAssetID + " no bundle");
                 return;
             }
 
@@ -187,7 +220,7 @@ namespace Filterartifact
             ProcessToBeDeletList(strAssetID);
         }
         //----------------------------------------------------------------------------
-        public void AddAssetBundleList(string strAssetID,AssetBundle bundle)
+        public void AddAssetBundleList(string strAssetID, AssetBundle bundle)
         {
             if (m_dictStreamedAsset.ContainsKey(strAssetID))
             {
@@ -201,7 +234,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void ProcessToBeDeletList(string strAssetID)
         {
-           m_dictToBeDelAsset.Remove(strAssetID);
+            m_dictToBeDelAsset.Remove(strAssetID);
         }
         //----------------------------------------------------------------------------
         public void TobeDelAsset(string strAsset)
