@@ -75,6 +75,11 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
+        public Dictionary<string,List<string>> GetResDepsDict()
+        {
+            return m_dictResourseList_1;
+        }
+        //----------------------------------------------------------------------------
         public List<string> GetDepsResourceList()
         {
             return m_gameInitPreLoadRes;

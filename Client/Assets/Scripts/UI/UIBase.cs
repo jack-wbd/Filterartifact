@@ -32,9 +32,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -78,6 +75,8 @@ namespace Filterartifact
         private List<Transform> m_ChangedChild = new List<Transform>();
         private List<Transform> m_OrigParent = new List<Transform>();
         private List<Vector3> m_OrigPos = new List<Vector3>();
+        public bool m_bNoNeedLoadAtlasOrFont = false;
+        public object dataObj;
         //----------------------------------------------------------------------------
         public bool Create()
         {
@@ -101,6 +100,17 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public virtual void Show(object arg = null)
         {
+            if (_impower ==eUIImpower.Dialog)
+            {
+
+            }
+            dataObj = arg;
+
+            if (m_objUI==null)
+            {
+                return;
+            }
+
 
         }
         //----------------------------------------------------------------------------
@@ -182,7 +192,37 @@ namespace Filterartifact
         public void LoadNeedRes(UIController ctrl)
         {
             m_ctrl = ctrl;
-            Debug.LogError(m_ctrl.strAssetID);
+            Debug.LogError("strName: " + m_ctrl.viewer.strName);
+            var depsDict = FileSystem.Instance().GetResData().GetResDepsDict();
+            List<string> listRes1 = null;
+            depsDict.TryGetValue(m_ctrl.viewer.strName, out listRes1);
+            m_nMaxNeed = listRes1.Count;
+            m_bNoNeedLoadAtlasOrFont = m_nMaxNeed > 0 ? false : true;
+            if (m_bNoNeedLoadAtlasOrFont && m_ctrl != null)
+            {
+                m_ctrl.SetLoadedOK(true);
+                return;
+            }
+            m_nCurCount = 0;
+            if (listRes1 != null)
+            {
+                for (int i = 0; i < listRes1.Count; i++)
+                {
+                    if (!m_system.LoadUIAsset(listRes1[i], OnLoadNeedOkInLoading))
+                    {
+                        Debug.LogWarning("注意： 不是预期的调用：" + listRes1[i]);
+                        ++m_nCurCount;
+                        CheckFinished();
+                    }
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void OnLoadNeedOkInLoading(string strAssetID, UnityEngine.Object obj)
+        {
+            this.strAssetID = strAssetID;
+            ++m_nCurCount;
+            CheckFinished();
         }
         //----------------------------------------------------------------------------
         protected virtual void InitDepth()

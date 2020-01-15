@@ -65,6 +65,7 @@ namespace Filterartifact
         private List<string> m_listUnload;
         private int m_nUIClassIndex;
         private Transform m_rootAttachTrans;
+        private UnityCompManager unityCompManager;
         //----------------------------------------------------------------------------
         public struct sUI
         {
@@ -136,7 +137,7 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        public bool LoadUIAsset(string strAssetID,Callback<string,UnityEngine.Object> call)
+        public bool LoadUIAsset(string strAssetID, Callback<string, UnityEngine.Object> call)
         {
             return assetManager.LoadAssetRes(strAssetID, call);
         }
@@ -368,7 +369,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void InitUIRoot()
         {
-
+            unityCompManager = WorldManager.Instance().unityCompManager;
+            m_rootAttachTrans = unityCompManager.m_rootAttachTrans;
         }
         //----------------------------------------------------------------------------
         public void RemoveUseAtlas(string strAtlas)
@@ -405,7 +407,13 @@ namespace Filterartifact
         {
             transUI.parent = m_rootAttachTrans;
             transUI.localRotation = Quaternion.identity;
+            transUI.localPosition = Vector3.zero;
             transUI.localScale = Vector3.one;
+        }
+        //----------------------------------------------------------------------------
+        public static void AddToUIRoot(Transform trans)
+        {
+            m_sys.AddChildUI(trans);
         }
         //----------------------------------------------------------------------------
         AssetsManager assetManager

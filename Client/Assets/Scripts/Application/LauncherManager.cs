@@ -116,6 +116,16 @@ namespace Filterartifact
             m_uiDownload.Show();
         }
         //----------------------------------------------------------------------------
+        public void DownLoadUIFinished()
+        {
+            if (m_uiDownload != null)
+            {
+                m_uiDownload.Hide();
+                m_uiDownload.OnDestroy();
+                m_uiDownload = null;
+            }
+        }
+        //----------------------------------------------------------------------------
         private void UpdateHotUpdate()
         {
             m_bLauncherFinish = true;

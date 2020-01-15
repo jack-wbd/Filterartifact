@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 664609737
+CRC: 3183531843
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,42 +9,39 @@ AssetBundleManifest:
       Name: data/common/resourselist.unity3d
       Dependencies: {}
     Info_2:
-      Name: ui/prefab/ui_empty_root.unity3d
-      Dependencies: {}
-    Info_3:
       Name: ui/prefab/ui_login.unity3d
       Dependencies:
         Dependency_0: font/gameusefont.unity3d
         Dependency_1: ui/atlas/chengzhen00atlas.unity3d
         Dependency_2: ui/atlas/commonpictureatlas.unity3d
-    Info_4:
+    Info_3:
       Name: ui/prefab/ui_root.unity3d
       Dependencies:
         Dependency_0: ui/atlas/loginatlas.unity3d
-    Info_5:
+    Info_4:
       Name: font/gameusefont.unity3d
       Dependencies: {}
-    Info_6:
+    Info_5:
       Name: ui/atlas/chengzhen00atlas.unity3d
       Dependencies: {}
-    Info_7:
+    Info_6:
       Name: ui/atlas/commonpictureatlas.unity3d
       Dependencies: {}
-    Info_8:
+    Info_7:
       Name: ui/atlas/loginatlas.unity3d
       Dependencies: {}
-    Info_9:
+    Info_8:
       Name: ui/picture/switchpic/picture1.unity3d
       Dependencies: {}
-    Info_10:
+    Info_9:
       Name: ui/picture/switchpic/picture2.unity3d
       Dependencies: {}
-    Info_11:
+    Info_10:
       Name: ui/picture/switchpic/picture3.unity3d
       Dependencies: {}
-    Info_12:
+    Info_11:
       Name: ui/picture/switchpic/picture4.unity3d
       Dependencies: {}
-    Info_13:
+    Info_12:
       Name: ui/picture/switchpic/picture5.unity3d
       Dependencies: {}

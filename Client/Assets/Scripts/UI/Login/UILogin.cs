@@ -34,6 +34,30 @@ namespace Filterartifact
 {
     public class UILogin : UIBase
     {
+        //----------------------------------------------------------------------------
+        protected override bool OnCreate()
+        {
+            bool bResult = GetUIObject();
+            if (bResult)
+            {
 
+            }
+            return true;
+        }
+        //----------------------------------------------------------------------------
+        public override void Show(object arg = null)
+        {
+            base.Show(arg);
+        }
+        //----------------------------------------------------------------------------
+        new bool GetUIObject()
+        {
+            if (m_objUI != null)
+            {
+
+            }
+            return true;
+        }
+        //----------------------------------------------------------------------------
     }
 }

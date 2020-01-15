@@ -104,11 +104,20 @@ namespace Filterartifact
             Messenger.RemoveListener<UpdateState>(DgMsgID.DgMsg_InitStatChange, InitStateChange);
             Messenger.RemoveListener<float>(DgMsgID.DgMsg_UpdateGameProgress, UpdateGameProgress);
             m_progressBar = null;
+            Object.DestroyImmediate(m_uiDownload);
         }
         //----------------------------------------------------------------------------
         private void DoGameInitFinished()
         {
             m_progressBar.value = 1;
+        }
+        //----------------------------------------------------------------------------
+        public void Hide()
+        {
+            if (m_uiDownload)
+            {
+                m_uiDownload.SetActive(false);
+            }
         }
         //----------------------------------------------------------------------------
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using UnityEngine;
 //------------------------------------------------------------------------------
 /**
 	\file	WorldManager.cs
@@ -45,6 +46,8 @@ namespace Filterartifact
         private int nLayerNum = 0;
         public ScreenUnit screenUnit;
         private StageLayer m_layerStage = null;
+        public UnityCompManager unityCompManager;
+        public static Transform WorldHudUI;
         //----------------------------------------------------------------------------
         public static WorldManager CreateInstance()
         {
@@ -89,12 +92,21 @@ namespace Filterartifact
             m_dictLayer.Add(typeof(AssetLayer), t);
             nLayerNum = m_dictLayer.Count;
         }
-
+        //----------------------------------------------------------------------------
+        private void CreateWorldNode()
+        {
+            GameObject temp = new GameObject("WorldHudUI");
+            UnityEngine.Object.DontDestroyOnLoad(temp);
+            WorldHudUI = temp.transform;
+            UISystem.AddToUIRoot(WorldHudUI);
+        }
         //----------------------------------------------------------------------------
         public virtual bool CreateWorld()
         {
             CreateMainState();
             screenUnit = new ScreenUnit();
+            unityCompManager = UnityCompManager.CreateInstance();
+            unityCompManager.InitUIRoot();
             return true;
         }
         //----------------------------------------------------------------------------
@@ -111,6 +123,7 @@ namespace Filterartifact
         {
             DestroyLayer();
             ReleaseInstance();
+            UnityCompManager.ReleaseInstance();
         }
         //----------------------------------------------------------------------------
         private void DestroyLayer()
@@ -183,6 +196,7 @@ namespace Filterartifact
         public void InitGame()
         {
             Messenger.Broadcast(DgMsgID.DgMsg_InitAfterMain);
+            CreateWorldNode();
         }
         //----------------------------------------------------------------------------
     }

@@ -458,15 +458,19 @@ namespace Filterartifact
                     bundle = m_assetBundleDict[info.strFile];
                 }
                 string loadAssetName = string.IsNullOrEmpty(info.assetName) ? info.strName : info.assetName;
-                UnityEngine.Object tempObj = bundle.LoadAsset<UnityEngine.Object>(loadAssetName);
-                ProcessAsset(strAssetID, tempObj, needLoad.callback, info.eAssetType);
-                ProcessStreamedAsset(info, tempObj, bundle);
+                UnityEngine.Object[] tempObjList = bundle.LoadAllAssets();
+                for (int i = 0; i < tempObjList.Length; i++)
+                {
+                    ProcessAsset(strAssetID, tempObjList[i], needLoad.callback, info.eAssetType);
+                    ProcessStreamedAsset(info, tempObjList[i], bundle);
+                }
                 return;
             }
 
             needLoad.callback?.Invoke(strAssetID, null);
             Debug.LogError("配置了不存在的资源：" + path);
             return;
+
         }
         //----------------------------------------------------------------------------
         public void ProcessAsset(string strAssetID, UnityEngine.Object objAsset, Delegate call, EAssetType type)
@@ -705,10 +709,12 @@ namespace Filterartifact
             {
                 Callback<string, UnityEngine.Object> callback = result as Callback<string, UnityEngine.Object>;
                 string loadAssetName = string.IsNullOrEmpty(info.assetName) ? info.strName : info.assetName;
-                obj = bundle.LoadAsset(loadAssetName);
-                ProcessAsset(strAssetID, obj, callback, info.eAssetType);
-                ProcessStreamedAsset(info, obj, bundle);
-
+                UnityEngine.Object[] objlist = bundle.LoadAllAssets();
+                for (int i = 0; i < objlist.Length; i++)
+                {
+                    ProcessAsset(strAssetID, objlist[i], callback, info.eAssetType);
+                    ProcessStreamedAsset(info, objlist[i], bundle);
+                }
             }
             else
             {

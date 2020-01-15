@@ -80,6 +80,11 @@ namespace Filterartifact
             Messenger.RemoveListener(DgMsgID.DgMsg_InitAfterMain, OnInitAferMain);
         }
         //----------------------------------------------------------------------------
+        private void OnHideCountUI()
+        {
+
+        }
+        //----------------------------------------------------------------------------
         private void OnInitAferMain()
         {
             if (m_layerUI!=null)

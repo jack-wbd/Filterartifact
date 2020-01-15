@@ -200,7 +200,6 @@ namespace Filterartifact
                 {
                     AddUseAtlas();
                 }
-
                 viewer = Activator.CreateInstance(uiClass) as UIBase;
                 viewer.strCtrl = strCtrl;
                 viewer.impower = impower;

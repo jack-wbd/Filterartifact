@@ -66,7 +66,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         protected override void OnStateEnd()
         {
-            base.OnStateEnd();
+            LauncherManager.Instance.DownLoadUIFinished();
         }
         //----------------------------------------------------------------------------
         protected override void OnUpdate()

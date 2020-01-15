@@ -106,6 +106,7 @@
     <Compile Include="Assets\Scripts\Manager\FileSystem.cs" />
     <Compile Include="Assets\Scripts\Manager\LoadingUIManager.cs" />
     <Compile Include="Assets\Scripts\Manager\Manager.cs" />
+    <Compile Include="Assets\Scripts\Manager\UnityCompManager.cs" />
     <Compile Include="Assets\Scripts\Manager\WorldManager.cs" />
     <Compile Include="Assets\Scripts\Message\DelegateMsg\Messenger.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\DelegateMsgID.cs" />
