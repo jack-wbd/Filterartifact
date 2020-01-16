@@ -102,6 +102,38 @@ namespace Filterartifact
             return t;
         }
         //----------------------------------------------------------------------------
+        public void HideLateUI(string UiKey)
+        {
+
+            if (string.IsNullOrEmpty(UiKey))
+            {
+                return;
+            }
+            string needDelayUIName = UIHistory.GetDelayHideUIName(UiKey);
+            if (!string.IsNullOrEmpty(needDelayUIName))
+            {
+                UIController historyCtrl = m_uiSystem.GetUIControllerById(needDelayUIName);
+                if (historyCtrl != null)
+                {
+                    historyCtrl.bEffect = true;
+                    historyCtrl.Hide();
+                    UIHistory.RemoveShowKey(needDelayUIName);
+                    UIHistory.RemoveDelayHideUI(needDelayUIName);
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        public void Hide(string strkey)
+        {
+            UIController uiCtrl = m_uiSystem.GetUIControllerById(strkey);
+            UIHistory.RemoveShowKey(strkey);
+            if (uiCtrl!=null)
+            {
+                uiCtrl.Hide();
+            }
+            UIHistory.Hide(strkey);
+        }
+        //----------------------------------------------------------------------------
         public override void Update()
         {
             if (m_uiSystem != null)

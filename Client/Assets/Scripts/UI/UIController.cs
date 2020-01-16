@@ -52,6 +52,7 @@ namespace Filterartifact
         public bool m_bWaitToCricle = false;
         int m_connectCount = 0;
         public GameObject m_Obj = null;
+        public bool m_bNeedDelayHidePreUI = false;
         //----------------------------------------------------------------------------
         public void LoadFinishedEx(string strAssetID, UnityEngine.Object obj)
         {
@@ -159,6 +160,11 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public bool NeedDelayHide()
+        {
+            return m_bNeedDelayHidePreUI;
+        }
+        //----------------------------------------------------------------------------
         private eUIImpower _impower = eUIImpower.Default;
         public eUIImpower impower
         {
@@ -183,6 +189,11 @@ namespace Filterartifact
             m_bLocal = bLocal;
             uiClass = uiType;
             strCtrl = strCtrlName;
+        }
+        //----------------------------------------------------------------------------
+        public void SetDelayHide(bool value)
+        {
+            m_bNeedDelayHidePreUI = value;
         }
         //----------------------------------------------------------------------------
         public virtual void InitCtrl()
@@ -283,6 +294,18 @@ namespace Filterartifact
             {
                 InitViewer(arg, true);
             }
+            else
+            {
+                viewer.bEffect = bEffect;
+                viewer.strAssetID = this.strAssetID;
+                viewer.Show(arg);
+                initData(arg);
+            }
+        }
+        //----------------------------------------------------------------------------
+        protected virtual void initData(object arg)
+        {
+            viewer.initData(arg);
         }
         //----------------------------------------------------------------------------
         public virtual void ShowOrHideUI(object arg =null)

@@ -405,7 +405,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void AddChildUI(Transform transUI)
         {
-            transUI.parent = m_rootAttachTrans;
+            transUI.SetParent(m_rootAttachTrans);
             transUI.localRotation = Quaternion.identity;
             transUI.localPosition = Vector3.zero;
             transUI.localScale = Vector3.one;

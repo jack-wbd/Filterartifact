@@ -78,10 +78,10 @@ namespace Filterartifact
                 m_bFileSystemInit = true;
                 Resources.UnloadUnusedAssets();//释放未使用的资源
                 WorldManager.Instance().InitGame();
-                Debug.LogError("资源已被释放");
+                Debug.Log("资源已被释放");
                 Messenger.Broadcast(DgMsgID.DgMsg_PreLoadUI, eUseEnvir.none);
                 Messenger.Broadcast(DgMsgID.DgMsg_ActiveLoadUI);
-                Debug.LogError("InitGame End");
+                Debug.Log("InitGame End");
             }
         }
         //----------------------------------------------------------------------------

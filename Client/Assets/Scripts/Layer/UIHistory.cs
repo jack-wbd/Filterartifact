@@ -44,6 +44,35 @@ namespace Filterartifact
         static private List<string> uiQuene = new List<string>();
         static private Dictionary<string, UIHistoryData> ctrlDicts = new Dictionary<string, UIHistoryData>();
         static private Dictionary<string, Dictionary<string, UIHistoryData>> panelDicts = new Dictionary<string, Dictionary<string, UIHistoryData>>();
+        static private Dictionary<string, string> m_strDelayHide = new Dictionary<string, string>();
+        //----------------------------------------------------------------------------
+        static public string GetDelayHideUIName(string showedUI)
+        {
+            if (m_strDelayHide.ContainsKey(showedUI))
+            {
+                return m_strDelayHide[showedUI];
+            }
+            return "";
+        }
+        //----------------------------------------------------------------------------
+        static public void RemoveShowKey(string key)
+        {
+            allShowUI.Remove(key);
+        }
+        //----------------------------------------------------------------------------
+        static public void RemoveDelayHideUI(string showedUI)
+        {
+
+            if (showedUI == null)
+            {
+                return;
+            }
+            if (m_strDelayHide.ContainsKey(showedUI))
+            {
+                m_strDelayHide.Remove(showedUI);
+            }
+
+        }
         //----------------------------------------------------------------------------
         static public void Show(string key, object arg, eUIImpower impower = eUIImpower.Default)
         {
@@ -98,6 +127,19 @@ namespace Filterartifact
             if (!showList.Contains(key))
             {
                 showList.Add(key);
+            }
+        }
+        //----------------------------------------------------------------------------
+        static public void Hide(string key)
+        {
+            allShowUI.Remove(key);
+            if (uiQuene.IndexOf(key) != -1)
+            {
+                winKey = "";
+            }
+            while (showList.IndexOf(key) != -1)
+            {
+                showList.Remove(key);
             }
         }
         //----------------------------------------------------------------------------

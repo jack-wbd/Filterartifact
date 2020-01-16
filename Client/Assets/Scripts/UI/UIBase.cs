@@ -77,6 +77,8 @@ namespace Filterartifact
         private List<Vector3> m_OrigPos = new List<Vector3>();
         public bool m_bNoNeedLoadAtlasOrFont = false;
         public object dataObj;
+        private float f_Invoke;
+        private bool b_Invoke = false;
         //----------------------------------------------------------------------------
         public bool Create()
         {
@@ -98,20 +100,47 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public virtual void initData(object arg =null)
+        {
+
+        }
+        //----------------------------------------------------------------------------
         public virtual void Show(object arg = null)
         {
-            if (_impower ==eUIImpower.Dialog)
+            if (_impower == eUIImpower.Dialog)
             {
 
             }
             dataObj = arg;
 
-            if (m_objUI==null)
+            if (m_objUI == null)
             {
                 return;
             }
 
+            CheckDelayHide();
 
+            IsShow = true;
+            if (m_objUI.activeSelf != true)
+            {
+                m_objUI.SetActive(true);
+            }
+
+            InitDepth();
+            m_objUI.SendMessage("DoOpenTween", SendMessageOptions.DontRequireReceiver);
+            //隐藏小tips界面
+            f_Invoke = 0.5f;
+            b_Invoke = true;
+            Messenger.Broadcast(DgMsgID.DgUI_HideUI, "UIItemSmallTipCtrl");
+        }
+        //----------------------------------------------------------------------------
+        private void CheckDelayHide()
+        {
+            if (m_ctrl != null && m_ctrl.NeedDelayHide() && strCtrl != "" && strCtrl != "UICircleCtrl")
+            {
+                Messenger.Broadcast(DgMsgID.DgMsg_HideLateToShow, strCtrl);
+                m_ctrl.SetDelayHide(false);
+            }
         }
         //----------------------------------------------------------------------------
         protected virtual bool OnCreate()
@@ -192,7 +221,6 @@ namespace Filterartifact
         public void LoadNeedRes(UIController ctrl)
         {
             m_ctrl = ctrl;
-            Debug.LogError("strName: " + m_ctrl.viewer.strName);
             var depsDict = FileSystem.Instance().GetResData().GetResDepsDict();
             List<string> listRes1 = null;
             depsDict.TryGetValue(m_ctrl.viewer.strName, out listRes1);
