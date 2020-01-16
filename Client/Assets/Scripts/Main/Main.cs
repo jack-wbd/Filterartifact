@@ -29,6 +29,7 @@
 //------------------------------------------------------------------------------
 //	Main.cs
 //------------------------------------------------------------------------------
+using System.Collections;
 using UnityEngine;
 namespace Filterartifact
 {
@@ -52,6 +53,11 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         void Update()
         {
+            StartCoroutine(waitFor());
+        }
+        //----------------------------------------------------------------------------
+        void UpdateGame()
+        {
             if (launcherManager != null)
             {
                 launcherManager.Update();
@@ -69,6 +75,12 @@ namespace Filterartifact
             {
                 gameUI.Update();
             }
+        }
+        //----------------------------------------------------------------------------
+        IEnumerator waitFor()
+        {
+            yield return new WaitForSeconds(8f);
+            UpdateGame();
         }
         //----------------------------------------------------------------------------
         void StartAppGame()
