@@ -45,6 +45,7 @@ namespace Filterartifact
         static private Dictionary<string, UIHistoryData> ctrlDicts = new Dictionary<string, UIHistoryData>();
         static private Dictionary<string, Dictionary<string, UIHistoryData>> panelDicts = new Dictionary<string, Dictionary<string, UIHistoryData>>();
         static private Dictionary<string, string> m_strDelayHide = new Dictionary<string, string>();
+        static private List<UIHistoryData> UIHistoryStack = new List<UIHistoryData>();
         //----------------------------------------------------------------------------
         static public string GetDelayHideUIName(string showedUI)
         {
@@ -72,6 +73,54 @@ namespace Filterartifact
                 m_strDelayHide.Remove(showedUI);
             }
 
+        }
+        //----------------------------------------------------------------------------
+        static public void ShowNew(string key, object arg, eUIImpower impower = eUIImpower.Default)
+        {
+            UIHistoryData data = GetPenuItimateView();
+            if (data != null)
+            {
+                if (key == data.key)
+                {
+                    UIHistoryStack.Remove(data);
+                }
+            }
+            UIHistoryData uIHistoryData = new UIHistoryData();
+            uIHistoryData.UpdateData(key, arg, impower);
+            UIHistoryStack.Add(uIHistoryData);
+
+            if (key == "UIErrorCtrl") return;
+            if (key == "UIEffectCtrl") return;
+            if (key == "UIItemGetCtrl") return;
+            if (key == "UIDialogToggleCtrl") return;
+            if (key == "UDisConnectionCtrl") return;
+            if (key == "UICircleCtrl") return;
+            if (key == "UIChatSimpleViewOldCtrl") return;
+            if (key == "UIPlayerUpgradeCtrl") return;
+            if (key == "UIGuideVeteranModeCtrl") return;
+            if (key == "UIChatSimpleCtrl") return;
+            
+            if (allShowUI.IndexOf(key)==-1)
+            {
+                allShowUI.Add(key);
+            }
+            else
+            {
+                allShowUI.Remove(key);
+                allShowUI.Add(key);
+            }
+
+
+        }
+        //----------------------------------------------------------------------------
+        static public UIHistoryData GetPenuItimateView()//获取倒数第二个界面
+        {
+            if (UIHistoryStack == null || UIHistoryStack.Count < 2)
+            {
+                return null;
+
+            }
+            return UIHistoryStack[UIHistoryStack.Count - 2];
         }
         //----------------------------------------------------------------------------
         static public void Show(string key, object arg, eUIImpower impower = eUIImpower.Default)
@@ -169,6 +218,27 @@ namespace Filterartifact
             uiHistoryData.UpdateData(key, arg, impower);
             return uiHistoryData;
 
+        }
+        //----------------------------------------------------------------------------
+        static public UIHistoryData GetLastView()
+        {
+            if (UIHistoryStack != null && UIHistoryStack.Count == 0)
+            {
+                return null;
+            }
+            return UIHistoryStack[UIHistoryStack.Count - 1];
+        }
+        //----------------------------------------------------------------------------
+        static public void AddDelayHideUI(string showedUI, string hideUI)
+        {
+            if (showedUI == null || hideUI == null)
+            {
+                return;
+            }
+            if (!m_strDelayHide.ContainsKey(showedUI))
+            {
+                m_strDelayHide.Add(showedUI, hideUI);
+            }
         }
         //----------------------------------------------------------------------------
         private static UIHistoryData AddPanel(string key, object arg, eUIImpower impower = eUIImpower.Default)

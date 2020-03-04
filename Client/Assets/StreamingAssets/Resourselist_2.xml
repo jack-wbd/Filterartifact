@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Resourselist>
   <uideps>
+    <Bundle id="ui_loading.prefab">
+      <Bundle id="djjp" />
+      <Bundle id="loginatlas" />
+    </Bundle>
     <Bundle id="ui_login.prefab">
       <Bundle id="gameusefont" />
       <Bundle id="chengzhen00atlas" />
       <Bundle id="commonpictureatlas" />
     </Bundle>
+    <Bundle id="ui_maininterface.prefab">
+      <Bundle id="gameusefont" />
+      <Bundle id="djjp" />
+    </Bundle>
     <Bundle id="ui_root.prefab">
       <Bundle id="loginatlas" />
     </Bundle>
+    <Bundle id="ui_root_main.prefab" />
   </uideps>
 </Resourselist>

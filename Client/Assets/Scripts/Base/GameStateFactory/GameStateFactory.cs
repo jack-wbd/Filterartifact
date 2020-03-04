@@ -32,6 +32,16 @@
 namespace Filterartifact
 {
     //----------------------------------------------------------------------------
+    public enum eSceneType
+    {
+        CREATEROLE_SCENE = 2,//创建角色
+        NEWBIE_SCENE_OLD = 3,//新手引导
+        LOBBY_SCENE = 6,//大厅（现在的城镇）
+        COMMON_SCENE = 11, //通用场景
+        BATTLE_SCENE = 12,//战斗场景
+        UNKNOWN_REGION
+    }
+    //----------------------------------------------------------------------------
     public enum GameStateType
     {
         GST_Invaild = -1,
@@ -39,7 +49,8 @@ namespace Filterartifact
         GST_Loading = 1,
         GST_Login = 2,
         GST_Update = 3,
-        GST_Logo =4,
+        GST_Logo = 4,
+        GST_Lobby = 5,
     }
     //----------------------------------------------------------------------------
     class GameStateFactory

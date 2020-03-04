@@ -2220,7 +2220,6 @@ D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Unity.TextMeshPro.Editor.
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Unity.Timeline.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Unity.Timeline.Editor.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Unity.VSCode.Editor.dll
-D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\UnityEditor.Android.Extensions.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\UnityEditor.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\UnityEditor.Graphs.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\UnityEditor.TestRunner.dll
@@ -2296,6 +2295,7 @@ D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Unity.Cecil.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Unity.SerializationLogic.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Unity.Legacy.NRefactory.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\ExCSS.Unity.dll
+D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Messaging.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Boo.Lang.Compiler.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Boo.Lang.PatternMatching.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Boo.Lang.Parser.dll

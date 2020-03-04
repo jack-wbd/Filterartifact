@@ -201,6 +201,11 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public virtual void Finalized()
+        {
+
+        }
+        //----------------------------------------------------------------------------
         public virtual void InitViewer(object arg, bool bflag = false)
         {
             m_paramData = arg;

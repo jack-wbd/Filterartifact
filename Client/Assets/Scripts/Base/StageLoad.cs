@@ -33,7 +33,7 @@
 namespace Filterartifact
 {
     //----------------------------------------------------------------------------
-    public class StageLoad
+    public class StageLoad : LoadSceneBase
     {
         //----------------------------------------------------------------------------
         public StageLoad()
@@ -49,6 +49,11 @@ namespace Filterartifact
         private void OnUILoadOK()
         {
 
+        }
+        //----------------------------------------------------------------------------
+        public override void AcitvePreLoad()
+        {
+            base.AcitvePreLoad();
         }
         //----------------------------------------------------------------------------
 

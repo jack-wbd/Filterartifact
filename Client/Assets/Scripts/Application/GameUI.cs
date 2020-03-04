@@ -47,12 +47,14 @@ namespace Filterartifact
             Messenger.AddListener<string>(DgMsgID.DgUI_ShowUI, OnShowUI);
             Messenger.AddListener<string>(DgMsgID.DgMsg_HideLateToShow, OnHideLateToShowUI);
             Messenger.AddListener<string>(DgMsgID.DgUI_HideUI, OnHideUI);
+            Messenger.AddListener<string>(DgMsgID.DgUI_ShowNew, OnShowNew);
+            Messenger.AddListener<string, object>(DgMsgID.DgMsg_ShowUIOneParam, OnShowUIOneParam);
             return true;
         }
         //----------------------------------------------------------------------------
         private void OnShowUI(string strCtrl)
         {
-            if (m_layerUI!=null)
+            if (m_layerUI != null)
             {
                 m_layerUI.Show(strCtrl);
             }
@@ -60,15 +62,15 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public override void Update()
         {
-           if (m_layerUI!=null)
-           {
+            if (m_layerUI != null)
+            {
                 m_layerUI.Update();
-           }
+            }
         }
         //----------------------------------------------------------------------------
         private void OnRegisterAllUI()
         {
-            if (m_layerUI!=null)
+            if (m_layerUI != null)
             {
                 m_layerUI.RegisterUIControl();
             }
@@ -82,11 +84,21 @@ namespace Filterartifact
             Messenger.RemoveListener(DgMsgID.DgMsg_InitAfterMain, OnInitAferMain);
             Messenger.RemoveListener<string>(DgMsgID.DgMsg_HideLateToShow, OnHideLateToShowUI);
             Messenger.RemoveListener<string>(DgMsgID.DgUI_HideUI, OnHideUI);
+            Messenger.RemoveListener<string>(DgMsgID.DgUI_ShowNew, OnShowNew);
+            Messenger.RemoveListener<string, object>(DgMsgID.DgMsg_ShowUIOneParam, OnShowUIOneParam);
+        }
+        //----------------------------------------------------------------------------
+        private void OnShowUIOneParam(string strCtrl,object obj)
+        {
+            if (m_layerUI!=null)
+            {
+                m_layerUI.Show(strCtrl, obj);
+            }
         }
         //----------------------------------------------------------------------------
         private void OnHideLateToShowUI(string strCtrl)
         {
-            if (m_layerUI!=null)
+            if (m_layerUI != null)
             {
                 m_layerUI.HideLateUI(strCtrl);
             }
@@ -99,7 +111,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnHideUI(string strCtrl)
         {
-            if (m_layerUI!=null)
+            if (m_layerUI != null)
             {
                 m_layerUI.Hide(strCtrl);
             }
@@ -107,9 +119,19 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnInitAferMain()
         {
-            if (m_layerUI!=null)
+            if (m_layerUI != null)
             {
                 m_layerUI.InitializeAfterMain();
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void OnShowNew(string strCtrl)
+        {
+            if (m_layerUI != null)
+            {
+
+                // Messenger.Broadcast(DgMsgID.DgMsg_GUIDE_NewbieShowNew, (int)DgMsgID.DgMsg_GUIDE_NewbieShowNew);/新手引导先不处理
+                m_layerUI.ShowNew(strCtrl);
             }
         }
         //----------------------------------------------------------------------------

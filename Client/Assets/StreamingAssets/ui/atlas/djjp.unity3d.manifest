@@ -1,0 +1,23 @@
+ManifestFileVersion: 0
+CRC: 3480816002
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: db5442d9d73830dc30ea51bcc9032ac1
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: cb3f6df5cbc4a2990c44c2787bc9553a
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/ui/atlas/djjp/Download_loading4.png
+- Assets/Data/ui/atlas/djjp/beijingtu1.png
+- Assets/Data/ui/atlas/djjp/heidi.png
+- Assets/Data/ui/atlas/djjp/p000.png
+- Assets/Data/ui/atlas/djjp/adou.png
+- Assets/Data/ui/atlas/djjp/beijingtu2.png
+Dependencies: []

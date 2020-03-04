@@ -62,6 +62,8 @@ namespace Filterartifact
         public void RegisterUIControl()
         {
             Register<UILoginCtrl, UILogin>("RUP_Login", this);
+            Register<UIMainInterfaceCtrl, UIMaininterface>("RUP_MainPanel", this, true, eUIImpower.Window);
+            Register<UILoadingCtrl, UILoading>("RUP_Loading", this);
         }
         //----------------------------------------------------------------------------
         public TCtrl Register<TCtrl, TBase>(string strAssetID, IMsgPipe pipe, bool bLocal = true, eUIImpower _impower = eUIImpower.Default)
@@ -102,6 +104,46 @@ namespace Filterartifact
             return t;
         }
         //----------------------------------------------------------------------------
+        public void ShowNew(string strkey, object arg = null, bool _bEffect = true)
+        {
+            if (SystemOpenHookMessage(strkey))
+            {
+                return;
+            }
+            UIHistoryData historyData = UIHistory.GetLastView();
+            if (historyData != null)
+            {
+                if (historyData.key == strkey)
+                {
+                    return;
+                }
+                if (historyData.key == "UIMainInterfaceCtrl")
+                {
+
+                }
+
+                UIHistory.AddDelayHideUI(strkey, historyData.key);
+
+
+            }
+            else
+            {
+
+            }
+            UIController uiCtrl = m_uiSystem.GetUIControllerById(strkey);
+            if (uiCtrl != null)
+            {
+                uiCtrl.bEffect = _bEffect;
+                UIHistory.ShowNew(strkey, arg, uiCtrl.impower);
+                if (historyData != null && !string.IsNullOrEmpty(historyData.key))
+                {
+                    uiCtrl.SetDelayHide(true);
+                }
+                uiCtrl.Show(arg);
+            }
+
+        }
+        //----------------------------------------------------------------------------
         public void HideLateUI(string UiKey)
         {
 
@@ -127,7 +169,7 @@ namespace Filterartifact
         {
             UIController uiCtrl = m_uiSystem.GetUIControllerById(strkey);
             UIHistory.RemoveShowKey(strkey);
-            if (uiCtrl!=null)
+            if (uiCtrl != null)
             {
                 uiCtrl.Hide();
             }
@@ -167,7 +209,7 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        public void Show(string strkey, Object arg = null, bool _bEffect = true)
+        public void Show(string strkey, object arg = null, bool _bEffect = true)
         {
             if (SystemOpenHookMessage(strkey))
             {
@@ -181,7 +223,6 @@ namespace Filterartifact
                 UIHistory.Show(strkey, arg, uiCtrl.impower);
                 uiCtrl.Show(arg);
             }
-
         }
         //----------------------------------------------------------------------------
         //系统开放屏蔽VIP等上层入口比较多的功能

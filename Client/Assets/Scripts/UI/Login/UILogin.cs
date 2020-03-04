@@ -1,4 +1,5 @@
-﻿//------------------------------------------------------------------------------
+﻿using UnityEngine.UI;
+//------------------------------------------------------------------------------
 /**
 	\file	UILogin.cs
 
@@ -35,12 +36,17 @@ namespace Filterartifact
     public class UILogin : UIBase
     {
         //----------------------------------------------------------------------------
+        private InputField m_accountInput;
+        private InputField m_passwordInput;
+        private Button m_beginBtn;
+        UILoadingCtrl m_curtrl;
+        //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
             bool bResult = GetUIObject();
             if (bResult)
             {
-
+                m_beginBtn.onClick.AddListener(() => OnEnterClick());
             }
             return true;
         }
@@ -50,13 +56,37 @@ namespace Filterartifact
             base.Show(arg);
         }
         //----------------------------------------------------------------------------
+        public override void Hide()
+        {
+            base.Hide();
+        }
+        //----------------------------------------------------------------------------
         new bool GetUIObject()
         {
             if (m_objUI != null)
             {
-
+                m_curtrl = (UILoadingCtrl)m_ctrl;
+                m_accountInput = m_uiTrans.Find("anchor/Panel_jinruyouxi/account/InputField").GetComponent<InputField>();
+                m_passwordInput = m_uiTrans.Find("anchor/Panel_jinruyouxi/password/InputField").GetComponent<InputField>();
+                m_beginBtn = m_uiTrans.Find("anchor/Panel_jinruyouxi/oldbutton").GetComponent<Button>();
             }
             return true;
+        }
+        //----------------------------------------------------------------------------
+        private void OnEnterClick()
+        {
+            if (!string.IsNullOrEmpty(m_accountInput.text))
+            {
+                Hide();
+                m_curtrl.OnConnectSocialSuc();
+                Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIMainInterfaceCtrl");
+            }
+        }
+        //----------------------------------------------------------------------------
+        protected override void OnUpdate()
+        {
+            base.OnUpdate();
+
         }
         //----------------------------------------------------------------------------
     }

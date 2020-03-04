@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3183531843
+CRC: 3809923186
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -28,20 +28,39 @@ AssetBundleManifest:
       Name: ui/atlas/commonpictureatlas.unity3d
       Dependencies: {}
     Info_7:
-      Name: ui/atlas/loginatlas.unity3d
+      Name: ui/atlas/djjp.unity3d
       Dependencies: {}
     Info_8:
-      Name: ui/picture/switchpic/picture1.unity3d
+      Name: ui/atlas/loginatlas.unity3d
       Dependencies: {}
     Info_9:
-      Name: ui/picture/switchpic/picture2.unity3d
+      Name: ui/atlas/maininterface.unity3d
       Dependencies: {}
     Info_10:
-      Name: ui/picture/switchpic/picture3.unity3d
+      Name: ui/picture/switchpic/picture1.unity3d
       Dependencies: {}
     Info_11:
-      Name: ui/picture/switchpic/picture4.unity3d
+      Name: ui/picture/switchpic/picture2.unity3d
       Dependencies: {}
     Info_12:
+      Name: ui/picture/switchpic/picture3.unity3d
+      Dependencies: {}
+    Info_13:
+      Name: ui/picture/switchpic/picture4.unity3d
+      Dependencies: {}
+    Info_14:
       Name: ui/picture/switchpic/picture5.unity3d
+      Dependencies: {}
+    Info_15:
+      Name: ui/prefab/ui_loading.unity3d
+      Dependencies:
+        Dependency_0: ui/atlas/djjp.unity3d
+        Dependency_1: ui/atlas/loginatlas.unity3d
+    Info_16:
+      Name: ui/prefab/ui_maininterface.unity3d
+      Dependencies:
+        Dependency_0: font/gameusefont.unity3d
+        Dependency_1: ui/atlas/djjp.unity3d
+    Info_17:
+      Name: ui/prefab/ui_root_main.unity3d
       Dependencies: {}

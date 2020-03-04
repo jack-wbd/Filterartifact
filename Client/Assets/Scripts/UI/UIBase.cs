@@ -92,7 +92,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void Update()
         {
-
+            OnUpdate();
         }
         //----------------------------------------------------------------------------
         public virtual void OnDestroy()
@@ -101,6 +101,11 @@ namespace Filterartifact
         }
         //----------------------------------------------------------------------------
         public virtual void initData(object arg =null)
+        {
+
+        }
+        //----------------------------------------------------------------------------
+        protected virtual void OnUpdate()
         {
 
         }

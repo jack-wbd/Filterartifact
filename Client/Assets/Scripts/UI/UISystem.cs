@@ -86,6 +86,11 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
+        private void OnActiveLoadUI()
+        {
+            AcitvePreLoad();
+        }
+        //----------------------------------------------------------------------------
         public virtual void AddPreLoadAsset(string strAssetID)
         {
 
@@ -135,6 +140,15 @@ namespace Filterartifact
             CurAssetCount = 0;
 
 
+        }
+        //----------------------------------------------------------------------------
+        public UIController GetUIControllerById(string key)
+        {
+            if (m_dictAllUICtrl.ContainsKey(key))
+            {
+                return m_dictAllUICtrl[key].uiCtrl;
+            }
+            return null;
         }
         //----------------------------------------------------------------------------
         public bool LoadUIAsset(string strAssetID, Callback<string, UnityEngine.Object> call)
@@ -201,24 +215,6 @@ namespace Filterartifact
             return m_objUIRoot;
         }
         //----------------------------------------------------------------------------
-        public virtual void AcitivePreLoad()
-        {
-
-            if (m_nTotalCount == 0)
-            {
-                DoFinish();
-                return;
-            }
-            for (int i = 0; i < m_nTotalCount; i++)
-            {
-                if (!assetManager.LoadAssetRes<string, UnityEngine.Object>(m_listUIRes[i], OnLoadCallBack))
-                {
-                    CheckFinish();
-                }
-            }
-
-        }
-        //----------------------------------------------------------------------------
         public void AddPreLoadAudio(string strAudioID)
         {
 
@@ -281,11 +277,6 @@ namespace Filterartifact
             m_dictAllUICtrl.Add(key, uiCtrl);
         }
         //----------------------------------------------------------------------------
-        private void OnActiveLoadUI()
-        {
-            AcitivePreLoad();
-        }
-        //----------------------------------------------------------------------------
         public virtual void AcitvePreLoad()
         {
             if (m_nTotalCount == 0)
@@ -332,15 +323,6 @@ namespace Filterartifact
                 ctrl.InitViewer(null);
             }
             m_listPreLoadEnvir.Clear();
-        }
-        //----------------------------------------------------------------------------
-        public UIController GetUIControllerById(string key)
-        {
-            if (m_dictAllUICtrl.ContainsKey(key))
-            {
-                return m_dictAllUICtrl[key].uiCtrl;
-            }
-            return null;
         }
         //----------------------------------------------------------------------------
         public void AddUseAtlas(string strAtlas)

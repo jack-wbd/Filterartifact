@@ -55,6 +55,7 @@ namespace Filterartifact
         {
             m_assetmaneger = WorldManager.Instance().GetLayer<AssetLayer>().GetManager();
             m_loadCongData = WorldManager.Instance().GetDataCollection<LoadingConfigData>();
+            Messenger.AddListener<eSceneType>(DgMsgID.DgMsg_ShowLoadingUIByType, OnShowLoadingUIByType);
             return base.Initialized();
 
         }
@@ -72,6 +73,29 @@ namespace Filterartifact
         public override void Finalized()
         {
             base.Finalized();
+            Messenger.RemoveListener<eSceneType>(DgMsgID.DgMsg_ShowLoadingUIByType, OnShowLoadingUIByType);
+        }
+        //----------------------------------------------------------------------------
+        private void OnShowLoadingUIByType(eSceneType type)
+        {
+            switch (type)
+            {
+                case eSceneType.CREATEROLE_SCENE:
+                    break;
+                case eSceneType.NEWBIE_SCENE_OLD:
+                    break;
+                case eSceneType.LOBBY_SCENE:
+                    Messenger.Broadcast(DgMsgID.DgMsg_ShowUIOneParam, "UILoadingCtrl", (object)m_curTexture);
+                    break;
+                case eSceneType.COMMON_SCENE:
+                    break;
+                case eSceneType.BATTLE_SCENE:
+                    break;
+                case eSceneType.UNKNOWN_REGION:
+                    break;
+                default:
+                    break;
+            }
         }
         //----------------------------------------------------------------------------
         //预加载Loading图片
@@ -86,7 +110,7 @@ namespace Filterartifact
                         m_curTexture = strAssetID;
                         if (call != null)
                         {
-                            call.Invoke(strAssetID,obj);
+                            call.Invoke(strAssetID, obj);
                         }
                     });
             }

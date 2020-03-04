@@ -45,7 +45,7 @@ namespace Filterartifact
         void AddPreLoadEffect(string strEffectID);
         void AddPreLoadCommander(int nCommanderID);
         void AddPreLoadAudio(string strAudioID);
-        void AcitivePreLoad();
+        void AcitvePreLoad();
     }
     //----------------------------------------------------------------------------
 }

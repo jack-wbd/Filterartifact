@@ -46,6 +46,11 @@ namespace Filterartifact
         DgMsg_InitAfterMain = 0x10000010,
         DgMsg_HideLateToShow = 0x10000011,
         DgUI_HideUI = 0x10000012,
+        DgUI_ShowNew = 0x10000013,
+        DgMsg_GUIDE_NewbieShowNew = 0x10000014,
+        DgMsg_GoToCity = 0x10000015,
+        DgMsg_ShowLoadingUIByType = 0x10000016,
+        DgMsg_ShowUIOneParam = 0x10000017,
     }
 }
 
