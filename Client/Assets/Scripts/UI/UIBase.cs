@@ -79,6 +79,7 @@ namespace Filterartifact
         public object dataObj;
         private float f_Invoke;
         private bool b_Invoke = false;
+        private RectTransform m_rect;
         //----------------------------------------------------------------------------
         public bool Create()
         {
@@ -100,7 +101,7 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        public virtual void initData(object arg =null)
+        public virtual void initData(object arg = null)
         {
 
         }
@@ -137,6 +138,7 @@ namespace Filterartifact
             f_Invoke = 0.5f;
             b_Invoke = true;
             Messenger.Broadcast(DgMsgID.DgUI_HideUI, "UIItemSmallTipCtrl");
+            InitRecTTransform();
         }
         //----------------------------------------------------------------------------
         private void CheckDelayHide()
@@ -200,6 +202,7 @@ namespace Filterartifact
             }
 
             panel = m_uiTrans.GetComponent<Image>();
+            m_rect = m_uiTrans.GetComponent<RectTransform>();
             InitLayout();
             InitAdaption();
             InitDepth();
@@ -260,7 +263,22 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         protected virtual void InitDepth()
         {
-
+          
+        }
+        //----------------------------------------------------------------------------
+        public virtual void InitRecTTransform()
+        {
+            if (m_rect)
+            {
+                m_rect.anchorMin = new Vector2(0, 0);
+                m_rect.anchorMax = new Vector2(1, 1);
+                m_rect.pivot = new Vector2(0.5f, 0.5f);
+                m_rect.offsetMin = new Vector2(0, 0);
+                m_rect.offsetMax = new Vector2(0, 0);
+                m_rect.localRotation = Quaternion.identity;
+                m_rect.localScale = Vector3.one;
+                m_rect.anchoredPosition3D = new Vector3(0, 0, 0);
+            }
         }
         //----------------------------------------------------------------------------
         private void CheckFinished()

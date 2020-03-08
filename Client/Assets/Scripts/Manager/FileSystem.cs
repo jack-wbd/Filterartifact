@@ -459,9 +459,10 @@ namespace Filterartifact
                 }
                 string loadAssetName = string.IsNullOrEmpty(info.assetName) ? info.strName : info.assetName;
                 UnityEngine.Object[] tempObjList = bundle.LoadAllAssets();
+                var count = tempObjList.Length;
                 for (int i = 0; i < tempObjList.Length; i++)
                 {
-                    ProcessAsset(strAssetID, tempObjList[i], needLoad.callback, info.eAssetType);
+                    ProcessAsset(strAssetID, tempObjList[i], needLoad.callback, info.eAssetType, count, i);
                     ProcessStreamedAsset(info, tempObjList[i], bundle);
                 }
                 return;
@@ -473,11 +474,22 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        public void ProcessAsset(string strAssetID, UnityEngine.Object objAsset, Delegate call, EAssetType type)
+        public void ProcessAsset(string strAssetID, UnityEngine.Object objAsset, Delegate call, EAssetType type, int count, int index)
         {
             assetsManager.AddAssetList(strAssetID, objAsset, type);
-            (call as Callback<string, UnityEngine.Object>)?.Invoke(strAssetID, objAsset);
-            call = null;
+
+            if ((count - 1 == index) && count > 1)
+            {
+                (call as Callback<string, UnityEngine.Object>)?.Invoke(strAssetID, objAsset);
+                call = null;
+            }
+            else if (count == 1)
+            {
+                (call as Callback<string, UnityEngine.Object>)?.Invoke(strAssetID, objAsset);
+                call = null;
+            }
+
+
         }
         //----------------------------------------------------------------------------
         public void ProcessStreamedAsset(sAssetInfo info, UnityEngine.Object objAsset, AssetBundle bundle)
@@ -710,9 +722,10 @@ namespace Filterartifact
                 Callback<string, UnityEngine.Object> callback = result as Callback<string, UnityEngine.Object>;
                 string loadAssetName = string.IsNullOrEmpty(info.assetName) ? info.strName : info.assetName;
                 UnityEngine.Object[] objlist = bundle.LoadAllAssets();
+                var count = objlist.Length;
                 for (int i = 0; i < objlist.Length; i++)
                 {
-                    ProcessAsset(strAssetID, objlist[i], callback, info.eAssetType);
+                    ProcessAsset(strAssetID, objlist[i], callback, info.eAssetType, count, i);
                     ProcessStreamedAsset(info, objlist[i], bundle);
                 }
             }

@@ -4,6 +4,7 @@
     <Bundle id="ui_loading.prefab">
       <Bundle id="djjp" />
       <Bundle id="loginatlas" />
+      <Bundle id="picture1" />
     </Bundle>
     <Bundle id="ui_login.prefab">
       <Bundle id="gameusefont" />

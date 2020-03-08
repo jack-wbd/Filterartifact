@@ -81,7 +81,7 @@ namespace Filterartifact
             float fHeight = 720;
             if (m_rootCanvasScale == null)
             {
-                m_rootCanvasScale = GameObject.Find("ui_root/Camera/Canvas").GetComponent<CanvasScaler>();
+                m_rootCanvasScale = GameObject.Find("ui_root/UICamera/Canvas").GetComponent<CanvasScaler>();
             }
             if (m_rootCanvasScale != null)
             {

@@ -41,6 +41,12 @@ namespace Filterartifact
     class UILoading : UIBase
     {
         private RawImage m_pic;
+        private UILoadingCtrl m_loadCtrl = null;
+        private Slider m_slider = null;
+        private int m_nLoadpicCount = 0;
+        private int m_nNeedLoadPicCount = 0;
+        private float m_fStepScale = 1f;
+
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -57,8 +63,16 @@ namespace Filterartifact
             if (m_objUI != null)
             {
                 m_pic = m_uiTrans.Find("pic").GetComponent<RawImage>();
+                m_slider = m_uiTrans.Find("load_di").GetComponent<Slider>();
+                Hide();
             }
             return true;
+        }
+        //----------------------------------------------------------------------------
+        public override void SetCtrl(UIController ctrl)
+        {
+            base.SetCtrl(ctrl);
+            m_loadCtrl = ctrl as UILoadingCtrl;
         }
         //----------------------------------------------------------------------------
         public override void Show(object arg = null)
@@ -72,14 +86,59 @@ namespace Filterartifact
                     m_pic.texture = obj as Texture;
                 }
             }
+            UISystem.CurAssetCount = 0;
+            LoadSceneBase.CurAssetCount = 0;
+            m_loadCtrl.m_nCurLoadedCount = 0;
+            m_loadCtrl.m_nNeedLoadedCount = 0;
+            m_loadCtrl.m_nCurFramFlag = 0;
+            m_fStepScale = 1f;
+            m_slider.value = 0;
+
         }
         //----------------------------------------------------------------------------
         private void ShowView()
         {
-
+            //Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIMainInterfaceCtrl");
         }
         //----------------------------------------------------------------------------
+        protected override void OnUpdate()
+        {
+            if (m_loadCtrl.m_bLoad)
+            {
+                m_loadCtrl.m_nCurLoadedCount = LoadSceneBase.CurAssetCount + UISystem.CurAssetCount;
+                m_loadCtrl.m_nNeedLoadedCount = LoadSceneBase.MaxAssetCount + UISystem.MaxAssetCount;
+                if (m_loadCtrl.m_nCurFramFlag < m_loadCtrl.m_nCurLoadedCount)
+                {
+                    m_fStepScale = (m_loadCtrl.m_nCurLoadedCount - m_loadCtrl.m_nCurLoadedCount) / 3;
+                    m_loadCtrl.m_nCurFramFlag += m_fStepScale < 1 ? 3 : (int)m_fStepScale + 3;
+                    m_slider.value = (float)m_loadCtrl.m_nCurFramFlag / m_loadCtrl.m_nNeedLoadedCount;
+                }
+                if (m_loadCtrl.m_nCurFramFlag >= m_loadCtrl.m_nNeedLoadedCount)
+                {
+                    m_loadCtrl.m_nCurFramFlag = m_loadCtrl.m_nNeedLoadedCount;
+                    m_slider.value = 1;
+                    m_loadCtrl.m_bLoad = true;
+                    Messenger.Broadcast<bool>(DgMsgID.DgMsg_NtyLoadProsser_Finish, true);
+                }
+            }
+        }
         //----------------------------------------------------------------------------
+        public override void Hide()
+        {
+            base.Hide();
+            if (IsShow)
+            {
+                LoadingUIManager.Instance().PreLoadLoadingTexture(null);
+            }
+            m_slider.value = 0;
+            m_loadCtrl.m_nCurFramFlag = 0;
+            m_loadCtrl.m_nNeedLoadedCount = 0;
+        }
+        //----------------------------------------------------------------------------
+        private void OnResComplete()
+        {
+            Hide();
+        }
         //----------------------------------------------------------------------------
     }
 }

@@ -39,7 +39,7 @@ namespace Filterartifact
         private InputField m_accountInput;
         private InputField m_passwordInput;
         private Button m_beginBtn;
-        UILoadingCtrl m_curtrl;
+        UILoginCtrl m_curtrl;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -65,7 +65,7 @@ namespace Filterartifact
         {
             if (m_objUI != null)
             {
-                m_curtrl = (UILoadingCtrl)m_ctrl;
+                m_curtrl = (UILoginCtrl)m_ctrl;
                 m_accountInput = m_uiTrans.Find("anchor/Panel_jinruyouxi/account/InputField").GetComponent<InputField>();
                 m_passwordInput = m_uiTrans.Find("anchor/Panel_jinruyouxi/password/InputField").GetComponent<InputField>();
                 m_beginBtn = m_uiTrans.Find("anchor/Panel_jinruyouxi/oldbutton").GetComponent<Button>();
@@ -79,7 +79,6 @@ namespace Filterartifact
             {
                 Hide();
                 m_curtrl.OnConnectSocialSuc();
-                Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIMainInterfaceCtrl");
             }
         }
         //----------------------------------------------------------------------------

@@ -18,7 +18,7 @@
 		<Bundle id="djjp" preload="0" file="ui/atlas/djjp.unity3d" name=""/>
 	</Atlas>
 	    <Bundle id="RUP_Login" preload="1" EnvirUse="login" file="ui/prefab/ui_login.unity3d" name=""/>	  
-	    <Bundle id="RUP_MainPanel" preload="1" EnvirUse="city" file="ui/prefab/ui_maininterface.unity3d" name=""/>
+	    <Bundle id="RUP_MainPanel" preload="0" EnvirUse="city" file="ui/prefab/ui_maininterface.unity3d" name=""/>
 	    <Bundle id="RUP_Loading" preload="1" EnvirUse="none" file="ui/prefab/ui_loading.unity3d" name=""/>	  	      
 	</ui>
 </Resourselist>

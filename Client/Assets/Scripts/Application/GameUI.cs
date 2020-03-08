@@ -88,9 +88,9 @@ namespace Filterartifact
             Messenger.RemoveListener<string, object>(DgMsgID.DgMsg_ShowUIOneParam, OnShowUIOneParam);
         }
         //----------------------------------------------------------------------------
-        private void OnShowUIOneParam(string strCtrl,object obj)
+        private void OnShowUIOneParam(string strCtrl, object obj)
         {
-            if (m_layerUI!=null)
+            if (m_layerUI != null)
             {
                 m_layerUI.Show(strCtrl, obj);
             }

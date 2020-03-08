@@ -34,6 +34,55 @@ namespace Filterartifact
 {
     class UILoginCtrl : UIController
     {
+        private bool isOK = false;
+        //----------------------------------------------------------------------------
+        public void OnConnectSocialSuc()
+        {
+            isOK = true;
+        }
+        //----------------------------------------------------------------------------
+        public override void Update()
+        {
+            base.Update();
+            if (isOK)
+            {
+                GotoLobby();
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void GotoLobby()
+        {
+            isOK = false;
+            CheckLoadingType(GameStateType.GST_Lobby);
 
+        }
+        //----------------------------------------------------------------------------
+        public void CheckLoadingType(GameStateType stateType)
+        {
+            eSceneType type = eSceneType.BATTLE_SCENE;
+            switch (stateType)
+            {
+                case GameStateType.GST_Invaild:
+                    break;
+                case GameStateType.GST_Main:
+                    break;
+                case GameStateType.GST_Loading:
+                    break;
+                case GameStateType.GST_Login:
+                    break;
+                case GameStateType.GST_Update:
+                    break;
+                case GameStateType.GST_Logo:
+                    break;
+                case GameStateType.GST_Lobby:
+                    type = eSceneType.LOBBY_SCENE;
+                    break;
+                default:
+                    type = eSceneType.BATTLE_SCENE;
+                    break;
+            }
+            Messenger.Broadcast(DgMsgID.DgMsg_ShowLoadingUIByType, type);
+        }
+        //----------------------------------------------------------------------------
     }
 }

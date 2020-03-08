@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3809923186
+CRC: 92484166
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -56,6 +56,7 @@ AssetBundleManifest:
       Dependencies:
         Dependency_0: ui/atlas/djjp.unity3d
         Dependency_1: ui/atlas/loginatlas.unity3d
+        Dependency_2: ui/picture/switchpic/picture1.unity3d
     Info_16:
       Name: ui/prefab/ui_maininterface.unity3d
       Dependencies:

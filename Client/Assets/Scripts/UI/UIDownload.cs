@@ -47,7 +47,7 @@ namespace Filterartifact
         public UIDownload()
         {
             m_root = GameObject.Find("ui_root");
-            m_uiDownload = m_root.transform.Find("Camera/Canvas/ui_download").gameObject;
+            m_uiDownload = m_root.transform.Find("UICamera/Canvas/CenterPageNode/ui_download").gameObject;
             m_tans = m_uiDownload.transform;
             m_version = m_tans.Find("version").GetComponent<Text>();
             m_progressBar = m_tans.Find("progressBar").GetComponent<Slider>();

@@ -45,7 +45,7 @@ namespace Filterartifact
         public UILogoView()
         {
             m_root = GameObject.Find("ui_root");
-            m_logoTrans = m_root.transform.Find("Camera/Canvas/ui_logo");
+            m_logoTrans = m_root.transform.Find("UICamera/Canvas/CenterPageNode/ui_logo");
             m_logoGo = m_logoTrans.Find("Logo").gameObject;
             m_logoGroup = m_logoGo.GetComponent<CanvasGroup>();
             m_healthGo = m_logoTrans.Find("health").gameObject;

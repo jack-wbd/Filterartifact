@@ -58,7 +58,7 @@ namespace Filterartifact
         {
             Object rootBundle = GameObject.Find("ui_root");
             m_objUIRoot = rootBundle as GameObject;
-            m_rootAttachTrans = m_objUIRoot.transform.Find("Camera/Canvas");
+            m_rootAttachTrans = m_objUIRoot.transform.Find("UICamera/Canvas/CenterPageNode");
         }
         //----------------------------------------------------------------------------
         public static UnityCompManager Instance()

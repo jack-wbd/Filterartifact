@@ -146,6 +146,7 @@ namespace Filterartifact
             {
                 m_uiSystem.AddUIClass(strAssetID, viewer);
                 viewer.strAssetID = strAssetID;
+
                 if (!viewer.Create())
                 {
                     viewer.OnDestroy();
@@ -157,7 +158,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public virtual void DoCreateEx()
         {
-
+            viewer.InitRecTTransform();
         }
         //----------------------------------------------------------------------------
         public bool NeedDelayHide()

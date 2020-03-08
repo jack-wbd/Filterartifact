@@ -40,56 +40,58 @@ namespace Filterartifact
     class UILoadingCtrl : UIController
     {
         //----------------------------------------------------------------------------
-        private bool isOK = false;
+        public bool m_bLoad = false;
+        public int m_nCurFramFlag = 0;
+        public int m_nCurLoadedCount = 0;
+        public int m_nNeedLoadedCount = 0;
         //----------------------------------------------------------------------------
-        public void OnConnectSocialSuc()
+        public override void InitCtrl()
         {
-            isOK = true;
+            base.InitCtrl();
+            Messenger.AddListener<bool>(DgMsgID.DgMsg_LSNtyStageLoadingProcess, OnLoadProcess);
+            Messenger.AddListener<bool>(DgMsgID.DgMsg_NtyStageLoadingProcess, OnLoadProcess);
         }
         //----------------------------------------------------------------------------
+        public override void Finalized()
+        {
+            base.Finalized();
+            Messenger.RemoveListener<bool>(DgMsgID.DgMsg_LSNtyStageLoadingProcess, OnLoadProcess);
+            Messenger.RemoveListener<bool>(DgMsgID.DgMsg_NtyStageLoadingProcess, OnLoadProcess);
+        }
+        //----------------------------------------------------------------------------
+        private void OnLoadProcess(bool bLoad)
+        {
+            if (bLoad)
+            {
+                m_bLoad = bLoad;
+                m_nCurFramFlag = 0;
+                m_nNeedLoadedCount = 0;
 
+            }
+            else
+            {
+                m_nCurLoadedCount = m_nNeedLoadedCount;
+            }
+        }
         //----------------------------------------------------------------------------
         public override void Update()
         {
             base.Update();
-            if (isOK)
-            {
-                GotoLobby();
-            }
-        }
-        //----------------------------------------------------------------------------
-        private void GotoLobby()
-        {
-            isOK = false;
-            CheckLoadingType(GameStateType.GST_Lobby);
 
         }
         //----------------------------------------------------------------------------
-        public void CheckLoadingType(GameStateType stateType)
+        public void OnShowOrHide(object obj)
         {
-            eSceneType type = eSceneType.BATTLE_SCENE;
-            switch (stateType)
+            bool bShowOrHide = (bool)obj;
+            if (bShowOrHide)
             {
-                case GameStateType.GST_Invaild:
-                    break;
-                case GameStateType.GST_Main:
-                    break;
-                case GameStateType.GST_Loading:
-                    break;
-                case GameStateType.GST_Login:
-                    break;
-                case GameStateType.GST_Update:
-                    break;
-                case GameStateType.GST_Logo:
-                    break;
-                case GameStateType.GST_Lobby:
-                    type = eSceneType.LOBBY_SCENE;
-                    break;
-                default:
-                    type = eSceneType.BATTLE_SCENE;
-                    break;
+            
             }
-            Messenger.Broadcast(DgMsgID.DgMsg_ShowLoadingUIByType, type);
+            else
+            {
+                Hide();
+            }
+            SetDoEventReturnFlag(false);
         }
         //----------------------------------------------------------------------------
     }

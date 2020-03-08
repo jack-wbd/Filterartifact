@@ -51,6 +51,9 @@ namespace Filterartifact
         DgMsg_GoToCity = 0x10000015,
         DgMsg_ShowLoadingUIByType = 0x10000016,
         DgMsg_ShowUIOneParam = 0x10000017,
+        DgMsg_NtyLoadProsser_Finish = 0x10000018,
+        DgMsg_LSNtyStageLoadingProcess= 0x10000019,
+        DgMsg_NtyStageLoadingProcess = 0x10000020,
     }
 }
 
