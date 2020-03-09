@@ -66,9 +66,9 @@ namespace Filterartifact
             if (m_objUI != null)
             {
                 m_curtrl = (UILoginCtrl)m_ctrl;
-                m_accountInput = m_uiTrans.Find("anchor/Panel_jinruyouxi/account/InputField").GetComponent<InputField>();
-                m_passwordInput = m_uiTrans.Find("anchor/Panel_jinruyouxi/password/InputField").GetComponent<InputField>();
-                m_beginBtn = m_uiTrans.Find("anchor/Panel_jinruyouxi/oldbutton").GetComponent<Button>();
+                m_accountInput = m_uiTrans.Find("anchor/CenterAnchorPath/account/InputField").GetComponent<InputField>();
+                m_passwordInput = m_uiTrans.Find("anchor/CenterAnchorPath/password/InputField").GetComponent<InputField>();
+                m_beginBtn = m_uiTrans.Find("anchor/CenterAnchorPath/oldbutton").GetComponent<Button>();
             }
             return true;
         }

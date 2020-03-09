@@ -726,8 +726,8 @@ MonoBehaviour:
   maxPerLine: 1
   cellPadiding: 5
   gridPadiding: 0
-  cellWidth: 900
-  cellHeight: 40
+  cellWidth: 1000
+  cellHeight: 60
   cellWidthScale: 1
   cellHeightScale: 1
   viewCount: 20
