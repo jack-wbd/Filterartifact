@@ -40,6 +40,7 @@ namespace Filterartifact
         Msg_NewBie_RestoreUIParent = 0x00011004,
         Msg_NewBie_DyUIScrollViewEvent = 0x00011005,
         MSG_MSG_GOTOLOGIN = 0x00011006,
+        MSG_MSG_GOTOLOBBY = 0x00011007,
     }
     //----------------------------------------------------------------------------
 }

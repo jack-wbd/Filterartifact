@@ -76,6 +76,8 @@
     <Compile Include="Assets\Scripts\Application\State.cs" />
     <Compile Include="Assets\Scripts\Base\GameState.cs" />
     <Compile Include="Assets\Scripts\Base\GameStateFactory\GameStateFactory.cs" />
+    <Compile Include="Assets\Scripts\Base\IBase.cs" />
+    <Compile Include="Assets\Scripts\Base\IComponent.cs" />
     <Compile Include="Assets\Scripts\Base\ILoadResult.cs" />
     <Compile Include="Assets\Scripts\Base\IMsgPipe.cs" />
     <Compile Include="Assets\Scripts\Base\IPreLoad.cs" />
@@ -87,10 +89,18 @@
     <Compile Include="Assets\Scripts\Data\ResourceListData.cs" />
     <Compile Include="Assets\Scripts\DataSerialize\DataSerialize.cs" />
     <Compile Include="Assets\Scripts\Define\Define.cs" />
+    <Compile Include="Assets\Scripts\Define\PVMStateDefine.cs" />
+    <Compile Include="Assets\Scripts\GameLogin\Copy\Base\Copy.cs" />
+    <Compile Include="Assets\Scripts\GameLogin\Copy\Base\CopyEntryCtrl.cs" />
+    <Compile Include="Assets\Scripts\GameLogin\Copy\Base\CopyFactory.cs" />
+    <Compile Include="Assets\Scripts\GameLogin\Copy\Base\Scene.cs" />
+    <Compile Include="Assets\Scripts\GameState\GameMain\GameStage_Lobby.cs" />
     <Compile Include="Assets\Scripts\GameState\GameMain\GameState_Loading.cs" />
     <Compile Include="Assets\Scripts\GameState\GameMain\GameState_Login.cs" />
     <Compile Include="Assets\Scripts\GameState\GameMain\GameState_Logo.cs" />
     <Compile Include="Assets\Scripts\GameState\GameMain\GameState_Main.cs" />
+    <Compile Include="Assets\Scripts\GameState\Lobby\LobbyScene.cs" />
+    <Compile Include="Assets\Scripts\GameState\Lobby\LobbyStage.cs" />
     <Compile Include="Assets\Scripts\GameState\Update\GameState_Update.cs" />
     <Compile Include="Assets\Scripts\Layer\AssetLayer.cs" />
     <Compile Include="Assets\Scripts\Layer\DataLayer.cs" />

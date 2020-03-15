@@ -72,12 +72,128 @@ namespace Filterartifact
             }
             return bResult;
         }
+        //----------------------------------------------------------------------------
+        virtual public bool ProcessMsg<T>(int msgId, T arg, MsgDispatchDir direction = MsgDispatchDir.MDD_Down, IMsgPipe fromWhere = null)
+        {
+            bool bResult = false;
+            //处理消息
+            bResult = ExecuteMsg(msgId, arg);
+            //上转下
+            if (!bResult)
+            {
+                bResult = SwitchMsgUp2Down(msgId, arg, ref direction, fromWhere);
+            }
+            //分发
+            if (!bResult)
+            {
+                bResult = DispatchMsg(msgId, arg, direction);
+            }
+            return bResult;
+        }
+        //----------------------------------------------------------------------------
+        protected bool SwitchMsgUp2Down<T>(int msgId, T arg, ref MsgDispatchDir direction, IMsgPipe fromWhere)
+        {
+            if (direction != MsgDispatchDir.MDD_UP || !m_bSwitchMsgUp2Down)
+            {
+                return false;
+            }
+            bool bResult = false;
+            direction = MsgDispatchDir.MDD_Down;
+            bResult = DispatchMsg_Down(msgId, arg, direction, fromWhere);
+            direction = MsgDispatchDir.MDD_UP;
+            return bResult;
+        }
+        //----------------------------------------------------------------------------
+        protected virtual bool DispatchMsg_Down<T>(int msgId, T arg, MsgDispatchDir direction, IMsgPipe except = null)
+        {
+            bool bResult = false;
+            if (m_listChildPipe == null)
+            {
+                return bResult;
+            }
+            for (int i = 0; i < m_listChildPipe.Count; i++)
+            {
+                if (m_listChildPipe[i] != except)
+                {
+                    bResult = m_listChildPipe[i].ProcessMsg(msgId, arg, direction, this);
+                    if (bResult)
+                    {
+                        break;
+                    }
+                }
+            }
+            return bResult;
+        }
+        //----------------------------------------------------------------------------
+        protected bool DispatchMsg<T>(int msgId, T arg, MsgDispatchDir direction = MsgDispatchDir.MDD_Down)
+        {
+            bool bResult = false;
+            if (direction == MsgDispatchDir.MDD_UP)
+            {
+                DispatchMsg_Up(msgId, arg, direction);
+            }
+            else if (direction == MsgDispatchDir.MDD_Down)
+            {
+                DispatchMsg_Down(msgId, arg, direction);
+            }
+            else
+                Debug.LogError("Direction Error");
+            return bResult;
+        }
+        //----------------------------------------------------------------------------
+        protected virtual bool DispatchMsg_Up<T>(int msgId, T arg, MsgDispatchDir direction = MsgDispatchDir.MDD_Down)
+        {
+            bool bResult = false;
+            if (m_pParentPipe != null)
+            {
+                bResult = m_pParentPipe.ProcessMsg(msgId, arg, direction, this);
+            }
+            return bResult;
+        }
+        //----------------------------------------------------------------------------
+        protected bool ExecuteMsg<T>(int msg, T arg)
+        {
+            bool bResult = FindAndExecute(msg, arg);
+            SetDoEventReturnFlag(true);
+            return bResult;
+        }
+        //----------------------------------------------------------------------------
+        protected bool FindAndExecute<T>(int msgId, T arg)
+        {
+            if (m_dictMsgCall == null)
+            {
+                return false;
+            }
+            Delegate d;
+            if (m_dictMsgCall.TryGetValue(msgId, out d))
+            {
+                MsgCallback<T> callback = d as MsgCallback<T>;
+                if (callback != null)
+                {
+                    callback(arg);
+                    return GetDoEventReturnFlag();
+                }
+                else
+                {
+                    Debug.LogErrorFormat("msgId:{0} callback<T> conver failed ", msgId);
+                }
+            }
+            return false;
+        }
         //---------------------------------------无参数-------------------------------
         public void RegisterMsg(int nMsgID, MsgCallback callback)
         {
             if (callback != null)
             {
                 AddMsg(nMsgID, callback);
+            }
+        }
+        //----------------------------------------------------------------------------
+        public void RegisterMsg<T>(int nMsgId,MsgCallback<T> callback)
+        {
+            if (callback!=null)
+            {
+                AddMsg(nMsgId, callback);
             }
         }
         //----------------------------------------------------------------------------

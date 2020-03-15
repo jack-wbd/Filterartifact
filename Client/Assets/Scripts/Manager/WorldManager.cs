@@ -48,6 +48,10 @@ namespace Filterartifact
         private StageLayer m_layerStage = null;
         public UnityCompManager unityCompManager;
         public static Transform WorldHudUI;
+        public sPVMParamInfo m_NextCityParam = sPVMParamInfo.Clear;
+        public bool m_bCanSwitchScene = false;//跳转信息，在下一帧跳场景
+        public bool m_bisJumpPoint = false;
+        public Vector3 m_vecHeroJumpPoint = Vector3.zero;//临时跳转点
         //----------------------------------------------------------------------------
         public static WorldManager CreateInstance()
         {
@@ -140,6 +144,20 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public virtual void Update()
         {
+
+            if (m_bCanSwitchScene)
+            {
+                if (!ReferenceEquals(m_NextCityParam, null))
+                {
+                    if (!m_bisJumpPoint)
+                    {
+                        m_vecHeroJumpPoint = m_NextCityParam.borthPoint;
+                        m_bCanSwitchScene = false;
+                        SwitchScene(m_NextCityParam.nGroupTempID, m_NextCityParam.nCopyTempID, m_NextCityParam.nStageTempID, m_NextCityParam.strName, 0);
+                    }
+                }
+            }
+
             if (!ReferenceEquals(m_gameStateMain, null))
             {
                 m_gameStateMain.Update();
@@ -149,6 +167,17 @@ namespace Filterartifact
             {
                 FileSystem.Instance().Update();
             }
+
+        }
+        //----------------------------------------------------------------------------
+        public bool SwitchScene(int nGroupTempID, int nCopyTempID, int nStageTempID, string strCopy, int nStageIndex)
+        {
+            StageLayer layer = GetLayer<StageLayer>();
+            if (layer!=null)
+            {
+                layer.SwitchScene(nGroupTempID, nCopyTempID, nStageTempID, strCopy, nStageIndex);
+            }
+            return true;
         }
         //----------------------------------------------------------------------------
         public T GetLayer<T>() where T : BaseLayer
@@ -192,6 +221,15 @@ namespace Filterartifact
             }
             m_gameStateMain.ProcessMsg(msgId);
         }
+        //----------------------------------------------------------------------------
+        public void ProMsgToState<T>(int msgId, T arg)
+        {
+            if (ReferenceEquals(m_gameStateMain, null))
+            {
+                return;
+            }
+            m_gameStateMain.ProcessMsg(msgId, arg);
+        }
         //---------------------------------------------------------------------------- 
         public void InitGame()
         {
@@ -199,6 +237,14 @@ namespace Filterartifact
             CreateWorldNode();
         }
         //----------------------------------------------------------------------------
+        public void SetSwitchSceneParam(ref sPVMParamInfo Info, bool bIsJumpPoint = false)
+        {
+            m_NextCityParam = Info;
+            m_bCanSwitchScene = true;
+            m_bisJumpPoint = bIsJumpPoint;
+        }
+        //----------------------------------------------------------------------------
+
     }
 }
 

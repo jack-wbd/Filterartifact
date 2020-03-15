@@ -34,11 +34,25 @@ namespace Filterartifact
     //----------------------------------------------------------------------------
     public enum eSceneType
     {
+        CITY_SCENE = 0, //城镇（已经不用）
+        BATTLE_SCENE = 1,//主线副本
         CREATEROLE_SCENE = 2,//创建角色
         NEWBIE_SCENE_OLD = 3,//新手引导
+        PVR_SCENE = 4,// 暂时无用
+        PVP_SCENE = 5,// 自由PK副本
         LOBBY_SCENE = 6,//大厅（现在的城镇）
+        ACTIVE_SCENE = 7,//活动组队副本  ACTIVE_SCENE==BATTLE_SCENE
+        Elimit_SCENE = 8, //精英副本
+        NEWBIE_SCENE = 9, //新手引导撞船场景
+        QUICKRUNGAME_SCENE = 10, //跑酷场景
         COMMON_SCENE = 11, //通用场景
-        BATTLE_SCENE = 12,//战斗场景
+        OFFLINEPK_SCENE = 12,
+        KOF_SCENE = 13,
+        PROMOTION_SCENE = 14, //决赛
+        PRELIM_SCENE = 15,   //预选赛
+        MOBA = 16,
+        TSPORTS = 17, //极限竞技
+        VIDEO_SCENE = 18,
         UNKNOWN_REGION
     }
     //----------------------------------------------------------------------------
@@ -76,6 +90,9 @@ namespace Filterartifact
                     break;
                 case GameStateType.GST_Login:
                     subState = new GameState_Login((int)GameStateType.GST_Login, parent);
+                    break;
+                case GameStateType.GST_Lobby:
+
                     break;
                 default:
                     break;

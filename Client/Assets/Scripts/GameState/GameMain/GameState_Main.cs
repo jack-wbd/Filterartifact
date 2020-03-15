@@ -43,6 +43,12 @@ namespace Filterartifact
         public GameState_Main(int stateid, State parent) : base(stateid, parent)
         {
             RegisterMsg((int)MsgID.MSG_MSG_GOTOLOGIN, OnGoToLogin);
+            RegisterMsg<object[]>((int)MsgID.MSG_MSG_GOTOLOBBY, OnGoToLobby);
+        }
+        //----------------------------------------------------------------------------
+        public void OnGoToLobby(object[] parameter)
+        {
+            SetNextGameType(GameStateType.GST_Lobby, parameter);
         }
         //----------------------------------------------------------------------------
         protected override void OnStateInit()

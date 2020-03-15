@@ -39,6 +39,9 @@ namespace Filterartifact
 {
     public class FileSystem
     {
+        //----------------------------------------------------------------------------
+        public static bool bNotInLoading = false;
+        //----------------------------------------------------------------------------
         public enum FileSystemState
         {
             File_Init,
@@ -72,6 +75,8 @@ namespace Filterartifact
         private TextAsset m_assetText = null;
         private Queue<DataBase> m_queNeedParse = null;
         private bool m_bSerializeDataLoaded = false;
+        private int m_nCurCountPerFrame = 20;
+        public static readonly int MaxCountPerFramInCity = 20;
         //----------------------------------------------------------------------------
         public bool InitFileSystem(string strPath = null)
         {
@@ -797,6 +802,11 @@ namespace Filterartifact
                 }
                 return m_assetManager;
             }
+        }
+        //----------------------------------------------------------------------------
+        public void SetCountFrame(int nFrame)
+        {
+            m_nCurCountPerFrame = nFrame;
         }
         //----------------------------------------------------------------------------
         public string LoadXml_Resourselist_other(string strFile)

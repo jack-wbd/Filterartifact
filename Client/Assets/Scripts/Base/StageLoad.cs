@@ -56,7 +56,8 @@ namespace Filterartifact
         private int m_nWaitCount = 0;
         private int m_nNeedWaitCount = 2;
         Dictionary<string, string> preLoadAssets;
-
+        private Copy m_curCopy = null;
+        private Scene m_curScene = null;
         //----------------------------------------------------------------------------
         public StageLoad()
         {
@@ -195,7 +196,7 @@ namespace Filterartifact
             {
                 m_bInit = false;
                 nCount = m_listStageResCommon.Count;
-                for (int i =0;i<nCount;++i)
+                for (int i = 0; i < nCount; ++i)
                 {
                     m_maAsset.TobeDelAsset(m_listStageResCommon[i]);
                 }
@@ -204,7 +205,7 @@ namespace Filterartifact
             preLoadAssets.Clear();
         }
         //----------------------------------------------------------------------------
-        private void Clear(bool bDo =false)
+        private void Clear(bool bDo = false)
         {
             preLoadAssets.Clear();
             m_listStageRes.Clear();
@@ -216,7 +217,55 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        //副本优化接口，先是房间式
+        public void StartSceneLoad(Scene scene)
+        {
 
+            if (m_maAsset == null)
+            {
+                m_maAsset = WorldManager.Instance().GetLayer<AssetLayer>().GetManager();
+            }
+
+            //2.保存要创建房间的资源
+            m_curScene = scene;
+            if (scene != null)
+            {
+                m_bUILoadOK = false;
+                FileSystem.bNotInLoading = false;
+                eSceneType type = scene.GetSceneType();
+
+
+
+
+
+            }
+
+            //3.两个房间通用的资源保留，接着做销毁操作
+
+            m_bInBaseLoading = true;
+
+            StartProgress();
+
+        }
+        //----------------------------------------------------------------------------
+        private void StartProgress()
+        {
+            Messenger.Broadcast(DgMsgID.DgMsg_NtyStageLoadingProcess, true);
+            if (m_bInit == false)
+            {
+                m_nTotalCount = m_listStageRes.Count + m_listStageResCommon.Count;
+                MaxAssetCount = m_nTotalCount;
+                CurAssetCount = 0;
+            }
+            else
+            {
+                m_nTotalCount = m_listStageRes.Count;
+                MaxAssetCount = m_nTotalCount;
+                CurAssetCount = 0;
+            }
+            Debug.Log("stageLoad asset count: " + MaxAssetCount);
+        }
+        //----------------------------------------------------------------------------
 
 
     }

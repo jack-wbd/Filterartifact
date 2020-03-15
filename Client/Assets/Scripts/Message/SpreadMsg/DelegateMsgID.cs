@@ -54,6 +54,7 @@ namespace Filterartifact
         DgMsg_NtyLoadProsser_Finish = 0x10000018,
         DgMsg_LSNtyStageLoadingProcess= 0x10000019,
         DgMsg_NtyStageLoadingProcess = 0x10000020,
+        
     }
 }
 
