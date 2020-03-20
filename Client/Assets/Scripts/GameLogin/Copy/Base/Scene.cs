@@ -61,7 +61,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public Scene(Copy scene)
         {
-
+            m_CopyStage = scene;
+            m_PartDict = new Dictionary<int, string>();
         }
         //----------------------------------------------------------------------------
         public void SetType(eSceneType type)
@@ -106,8 +107,15 @@ namespace Filterartifact
             strStageFileName += "/";  
         }
         //----------------------------------------------------------------------------
-
+        public virtual void LoadAllFinished()
+        {
+            Create();
+        }
         //----------------------------------------------------------------------------
+        public virtual bool Create()
+        {
+            return true;
+        }
         //----------------------------------------------------------------------------
     }
 }

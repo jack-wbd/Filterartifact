@@ -87,6 +87,7 @@ namespace Filterartifact
             m_dicLoad = new Dictionary<string, CLoadData>();
             m_queueNeedLoad = new Queue<sNeedLoadData>();
             m_ConfigData = new ConfigData();
+            m_audioAssetList = new List<string>();
             InitAllAssetManifest();
             if (Application.isPlaying)
             {
@@ -199,6 +200,27 @@ namespace Filterartifact
                 bundleManifest.Unload(false);
                 bundleManifest = null;
             }
+        }
+        //----------------------------------------------------------------------------
+        public void DoUnloadAssetBundle()
+        {
+            Dictionary<string, AssetBundle>.Enumerator enumerator = m_assetBundleDict.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (enumerator.Current.Value == null)
+                {
+                    Debug.LogError("***********************资源已被释放: " + enumerator.Current.Key);
+                }
+                else
+                {
+                    if (!m_audioAssetList.Contains(enumerator.Current.Key))
+                    {
+                        enumerator.Current.Value.Unload(false);
+                    }
+                }
+            }
+            m_audioAssetList.Clear();
+            m_assetBundleDict.Clear();
         }
         //----------------------------------------------------------------------------
         public ResourceListData GetResData()

@@ -41,6 +41,7 @@ namespace Filterartifact
         Msg_NewBie_DyUIScrollViewEvent = 0x00011005,
         MSG_MSG_GOTOLOGIN = 0x00011006,
         MSG_MSG_GOTOLOBBY = 0x00011007,
+        MSG_LOADING_ALLREADY = 0x00011008,
     }
     //----------------------------------------------------------------------------
 }

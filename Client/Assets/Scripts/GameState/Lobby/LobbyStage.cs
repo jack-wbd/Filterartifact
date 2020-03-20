@@ -39,9 +39,27 @@ namespace Filterartifact
 {
     class LobbyStage : Copy
     {
-        public LobbyStage(StageLayer layer) : base(layer)
+        //----------------------------------------------------------------------------
+        public LobbyStage(StageLayer layer) 
+            : base(layer)
         {
 
         }
+        //----------------------------------------------------------------------------
+        public override void Update()
+        {
+            base.Update();
+        }
+        //----------------------------------------------------------------------------
+        public override void InitComponent()
+        {
+            m_stateCtrl = AddComponent<LobbyCopyStateCtrl, CopyStateCtrl>();
+        }
+        //----------------------------------------------------------------------------
+        public override void Destroy()
+        {
+            base.Destroy();
+        }
+        //----------------------------------------------------------------------------
     }
 }

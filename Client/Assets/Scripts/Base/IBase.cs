@@ -63,7 +63,43 @@ namespace Filterartifact
             return null;
         }
         //----------------------------------------------------------------------------
+        public virtual void Update()
+        {
+            if (m_dictCom != null)
+            {
+                m_itor = m_dictCom.GetEnumerator();
+                while (m_itor.MoveNext())
+                {
+                    if (m_itor.Current.Value != null)
+                    {
+                        m_itor.Current.Value.Update();
+                    }
+                }
+            }
+        }
         //----------------------------------------------------------------------------
+        public T AddComponent<T, Tbase>(object obj = null)
+            where T : IComponent, new()
+            where Tbase : IComponent, new()
+        {
+            if (m_dictCom == null)
+            {
+                m_dictCom = new Dictionary<Type, IComponent>();
+            }
+
+            Type type = typeof(Tbase);
+            if (!m_dictCom.ContainsKey(type))
+            {
+                T t = new T();
+                m_dictCom.Add(type, t);
+                t.m_Parent = this;
+                PlugInMsgPipe(t);
+                t.Init(obj);
+                t.bEnable = true;
+                return t;
+            }
+            return null;
+        }
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------
         //----------------------------------------------------------------------------

@@ -12,6 +12,7 @@
 //	StageLayer.cs
 //------------------------------------------------------------------------------
 
+using System;
 using UnityEngine;
 /**
 \file	StageLayer.cs
@@ -38,7 +39,7 @@ namespace Filterartifact
     public class StageLayer : BaseLayer
     {
         //----------------------------------------------------------------------------
-        private StageLoad m_stageLoad = null;
+        public StageLoad m_stageLoad = null;
         private CopyEntryCtrl m_EntryCtrl = null;
         private Copy m_CurCopy = null;
         private CopyFactory m_copyFactory = null;
@@ -46,37 +47,48 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public StageLayer()
         {
-            m_stageLoad = new StageLoad();
+            m_stageLoad = new StageLoad(null);
             m_EntryCtrl = new CopyEntryCtrl();
             m_EntryCtrl.Initialize();
+            m_copyFactory = new CopyFactory();
+            Messenger.AddListener(DgMsgID.DgMsg_UnloadAssetFalse, OnUnloadAssetFalse);
+
+        }
+        //----------------------------------------------------------------------------
+        private void OnUnloadAssetFalse()
+        {
+            FileSystem.Instance().DoUnloadAssetBundle();
+            GC.Collect();
         }
         //----------------------------------------------------------------------------
         public override void Finalized()
         {
             base.Finalized();
-            if (m_EntryCtrl!=null)
+            if (m_EntryCtrl != null)
             {
                 m_EntryCtrl.Finalized();
                 m_EntryCtrl = null;
             }
+            m_copyFactory = null;
+            Messenger.RemoveListener(DgMsgID.DgMsg_UnloadAssetFalse, OnUnloadAssetFalse);
         }
         //----------------------------------------------------------------------------
-        public bool SwitchScene(int nGroupTempID,int nCopyTempID,int nSceneTempID,string strCopy,int nStageIndex)
+        public bool SwitchScene(int nGroupTempID, int nCopyTempID, int nSceneTempID, string strCopy, int nStageIndex)
         {
             //停用所有特效
             //清除声音
-            if (string.IsNullOrEmpty(strCopy)||nSceneTempID ==0)
+            if (string.IsNullOrEmpty(strCopy) || nSceneTempID == 0)
             {
                 Debug.LogError("SwitchScene : name empty");
             }
 
             //第一步 ：切换stage(如果是空或者不是当前stage)
-            if (m_CurCopy==null||!m_CurCopy.GetCopyName().Equals(strCopy))
+            if (m_CurCopy == null || !m_CurCopy.GetCopyName().Equals(strCopy))
             {
                 Copy cNewCopy = m_copyFactory.Constract_Copy(strCopy, this);
-                if (cNewCopy!=null)
+                if (cNewCopy != null)
                 {
-                    if (m_CurCopy!=null)
+                    if (m_CurCopy != null)
                     {
                         PullOutMsgPipe(m_CurCopy);
                         m_CurCopy.Destroy();
@@ -105,13 +117,14 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
+        public override void Update()
+        {
+            base.Update();
+            if (m_CurCopy != null)
+            {
+                m_CurCopy.Update();
+            }
+        }
+        //----------------------------------------------------------------------------
     }
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
 }

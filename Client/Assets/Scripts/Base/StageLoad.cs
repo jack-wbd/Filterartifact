@@ -59,8 +59,9 @@ namespace Filterartifact
         private Copy m_curCopy = null;
         private Scene m_curScene = null;
         //----------------------------------------------------------------------------
-        public StageLoad()
+        public StageLoad(Copy copy)
         {
+            m_curCopy = copy;
             m_maAsset = new AssetsManager();
             m_listStageRes = new List<string>();
             m_listStageResCommon = new List<string>();
@@ -85,6 +86,10 @@ namespace Filterartifact
         public void Update()
         {
             CheckDoDeleteUnUse();
+            if (m_curCopy == null)
+            {
+                return;
+            }
             if (m_bInBaseLoading)
             {
                 return;
@@ -94,8 +99,15 @@ namespace Filterartifact
             {
                 return;
             }
-            m_bUpdate = false;
-
+            if (!m_bInit)
+            {
+                Messenger.Broadcast(DgMsgID.DgMsg_UnloadAssetFalse);
+                m_curCopy.CreateFinished();
+                m_bInit = true;
+                FileSystem.bNotInLoading = true;
+                UISystem.CurAssetCount = 0;
+                m_bUpdate = false;
+            }
         }
         //----------------------------------------------------------------------------
         public void CheckDoDeleteUnUse()
@@ -110,6 +122,11 @@ namespace Filterartifact
                 }
                 ++m_nWaitCount;
             }
+        }
+        //----------------------------------------------------------------------------
+        private void WaitCheckDelete()
+        {
+            m_bCheckDelete = true;
         }
         //----------------------------------------------------------------------------
         private void CheckAllFinish()
@@ -146,10 +163,14 @@ namespace Filterartifact
                     CheckFinish();
                 }
             }
-
-            m_bInit = false;
-            m_bUpdate = false;
-
+            nCount = m_listStageRes.Count + m_listStageResCommon.Count;
+            if (nCount == 0)
+            {
+                CheckFinish();
+                if (!m_bUpdate)
+                    m_bUpdate = true;
+                m_bInit = false;
+            }
         }
         //----------------------------------------------------------------------------
         public void OnLoadCallBack(string strAssetID, Object obj)
@@ -170,6 +191,11 @@ namespace Filterartifact
         public bool IsLoadOK()
         {
             return m_bLoadOK;
+        }
+        //----------------------------------------------------------------------------
+        public void SetLoadOk(bool bLoad)
+        {
+            m_bLoadOK = bLoad;
         }
         //----------------------------------------------------------------------------
         public void CheckFinish()
@@ -233,19 +259,25 @@ namespace Filterartifact
                 m_bUILoadOK = false;
                 FileSystem.bNotInLoading = false;
                 eSceneType type = scene.GetSceneType();
-
-
-
-
-
+                switch (type)
+                {
+                    case eSceneType.CITY_SCENE:
+                    case eSceneType.LOBBY_SCENE:
+                        Messenger.Broadcast(DgMsgID.DgMsg_PreLoadUI, eUseEnvir.city);
+                        break;
+                    case eSceneType.CREATEROLE_SCENE:
+                        break;
+                    default:
+                        break;
+                }
             }
-
             //3.两个房间通用的资源保留，接着做销毁操作
 
             m_bInBaseLoading = true;
 
-            StartProgress();
+            WaitCheckDelete();
 
+            StartProgress();
         }
         //----------------------------------------------------------------------------
         private void StartProgress()
@@ -259,14 +291,53 @@ namespace Filterartifact
             }
             else
             {
+
                 m_nTotalCount = m_listStageRes.Count;
                 MaxAssetCount = m_nTotalCount;
                 CurAssetCount = 0;
+
             }
             Debug.Log("stageLoad asset count: " + MaxAssetCount);
         }
         //----------------------------------------------------------------------------
-
+        public void SetCopy(Copy copy)
+        {
+            m_curCopy = copy;
+            m_listStageRes.Clear();
+            m_bUpdate = false;
+            m_bInit = false;
+        }
+        //----------------------------------------------------------------------------
+        public override void AddPreLoadAsset(string strAssetID)
+        {
+            if (string.IsNullOrEmpty(strAssetID) || strAssetID.Equals("0"))
+            {
+                return;
+            }
+            if (m_listStageRes.Contains(strAssetID))
+            {
+                return;
+            }
+            m_listStageRes.Add(strAssetID);
+        }
+        //----------------------------------------------------------------------------
+        public virtual void AddPreLoadAsset(string strAssetID, string preLoad_poolName)
+        {
+            if (strAssetID == null || strAssetID.Length == 0 || strAssetID == "0")
+            {
+                return;
+            }
+            if (preLoadAssets.ContainsKey(strAssetID))
+            {
+                return;
+            }
+            AddPreLoadAsset(strAssetID);
+            if (!preLoad_poolName.Equals("CharacterEntity"))
+            {
+                preLoadAssets.Add(strAssetID, preLoad_poolName);
+            }
+        }
+        //----------------------------------------------------------------------------
 
     }
 }

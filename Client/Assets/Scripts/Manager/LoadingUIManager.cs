@@ -56,6 +56,7 @@ namespace Filterartifact
             m_assetmaneger = WorldManager.Instance().GetLayer<AssetLayer>().GetManager();
             m_loadCongData = WorldManager.Instance().GetDataCollection<LoadingConfigData>();
             Messenger.AddListener<eSceneType>(DgMsgID.DgMsg_ShowLoadingUIByType, OnShowLoadingUIByType);
+            Messenger.AddListener(DgMsgID.DgMsg_HideLoadingUIByType, OnHideLoadingUIByType);
             return base.Initialized();
 
         }
@@ -74,6 +75,13 @@ namespace Filterartifact
         {
             base.Finalized();
             Messenger.RemoveListener<eSceneType>(DgMsgID.DgMsg_ShowLoadingUIByType, OnShowLoadingUIByType);
+            Messenger.RemoveListener(DgMsgID.DgMsg_HideLoadingUIByType, OnHideLoadingUIByType);
+        }
+        //----------------------------------------------------------------------------
+        private void OnHideLoadingUIByType()
+        {
+            isInLoading = false;
+            Messenger.Broadcast(DgMsgID.DgUI_HideUI, "UILoadingCtrl");
         }
         //----------------------------------------------------------------------------
         private void OnShowLoadingUIByType(eSceneType type)

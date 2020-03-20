@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Stage CopyID="11" StageID="111" PartID="1" Name="LobbyScene_01_s1_p1" TypeID="6" Description="LobbyScene" ScriptFileID="0" GroundMaterialType="" BGM="RAB_bgm_city02" BaseAssetID="REC_zhucheng_01" PickDataAssetID="RSC_pickdata_zhucheng_01" CameraAssetID="RC_camera_lobby" JumpingPoint="" CanAttack="0" CanRunAndJump="0">
+  <Entity>
+    <Position>
+      <ele BornPos="-250,0,40500" Scale="15,15,15" FaceRight="0" Desc="主" />
+      <ele BornPos="1150,0,39500" Scale="15,15,15" FaceRight="0" Desc="左" />
+      <ele BornPos="-1650,0,39500" Scale="15,15,15" FaceRight="0" Desc="右" />
+    </Position>
+  </Entity>
+</Stage>

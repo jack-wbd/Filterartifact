@@ -57,6 +57,7 @@ namespace Filterartifact
             AddSubState(GameStateFactory.CreateState(GameStateType.GST_Login, this));
             AddSubState(GameStateFactory.CreateState(GameStateType.GST_Update, this));
             AddSubState(GameStateFactory.CreateState(GameStateType.GST_Logo, this));
+            AddSubState(GameStateFactory.CreateState(GameStateType.GST_Lobby, this));
             base.OnStateInit();
             SetSubState((int)GameStateType.GST_Logo, null);
         }

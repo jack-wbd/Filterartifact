@@ -96,11 +96,6 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        private void ShowView()
-        {
-            //Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIMainInterfaceCtrl");
-        }
-        //----------------------------------------------------------------------------
         protected override void OnUpdate()
         {
             if (m_loadCtrl.m_bLoad)

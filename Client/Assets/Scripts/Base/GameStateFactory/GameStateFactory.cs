@@ -67,7 +67,7 @@ namespace Filterartifact
         GST_Lobby = 5,
     }
     //----------------------------------------------------------------------------
-    class GameStateFactory
+     class GameStateFactory
     {
         public static State CreateState(GameStateType type, State parent)
         {
@@ -92,7 +92,7 @@ namespace Filterartifact
                     subState = new GameState_Login((int)GameStateType.GST_Login, parent);
                     break;
                 case GameStateType.GST_Lobby:
-
+                    subState = new GameStage_Lobby((int)GameStateType.GST_Lobby, parent);
                     break;
                 default:
                     break;

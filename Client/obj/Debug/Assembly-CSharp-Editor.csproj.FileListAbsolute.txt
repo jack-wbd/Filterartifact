@@ -2100,7 +2100,6 @@ D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\Microsoft.Win32.Primitive
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\mscorlib.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\netstandard.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\nunit.framework.dll
-D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\SyntaxTree.VisualStudio.Unity.Bridge.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\System.AppContext.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\System.Collections.Concurrent.dll
 D:\Filterartifact\Filterartifact\Client\Temp\bin\Debug\System.Collections.dll

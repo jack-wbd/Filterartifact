@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<Copy ID="11" Name="LobbyScene" TypeID="6" Description="" BGM="">
+	<Feature NormalDoor_Up="" NormalDoor_Down="" NormalDoor_Left="" NormalDoor_Right="" BossDoor_Up="" BossDoor_Down="" BossDoor_Left="" BossDoor_Right="" BGMForBoss="" BGMForNormal=""/>
+	<Stage ID="111">
+		<Part ID="1" Name="LobbyScene_01_s1_p1"/>
+	</Stage>
+</Copy>

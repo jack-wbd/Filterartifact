@@ -57,7 +57,7 @@ namespace Filterartifact
             sPVMParamInfo sInfo = (sPVMParamInfo)parameter[0];
             if (!ReferenceEquals(sInfo, null))
             {
-                sInfo.strName = "1";
+                sInfo.strName = "LobbyScene";
                 WorldManager.Instance().SetSwitchSceneParam(ref sInfo);
             }
 

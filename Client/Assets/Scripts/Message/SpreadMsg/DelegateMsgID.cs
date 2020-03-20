@@ -52,9 +52,10 @@ namespace Filterartifact
         DgMsg_ShowLoadingUIByType = 0x10000016,
         DgMsg_ShowUIOneParam = 0x10000017,
         DgMsg_NtyLoadProsser_Finish = 0x10000018,
-        DgMsg_LSNtyStageLoadingProcess= 0x10000019,
+        DgMsg_LSNtyStageLoadingProcess = 0x10000019,
         DgMsg_NtyStageLoadingProcess = 0x10000020,
-        
+        DgMsg_UnloadAssetFalse = 0x10000021,
+        DgMsg_HideLoadingUIByType = 0x10000022,
     }
 }
 

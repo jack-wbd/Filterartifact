@@ -168,12 +168,14 @@ namespace Filterartifact
                 FileSystem.Instance().Update();
             }
 
+            UpdateLayer();
+
         }
         //----------------------------------------------------------------------------
         public bool SwitchScene(int nGroupTempID, int nCopyTempID, int nStageTempID, string strCopy, int nStageIndex)
         {
             StageLayer layer = GetLayer<StageLayer>();
-            if (layer!=null)
+            if (layer != null)
             {
                 layer.SwitchScene(nGroupTempID, nCopyTempID, nStageTempID, strCopy, nStageIndex);
             }
@@ -242,6 +244,19 @@ namespace Filterartifact
             m_NextCityParam = Info;
             m_bCanSwitchScene = true;
             m_bisJumpPoint = bIsJumpPoint;
+        }
+        //----------------------------------------------------------------------------
+        private void UpdateLayer()
+        {
+            if (m_dictLayer == null)
+            {
+                return;
+            }
+            m_itor = m_dictLayer.GetEnumerator();
+            while (m_itor.MoveNext())
+            {
+                m_itor.Current.Value.Update();
+            }
         }
         //----------------------------------------------------------------------------
 

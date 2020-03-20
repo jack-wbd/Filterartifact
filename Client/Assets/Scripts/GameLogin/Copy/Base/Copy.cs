@@ -53,6 +53,7 @@ namespace Filterartifact
         protected int m_nCopyTempID;
         protected int m_nGroupTempID;
         private StageLayer m_stageLayer = null;
+        protected CopyStateCtrl m_stateCtrl = null;
         //----------------------------------------------------------------------------
         public bool ActiveScene(int nSceneTempID)
         {
@@ -98,6 +99,40 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public virtual void CreateFinished()
+        {
+
+            //资源加载完毕
+            WorldManager.Instance().GetLayer<StageLayer>().ProcessMsg((int)MsgID.MSG_LOADING_ALLREADY);
+
+        }
+        //----------------------------------------------------------------------------
+        public override void Update()
+        {
+            base.Update();
+            if (m_CurScene != null)
+            {
+                m_CurScene.Update();
+            }
+            if (m_stageLoad != null)
+            {
+                m_stageLoad.Update();
+                if (m_stageLoad.IsLoadOK())
+                {
+                    m_stageLoad.SetLoadOk(false);
+                    AssetBundleAllLoaded();
+                }
+            }
+
+        }
+        //----------------------------------------------------------------------------
+        public void AssetBundleAllLoaded()
+        {
+            m_CurScene = m_nextScene;
+            m_CurScene.LoadAllFinished();
+            PlugInMsgPipe(m_CurScene);
+        }
+        //----------------------------------------------------------------------------
         public void SetLayer(StageLayer layer)
         {
             m_stageLayer = layer;
@@ -123,7 +158,9 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public Copy(StageLayer layer)
         {
-
+            m_stageLoad = layer.m_stageLoad;
+            m_stageLoad.SetCopy(this);
+            InitComponent();
         }
         //----------------------------------------------------------------------------
         public bool Create(XmlNode node, ref string strCopyName, eSceneType type)
@@ -218,6 +255,11 @@ namespace Filterartifact
             {
                 m_nGroupTempID = value;
             }
+        }
+        //----------------------------------------------------------------------------
+        public virtual void InitComponent()
+        {
+
         }
         //----------------------------------------------------------------------------
     }
