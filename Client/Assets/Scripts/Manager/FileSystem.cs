@@ -174,19 +174,19 @@ namespace Filterartifact
                 {
                     string[] tempDependencise = manifest.GetAllDependencies(assetBundles[i]);
                     List<string> dependeciseList = new List<string>(tempDependencise);
-                    if (!assetBundles[i].Contains("ui_root") && dependeciseList != null && manifestName == "uiasset")
-                    {
-                        if (dependeciseList.Count > 0)
-                        {
-                            for (int j = dependeciseList.Count - 1; j >= 0; j--)
-                            {
-                                if (dependeciseList[j].Contains("gameusefont"))
-                                {
-                                    dependeciseList.Remove(dependeciseList[j]);
-                                }
-                            }
-                        }
-                    }
+                    //if (!assetBundles[i].Contains("ui_root") && dependeciseList != null && manifestName == "uiasset")
+                    //{
+                    //    if (dependeciseList.Count > 0)
+                    //    {
+                    //        for (int j = dependeciseList.Count - 1; j >= 0; j--)
+                    //        {
+                    //            if (dependeciseList[j].Contains("gameusefont"))
+                    //            {
+                    //                dependeciseList.Remove(dependeciseList[j]);
+                    //            }
+                    //        }
+                    //    }
+                    //}
                     if (!m_bundleDependenciseDict.ContainsKey(assetBundles[i]))
                     {
                         m_bundleDependenciseDict.Add(assetBundles[i], dependeciseList);

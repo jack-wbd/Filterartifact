@@ -38,14 +38,14 @@ namespace Filterartifact
     public class ResourceListData : DataBase
     {
         //----------------------------------------------------------------------------
-        private List<string> m_lisDepsRes = null;//游戏初始化预加载资源列表
+        private List<string> m_gameInitPreLoadRes = null;//游戏初始化预加载资源列表
         public Dictionary<string, sAssetInfo> m_dicResourseList = null;
         private Dictionary<string, List<string>> m_dictResourseList_1 = null;//临时保存每个UI里面用到了那些图集和字体
         //----------------------------------------------------------------------------
         public override bool Initialize()
         {
             base.Initialize();
-            m_lisDepsRes = new List<string>();
+            m_gameInitPreLoadRes = new List<string>();
             m_dicResourseList = new Dictionary<string, sAssetInfo>();
             m_dictResourseList_1 = new Dictionary<string, List<string>>();
             return true;
@@ -69,7 +69,7 @@ namespace Filterartifact
                 for (int i = 0; i < nNodeCount; i++)
                 {
                     XmlElement element = nodeList[i] as XmlElement;
-                    m_lisDepsRes.Add(element.GetAttribute("id"));
+                    m_gameInitPreLoadRes.Add(element.GetAttribute("id"));
                 }
             }
             return true;
@@ -82,7 +82,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public List<string> GetDepsResourceList()
         {
-            return m_lisDepsRes;
+            return m_gameInitPreLoadRes;
         }
         //----------------------------------------------------------------------------
         public void GetAssetBundleInfo(string strID, ref sAssetInfo info)
@@ -115,7 +115,7 @@ namespace Filterartifact
                     sAssetInfo info = InsertResourseList(ref element);
                     info.bAlwaysCache = true;
                     m_dicResourseList[info.strID] = info;
-                    m_lisDepsRes.Add(element.GetAttribute("id"));
+                    m_gameInitPreLoadRes.Add(element.GetAttribute("id"));
                 }
 
                 nodeList = node.SelectSingleNode("uitexture").ChildNodes;

@@ -148,7 +148,6 @@
     <Compile Include="Assets\Scripts\UI\UISystem.cs" />
     <Compile Include="Assets\Scripts\Util\GameUtil.cs" />
     <Compile Include="Assets\Scripts\Util\Util.cs" />
-    <Compile Include="Assets\test.cs" />
     <None Include="Assets\Data\data\Common\ResourseList.xml" />
     <None Include="Assets\Resources\config.xml" />
     <None Include="Assets\StreamingAssets\Resourselist_2.xml" />

@@ -46,7 +46,6 @@ namespace Filterartifact
         private List<string> m_listStageResCommon = null;
         private bool m_bLoadOK = false;
         private bool m_bInBaseLoading = true;
-        private bool m_bUpdate = false;
         private bool m_bInit = false;
 
         private bool m_bUILoadOK = false;
@@ -66,7 +65,6 @@ namespace Filterartifact
             m_listStageRes = new List<string>();
             m_listStageResCommon = new List<string>();
             preLoadAssets = new Dictionary<string, string>();
-            m_bUpdate = false;
             m_bInit = false;
             Messenger.AddListener(DgMsgID.DgMsg_NtyUILoading_Finish, OnUILoadOK);
             Messenger.AddListener<bool>(DgMsgID.DgMsg_NtyLoadProsser_Finish, OnLoadPresserOK);
@@ -95,10 +93,6 @@ namespace Filterartifact
                 return;
             }
             CheckAllFinish();
-            if (!m_bUpdate)
-            {
-                return;
-            }
             if (!m_bInit)
             {
                 Messenger.Broadcast(DgMsgID.DgMsg_UnloadAssetFalse);
@@ -106,7 +100,6 @@ namespace Filterartifact
                 m_bInit = true;
                 FileSystem.bNotInLoading = true;
                 UISystem.CurAssetCount = 0;
-                m_bUpdate = false;
             }
         }
         //----------------------------------------------------------------------------
@@ -141,6 +134,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public override void AcitvePreLoad()
         {
+
             Messenger.Broadcast(DgMsgID.DgMsg_ActiveLoadUI);
             int nCount = 0;
             if (m_bInit == false)
@@ -163,14 +157,14 @@ namespace Filterartifact
                     CheckFinish();
                 }
             }
-            nCount = m_listStageRes.Count + m_listStageResCommon.Count;
-            if (nCount == 0)
+
+            nCount = m_listStageResCommon.Count + m_listStageRes.Count;
+            if (nCount <= 0)
             {
                 CheckFinish();
-                if (!m_bUpdate)
-                    m_bUpdate = true;
-                m_bInit = false;
             }
+
+            m_bInit = false;
         }
         //----------------------------------------------------------------------------
         public void OnLoadCallBack(string strAssetID, Object obj)
@@ -291,11 +285,9 @@ namespace Filterartifact
             }
             else
             {
-
                 m_nTotalCount = m_listStageRes.Count;
                 MaxAssetCount = m_nTotalCount;
                 CurAssetCount = 0;
-
             }
             Debug.Log("stageLoad asset count: " + MaxAssetCount);
         }
@@ -304,40 +296,8 @@ namespace Filterartifact
         {
             m_curCopy = copy;
             m_listStageRes.Clear();
-            m_bUpdate = false;
             m_bInit = false;
         }
         //----------------------------------------------------------------------------
-        public override void AddPreLoadAsset(string strAssetID)
-        {
-            if (string.IsNullOrEmpty(strAssetID) || strAssetID.Equals("0"))
-            {
-                return;
-            }
-            if (m_listStageRes.Contains(strAssetID))
-            {
-                return;
-            }
-            m_listStageRes.Add(strAssetID);
-        }
-        //----------------------------------------------------------------------------
-        public virtual void AddPreLoadAsset(string strAssetID, string preLoad_poolName)
-        {
-            if (strAssetID == null || strAssetID.Length == 0 || strAssetID == "0")
-            {
-                return;
-            }
-            if (preLoadAssets.ContainsKey(strAssetID))
-            {
-                return;
-            }
-            AddPreLoadAsset(strAssetID);
-            if (!preLoad_poolName.Equals("CharacterEntity"))
-            {
-                preLoadAssets.Add(strAssetID, preLoad_poolName);
-            }
-        }
-        //----------------------------------------------------------------------------
-
     }
 }

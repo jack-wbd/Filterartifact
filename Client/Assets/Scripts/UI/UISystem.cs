@@ -339,6 +339,7 @@ namespace Filterartifact
             {
                 m_dictUseCount.Add(strAtlas, 1);
             }
+
         }
         //----------------------------------------------------------------------------
         public bool InitializeAferMain()
