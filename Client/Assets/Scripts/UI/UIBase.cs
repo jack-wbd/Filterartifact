@@ -33,7 +33,9 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
+using static UnityEngine.UI.Button;
 
 namespace Filterartifact
 {
@@ -80,6 +82,8 @@ namespace Filterartifact
         private float f_Invoke;
         private bool b_Invoke = false;
         private RectTransform m_rect;
+        protected static string m_centerAnchorPath = "CenterAnchor/center/";
+        protected static string m_downAnchorPath = "DownAnchor/down/";
         //----------------------------------------------------------------------------
         public bool Create()
         {
@@ -171,9 +175,14 @@ namespace Filterartifact
             parent = _parent;
         }
         //----------------------------------------------------------------------------
-        public GameObject GetUIObject()
+        public GameObject GetUIObj()
         {
             return m_objUI;
+        }
+        //----------------------------------------------------------------------------
+        protected ButtonClickedEvent BindEvent(string strPath)
+        {
+            return m_uiTrans.Find(strPath).GetComponent<Button>().onClick;
         }
         //----------------------------------------------------------------------------
         public void SetSystem(UISystem system)
@@ -263,7 +272,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         protected virtual void InitDepth()
         {
-          
+
         }
         //----------------------------------------------------------------------------
         public virtual void InitRecTTransform()

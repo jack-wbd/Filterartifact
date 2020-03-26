@@ -11,9 +11,6 @@
 //------------------------------------------------------------------------------
 //	StageLayer.cs
 //------------------------------------------------------------------------------
-
-using System;
-using UnityEngine;
 /**
 \file	StageLayer.cs
 
@@ -33,6 +30,8 @@ Copyright (c) 2020, BoYue. All rights reserved.
 
 </PRE>
 */
+using System;
+using UnityEngine;
 namespace Filterartifact
 {
     //----------------------------------------------------------------------------

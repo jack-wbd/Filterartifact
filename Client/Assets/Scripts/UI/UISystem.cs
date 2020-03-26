@@ -382,7 +382,7 @@ namespace Filterartifact
             uiTemp.nAssetID = 0;
             uiTemp.ui = ui;
             m_dictUIClass.Add(strAssetID, uiTemp);
-            AddChildUI(ui.GetUIObject().transform);
+            AddChildUI(ui.GetUIObj().transform);
             return m_nUIClassIndex;
         }
         //----------------------------------------------------------------------------

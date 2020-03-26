@@ -86,12 +86,13 @@ public class LoopScrollerView : MonoBehaviour
         GameObject obj = new GameObject("Content");
 
         _content = obj.AddComponent<RectTransform>();
-        _content.anchorMin = new Vector2(0, 1);
-        _content.anchorMax = new Vector2(0, 1);
-        _content.pivot = new Vector2(0, 1);
+        _content.anchorMin = new Vector2(0.5f, 1);
+        _content.anchorMax = new Vector2(0.5f, 1);
+        _content.pivot = new Vector2(0.5f, 1);
         _content.offsetMin = new Vector2(0, -1);
         _content.offsetMax = new Vector2(1, 0);
         _content.localScale = Vector3.one;
+        _content.localRotation = Quaternion.identity;
         _content.SetParent(this.transform, false);
 
         //this.gameObject.AddComponent<Mask>().showMaskGraphic = false;

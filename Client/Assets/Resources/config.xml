@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<datadir>D:\Filterartifact\Filterartifact\Client\Assets\Data\data\</datadir>
+	<datadir>D:\Filterartifact\Filterartifact\Filterartifact\Filterartifact\Client\Assets\Data\data\</datadir>
 	<resdir></resdir>
 	<local>1</local>
 	<platform>115.159.96.34:8000</platform>

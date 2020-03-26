@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Resourselist>
   <uideps>
+    <Bundle id="ui_gm.prefab">
+      <Bundle id="commonpictureatlas" />
+    </Bundle>
     <Bundle id="ui_loading.prefab">
       <Bundle id="djjp" />
       <Bundle id="loginatlas" />

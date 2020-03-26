@@ -265,13 +265,13 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void DeActiveForWait()
         {
-            if (viewer == null || viewer.GetUIObject() == null)
+            if (viewer == null || viewer.GetUIObj() == null)
             {
                 return;
             }
-            if (viewer.GetUIObject().activeSelf != false)
+            if (viewer.GetUIObj().activeSelf != false)
             {
-                viewer.GetUIObject().SetActive(false);
+                viewer.GetUIObj().SetActive(false);
             }
 
         }

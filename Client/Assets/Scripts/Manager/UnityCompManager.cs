@@ -40,6 +40,7 @@ namespace Filterartifact
         private static UnityCompManager m_tSingleton = null;
         public Transform m_rootAttachTrans { private set; get; }
         public GameObject m_objUIRoot { set; get; }
+        private GameObject objMain = null;
         //----------------------------------------------------------------------------
         public static UnityCompManager CreateInstance()
         {
@@ -52,6 +53,15 @@ namespace Filterartifact
 
             return m_tSingleton;
 
+        }
+        //----------------------------------------------------------------------------
+        public bool Initionlization()
+        {
+            objMain = GameObject.Find("Launch");
+#if GMORDER
+            AddComponentToMain<HUDFPS>();
+#endif
+            return true;
         }
         //----------------------------------------------------------------------------
         public void InitUIRoot()
@@ -72,6 +82,16 @@ namespace Filterartifact
             {
                 m_tSingleton = null;
             }
+        }
+        //----------------------------------------------------------------------------
+        public T AddComponentToMain<T>() where T : MonoBehaviour
+        {
+            if (objMain != null)
+            {
+                return objMain.AddComponent<T>();
+
+            }
+            return null;
         }
         //----------------------------------------------------------------------------
     }

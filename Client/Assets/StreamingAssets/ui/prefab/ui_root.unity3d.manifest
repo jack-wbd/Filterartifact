@@ -3,7 +3,7 @@ CRC: 2926716536
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8315dcdead65ee4293f3a5ac0214e49a
+    Hash: bdaa62cac3844e8b1f55488b5fef78ce
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9a3df7f28d6aa52b86b9f646a36b4db9
@@ -52,4 +52,4 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_root.prefab
 Dependencies:
-- D:/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
+- D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d

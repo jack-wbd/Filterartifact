@@ -110,6 +110,7 @@ namespace Filterartifact
             CreateMainState();
             screenUnit = new ScreenUnit();
             unityCompManager = UnityCompManager.CreateInstance();
+            unityCompManager.Initionlization();
             unityCompManager.InitUIRoot();
             return true;
         }
