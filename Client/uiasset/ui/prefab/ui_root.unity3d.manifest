@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 1184698532
+CRC: 1784793471
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: ff4f2935849f73bde178827b4abe0de9
+    Hash: 6b33785ed11894a22da579d7e1c1f818
   TypeTreeHash:
     serializedVersion: 2
     Hash: 9a3df7f28d6aa52b86b9f646a36b4db9
@@ -52,4 +52,4 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_root.prefab
 Dependencies:
-- D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d

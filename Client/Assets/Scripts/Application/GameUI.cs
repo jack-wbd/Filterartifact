@@ -49,6 +49,7 @@ namespace Filterartifact
             Messenger.AddListener<string>(DgMsgID.DgUI_HideUI, OnHideUI);
             Messenger.AddListener<string>(DgMsgID.DgUI_ShowNew, OnShowNew);
             Messenger.AddListener<string, object>(DgMsgID.DgMsg_ShowUIOneParam, OnShowUIOneParam);
+            Messenger.AddListener<string>(DgMsgID.DgUI_ShowOrHide, OnShowOrHide);
             return true;
         }
         //----------------------------------------------------------------------------
@@ -86,6 +87,15 @@ namespace Filterartifact
             Messenger.RemoveListener<string>(DgMsgID.DgUI_HideUI, OnHideUI);
             Messenger.RemoveListener<string>(DgMsgID.DgUI_ShowNew, OnShowNew);
             Messenger.RemoveListener<string, object>(DgMsgID.DgMsg_ShowUIOneParam, OnShowUIOneParam);
+            Messenger.RemoveListener<string>(DgMsgID.DgUI_ShowOrHide, OnShowOrHide);
+        }
+        //----------------------------------------------------------------------------
+        private void OnShowOrHide(string strCtrl)
+        {
+            if (m_layerUI != null)
+            {
+                m_layerUI.ShowOrHide(strCtrl);
+            }
         }
         //----------------------------------------------------------------------------
         private void OnShowUIOneParam(string strCtrl, object obj)

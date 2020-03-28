@@ -82,8 +82,10 @@ namespace Filterartifact
         private float f_Invoke;
         private bool b_Invoke = false;
         private RectTransform m_rect;
-        protected static string m_centerAnchorPath = "CenterAnchor/center/";
-        protected static string m_downAnchorPath = "DownAnchor/down/";
+        protected readonly string m_centerAnchorPath = "centerAnchor/center/";
+        protected readonly string m_downAnchorPath = "downAnchor/down/";
+        protected readonly string m_topLeftPath = "topLeftAnchor/topLeft";
+        protected Transform m_topLeftAnchor;
         //----------------------------------------------------------------------------
         public bool Create()
         {
@@ -110,9 +112,14 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        protected virtual void OnUpdate()
+        protected virtual void OnLateUpdate()
         {
 
+        }
+        //----------------------------------------------------------------------------
+        public void LateUpdate()
+        {
+            OnLateUpdate();
         }
         //----------------------------------------------------------------------------
         public virtual void Show(object arg = null)
@@ -261,6 +268,11 @@ namespace Filterartifact
                     }
                 }
             }
+        }
+        //----------------------------------------------------------------------------
+        protected virtual void OnUpdate()
+        {
+
         }
         //----------------------------------------------------------------------------
         private void OnLoadNeedOkInLoading(string strAssetID, UnityEngine.Object obj)
@@ -426,17 +438,20 @@ namespace Filterartifact
                 {
                     vec3 = WorldManager.Instance().screenUnit.GetFullVec3();
                 }
-                RectTransform bgSpr = bgTF.GetComponent<RectTransform>();
-                if (bgSpr != null)
-                {
-                    bgSpr.sizeDelta = new Vector2((int)vec3.x, (int)vec3.y);
-                }
-                BoxCollider boxCollider = bgTF.GetComponent<BoxCollider>();
-                if (boxCollider != null)
-                {
-                    boxCollider.size = vec3;
-                }
+                //RectTransform bgSpr = bgTF.GetComponent<RectTransform>();
+                //if (bgSpr != null)
+                //{
+                //    bgSpr.sizeDelta = new Vector2((int)vec3.x, (int)vec3.y);
+                //}
+                //BoxCollider boxCollider = bgTF.GetComponent<BoxCollider>();
+                //if (boxCollider != null)
+                //{
+                //    boxCollider.size = vec3;
+                //}
             }
+            m_topLeftAnchor = m_uiTrans.Find(m_topLeftPath);
+
+
         }
         //----------------------------------------------------------------------------
         public void RegisterViewMsg()

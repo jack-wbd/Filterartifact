@@ -60,15 +60,16 @@ namespace Filterartifact
         {
             base.Hide();
         }
+
         //----------------------------------------------------------------------------
-        new bool GetUIObject()
+        private bool GetUIObject()
         {
             if (m_objUI != null)
             {
                 m_curtrl = (UILoginCtrl)m_ctrl;
-                m_accountInput = m_uiTrans.Find("anchor/CenterAnchorPath/account/InputField").GetComponent<InputField>();
-                m_passwordInput = m_uiTrans.Find("anchor/CenterAnchorPath/password/InputField").GetComponent<InputField>();
-                m_beginBtn = m_uiTrans.Find("anchor/CenterAnchorPath/oldbutton").GetComponent<Button>();
+                m_accountInput = m_uiTrans.Find("anchor/CenterAnchorPath/parent/account/InputField").GetComponent<InputField>();
+                m_passwordInput = m_uiTrans.Find("anchor/CenterAnchorPath/parent/password/InputField").GetComponent<InputField>();
+                m_beginBtn = m_uiTrans.Find("anchor/CenterAnchorPath/parent/oldbutton").GetComponent<Button>();
             }
             return true;
         }

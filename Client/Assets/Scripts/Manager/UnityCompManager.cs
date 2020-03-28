@@ -60,6 +60,7 @@ namespace Filterartifact
             objMain = GameObject.Find("Launch");
 #if GMORDER
             AddComponentToMain<HUDFPS>();
+            AddComponentToMain<DebugUI>();
 #endif
             return true;
         }

@@ -29,16 +29,10 @@
 //------------------------------------------------------------------------------
 //	DebugUI.cs
 //------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 namespace Filterartifact
 {
-    [Obsolete("Use UIGMMainCtrl")]
     public class DebugUI : MonoBehaviour
     {
         //----------------------------------------------------------------------------
@@ -57,6 +51,7 @@ namespace Filterartifact
             if (MulPress_GUI() || MulKey_GUI())
             {
                 //show GM UI
+                Messenger.Broadcast(DgMsgID.DgUI_ShowOrHide, "UIGMMainCtrl");
             }
         }
         //----------------------------------------------------------------------------

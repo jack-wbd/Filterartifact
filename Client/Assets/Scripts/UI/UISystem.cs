@@ -161,6 +161,23 @@ namespace Filterartifact
             return assetManager.GetAssetObjByID(strAssetID);
         }
         //----------------------------------------------------------------------------
+        public void LateUpdate()
+        {
+            foreach (var item in m_dictUIClass)
+            {
+                if (item.Value.ui.IsShow)
+                {
+                    item.Value.ui.LateUpdate();
+                }
+            }
+
+            foreach (var item in m_dictAllUICtrl)
+            {
+                item.Value.uiCtrl.LateUpdate();
+            }
+
+        }
+        //----------------------------------------------------------------------------
         public void Update()
         {
             foreach (var element in m_dictUIClass)

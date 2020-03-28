@@ -56,6 +56,7 @@ namespace Filterartifact
         DgMsg_NtyStageLoadingProcess = 0x10000020,
         DgMsg_UnloadAssetFalse = 0x10000021,
         DgMsg_HideLoadingUIByType = 0x10000022,
+        DgUI_ShowOrHide = 0x10000023,
     }
 }
 

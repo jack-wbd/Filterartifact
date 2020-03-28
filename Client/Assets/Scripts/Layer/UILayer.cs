@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-//------------------------------------------------------------------------------
+﻿//------------------------------------------------------------------------------
 /**
 	\file	UILayer.cs
 
@@ -31,7 +29,7 @@ using UnityEngine;
 //------------------------------------------------------------------------------
 //	UILayer.cs
 //------------------------------------------------------------------------------
-
+using System.Collections.Generic;
 namespace Filterartifact
 {
     //----------------------------------------------------------------------------
@@ -64,6 +62,7 @@ namespace Filterartifact
             Register<UILoginCtrl, UILogin>("RUP_Login", this);
             Register<UIMainInterfaceCtrl, UIMaininterface>("RUP_MainPanel", this, true, eUIImpower.Window);
             Register<UILoadingCtrl, UILoading>("RUP_Loading", this);
+            Register<UIGMMainCtrl, UIGMMainView>("RUP_GM", this);
         }
         //----------------------------------------------------------------------------
         public TCtrl Register<TCtrl, TBase>(string strAssetID, IMsgPipe pipe, bool bLocal = true, eUIImpower _impower = eUIImpower.Default)
@@ -184,6 +183,15 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public override void LateUpdate()
+        {
+            base.LateUpdate();
+            if (m_uiSystem != null)
+            {
+                m_uiSystem.LateUpdate();
+            }
+        }
+        //----------------------------------------------------------------------------
         public UISystem GetUISystem()
         {
             return m_uiSystem;
@@ -244,6 +252,14 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        public void ShowOrHide(string strCtrl, object arg = null)
+        {
+            UIController uiCtrl = m_uiSystem.GetUIControllerById(strCtrl);
+            if (uiCtrl != null)
+            {
+                uiCtrl.ShowOrHideUI(arg);
+            }
+        }
         //----------------------------------------------------------------------------
     }
     //----------------------------------------------------------------------------

@@ -47,7 +47,7 @@ public static class Util
     {
         if (null != com)
         {
-            GameObject.Destroy(com);
+            Object.Destroy(com);
             com = null;
         }
     }
@@ -76,5 +76,91 @@ public static class Util
         }
         return tagetObj;
     }
+    //----------------------------------------------------------------------------
+    public static void Visible(this Component component, bool visible, bool showError = true)
+    {
+        if (component == null && showError)
+        {
+            Debug.LogError("component == null");
+            return;
+        }
+
+        if (component != null)
+        {
+            var go = component.gameObject;
+            if (go.activeSelf != visible)
+            {
+                go.SetActive(visible);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------
+    public static GameObject Clone(this GameObject go, Transform parent, string name = "")
+    {
+        if (!go)
+            return null;
+
+        GameObject cloneGo = Object.Instantiate(go, parent);
+        cloneGo.transform.localPosition = Vector3.zero;
+        cloneGo.transform.localScale = Vector3.one;
+        cloneGo.transform.localRotation = Quaternion.identity;
+
+        if (!string.IsNullOrEmpty(name))
+        {
+            cloneGo.name = name;
+        }
+
+        return cloneGo;
+    }
+    //----------------------------------------------------------------------------
+    public static void Visible(this GameObject go, bool visible, bool showError = true)
+    {
+        if (go == null && showError)
+        {
+            Debug.LogError("go ==null");
+            return;
+        }
+        if (go != null && go.activeSelf != visible)
+        {
+            go.SetActive(visible);
+        }
+    }
+    //----------------------------------------------------------------------------
+    public static GameObject FindChildGO(this GameObject parent,string path,bool showError =true)
+    {
+        if (!parent)
+        {
+            if (showError)
+                Debug.LogError(path + " parent is null!");
+
+            return null;
+        }
+
+        return parent.transform.FindChildGO(path, showError);
+    }
+    //----------------------------------------------------------------------------
+    public static GameObject FindChildGO(this Transform parent, string path, bool showError = true)
+    {
+        if (!parent)
+        {
+            if (showError)
+                Debug.LogError(path + " parent is null!");
+
+            return null;
+        }
+
+        var tf = parent.Find(path);
+
+        if (!tf)
+        {
+            if (showError)
+                Debug.LogError(path + " is null!");
+            return null;
+        }
+
+        return tf.gameObject;
+    }
+    //----------------------------------------------------------------------------
+
     //----------------------------------------------------------------------------
 }

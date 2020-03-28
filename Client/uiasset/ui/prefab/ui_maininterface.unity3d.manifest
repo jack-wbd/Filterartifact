@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3964175284
+CRC: 1461550393
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 15812d94d88f0d73d695448741782c5e
+    Hash: d71329ef9276f4b47a6042aed31955ad
   TypeTreeHash:
     serializedVersion: 2
     Hash: 4d3e1be984194094013d2cb217073bb9
@@ -44,5 +44,7 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_maininterface.prefab
 Dependencies:
-- D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/uiasset/font/gameusefont.unity3d
-- D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
+- D:/Filterartifact/Client/uiasset/font/gameusefont.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/gongyong.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/maininterface.unity3d

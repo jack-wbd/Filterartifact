@@ -49,6 +49,8 @@ namespace Filterartifact
         public static int height = Screen.height;
         public static float fScreenScale = (float)width / height;
         private CanvasScaler m_rootCanvasScale = null;
+        public static float fHeight;
+        public static float fWidth;
         //----------------------------------------------------------------------------
         public Vector3 GetAstrictScreenVec3()
         {
@@ -78,7 +80,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private float GetUIRootActiveHeight()
         {
-            float fHeight = 720;
+            fHeight = 720;
             if (m_rootCanvasScale == null)
             {
                 m_rootCanvasScale = GameObject.Find("ui_root/UICamera/Canvas").GetComponent<CanvasScaler>();
@@ -93,7 +95,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private float GetUIRootActiveWidth()
         {
-            float fWidth = 960;
+            fWidth = 960;
             if (m_rootCanvasScale == null)
             {
                 m_rootCanvasScale = GameObject.Find("m_root/Camera/Canvas").GetComponent<CanvasScaler>();

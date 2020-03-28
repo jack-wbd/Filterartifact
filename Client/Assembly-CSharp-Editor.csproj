@@ -65,41 +65,42 @@
     <Compile Include="Assets\Editor\BuildMenu.cs" />
     <Compile Include="Assets\Editor\ExportAssetBundle.cs" />
     <Compile Include="Assets\Editor\PackagerUI.cs" />
+    <Compile Include="Assets\Reporter\Editor\ReporterEditor.cs" />
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.2D.Sprite.Editor">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>D:/Program Files/Unity2019.2.15/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -291,28 +292,28 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/15.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="DOTween">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Assets/DOTween/DOTween.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Assets/DOTween/DOTween.dll</HintPath>
     </Reference>
     <Reference Include="DOTweenEditor">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Assets/DOTween/Editor/DOTweenEditor.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Assets/DOTween/Editor/DOTweenEditor.dll</HintPath>
     </Reference>
     <Reference Include="HtmlAgilityPack">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Assets/Plugins/HtmlAgilityPack.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Assets/Plugins/HtmlAgilityPack.dll</HintPath>
     </Reference>
     <Reference Include="HttpHelper">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Assets/Plugins/HttpHelper.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Assets/Plugins/HttpHelper.dll</HintPath>
     </Reference>
     <Reference Include="jsonfx">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Assets/Plugins/jsonfx.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Assets/Plugins/jsonfx.dll</HintPath>
     </Reference>
     <Reference Include="LitJson">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Assets/Plugins/LitJson.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Assets/Plugins/LitJson.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngineCommon">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Assets/Plugins/UnityEngineCommon.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Assets/Plugins/UnityEngineCommon.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>D:/Filterartifact/Client/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>D:/Program Files/Unity2019.2.15/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

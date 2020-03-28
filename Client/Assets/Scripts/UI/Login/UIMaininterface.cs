@@ -31,6 +31,7 @@
 //------------------------------------------------------------------------------
 using CsharpHttpHelper;
 using CsharpHttpHelper.Enum;
+using DG.Tweening;
 using HtmlAgilityPack;
 using Pathfinding.Serialization.JsonFx;
 using System;
@@ -60,6 +61,7 @@ namespace Filterartifact
         private Text m_periodHite;
         private ForecastDataHitRate forecastDataHitRate = new ForecastDataHitRate();
         private List<ForecastDataHitRate> forecastDataHitRateList = new List<ForecastDataHitRate>();
+        Tween m_moveTween;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -71,6 +73,7 @@ namespace Filterartifact
                 BindEvent(m_downAnchorPath + "bluesmarego").AddListener(() => OnBlueBallKillClick());
                 BindEvent(m_downAnchorPath + "saverecommend").AddListener(() => SaveRecommendClick());
                 BindEvent(m_downAnchorPath + "statistics").AddListener(() => OnStatisticsClick());
+                BindEvent(m_downAnchorPath + "begin").AddListener(() => TweenMove());
             }
             base.OnCreate();
             return true;
@@ -96,11 +99,17 @@ namespace Filterartifact
         {
             base.Show(arg);
             ShowView();
-        }       
+        }
         //----------------------------------------------------------------------------
         public void ShowView()
         {
 
+        }
+        //----------------------------------------------------------------------------
+        private void TweenMove()
+        {
+            var moveSize = ScreenUnit.fWidth;
+            m_moveTween = m_uiTrans.GetComponent<RectTransform>().DOLocalMove(new Vector2(-moveSize, 0), 0.1f);
         }
         //----------------------------------------------------------------------------
         public override void Hide()
@@ -323,7 +332,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnStatisticsClick()
         {
-            if (tcbStatiDataList == null)
+            if (tcbStatiDataList == null || tcbStatiDataList.Count == 0)
             {
                 Debug.Log("请先下载数据");
                 return;

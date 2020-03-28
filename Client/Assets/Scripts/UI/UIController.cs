@@ -93,6 +93,11 @@ namespace Filterartifact
             initViewerComplete(m_paramData, m_bIsShow);
         }
         //----------------------------------------------------------------------------
+        public virtual void LateUpdate()
+        {
+
+        }
+        //----------------------------------------------------------------------------
         protected virtual void initViewerComplete(object arg, bool bflag = true)
         {
             if (bflag)
@@ -314,7 +319,7 @@ namespace Filterartifact
             viewer.initData(arg);
         }
         //----------------------------------------------------------------------------
-        public virtual void ShowOrHideUI(object arg =null)
+        public virtual void ShowOrHideUI(object arg = null)
         {
             if (!isViewLoadedComplete)
             {
@@ -350,6 +355,26 @@ namespace Filterartifact
                 }
             }
             m_bHasAddAtlas = true;
+        }
+        //----------------------------------------------------------------------------
+        public virtual void OnShowOrHideUI(object arg = null)
+        {
+            if (!isViewLoadedComplete)
+            {
+                InitViewer(arg, true);
+                return;
+            }
+            if (!viewer.IsShow)
+            {
+                viewer.bEffect = bEffect;
+                viewer.strAssetID = strAssetID;
+                viewer.Show(arg);
+            }
+            else
+            {
+                viewer.bEffect = bEffect;
+                viewer.Hide();
+            }
         }
         //----------------------------------------------------------------------------
     }

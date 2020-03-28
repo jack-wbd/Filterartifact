@@ -34,6 +34,6 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_loading.prefab
 Dependencies:
-- D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
-- D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
-- D:/Filterartifact/Filterartifact/Filterartifact/Filterartifact/Client/uiasset/ui/picture/switchpic/picture1.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
+- D:/Filterartifact/Client/uiasset/ui/picture/switchpic/picture1.unity3d

@@ -30,7 +30,7 @@
 //	ConfigData.cs
 //------------------------------------------------------------------------------
 using System.Xml;
-
+using UnityEngine;
 
 public class ConfigData
 {
@@ -47,8 +47,11 @@ public class ConfigData
         XmlNode node = xmlDoc.SelectSingleNode("config");
         if (node != null)
         {
+
             XmlElement Element = node.SelectSingleNode("datadir") as XmlElement;
-            m_strDataDir = Element.InnerText;
+#if GMORDER
+            m_strDataDir = Application.dataPath + "/Data/data/";
+#endif
             Element = node.SelectSingleNode("resdir") as XmlElement;
             m_strResDir = Element.InnerText;
             Element = node.SelectSingleNode("local") as XmlElement;

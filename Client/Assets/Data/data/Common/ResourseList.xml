@@ -15,10 +15,13 @@
 		<Bundle id="chengzhen00atlas" preload="1" EnvirUse="login" file="ui/atlas/chengzhen00atlas.unity3d" name=""/>
 		<Bundle id="commonpictureatlas" preload="1" EnvirUse="login" file="ui/atlas/commonpictureatlas.unity3d" name=""/>
 		<Bundle id="loginatlas" preload="1" EnvirUse="login" file="ui/atlas/loginatlas.unity3d" name=""/>
+		<Bundle id="gongyong" preload="1" file="ui/atlas/gongyong.unity3d" name=""/>
+		<Bundle id="maininterface" preload="1" file="ui/atlas/maininterface.unity3d" name=""/>
 		<Bundle id="djjp" preload="0" file="ui/atlas/djjp.unity3d" name=""/>
 	</Atlas>
 	    <Bundle id="RUP_Login" preload="1" EnvirUse="login" file="ui/prefab/ui_login.unity3d" name=""/>	  
 	    <Bundle id="RUP_MainPanel" preload="1" EnvirUse="city" file="ui/prefab/ui_maininterface.unity3d" name=""/>
-	    <Bundle id="RUP_Loading" preload="1" EnvirUse="none" file="ui/prefab/ui_loading.unity3d" name=""/>	  	      
+	    <Bundle id="RUP_Loading" preload="1" EnvirUse="none" file="ui/prefab/ui_loading.unity3d" name=""/>
+	    <Bundle id="RUP_GM" preload="0" EnvirUse="city" file="ui/prefab/ui_gm.unity3d" name=""/>	  	      
 	</ui>
 </Resourselist>
