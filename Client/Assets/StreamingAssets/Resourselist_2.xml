@@ -20,6 +20,10 @@
       <Bundle id="gongyong" />
       <Bundle id="maininterface" />
     </Bundle>
+    <Bundle id="ui_page_numselecinterface.prefab">
+      <Bundle id="gameusefont" />
+      <Bundle id="djjp" />
+    </Bundle>
     <Bundle id="ui_root.prefab">
       <Bundle id="loginatlas" />
     </Bundle>

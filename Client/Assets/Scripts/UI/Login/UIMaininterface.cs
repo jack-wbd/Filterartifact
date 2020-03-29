@@ -110,6 +110,13 @@ namespace Filterartifact
         {
             var moveSize = ScreenUnit.fWidth;
             m_moveTween = m_uiTrans.GetComponent<RectTransform>().DOLocalMove(new Vector2(-moveSize, 0), 0.1f);
+            m_moveTween.onComplete = OnMoveComplete;
+        }
+        //----------------------------------------------------------------------------
+        private void OnMoveComplete()
+        {
+            Hide();
+            Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UINumSelecInterfaceCtrl");
         }
         //----------------------------------------------------------------------------
         public override void Hide()

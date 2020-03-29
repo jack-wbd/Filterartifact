@@ -63,6 +63,7 @@ namespace Filterartifact
             Register<UIMainInterfaceCtrl, UIMaininterface>("RUP_MainPanel", this, true, eUIImpower.Window);
             Register<UILoadingCtrl, UILoading>("RUP_Loading", this);
             Register<UIGMMainCtrl, UIGMMainView>("RUP_GM", this);
+            Register<UINumSelecInterfaceCtrl, UINumSelecInterface>("RUP_NumSelect", this);
         }
         //----------------------------------------------------------------------------
         public TCtrl Register<TCtrl, TBase>(string strAssetID, IMsgPipe pipe, bool bLocal = true, eUIImpower _impower = eUIImpower.Default)

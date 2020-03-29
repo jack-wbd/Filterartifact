@@ -150,6 +150,8 @@
     <Compile Include="Assets\Scripts\UI\Login\UIMainInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\LoopScrollerView.cs" />
     <Compile Include="Assets\Scripts\UI\LoopScrollItem.cs" />
+    <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterface.cs" />
+    <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\ScreenUnit.cs" />
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
