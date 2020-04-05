@@ -29,7 +29,9 @@
 //------------------------------------------------------------------------------
 //	Util.cs
 //------------------------------------------------------------------------------
+using System;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 
 public static class Util
@@ -48,7 +50,7 @@ public static class Util
     {
         if (null != com)
         {
-            Object.Destroy(com);
+            UnityEngine.Object.Destroy(com);
             com = null;
         }
     }
@@ -101,7 +103,7 @@ public static class Util
         if (!go)
             return null;
 
-        GameObject cloneGo = Object.Instantiate(go, parent);
+        GameObject cloneGo = UnityEngine.Object.Instantiate(go, parent);
         cloneGo.transform.localPosition = Vector3.zero;
         cloneGo.transform.localScale = Vector3.one;
         cloneGo.transform.localRotation = Quaternion.identity;
@@ -127,7 +129,7 @@ public static class Util
         }
     }
     //----------------------------------------------------------------------------
-    public static GameObject FindChildGO(this GameObject parent,string path,bool showError =true)
+    public static GameObject FindChildGO(this GameObject parent, string path, bool showError = true)
     {
         if (!parent)
         {
@@ -170,15 +172,15 @@ public static class Util
     /// <returns>数组中n个元素的排列</returns>
 
     //----------------------------------------------------------------------------
-    public static List<int[]> GetCombination(int[] t, int n)
+    public static List<List<int>> GetCombination(List<int> t, int n)
     {
-        if (t.Length < n)
+        if (t.Count < n)
         {
             return null;
         }
         int[] temp = new int[n];
-        List<int[]> list = new List<int[]>();
-        GetCombination(ref list, t, t.Length, n, temp, n);
+        List<List<int>> list = new List<List<int>>();
+        GetCombination(ref list, t, t.Count, n, temp, n);
         return list;
     }
     //----------------------------------------------------------------------------
@@ -191,7 +193,7 @@ public static class Util
     /// <param name="m">辅助变量</param>
     /// <param name="b">辅助数组</param>
     /// <param name="M">辅助变量M</param>
-    private static void GetCombination(ref List<int[]> list, int[] t, int n, int m, int[] b, int M)
+    private static void GetCombination(ref List<List<int>> list, List<int> t, int n, int m, int[] b, int M)
     {
         for (int i = n; i >= m; i--)
         {
@@ -204,16 +206,238 @@ public static class Util
             {
                 if (list == null)
                 {
-                    list = new List<int[]>();
+                    list = new List<List<int>>();
                 }
-                int[] temp = new int[M];
+                List<int> temp = new List<int>(M);
                 for (int j = 0; j < b.Length; j++)
                 {
-                    temp[j] = t[b[j]];
+                    temp.Add(t[b[j]]);
                 }
                 list.Add(temp);
             }
         }
+    }
+    //----------------------------------------------------------------------------
+    /// <summary>
+    /// 排列循环方法
+    /// </summary>
+    /// <param name="N"></param>
+    /// <param name="R"></param>
+    /// <returns></returns>
+    private static long P1(int N, int R)
+    {
+        if (R > N || R <= 0 || N <= 0) throw new ArgumentException("params invalid!");
+        long t = 1;
+        int i = N;
+
+        while (i != N - R)
+        {
+            try
+            {
+                checked
+                {
+                    t *= i;
+                }
+            }
+            catch
+            {
+                throw new OverflowException("overflow happens!");
+            }
+            --i;
+        }
+        return t;
+    }
+    //----------------------------------------------------------------------------
+    /// <summary>
+    /// 排列堆栈方法
+    /// </summary>
+    /// <param name="N"></param>
+    /// <param name="R"></param>
+    /// <returns></returns>
+    private static long P2(int N, int R)
+    {
+        if (R > N || R <= 0 || N <= 0) throw new ArgumentException("arguments invalid!");
+        Stack<int> s = new Stack<int>();
+        long iRlt = 1;
+        int t;
+        s.Push(N);
+        while ((t = s.Peek()) != N - R)
+        {
+            try
+            {
+                checked
+                {
+                    iRlt *= t;
+                }
+            }
+            catch
+            {
+                throw new OverflowException("overflow happens!");
+            }
+            s.Pop();
+            s.Push(t - 1);
+        }
+        return iRlt;
+    }
+    //----------------------------------------------------------------------------
+    /// <summary>
+    /// 组合
+    /// </summary>
+    /// <param name="N"></param>
+    /// <param name="R"></param>
+    /// <returns></returns>
+    public static long C(int N, int R)
+    {
+        return P1(N, R) / P1(R, R);
+    }
+    //----------------------------------------------------------------------------
+}
+
+public class FileData
+{
+    public string name;
+    public string md5;
+    public long size;
+}
+
+public class FileUtils
+{
+    //----------------------------------------------------------------------------
+    public static FileData GetFileInfo(string filePath, string basePath)
+    {
+        FileData fileData = null;
+        filePath = filePath.Replace("\\", "/");
+        if (File.Exists(filePath))
+        {
+            FileStream file = new FileStream(filePath, FileMode.Open);
+            System.Security.Cryptography.MD5 md5 = new System.Security.Cryptography.MD5CryptoServiceProvider();
+            byte[] reVal = md5.ComputeHash(file);
+            string md5_str = BitConverter.ToString(reVal);
+            fileData = new FileData();
+            fileData.name = filePath.Substring(basePath.Length);
+            fileData.md5 = md5_str;
+            fileData.size = file.Length;
+            file.Close();
+            return fileData;
+        }
+        return fileData;
+    }
+    //----------------------------------------------------------------------------
+    public static void CleanFloder(string path)
+    {
+        if (!Directory.Exists(path))
+            return;
+
+        DirectoryInfo floderInfo = new DirectoryInfo(path);
+
+        floderInfo.Delete(true);
+
+        Directory.CreateDirectory(path);
+    }
+    //----------------------------------------------------------------------------
+    public static void CopyFile(string src, string dest, bool overwrite = true)
+    {
+        if (File.Exists(src))
+        {
+            if (!Path.HasExtension(dest))
+                return;
+            string destDir = dest.Substring(0, dest.LastIndexOf("/")); ;
+            if (!Directory.Exists(destDir))
+                Directory.CreateDirectory(destDir);
+            File.Copy(src, dest, overwrite);
+        }
+    }
+    //----------------------------------------------------------------------------
+    public static void MoveFile(string src, string dest)
+    {
+        if (File.Exists(src))
+        {
+            if (!Path.HasExtension(dest))
+                return;
+            string destDir = dest.Substring(0, dest.LastIndexOf("/")); ;
+            if (!Directory.Exists(destDir))
+                Directory.CreateDirectory(destDir);
+            File.Move(src, dest);
+        }
+    }
+    //----------------------------------------------------------------------------
+    public static void CopyFolder(string sourcePath, string destPath, bool overwrite = true, string pattern = null)
+    {
+        if (Directory.Exists(sourcePath))
+        {
+            DirectoryInfo srcDirInfo = new DirectoryInfo(sourcePath);
+            srcDirInfo.Attributes = FileAttributes.Normal & FileAttributes.Directory;
+            if (!Directory.Exists(destPath))
+            {
+                try
+                {
+                    Directory.CreateDirectory(destPath);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("创建目录失败:" + e.Message);
+                }
+            }
+            else
+            {
+                DirectoryInfo destDir = new DirectoryInfo(destPath);
+                destDir.Attributes = FileAttributes.Normal & FileAttributes.Directory;
+            }
+            List<string> files;
+            if (pattern != null)
+                files = new List<string>(Directory.GetFiles(sourcePath, pattern));
+            else
+                files = new List<string>(Directory.GetFiles(sourcePath));
+            foreach (var file in files)
+            {
+                File.SetAttributes(file, FileAttributes.Normal);
+
+                string destFile = Path.Combine(destPath, Path.GetFileName(file));
+                if (File.Exists(destFile))
+                {
+                    File.SetAttributes(destFile, FileAttributes.Normal);
+                }
+                File.Copy(file, destFile, overwrite);
+            }
+
+            List<string> folders = new List<string>(Directory.GetDirectories(sourcePath));
+            foreach (var folder in folders)
+            {
+                if (folder.Contains(".svn"))
+                    continue;
+                string destDir = Path.Combine(destPath, Path.GetFileName(folder));
+                DirectoryInfo dirInfo = new DirectoryInfo(folder);
+                dirInfo.Attributes = FileAttributes.Normal & FileAttributes.Directory;
+                DirectoryInfo destDirInfo = new DirectoryInfo(destDir);
+                if (destDirInfo.Exists)
+                    destDirInfo.Attributes = FileAttributes.Normal & FileAttributes.Directory;
+                CopyFolder(folder, destDir, overwrite, pattern);
+            }
+        }
+    }
+    //----------------------------------------------------------------------------
+    public static void DeleteDir(string strPath)
+    {
+        if (Directory.Exists(strPath))
+        {
+            string[] fileEntries = Directory.GetFiles(strPath, "*.*", SearchOption.AllDirectories);
+            foreach (string strFile in fileEntries)
+            {
+                DeleteFile(strFile);
+            }
+            Directory.Delete(strPath, true);
+        }
+    }
+    //----------------------------------------------------------------------------
+    public static void DeleteFile(string strPath)
+    {
+        if (File.Exists(strPath))
+        {
+            if ((File.GetAttributes(strPath) & FileAttributes.ReadOnly) == FileAttributes.ReadOnly)
+                File.SetAttributes(strPath, FileAttributes.Normal);
+            File.Delete(strPath);
+        }
+
     }
     //----------------------------------------------------------------------------
 }

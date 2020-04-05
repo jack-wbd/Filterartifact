@@ -207,6 +207,38 @@ namespace Filterartifact
         public string typenum = string.Empty;
         public string typemoney = string.Empty;
     }
-
+    //----------------------------------------------------------------------------
+    public class DrawData : DataBase
+    {
+        public List<TCBStatisticsData> tcbStatiDataList = new List<TCBStatisticsData>();
+        public List<TCBData> tcbdatalist = new List<TCBData>();
+        public List<TCBNumberData> tcbNumberDataList = new List<TCBNumberData>();
+        public AnalysisRedData m_analysisRedData = new AnalysisRedData();
+        public AnalysisBlueData m_analysisBlueData = new AnalysisBlueData();
+        public List<PrizeNumberData> prizeNumberDataList = new List<PrizeNumberData>();
+        public ForecastDataHitRate forecastDataHitRate = new ForecastDataHitRate();
+        public List<ForecastDataHitRate> forecastDataHitRateList = new List<ForecastDataHitRate>();
+        //----------------------------------------------------------------------------
+        public override void Deserialize()
+        {
+            base.Deserialize();
+        }
+        //----------------------------------------------------------------------------
+        public override void Serialize()
+        {
+            base.Serialize();
+        }
+        //----------------------------------------------------------------------------
+        public override bool Initialize()
+        {
+            return base.Initialize();
+        }
+        //----------------------------------------------------------------------------
+        public override void Clear()
+        {
+            base.Clear();
+        }
+        //----------------------------------------------------------------------------
+    }
 
 }

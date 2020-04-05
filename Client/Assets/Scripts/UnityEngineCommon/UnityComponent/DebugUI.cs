@@ -50,7 +50,6 @@ namespace Filterartifact
         {
             if (MulPress_GUI() || MulKey_GUI())
             {
-                //show GM UI
                 Messenger.Broadcast(DgMsgID.DgUI_ShowOrHide, "UIGMMainCtrl");
             }
         }

@@ -58,7 +58,6 @@ public class LoopScrollerView : MonoBehaviour
     //初始加载数，一般比实际行数多2行
     public int viewCount = 6;
     public GameObject itemPrefab;
-    private RectTransform _content;
     private ScrollRect _scrollRect;
 
     //ScrollRect设置
@@ -73,10 +72,7 @@ public class LoopScrollerView : MonoBehaviour
     private UpdateHandle _updateItem;
     private Action _valueChange;
 
-    public RectTransform Content
-    {
-        get { return _content; }
-    }
+    public RectTransform Content { get; private set; }
 
     void Awake()
     {
@@ -85,32 +81,32 @@ public class LoopScrollerView : MonoBehaviour
 
         GameObject obj = new GameObject("Content");
 
-        _content = obj.AddComponent<RectTransform>();
-        _content.anchorMin = new Vector2(0.5f, 1);
-        _content.anchorMax = new Vector2(0.5f, 1);
-        _content.pivot = new Vector2(0.5f, 1);
-        _content.offsetMin = new Vector2(0, -1);
-        _content.offsetMax = new Vector2(1, 0);
-        _content.localScale = Vector3.one;
-        _content.localRotation = Quaternion.identity;
-        _content.SetParent(this.transform, false);
+        Content = obj.AddComponent<RectTransform>();
+        Content.anchorMin = new Vector2(0.5f, 1);
+        Content.anchorMax = new Vector2(0.5f, 1);
+        Content.pivot = new Vector2(0.5f, 1);
+        Content.offsetMin = new Vector2(0, -1);
+        Content.offsetMax = new Vector2(1, 0);
+        Content.localScale = Vector3.one;
+        Content.localRotation = Quaternion.identity;
+        Content.SetParent(transform, false);
 
         //this.gameObject.AddComponent<Mask>().showMaskGraphic = false;
-        var mask = this.gameObject.GetComponent<Mask>();
+        var mask = gameObject.GetComponent<Mask>();
         if (null != mask)
         {
-            GameObject.Destroy(mask);
+            Destroy(mask);
         }
-        var mask2D = this.gameObject.GetComponent<RectMask2D>();
+        var mask2D = gameObject.GetComponent<RectMask2D>();
         if (null == mask2D)
         {
-            this.gameObject.AddComponent<RectMask2D>();
+            gameObject.AddComponent<RectMask2D>();
         }
 
-        this.gameObject.AddComponent<Image>().color = new Color(0, 0, 0, 0);
-        _scrollRect = this.gameObject.GetComponent<ScrollRect>();
-        _scrollRect.content = _content;
-        _scrollRect.movementType = this.movementType;
+        gameObject.AddComponent<Image>().color = new Color(0, 0, 0, 0);
+        _scrollRect = gameObject.GetComponent<ScrollRect>();
+        _scrollRect.content = Content;
+        _scrollRect.movementType = movementType;
         _scrollRect.horizontal = false;
         _scrollRect.vertical = false;
 
@@ -131,12 +127,12 @@ public class LoopScrollerView : MonoBehaviour
     private void OnDestroy()
     {
         // 销毁组件
-        Util.SafeDestroy(this.gameObject.GetComponent<RectMask2D>());
-        Util.SafeDestroy(this.gameObject.GetComponent<ScrollRect>());
-        Util.SafeDestroy(this.gameObject.GetComponent<Image>());
+        Util.SafeDestroy(gameObject.GetComponent<RectMask2D>());
+        Util.SafeDestroy(gameObject.GetComponent<ScrollRect>());
+        Util.SafeDestroy(gameObject.GetComponent<Image>());
 
         // 销毁容器
-        GameObject.Destroy(_content.gameObject);
+        Destroy(Content.gameObject);
     }
 
     public void Init(int itemCount_, UpdateHandle update_ = null, bool bResetPos = true)
@@ -165,19 +161,19 @@ public class LoopScrollerView : MonoBehaviour
     {
         for (int i = 0; i < _itemList.Count; ++i)
         {
-            GameObject.Destroy(_itemList[i].gameObject);
+            Destroy(_itemList[i].gameObject);
         }
 
         _itemList.Clear();
 
         while (_unUsedQueue.Count > 0)
         {
-            GameObject.Destroy(_unUsedQueue.Dequeue().gameObject);
+            Destroy(_unUsedQueue.Dequeue().gameObject);
         }
 
         _index = -1;
         _scrollRect.StopMovement();
-        _content.anchoredPosition = new Vector2(0.000f, 0.000f);
+        Content.anchoredPosition = new Vector2(0.000f, 0.000f);
     }
 
     public void UpdateScrollerVeiw()
@@ -323,7 +319,7 @@ public class LoopScrollerView : MonoBehaviour
             LoopScrollItem item = _itemList[i - 1];
             if (item.Index == index)
             {
-                GameObject.Destroy(item.gameObject);
+                Destroy(item.gameObject);
                 _itemList.Remove(item);
             }
             if (item.Index > maxIndex)
@@ -359,7 +355,7 @@ public class LoopScrollerView : MonoBehaviour
         else
         {
             //Debug.LogError("CreateItem index = " + index);
-            itemBase = AddChild(_content, itemPrefab).GetComponent<LoopScrollItem>();
+            itemBase = AddChild(Content, itemPrefab).GetComponent<LoopScrollItem>();
         }
 
         itemBase.gameObject.SetActive(true);
@@ -374,7 +370,7 @@ public class LoopScrollerView : MonoBehaviour
 
     private GameObject AddChild(Transform parent, GameObject prefab)
     {
-        GameObject go = GameObject.Instantiate(prefab) as GameObject;
+        GameObject go = Instantiate(prefab) as GameObject;
 
         if (go != null && parent != null)
         {
@@ -392,18 +388,18 @@ public class LoopScrollerView : MonoBehaviour
         {
             case Arrangement.Horizontal:
                 {
-                    if (Mathf.Abs(_content.anchoredPosition.x) < 0.01f)
+                    if (Mathf.Abs(Content.anchoredPosition.x) < 0.01f)
                         return 0;
 
-                    return Mathf.FloorToInt(_content.anchoredPosition.x / -(cellWidth + cellPadiding));
+                    return Mathf.FloorToInt(Content.anchoredPosition.x / -(cellWidth + cellPadiding));
                 }
 
             case Arrangement.Vertical:
                 {
-                    if (Mathf.Abs(_content.anchoredPosition.y) < 0.01f)
+                    if (Mathf.Abs(Content.anchoredPosition.y) < 0.01f)
                         return 0;
 
-                    return Mathf.FloorToInt(_content.anchoredPosition.y / (cellHeight + cellPadiding));
+                    return Mathf.FloorToInt(Content.anchoredPosition.y / (cellHeight + cellPadiding));
                 }
 
         }
@@ -438,10 +434,10 @@ public class LoopScrollerView : MonoBehaviour
         switch (_movement)
         {
             case Arrangement.Horizontal:
-                _content.sizeDelta = new Vector2(cellWidth * lineCount + cellPadiding * (lineCount - 1), _content.sizeDelta.y);
+                Content.sizeDelta = new Vector2(cellWidth * lineCount + cellPadiding * (lineCount - 1), Content.sizeDelta.y);
                 break;
             case Arrangement.Vertical:
-                _content.sizeDelta = new Vector2(_content.sizeDelta.x, cellHeight * lineCount + cellPadiding * (lineCount - 1));
+                Content.sizeDelta = new Vector2(Content.sizeDelta.x, cellHeight * lineCount + cellPadiding * (lineCount - 1));
                 break;
         }
     }

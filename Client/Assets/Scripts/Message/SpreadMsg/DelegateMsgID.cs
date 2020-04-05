@@ -57,6 +57,7 @@ namespace Filterartifact
         DgMsg_UnloadAssetFalse = 0x10000021,
         DgMsg_HideLoadingUIByType = 0x10000022,
         DgUI_ShowOrHide = 0x10000023,
+        DgUI_HideNew = 0x10000024,
     }
 }
 

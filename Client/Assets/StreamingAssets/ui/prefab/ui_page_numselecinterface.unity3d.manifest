@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1503004792
+CRC: 3083955043
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: e1117976b26c16bee96d0438fb022430
+    Hash: 371d64a3bc11359bb9232662bd8c7703
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9c3fc8254416132c305015ece7e3afb2
+    Hash: 157fe2fcd14919db8e7bf64946cb3119
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -20,9 +20,21 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 2a4db7a114972834c8e4117be1d82ba3, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 0d0b652f32a2cc243917e4028fa0f046, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 9085046f02f69544eb97fd06b6048fe2, type: 3}
 - Class: 115
   Script: {instanceID: 0}
 - Class: 128
@@ -36,5 +48,6 @@ ClassTypes:
 Assets:
 - Assets/Data/ui/prefab/ui_page_numselecinterface.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/font/gameusefont.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
 - D:/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/gongyong.unity3d

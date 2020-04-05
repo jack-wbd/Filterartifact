@@ -45,6 +45,7 @@ namespace Filterartifact
         static private Dictionary<string, UIHistoryData> ctrlDicts = new Dictionary<string, UIHistoryData>();
         static private Dictionary<string, Dictionary<string, UIHistoryData>> panelDicts = new Dictionary<string, Dictionary<string, UIHistoryData>>();
         static private Dictionary<string, string> m_strDelayHide = new Dictionary<string, string>();
+        static private List<string> m_listHisoryUIName = new List<string>();
         static private List<UIHistoryData> UIHistoryStack = new List<UIHistoryData>();
         //----------------------------------------------------------------------------
         static public string GetDelayHideUIName(string showedUI)
@@ -75,6 +76,28 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        static public void AddShowKey(string key)
+        {
+            if (key == "UIErrorCtrl") return;
+            if (key == "UIEffectCtrl") return;
+            if (key == "UIItemGetCtrl") return;
+            if (key == "UIDialogToggleCtrl") return;
+            if (key == "UDisConnectionCtrl") return;
+            if (key == "UICircleCtrl") return;
+            if (key == "UIChatSimpleViewOldCtrl") return;
+            if (key == "UIPlayerUpgradeCtrl") return;
+            if (key == "UIGuideVeteranModeCtrl") return;
+            if (key == "UIChatSimpleCtrl") return;
+
+            if (allShowUI.IndexOf(key) == -1)
+                allShowUI.Add(key);
+            else
+            {
+                allShowUI.Remove(key);
+                allShowUI.Add(key);
+            }
+        }
+        //----------------------------------------------------------------------------
         static public void ShowNew(string key, object arg, eUIImpower impower = eUIImpower.Default)
         {
             UIHistoryData data = GetPenuItimateView();
@@ -88,6 +111,7 @@ namespace Filterartifact
             UIHistoryData uIHistoryData = new UIHistoryData();
             uIHistoryData.UpdateData(key, arg, impower);
             UIHistoryStack.Add(uIHistoryData);
+            m_listHisoryUIName.Add(key);
 
             if (key == "UIErrorCtrl") return;
             if (key == "UIEffectCtrl") return;
@@ -109,8 +133,43 @@ namespace Filterartifact
                 allShowUI.Remove(key);
                 allShowUI.Add(key);
             }
+        }
+        //------------------------------------------------------------------------------
+        static public void ClearTotalHistory()
+        {
+            if (UIHistoryStack == null || UIHistoryStack.Count == 0)
+            {
+                return;
+            }
+            else
+            {
+                UIHistoryStack.RemoveRange(0, UIHistoryStack.Count);
+                m_listHisoryUIName.RemoveRange(0, m_listHisoryUIName.Count);
+            }
+            UIHistoryStack.Clear();
+            m_listHisoryUIName.Clear();
+            allShowUI.Clear();
+        }
+        //----------------------------------------------------------------------------
+        static public UIHistoryData HideNew(string key)
+        {
+            if (UIHistoryStack == null || UIHistoryStack.Count == 0)
+            {
+                return null;
+            }
+            if (UIHistoryStack[UIHistoryStack.Count - 1].key != key)
+            {
+                return null;
+            }
+            UIHistoryStack.RemoveAt(UIHistoryStack.Count - 1);
+            m_listHisoryUIName.RemoveAt(m_listHisoryUIName.Count - 1);
+            allShowUI.Remove(key);
 
-
+            if (UIHistoryStack == null || UIHistoryStack.Count == 0)
+            {
+                return null;
+            }
+            return UIHistoryStack[UIHistoryStack.Count - 1];
         }
         //----------------------------------------------------------------------------
         static public UIHistoryData GetPenuItimateView()//获取倒数第二个界面
@@ -121,6 +180,11 @@ namespace Filterartifact
 
             }
             return UIHistoryStack[UIHistoryStack.Count - 2];
+        }
+        //----------------------------------------------------------------------------
+        static public List<string> GetHistoryUINamelist()
+        {
+            return m_listHisoryUIName;
         }
         //----------------------------------------------------------------------------
         static public void Show(string key, object arg, eUIImpower impower = eUIImpower.Default)

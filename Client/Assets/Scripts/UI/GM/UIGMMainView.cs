@@ -79,7 +79,13 @@ namespace Filterartifact
                 m_btnList[i].Update();
             }
         }
-
+        //----------------------------------------------------------------------------
+        public override void Show(object arg = null)
+        {
+            base.Show(arg);
+            base.SetSiblingIndex(1000);
+        }
+        //----------------------------------------------------------------------------
         public void ShowList(List<UIGMMainCtrl.UIGMMainInfo> infos)
         {
             Rest();

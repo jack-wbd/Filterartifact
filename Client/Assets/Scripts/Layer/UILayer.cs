@@ -64,6 +64,7 @@ namespace Filterartifact
             Register<UILoadingCtrl, UILoading>("RUP_Loading", this);
             Register<UIGMMainCtrl, UIGMMainView>("RUP_GM", this);
             Register<UINumSelecInterfaceCtrl, UINumSelecInterface>("RUP_NumSelect", this);
+            Register<UIFilterMethodInterfaceCtrl, UIFilterMethodInterface>("RUP_FilterMethod", this);
         }
         //----------------------------------------------------------------------------
         public TCtrl Register<TCtrl, TBase>(string strAssetID, IMsgPipe pipe, bool bLocal = true, eUIImpower _impower = eUIImpower.Default)
@@ -224,7 +225,6 @@ namespace Filterartifact
             {
                 return;
             }
-
             UIController uiCtrl = m_uiSystem.GetUIControllerById(strkey);
             if (uiCtrl != null)
             {
@@ -237,20 +237,16 @@ namespace Filterartifact
         //系统开放屏蔽VIP等上层入口比较多的功能
         private bool SystemOpenHookMessage(string controller)
         {
-
             if (WorldManager.Instance() == null)
             {
                 return false;
             }
-
             if (controller == null)
             {
                 return false;
 
             }
-
             return false;
-
         }
         //----------------------------------------------------------------------------
         public void ShowOrHide(string strCtrl, object arg = null)
@@ -262,7 +258,26 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
+        public void HideNew(string strCtrl)
+        {
+            UIController uiCtrl = m_uiSystem.GetUIControllerById(strCtrl);
+            if (uiCtrl != null)
+                uiCtrl.Hide();
+            UIHistoryData historyData = UIHistory.HideNew(strCtrl);
+            ShowHistoryViewNew(historyData);
+        }
+        //----------------------------------------------------------------------------
+        private void ShowHistoryViewNew(UIHistoryData historyData)
+        {
+            if (historyData == null) return;
+            UIController uiCtrl = m_uiSystem.GetUIControllerById(historyData.key);
+            if (uiCtrl != null)
+            {
+                UIHistory.AddShowKey(historyData.key);
+                uiCtrl.bEffect = false;
+                uiCtrl.Show(historyData.data);
+            }
+        }
+        //----------------------------------------------------------------------------
     }
-    //----------------------------------------------------------------------------
-
 }

@@ -117,6 +117,21 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
+        protected virtual T GetUIComponent<T>(string path) where T : Component
+        {
+            var t = m_uiTrans.Find(path).GetComponent<T>();
+            if (t == null)
+            {
+                Debug.LogError("this" + path + "is not this component");
+            }
+            return t;
+        }
+        //----------------------------------------------------------------------------
+        public virtual void SetSiblingIndex(int index)
+        {
+            m_uiTrans.SetSiblingIndex(index);
+        }
+        //----------------------------------------------------------------------------
         public void LateUpdate()
         {
             OnLateUpdate();

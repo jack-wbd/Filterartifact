@@ -83,6 +83,7 @@ namespace Filterartifact
         public void RigisterCollection()
         {
             AddCollection(typeof(LoadingConfigData), new LoadingConfigData());
+            AddCollection(typeof(DrawData), new DrawData());
         }
         //----------------------------------------------------------------------------
         public BinaryWriter GetStreamWriter()

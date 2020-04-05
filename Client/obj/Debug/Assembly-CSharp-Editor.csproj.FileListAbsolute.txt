@@ -1991,7 +1991,6 @@ D:\Filterartifact\Client\Temp\bin\Debug\UnityEngine.VideoModule.dll
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEngine.VRModule.dll
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEngine.WindModule.dll
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEngine.XRModule.dll
-D:\Filterartifact\Client\Temp\bin\Debug\UnityEngineCommon.dll
 D:\Filterartifact\Client\Temp\bin\Debug\UnityScript.dll
 D:\Filterartifact\Client\Temp\bin\Debug\UnityScript.Lang.dll
 D:\Filterartifact\Client\Temp\bin\Debug\Unity.Cecil.dll
@@ -2003,7 +2002,6 @@ D:\Filterartifact\Client\Temp\bin\Debug\Boo.Lang.PatternMatching.dll
 D:\Filterartifact\Client\Temp\bin\Debug\Boo.Lang.Parser.dll
 D:\Filterartifact\Client\Temp\bin\Debug\Boo.Lang.Useful.dll
 D:\Filterartifact\Client\Temp\bin\Debug\Unity.CecilTools.dll
-D:\Filterartifact\Client\Temp\bin\Debug\Assembly-CSharp.pdb
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEngine.xml
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEditor.xml
 D:\Filterartifact\Client\Temp\bin\Debug\UnityEditor.TestRunner.pdb
@@ -2383,3 +2381,4 @@ D:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.
 D:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.csproj.CopyComplete
 D:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.dll
 D:\Filterartifact\Filterartifact\Client\obj\Debug\Assembly-CSharp-Editor.pdb
+D:\Filterartifact\Client\Temp\bin\Debug\Assembly-CSharp.pdb

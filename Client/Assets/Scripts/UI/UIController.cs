@@ -324,12 +324,14 @@ namespace Filterartifact
             if (!isViewLoadedComplete)
             {
                 InitViewer(arg, true);
+            
                 return;
             }
             if (!viewer.IsShow)
             {
                 viewer.bEffect = bEffect;
                 viewer.strAssetID = this.strAssetID;
+ 
                 viewer.Show(arg);
             }
             else

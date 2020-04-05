@@ -50,17 +50,9 @@ namespace Filterartifact
         private HttpItem item;
         private string html;
         private LoopScrollerView loopScrollView;
-        private List<TCBData> tcbdatalist = new List<TCBData>();
-        private List<TCBNumberData> tcbNumberDataList = new List<TCBNumberData>();
-        private List<TCBStatisticsData> tcbStatiDataList = new List<TCBStatisticsData>();
-        private AnalysisRedData m_analysisRedData = new AnalysisRedData();
-        private AnalysisBlueData m_analysisBlueData = new AnalysisBlueData();
-        private List<PrizeNumberData> prizeNumberDataList = new List<PrizeNumberData>();
         private Text m_redRecommendedData;
         private Text m_blueRecommendedData;
         private Text m_periodHite;
-        private ForecastDataHitRate forecastDataHitRate = new ForecastDataHitRate();
-        private List<ForecastDataHitRate> forecastDataHitRateList = new List<ForecastDataHitRate>();
         Tween m_moveTween;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
@@ -139,8 +131,8 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<List<TCBStatisticsData>>(savedata);
                 if (savejsondata != null)
                 {
-                    tcbStatiDataList = savejsondata;
-                    tcbStatiDataList.Sort(SortTcbStatisticsDataList);
+                    drawData.tcbStatiDataList = savejsondata;
+                    drawData.tcbStatiDataList.Sort(SortTcbStatisticsDataList);
                 }
 
             }
@@ -152,8 +144,8 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<AnalysisRedData>(savedata);
                 if (savejsondata != null)
                 {
-                    m_analysisRedData.Clear();
-                    m_analysisRedData = savejsondata;
+                    drawData.m_analysisRedData.Clear();
+                    drawData.m_analysisRedData = savejsondata;
                 }
             }
 
@@ -165,8 +157,8 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<AnalysisBlueData>(savedata);
                 if (savejsondata != null)
                 {
-                    m_analysisBlueData.Clear();
-                    m_analysisBlueData = savejsondata;
+                    drawData.m_analysisBlueData.Clear();
+                    drawData.m_analysisBlueData = savejsondata;
                 }
             }
 
@@ -178,8 +170,8 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<List<ForecastDataHitRate>>(savedata);
                 if (savejsondata != null)
                 {
-                    forecastDataHitRateList.Clear();
-                    forecastDataHitRateList = savejsondata;
+                    drawData.forecastDataHitRateList.Clear();
+                    drawData.forecastDataHitRateList = savejsondata;
                 }
             }
 
@@ -191,8 +183,8 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<List<PrizeNumberData>>(savedata);
                 if (savejsondata != null)
                 {
-                    prizeNumberDataList.Clear();
-                    prizeNumberDataList = savejsondata;
+                    drawData.prizeNumberDataList.Clear();
+                    drawData.prizeNumberDataList = savejsondata;
                 }
             }
         }
@@ -224,13 +216,13 @@ namespace Filterartifact
                 html = httpResult.Html;
                 Debug.Log("html: " + html);
                 DownLoadData downdata = Deserialize(html);
-                tcbdatalist = downdata.result;
-                tcbdatalist.Sort(SortTcbDataList);
-                tcbNumberDataList = ParseTCBNumberData(tcbdatalist);
+                drawData.tcbdatalist = downdata.result;
+                drawData.tcbdatalist.Sort(SortTcbDataList);
+                drawData.tcbNumberDataList = ParseTCBNumberData(drawData.tcbdatalist);
                 SerializeAndSaveDownData(downdata);
-                tcbStatiDataList = CalculateData(tcbdatalist);
-                tcbStatiDataList.Sort(SortTcbStatisticsDataList);
-                SerializeAndSaveStatiData(tcbStatiDataList);
+                drawData.tcbStatiDataList = CalculateData(drawData.tcbdatalist);
+                drawData.tcbStatiDataList.Sort(SortTcbStatisticsDataList);
+                SerializeAndSaveStatiData(drawData.tcbStatiDataList);
             }
             else
             {
@@ -247,27 +239,27 @@ namespace Filterartifact
             {
                 return;
             }
-            if (m_analysisRedData != null)
+            if (drawData.m_analysisRedData != null)
             {
-                m_analysisRedData.nextforeRedBallList.Sort(SortRedRecommendList);
+                drawData.m_analysisRedData.nextforeRedBallList.Sort(SortRedRecommendList);
             }
             List<string> nlist = new List<string>();
-            for (int i = 0; i < m_analysisRedData.nextforeRedBallList.Count; i++)
+            for (int i = 0; i < drawData.m_analysisRedData.nextforeRedBallList.Count; i++)
             {
-                var str1 = m_analysisRedData.nextforeRedBallList[i].accuracy;
+                var str1 = drawData.m_analysisRedData.nextforeRedBallList[i].accuracy;
                 var st2 = str1.Substring(0, str1.Length - 1);
                 var accuracy = int.Parse(st2) / 100f;
                 if (accuracy > 0.8f)
                 {
-                    nlist.Add(m_analysisRedData.nextforeRedBallList[i].redballNum);
+                    nlist.Add(drawData.m_analysisRedData.nextforeRedBallList[i].redballNum);
 
                 }
             }
-            forecastDataHitRate.redballNumList.Clear();
+            drawData.forecastDataHitRate.redballNumList.Clear();
             var disList = nlist.Distinct().ToList();
             for (int i = 0; i < disList.Count; i++)
             {
-                forecastDataHitRate.redballNumList.Add(int.Parse(disList[i]));
+                drawData.forecastDataHitRate.redballNumList.Add(int.Parse(disList[i]));
             }
 
             for (int i = 0; i < disList.Count; i++)
@@ -283,26 +275,26 @@ namespace Filterartifact
             {
                 return;
             }
-            if (m_analysisBlueData != null)
+            if (drawData.m_analysisBlueData != null)
             {
-                m_analysisBlueData.nextforeBlueBallDataList.Sort(SortBlueRecommendList);
+                drawData.m_analysisBlueData.nextforeBlueBallDataList.Sort(SortBlueRecommendList);
             }
             List<string> nlist = new List<string>();
-            for (int i = 0; i < m_analysisBlueData.nextforeBlueBallDataList.Count; i++)
+            for (int i = 0; i < drawData.m_analysisBlueData.nextforeBlueBallDataList.Count; i++)
             {
-                var str1 = m_analysisBlueData.nextforeBlueBallDataList[i].accuracy;
+                var str1 = drawData.m_analysisBlueData.nextforeBlueBallDataList[i].accuracy;
                 var st2 = str1.Substring(0, str1.Length - 1);
                 var accuracy = int.Parse(st2) / 100f;
                 if (accuracy >= 0.9f)
                 {
-                    nlist.Add(m_analysisBlueData.nextforeBlueBallDataList[i].blueballNum);
+                    nlist.Add(drawData.m_analysisBlueData.nextforeBlueBallDataList[i].blueballNum);
                 }
             }
-            forecastDataHitRate.blueballNumList.Clear();
+            drawData.forecastDataHitRate.blueballNumList.Clear();
             var disList = nlist.Distinct().ToList();
             for (int i = 0; i < disList.Count; i++)
             {
-                forecastDataHitRate.blueballNumList.Add(int.Parse(disList[i]));
+                drawData.forecastDataHitRate.blueballNumList.Add(int.Parse(disList[i]));
             }
             for (int i = 0; i < disList.Count; i++)
             {
@@ -317,21 +309,21 @@ namespace Filterartifact
                 Debug.Log("请先点击智能分析红球和篮球");
                 return;
             }
-            if (forecastDataHitRateList.Count != 0 && forecastDataHitRateList != null)
+            if (drawData.forecastDataHitRateList.Count != 0 && drawData.forecastDataHitRateList != null)
             {
 
-                if (forecastDataHitRateList[0].numperiods != int.Parse(m_analysisRedData.nextforenumperiods))
+                if (drawData.forecastDataHitRateList[0].numperiods != int.Parse(drawData.m_analysisRedData.nextforenumperiods))
                 {
-                    forecastDataHitRate.numperiods = int.Parse(m_analysisRedData.nextforenumperiods);
-                    forecastDataHitRateList.Add(forecastDataHitRate);
-                    forecastDataHitRateList.Sort(ForecastDataSort);//排序，期数由前向后
+                    drawData.forecastDataHitRate.numperiods = int.Parse(drawData.m_analysisRedData.nextforenumperiods);
+                    drawData.forecastDataHitRateList.Add(drawData.forecastDataHitRate);
+                    drawData.forecastDataHitRateList.Sort(ForecastDataSort);//排序，期数由前向后
                 }
             }
             else
             {
-                forecastDataHitRate.numperiods = int.Parse(m_analysisRedData.nextforenumperiods);
-                forecastDataHitRateList.Add(forecastDataHitRate);
-                forecastDataHitRateList.Sort(ForecastDataSort);//排序，期数由前向后
+                drawData.forecastDataHitRate.numperiods = int.Parse(drawData.m_analysisRedData.nextforenumperiods);
+                drawData.forecastDataHitRateList.Add(drawData.forecastDataHitRate);
+                drawData.forecastDataHitRateList.Sort(ForecastDataSort);//排序，期数由前向后
             }
             CalculatePredictedHitRate();
             SaveForecastData();
@@ -339,16 +331,16 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnStatisticsClick()
         {
-            if (tcbStatiDataList == null || tcbStatiDataList.Count == 0)
+            if (drawData.tcbStatiDataList == null || drawData.tcbStatiDataList.Count == 0)
             {
                 Debug.Log("请先下载数据");
                 return;
             }
 
-            loopScrollView.Init(tcbStatiDataList.Count, (idx, item) =>
+            loopScrollView.Init(drawData.tcbStatiDataList.Count, (idx, item) =>
             {
                 var tran = item.transform;
-                var task = tcbStatiDataList[idx];
+                var task = drawData.tcbStatiDataList[idx];
 
                 tran.Find("periods").GetComponent<Text>().text = task.numperiods;
 
@@ -390,51 +382,51 @@ namespace Filterartifact
         private void CalculatePredictedHitRate()//计算命中率
         {
 
-            for (int i = 0; i < prizeNumberDataList.Count; i++)
+            for (int i = 0; i < drawData.prizeNumberDataList.Count; i++)
             {
-                for (int j = 0; j < forecastDataHitRateList.Count; j++)
+                for (int j = 0; j < drawData.forecastDataHitRateList.Count; j++)
                 {
-                    if (prizeNumberDataList[i].numperiods == forecastDataHitRateList[j].numperiods)
+                    if (drawData.prizeNumberDataList[i].numperiods == drawData.forecastDataHitRateList[j].numperiods)
                     {
-                        for (int z = 0; z < prizeNumberDataList[i].redNumberdata.Count; z++)
+                        for (int z = 0; z < drawData.prizeNumberDataList[i].redNumberdata.Count; z++)
                         {
-                            for (int g = 0; g < forecastDataHitRateList[j].redballNumList.Count; g++)
+                            for (int g = 0; g < drawData.forecastDataHitRateList[j].redballNumList.Count; g++)
                             {
-                                if (prizeNumberDataList[i].redNumberdata[z] == forecastDataHitRateList[j].redballNumList[g])
+                                if (drawData.prizeNumberDataList[i].redNumberdata[z] == drawData.forecastDataHitRateList[j].redballNumList[g])
                                 {
-                                    forecastDataHitRateList[j].errorredballNumList.Add(prizeNumberDataList[i].redNumberdata[z]);
+                                    drawData.forecastDataHitRateList[j].errorredballNumList.Add(drawData.prizeNumberDataList[i].redNumberdata[z]);
                                 }
                             }
-                            for (int g = 0; g < forecastDataHitRateList[j].blueballNumList.Count; g++)
+                            for (int g = 0; g < drawData.forecastDataHitRateList[j].blueballNumList.Count; g++)
                             {
-                                if (prizeNumberDataList[i].blueBallNum == forecastDataHitRateList[j].blueballNumList[g])
+                                if (drawData.prizeNumberDataList[i].blueBallNum == drawData.forecastDataHitRateList[j].blueballNumList[g])
                                 {
-                                    forecastDataHitRateList[j].errorblueballNum = prizeNumberDataList[i].blueBallNum;
+                                    drawData.forecastDataHitRateList[j].errorblueballNum = drawData.prizeNumberDataList[i].blueBallNum;
                                 }
                             }
                         }
                     }
-                    if (forecastDataHitRateList[j].errorredballNumList.Count > 0 && forecastDataHitRateList[j].errorredballNumList != null)
+                    if (drawData.forecastDataHitRateList[j].errorredballNumList.Count > 0 && drawData.forecastDataHitRateList[j].errorredballNumList != null)
                     {
-                        var disList = forecastDataHitRateList[j].errorredballNumList.Distinct().ToList();
-                        forecastDataHitRateList[j].errorredballNumList = disList;
+                        var disList = drawData.forecastDataHitRateList[j].errorredballNumList.Distinct().ToList();
+                        drawData.forecastDataHitRateList[j].errorredballNumList = disList;
                     }
 
                 }
             }
-            if (forecastDataHitRateList.Count > 1)
+            if (drawData.forecastDataHitRateList.Count > 1)
             {
-                for (int i = 1; i < forecastDataHitRateList.Count; i++)
+                for (int i = 1; i < drawData.forecastDataHitRateList.Count; i++)
                 {
-                    var numOne = forecastDataHitRateList[i].errorredballNumList.Count;
-                    var numTwo = forecastDataHitRateList[i].redballNumList.Count;
+                    var numOne = drawData.forecastDataHitRateList[i].errorredballNumList.Count;
+                    var numTwo = drawData.forecastDataHitRateList[i].redballNumList.Count;
                     var hite = Convert.ToDouble(numTwo - numOne) / Convert.ToDouble(numTwo);
-                    forecastDataHitRateList[i].redballHitRate = string.Format("{0:0.00%}", hite);
-                    forecastDataHitRateList[i].blueballHitRate = forecastDataHitRateList[i].errorblueballNum == 0 ? "100%" : "0%";
+                    drawData.forecastDataHitRateList[i].redballHitRate = string.Format("{0:0.00%}", hite);
+                    drawData.forecastDataHitRateList[i].blueballHitRate = drawData.forecastDataHitRateList[i].errorblueballNum == 0 ? "100%" : "0%";
                 }
             }
-            m_periodHite.text = forecastDataHitRateList[0].numperiods + "期 红篮球命中率:" + forecastDataHitRateList[0].redballHitRate + " "
-                + forecastDataHitRateList[0].blueballHitRate;
+            m_periodHite.text = drawData.forecastDataHitRateList[0].numperiods + "期 红篮球命中率:" + drawData.forecastDataHitRateList[0].redballHitRate + " "
+                + drawData.forecastDataHitRateList[0].blueballHitRate;
         }
         //----------------------------------------------------------------------------
         private void SaveForecastData()
@@ -442,7 +434,7 @@ namespace Filterartifact
             var jsonpath = Application.persistentDataPath + "/forecastdata.json";
             if (!File.Exists(@jsonpath))
             {
-                var data = JsonWriter.Serialize(forecastDataHitRateList);
+                var data = JsonWriter.Serialize(drawData.forecastDataHitRateList);
                 var streamWriter = new StreamWriter(jsonpath);
                 Debug.Log("path: " + Application.persistentDataPath);
                 streamWriter.Write(data);
@@ -453,14 +445,14 @@ namespace Filterartifact
                 var streamReader = new StreamReader(jsonpath);
                 var savedata = streamReader.ReadToEnd();
                 var savejsondata = JsonReader.Deserialize<List<ForecastDataHitRate>>(savedata);
-                if (forecastDataHitRateList[0].numperiods == savejsondata[0].numperiods)
+                if (drawData.forecastDataHitRateList[0].numperiods == savejsondata[0].numperiods)
                 {
                     Debug.Log("数据已经是最新，不需要重新写入");
                 }
                 else
                 {
                     streamReader.Close();
-                    var data = JsonWriter.Serialize(forecastDataHitRateList);
+                    var data = JsonWriter.Serialize(drawData.forecastDataHitRateList);
                     var streamWriter = new StreamWriter(jsonpath);
                     streamWriter.Write(data);
                     streamWriter.Close();
@@ -536,8 +528,8 @@ namespace Filterartifact
                 var cookie = httpresult.Cookie;
                 Debug.Log(html);
                 ParseAnalysisRedData(html);
-                SaveAnalysisRedData(m_analysisRedData);
-                SavePrizeNumberData(prizeNumberDataList);
+                SaveAnalysisRedData(drawData.m_analysisRedData);
+                SavePrizeNumberData(drawData.prizeNumberDataList);
             }
             else
             {
@@ -551,7 +543,7 @@ namespace Filterartifact
 
             if (!File.Exists(@analysisPath))
             {
-                var data = JsonWriter.Serialize(prizeNumberDataList);
+                var data = JsonWriter.Serialize(drawData.prizeNumberDataList);
                 var streamWriter = new StreamWriter(analysisPath);
                 Debug.Log("path: " + Application.persistentDataPath);
                 streamWriter.Write(data);
@@ -562,7 +554,7 @@ namespace Filterartifact
                 var streamReader = new StreamReader(analysisPath);
                 var savedata = streamReader.ReadToEnd();
                 var savejsondata = JsonReader.Deserialize<List<PrizeNumberData>>(savedata);
-                if (prizeNumberDataList[0].numperiods == savejsondata[0].numperiods)
+                if (drawData.prizeNumberDataList[0].numperiods == savejsondata[0].numperiods)
                 {
                     Debug.Log("数据已经是最新，不需要重新下载");
                 }
@@ -623,9 +615,9 @@ namespace Filterartifact
             HtmlNode OneHundreDataTable = htmlNode.SelectSingleNode("//*[@id='showTable']/table");
             Debug.Log("OneHundreDataNode: " + OneHundreDataTable.OuterHtml);
             var tr = OneHundreDataTable.SelectNodes("./tr");
-            m_analysisRedData.curforeRedBallList.Clear();
-            m_analysisRedData.nextforeRedBallList.Clear();
-            prizeNumberDataList.Clear();
+            drawData.m_analysisRedData.curforeRedBallList.Clear();
+            drawData.m_analysisRedData.nextforeRedBallList.Clear();
+            drawData.prizeNumberDataList.Clear();
             for (int i = 0; i <= 19; i++)
             {
                 var forecastTable = tr[i];
@@ -633,9 +625,9 @@ namespace Filterartifact
                 var data = new PrizeNumberData();
                 data.numperiods = int.Parse(td[0].InnerText);
                 ParsePrizeInnerText(td[1].InnerText, data);
-                prizeNumberDataList.Add(data);
+                drawData.prizeNumberDataList.Add(data);
             }
-            prizeNumberDataList.Sort(PrizeNumberDataSort);
+            drawData.prizeNumberDataList.Sort(PrizeNumberDataSort);
             for (int i = 19; i <= 20; i++)
             {
                 var forecastTable = tr[i];
@@ -645,12 +637,12 @@ namespace Filterartifact
                 switch (i)
                 {
                     case 19:
-                        m_analysisRedData.curforenumperiods = td[0].InnerText;
-                        m_analysisRedData.curforeHitRate = td[33].InnerText;
-                        Debug.Log("当前红球命中个数: " + m_analysisRedData.curforeHitRate);
+                        drawData.m_analysisRedData.curforenumperiods = td[0].InnerText;
+                        drawData.m_analysisRedData.curforeHitRate = td[33].InnerText;
+                        Debug.Log("当前红球命中个数: " + drawData.m_analysisRedData.curforeHitRate);
                         break;
                     case 20:
-                        m_analysisRedData.nextforenumperiods = td[0].InnerText;
+                        drawData.m_analysisRedData.nextforenumperiods = td[0].InnerText;
                         break;
                     default:
                         break;
@@ -670,13 +662,13 @@ namespace Filterartifact
                         case 19:
                             currentredballdata.redballNum = redNumList[j];
                             currentredballdata.isRightOrNot = curredNumList[j];
-                            m_analysisRedData.curforeRedBallList.Add(currentredballdata);
-                            Debug.Log("当期红球杀号 : " + m_analysisRedData.curforeRedBallList[j].redballNum);
+                            drawData.m_analysisRedData.curforeRedBallList.Add(currentredballdata);
+                            Debug.Log("当期红球杀号 : " + drawData.m_analysisRedData.curforeRedBallList[j].redballNum);
                             break;
                         case 20:
                             redballdata.redballNum = redNumList[j];
-                            m_analysisRedData.nextforeRedBallList.Add(redballdata);
-                            Debug.Log("下期红球杀号 : " + m_analysisRedData.nextforeRedBallList[j].redballNum);
+                            drawData.m_analysisRedData.nextforeRedBallList.Add(redballdata);
+                            Debug.Log("下期红球杀号 : " + drawData.m_analysisRedData.nextforeRedBallList[j].redballNum);
                             break;
                         default:
                             break;
@@ -696,28 +688,28 @@ namespace Filterartifact
                     switch (i)
                     {
                         case 21:
-                            m_analysisRedData.nextforeRedBallList[j].consecutiveErrorsNum = dataList[j];
-                            Debug.Log("consecutiveErrorsNum : " + m_analysisRedData.nextforeRedBallList[j].consecutiveErrorsNum);
+                            drawData.m_analysisRedData.nextforeRedBallList[j].consecutiveErrorsNum = dataList[j];
+                            Debug.Log("consecutiveErrorsNum : " + drawData.m_analysisRedData.nextforeRedBallList[j].consecutiveErrorsNum);
                             break;
                         case 22:
-                            m_analysisRedData.nextforeRedBallList[j].numberOfPairs = dataList[j];
-                            Debug.Log("numberOfPairs : " + m_analysisRedData.nextforeRedBallList[j].numberOfPairs);
+                            drawData.m_analysisRedData.nextforeRedBallList[j].numberOfPairs = dataList[j];
+                            Debug.Log("numberOfPairs : " + drawData.m_analysisRedData.nextforeRedBallList[j].numberOfPairs);
                             break;
                         case 23:
-                            m_analysisRedData.nextforeRedBallList[j].totalCorrectNum = dataList[j];
-                            Debug.Log("totalCorrectNum : " + m_analysisRedData.nextforeRedBallList[j].totalCorrectNum);
+                            drawData.m_analysisRedData.nextforeRedBallList[j].totalCorrectNum = dataList[j];
+                            Debug.Log("totalCorrectNum : " + drawData.m_analysisRedData.nextforeRedBallList[j].totalCorrectNum);
                             break;
                         case 24:
-                            m_analysisRedData.nextforeRedBallList[j].accuracy = dataList[j];
-                            Debug.Log("accuracy : " + m_analysisRedData.nextforeRedBallList[j].accuracy);
+                            drawData.m_analysisRedData.nextforeRedBallList[j].accuracy = dataList[j];
+                            Debug.Log("accuracy : " + drawData.m_analysisRedData.nextforeRedBallList[j].accuracy);
                             break;
                         case 25:
-                            m_analysisRedData.nextforeRedBallList[j].consecutiveErrorsMaxNum = dataList[j];
-                            Debug.Log("consecutiveErrorsMaxNum : " + m_analysisRedData.nextforeRedBallList[j].consecutiveErrorsMaxNum);
+                            drawData.m_analysisRedData.nextforeRedBallList[j].consecutiveErrorsMaxNum = dataList[j];
+                            Debug.Log("consecutiveErrorsMaxNum : " + drawData.m_analysisRedData.nextforeRedBallList[j].consecutiveErrorsMaxNum);
                             break;
                         case 26:
-                            m_analysisRedData.nextforeRedBallList[j].maximumNumOfPairs = dataList[j];
-                            Debug.Log("maximumNumOfPairs : " + m_analysisRedData.nextforeRedBallList[j].maximumNumOfPairs);
+                            drawData.m_analysisRedData.nextforeRedBallList[j].maximumNumOfPairs = dataList[j];
+                            Debug.Log("maximumNumOfPairs : " + drawData.m_analysisRedData.nextforeRedBallList[j].maximumNumOfPairs);
                             break;
                         default:
                             break;
@@ -781,7 +773,7 @@ namespace Filterartifact
                 var cookie = httpresult.Cookie;
                 Debug.Log(html);
                 ParseAnalysisBlueData(html);
-                SaveAnalysisBlueData(m_analysisBlueData);
+                SaveAnalysisBlueData(drawData.m_analysisBlueData);
             }
             else
             {
@@ -831,8 +823,8 @@ namespace Filterartifact
             HtmlNode OneHundreDataTable = htmlNode.SelectSingleNode("//*[@id='showTable']/table");
             Debug.Log("OneHundreDataNode: " + OneHundreDataTable.OuterHtml);
             var tr = OneHundreDataTable.SelectNodes("./tr");
-            m_analysisBlueData.curforeBlueBallDataList = new List<CurrentBlueBallData>();
-            m_analysisBlueData.nextforeBlueBallDataList = new List<NextBlueBallData>();
+            drawData.m_analysisBlueData.curforeBlueBallDataList = new List<CurrentBlueBallData>();
+            drawData.m_analysisBlueData.nextforeBlueBallDataList = new List<NextBlueBallData>();
             for (int i = 19; i <= 20; i++)
             {
                 var forecastTable = tr[i];
@@ -842,12 +834,12 @@ namespace Filterartifact
                 switch (i)
                 {
                     case 19:
-                        m_analysisBlueData.curforenumperiods = td[0].InnerText;
-                        m_analysisBlueData.curforeHitRate = td[33].InnerText;
-                        Debug.Log("当前篮球命中个数: " + m_analysisBlueData.curforeHitRate);
+                        drawData.m_analysisBlueData.curforenumperiods = td[0].InnerText;
+                        drawData.m_analysisBlueData.curforeHitRate = td[33].InnerText;
+                        Debug.Log("当前篮球命中个数: " + drawData.m_analysisBlueData.curforeHitRate);
                         break;
                     case 20:
-                        m_analysisBlueData.nextforenumperiods = td[0].InnerText;
+                        drawData.m_analysisBlueData.nextforenumperiods = td[0].InnerText;
                         break;
                     default:
                         break;
@@ -867,13 +859,13 @@ namespace Filterartifact
                         case 19:
                             currentblueballdata.blueballNum = blueNumList[j];
                             currentblueballdata.isRightOrNot = curredNumList[j];
-                            m_analysisBlueData.curforeBlueBallDataList.Add(currentblueballdata);
-                            Debug.Log("blueballNum currentforeBlueBallList : " + m_analysisBlueData.curforeBlueBallDataList[j].blueballNum);
+                            drawData.m_analysisBlueData.curforeBlueBallDataList.Add(currentblueballdata);
+                            Debug.Log("blueballNum currentforeBlueBallList : " + drawData.m_analysisBlueData.curforeBlueBallDataList[j].blueballNum);
                             break;
                         case 20:
                             blueballdata.blueballNum = blueNumList[j];
-                            m_analysisBlueData.nextforeBlueBallDataList.Add(blueballdata);
-                            Debug.Log("blueballNum nextforeBlueBallList : " + m_analysisBlueData.nextforeBlueBallDataList[j].blueballNum);
+                            drawData.m_analysisBlueData.nextforeBlueBallDataList.Add(blueballdata);
+                            Debug.Log("blueballNum nextforeBlueBallList : " + drawData.m_analysisBlueData.nextforeBlueBallDataList[j].blueballNum);
                             break;
                         default:
                             break;
@@ -893,28 +885,28 @@ namespace Filterartifact
                     switch (i)
                     {
                         case 21:
-                            m_analysisBlueData.nextforeBlueBallDataList[j].consecutiveErrorsNum = dataList[j];
-                            Debug.Log("consecutiveErrorsNum : " + m_analysisBlueData.nextforeBlueBallDataList[j].consecutiveErrorsNum);
+                            drawData.m_analysisBlueData.nextforeBlueBallDataList[j].consecutiveErrorsNum = dataList[j];
+                            Debug.Log("consecutiveErrorsNum : " + drawData.m_analysisBlueData.nextforeBlueBallDataList[j].consecutiveErrorsNum);
                             break;
                         case 22:
-                            m_analysisBlueData.nextforeBlueBallDataList[j].numberOfPairs = dataList[j];
-                            Debug.Log("numberOfPairs : " + m_analysisBlueData.nextforeBlueBallDataList[j].numberOfPairs);
+                            drawData.m_analysisBlueData.nextforeBlueBallDataList[j].numberOfPairs = dataList[j];
+                            Debug.Log("numberOfPairs : " + drawData.m_analysisBlueData.nextforeBlueBallDataList[j].numberOfPairs);
                             break;
                         case 23:
-                            m_analysisBlueData.nextforeBlueBallDataList[j].totalCorrectNum = dataList[j];
-                            Debug.Log("totalCorrectNum : " + m_analysisBlueData.nextforeBlueBallDataList[j].totalCorrectNum);
+                            drawData.m_analysisBlueData.nextforeBlueBallDataList[j].totalCorrectNum = dataList[j];
+                            Debug.Log("totalCorrectNum : " + drawData.m_analysisBlueData.nextforeBlueBallDataList[j].totalCorrectNum);
                             break;
                         case 24:
-                            m_analysisBlueData.nextforeBlueBallDataList[j].accuracy = dataList[j];
-                            Debug.Log("accuracy : " + m_analysisBlueData.nextforeBlueBallDataList[j].accuracy);
+                            drawData.m_analysisBlueData.nextforeBlueBallDataList[j].accuracy = dataList[j];
+                            Debug.Log("accuracy : " + drawData.m_analysisBlueData.nextforeBlueBallDataList[j].accuracy);
                             break;
                         case 25:
-                            m_analysisBlueData.nextforeBlueBallDataList[j].consecutiveErrorsMaxNum = dataList[j];
-                            Debug.Log("consecutiveErrorsMaxNum : " + m_analysisBlueData.nextforeBlueBallDataList[j].consecutiveErrorsMaxNum);
+                            drawData.m_analysisBlueData.nextforeBlueBallDataList[j].consecutiveErrorsMaxNum = dataList[j];
+                            Debug.Log("consecutiveErrorsMaxNum : " + drawData.m_analysisBlueData.nextforeBlueBallDataList[j].consecutiveErrorsMaxNum);
                             break;
                         case 26:
-                            m_analysisBlueData.nextforeBlueBallDataList[j].maximumNumOfPairs = dataList[j];
-                            Debug.Log("maximumNumOfPairs : " + m_analysisBlueData.nextforeBlueBallDataList[j].maximumNumOfPairs);
+                            drawData.m_analysisBlueData.nextforeBlueBallDataList[j].maximumNumOfPairs = dataList[j];
+                            Debug.Log("maximumNumOfPairs : " + drawData.m_analysisBlueData.nextforeBlueBallDataList[j].maximumNumOfPairs);
                             break;
                         default:
                             break;
@@ -1069,11 +1061,11 @@ namespace Filterartifact
             {
                 var tcbstatisticsdata = new TCBStatisticsData();
                 var task = tcbdatalist[i];
-                var tcbcurNumberData = tcbNumberDataList[i];
+                var tcbcurNumberData = drawData.tcbNumberDataList[i];
                 var tcbbeforeNumberData = new TCBNumberData();
                 if (i > 0)
                 {
-                    tcbbeforeNumberData = tcbNumberDataList[i - 1];
+                    tcbbeforeNumberData = drawData.tcbNumberDataList[i - 1];
                 }
                 tcbstatisticsdata.numperiods = task.code;
                 tcbstatisticsdata.prizeNumber = task.red + " " + task.blue;
@@ -1089,9 +1081,9 @@ namespace Filterartifact
                 {
                     tcbstatisticsdata.adjacentNumber = 0.ToString();
                 }
-                tcbstatisticsdata.popularNumber = PopularNum(tcbNumberDataList, tcbcurNumberData, DownType.POPULAR);
-                tcbstatisticsdata.unpopularNumber = PopularNum(tcbNumberDataList, tcbcurNumberData, DownType.UNPOPULAR);
-                tcbstatisticsdata.neutralNumber = PopularNum(tcbNumberDataList, tcbcurNumberData, DownType.NEUTRAL);
+                tcbstatisticsdata.popularNumber = PopularNum(drawData.tcbNumberDataList, tcbcurNumberData, DownType.POPULAR);
+                tcbstatisticsdata.unpopularNumber = PopularNum(drawData.tcbNumberDataList, tcbcurNumberData, DownType.UNPOPULAR);
+                tcbstatisticsdata.neutralNumber = PopularNum(drawData.tcbNumberDataList, tcbcurNumberData, DownType.NEUTRAL);
                 tcbstatisticsdata.intervalNumber = IntervalType(tcbcurNumberData);
                 tcbstatisticsdata.acNumber = ACNumber(tcbcurNumberData);
                 tcbstatisticsdata.parityNumber = ParityNumber(tcbcurNumberData);
@@ -1552,6 +1544,15 @@ namespace Filterartifact
             return bigNum.ToString() + smallNum.ToString();
 
         }
+        //----------------------------------------------------------------------------
+        DrawData drawData
+        {
+            get
+            {
+                return WorldManager.Instance().GetDataCollection<DrawData>();
+            }
+        }
+        //----------------------------------------------------------------------------
     }
     //----------------------------------------------------------------------------
     public enum DownType

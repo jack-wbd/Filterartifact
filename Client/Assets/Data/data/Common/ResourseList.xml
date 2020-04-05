@@ -23,6 +23,7 @@
 	    <Bundle id="RUP_MainPanel" preload="1" EnvirUse="city" file="ui/prefab/ui_maininterface.unity3d" name=""/>
 	    <Bundle id="RUP_Loading" preload="1" EnvirUse="none" file="ui/prefab/ui_loading.unity3d" name=""/>
 	    <Bundle id="RUP_GM" preload="0" EnvirUse="city" file="ui/prefab/ui_gm.unity3d" name=""/>
-	    <Bundle id="RUP_NumSelect" preload="1" EnvirUse="city" file="ui/prefab/ui_page_numselecinterface.unity3d" name=""/>
+	    <Bundle id="RUP_NumSelect" preload="0" EnvirUse="city" file="ui/prefab/ui_page_numselecinterface.unity3d" name=""/>
+	    <Bundle id="RUP_FilterMethod" preload="1" EnvirUse="city" file="ui/prefab/ui_page_filtermethodinterface.unity3d" name=""/>	    
 	</ui>
 </Resourselist>

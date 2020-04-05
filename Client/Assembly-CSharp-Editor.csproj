@@ -65,6 +65,7 @@
     <Compile Include="Assets\Editor\BuildMenu.cs" />
     <Compile Include="Assets\Editor\ExportAssetBundle.cs" />
     <Compile Include="Assets\Editor\PackagerUI.cs" />
+    <Compile Include="Assets\Editor\ScrollListEditor.cs" />
     <Compile Include="Assets\Reporter\Editor\ReporterEditor.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
@@ -308,9 +309,6 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>D:/Filterartifact/Client/Assets/Plugins/LitJson.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEngineCommon">
-      <HintPath>D:/Filterartifact/Client/Assets/Plugins/UnityEngineCommon.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
       <HintPath>D:/Filterartifact/Client/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
