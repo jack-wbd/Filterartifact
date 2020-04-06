@@ -843,7 +843,7 @@ MonoBehaviour:
   cellHeight: 60
   cellWidthScale: 1
   cellHeightScale: 1
-  viewCount: 20
+  viewCount: 15
   itemPrefab: {fileID: 891559777}
   movementType: 2
 --- !u!114 &1436871631489780838
@@ -2303,7 +2303,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u4E0B\u4E00\u6B65"
+  m_Text: "\u7F29\u6C34\u8FC7\u6EE4"
 --- !u!1 &1362723211
 GameObject:
   m_ObjectHideFlags: 0

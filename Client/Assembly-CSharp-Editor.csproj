@@ -65,7 +65,6 @@
     <Compile Include="Assets\Editor\BuildMenu.cs" />
     <Compile Include="Assets\Editor\ExportAssetBundle.cs" />
     <Compile Include="Assets\Editor\PackagerUI.cs" />
-    <Compile Include="Assets\Editor\ScrollListEditor.cs" />
     <Compile Include="Assets\Reporter\Editor\ReporterEditor.cs" />
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>

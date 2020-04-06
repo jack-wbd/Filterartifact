@@ -82,7 +82,6 @@ namespace Filterartifact
                 m_periodHite = m_uiTrans.Find(m_downAnchorPath + "hite").GetComponent<Text>();
                 m_periodHite.text = string.Empty;
                 loopScrollView = m_uiTrans.Find(m_centerAnchorPath + "pan_scroll").GetComponent<LoopScrollerView>();
-                InitData();
             }
             return true;
         }
@@ -120,74 +119,7 @@ namespace Filterartifact
         {
             base.OnUpdate();
         }
-        //----------------------------------------------------------------------------
-        private void InitData()
-        {
-            var tcbstajsonpath = Application.persistentDataPath + "/tcbstatistics.json";
-            if (File.Exists(tcbstajsonpath))
-            {
-                var streamReader = new StreamReader(tcbstajsonpath);
-                var savedata = streamReader.ReadToEnd();
-                var savejsondata = JsonReader.Deserialize<List<TCBStatisticsData>>(savedata);
-                if (savejsondata != null)
-                {
-                    drawData.tcbStatiDataList = savejsondata;
-                    drawData.tcbStatiDataList.Sort(SortTcbStatisticsDataList);
-                }
 
-            }
-            var analysisredjsonpath = Application.persistentDataPath + "/analysisreddata.json";
-            if (File.Exists(analysisredjsonpath))
-            {
-                var streamReader = new StreamReader(analysisredjsonpath);
-                var savedata = streamReader.ReadToEnd();
-                var savejsondata = JsonReader.Deserialize<AnalysisRedData>(savedata);
-                if (savejsondata != null)
-                {
-                    drawData.m_analysisRedData.Clear();
-                    drawData.m_analysisRedData = savejsondata;
-                }
-            }
-
-            var analysisbluejsonpath = Application.persistentDataPath + "/analysisbluedata.json";
-            if (File.Exists(analysisbluejsonpath))
-            {
-                var streamReader = new StreamReader(analysisbluejsonpath);
-                var savedata = streamReader.ReadToEnd();
-                var savejsondata = JsonReader.Deserialize<AnalysisBlueData>(savedata);
-                if (savejsondata != null)
-                {
-                    drawData.m_analysisBlueData.Clear();
-                    drawData.m_analysisBlueData = savejsondata;
-                }
-            }
-
-            var forecastjsonpath = Application.persistentDataPath + "/forecastdata.json";
-            if (File.Exists(forecastjsonpath))
-            {
-                var streamReader = new StreamReader(forecastjsonpath);
-                var savedata = streamReader.ReadToEnd();
-                var savejsondata = JsonReader.Deserialize<List<ForecastDataHitRate>>(savedata);
-                if (savejsondata != null)
-                {
-                    drawData.forecastDataHitRateList.Clear();
-                    drawData.forecastDataHitRateList = savejsondata;
-                }
-            }
-
-            var prizenumberjsonpath = Application.persistentDataPath + "/prizenumberdata.json";
-            if (File.Exists(prizenumberjsonpath))
-            {
-                var streamReader = new StreamReader(prizenumberjsonpath);
-                var savedata = streamReader.ReadToEnd();
-                var savejsondata = JsonReader.Deserialize<List<PrizeNumberData>>(savedata);
-                if (savejsondata != null)
-                {
-                    drawData.prizeNumberDataList.Clear();
-                    drawData.prizeNumberDataList = savejsondata;
-                }
-            }
-        }
         //----------------------------------------------------------------------------
         private void OnOneHundredClick()
         {
@@ -1067,6 +999,7 @@ namespace Filterartifact
                 {
                     tcbbeforeNumberData = drawData.tcbNumberDataList[i - 1];
                 }
+                tcbstatisticsdata.date = task.date;
                 tcbstatisticsdata.numperiods = task.code;
                 tcbstatisticsdata.prizeNumber = task.red + " " + task.blue;
                 tcbstatisticsdata.salesNumber = task.sales;

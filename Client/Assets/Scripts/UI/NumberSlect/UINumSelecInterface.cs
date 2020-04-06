@@ -47,8 +47,6 @@ namespace Filterartifact
         private Transform m_blueParent;
         private GameObject blueTemp;
         private List<int> redList = new List<int>(33);
-        public List<int> m_redBallNumberList = new List<int>();
-        public List<int> m_blueBallNumberList = new List<int>();
         private Transform selectedRedBallParent;
         private GameObject selectedRedBallTemp;
         private GameObject selectedBlueBallTemp;
@@ -62,6 +60,9 @@ namespace Filterartifact
         private List<Toggle> blueBallToggleList = new List<Toggle>();
         private Tween m_moveTween;
         private Dropdown dropdown;
+        private Text m_date;
+        private Text m_selectDate;
+        private int index = 0;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -87,6 +88,8 @@ namespace Filterartifact
             selectedBlueBallTemp = selectedBlueBallParent.Find("Button").gameObject;
             m_totalLab = m_uiTrans.Find(m_centerAnchorPath + "total").GetComponent<Text>();
             m_totalLab.text = string.Empty;
+            m_date = m_uiTrans.Find(m_centerAnchorPath + "drawdate").GetComponent<Text>();
+            m_selectDate = m_uiTrans.Find(m_centerAnchorPath + "period").GetComponent<Text>();
             m_selectRedAll = m_uiTrans.Find(m_centerAnchorPath + "selRedAll").GetComponent<Toggle>();
             m_selectRedAll.onValueChanged.AddListener((bool isOn) => OnSelRedAllChange(m_selectRedAll, isOn));
             m_selectBlueAll = m_uiTrans.Find(m_centerAnchorPath + "selBlueAll").GetComponent<Toggle>();
@@ -94,7 +97,7 @@ namespace Filterartifact
             dropdown = GetUIComponent<Dropdown>(m_centerAnchorPath + "dropdown");
             dropdown.onValueChanged.AddListener((int value) => OnDropValueChanged(value));
             dropdown.options = new List<OptionData>();
-            if (drawData.tcbNumberDataList != null && drawData.tcbNumberDataList.Count > 0)
+            if (drawData.tcbStatiDataList != null && drawData.tcbStatiDataList.Count > 0)
             {
                 for (int i = 0; i < drawData.tcbStatiDataList.Count; i++)
                 {
@@ -133,7 +136,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnDropValueChanged(int value)
         {
-            Debug.Log("value: " + value);
+            index = value;
+            ShowView();
         }
         //----------------------------------------------------------------------------
         public override void Show(object arg = null)
@@ -144,7 +148,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void ShowView()
         {
-
+            m_date.text = drawData.tcbStatiDataList[index].date;
+            m_selectDate.text = "双色球" + drawData.tcbStatiDataList[index].numperiods + "期";
         }
         //----------------------------------------------------------------------------
         private bool OnSelRedAllChange(Toggle toggle, bool bstate)
@@ -154,26 +159,26 @@ namespace Filterartifact
                 SetRedBallToggleIsOn(true);
                 for (int i = 1; i <= RedBallMaxNumber; i++)
                 {
-                    if (!m_redBallNumberList.Contains(i))
+                    if (!drawData.redBallSelNumberList.Contains(i))
                     {
-                        m_redBallNumberList.Add(i);
+                        drawData.redBallSelNumberList.Add(i);
                     }
                 }
-                for (int i = 0; i < m_redBallNumberList.Count; i++)
+                for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
                 {
-                    UpdateSelectedRedBallNumShow(m_redBallNumberList[i].ToString());
+                    UpdateSelectedRedBallNumShow(drawData.redBallSelNumberList[i].ToString());
                 }
             }
             else
             {
                 SetRedBallToggleIsOn(false);
-                if (m_redBallNumberList.Count > 0 && m_redBallNumberList != null)
+                if (drawData.redBallSelNumberList.Count > 0 && drawData.redBallSelNumberList != null)
                 {
-                    for (int i = 0; i < m_redBallNumberList.Count; i++)
+                    for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
                     {
-                        HideSelectRedBallNumShow(m_redBallNumberList[i].ToString());
+                        HideSelectRedBallNumShow(drawData.redBallSelNumberList[i].ToString());
                     }
-                    m_redBallNumberList.Clear();
+                    drawData.redBallSelNumberList.Clear();
                 }
             }
             UpdateTotalShow();
@@ -187,26 +192,26 @@ namespace Filterartifact
                 SetBlueBallToggleIsOn(true);
                 for (int i = 1; i <= BlueBallMaxNumber; i++)
                 {
-                    if (!m_blueBallNumberList.Contains(i))
+                    if (!drawData.blueBallSelNumberList.Contains(i))
                     {
-                        m_blueBallNumberList.Add(i);
+                        drawData.blueBallSelNumberList.Add(i);
                     }
                 }
-                for (int i = 0; i < m_blueBallNumberList.Count; i++)
+                for (int i = 0; i < drawData.blueBallSelNumberList.Count; i++)
                 {
-                    UpdateSelectedBlueBallNumShow(m_blueBallNumberList[i].ToString());
+                    UpdateSelectedBlueBallNumShow(drawData.blueBallSelNumberList[i].ToString());
                 }
             }
             else
             {
                 SetBlueBallToggleIsOn(false);
-                if (m_blueBallNumberList.Count > 0 && m_blueBallNumberList != null)
+                if (drawData.blueBallSelNumberList.Count > 0 && drawData.blueBallSelNumberList != null)
                 {
-                    for (int i = 0; i < m_blueBallNumberList.Count; i++)
+                    for (int i = 0; i < drawData.blueBallSelNumberList.Count; i++)
                     {
-                        HideSelectBlueBallNumShow(m_blueBallNumberList[i].ToString());
+                        HideSelectBlueBallNumShow(drawData.blueBallSelNumberList[i].ToString());
                     }
-                    m_blueBallNumberList.Clear();
+                    drawData.blueBallSelNumberList.Clear();
                 }
             }
             UpdateTotalShow();
@@ -234,17 +239,17 @@ namespace Filterartifact
             int num = int.Parse(toggle.name);
             if (bstate)
             {
-                if (!m_redBallNumberList.Contains(num))
+                if (!drawData.redBallSelNumberList.Contains(num))
                 {
-                    m_redBallNumberList.Add(num);
+                    drawData.redBallSelNumberList.Add(num);
                 }
                 UpdateSelectedRedBallNumShow(toggle.name);
             }
             else
             {
-                if (m_redBallNumberList.Contains(num))
+                if (drawData.redBallSelNumberList.Contains(num))
                 {
-                    m_redBallNumberList.Remove(num);
+                    drawData.redBallSelNumberList.Remove(num);
                 }
                 HideSelectRedBallNumShow(toggle.name);
             }
@@ -254,12 +259,12 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void UpdateTotalShow()
         {
-            var redBallCount = m_redBallNumberList.Count;
-            var blueBallCount = m_blueBallNumberList.Count;
+            var redBallCount = drawData.redBallSelNumberList.Count;
+            var blueBallCount = drawData.blueBallSelNumberList.Count;
             if (redBallCount >= 6 && blueBallCount > 0)
             {
-                //m_totalLab.text = "总注数：" + Util.GetCombination(m_redBallNumberList, 6).Count * blueBallCount;
-                m_totalLab.text = "总注数：" + Util.C(m_redBallNumberList.Count, 6) * blueBallCount;
+                //m_totalLab.text = "总注数：" + Util.GetCombination(drawData.redBallSelNumberList, 6).Count * blueBallCount;
+                m_totalLab.text = "总注数：" + Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount;
             }
             else
             {
@@ -350,17 +355,17 @@ namespace Filterartifact
             int num = int.Parse(toggle.name);
             if (bstate)
             {
-                if (!m_blueBallNumberList.Contains(num))
+                if (!drawData.blueBallSelNumberList.Contains(num))
                 {
-                    m_blueBallNumberList.Add(num);
+                    drawData.blueBallSelNumberList.Add(num);
                 }
                 UpdateSelectedBlueBallNumShow(toggle.name);
             }
             else
             {
-                if (m_blueBallNumberList.Contains(num))
+                if (drawData.blueBallSelNumberList.Contains(num))
                 {
-                    m_blueBallNumberList.Remove(num);
+                    drawData.blueBallSelNumberList.Remove(num);
                 }
                 HideSelectBlueBallNumShow(toggle.name);
             }

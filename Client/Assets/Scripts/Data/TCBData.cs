@@ -29,8 +29,11 @@
 //------------------------------------------------------------------------------
 //	TCBData.cs
 //------------------------------------------------------------------------------
+using Pathfinding.Serialization.JsonFx;
 using System;
 using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
 
 namespace Filterartifact
 {
@@ -60,6 +63,7 @@ namespace Filterartifact
     [Serializable]
     public class TCBStatisticsData
     {
+        public string date;
         public string numperiods;
         public string prizeNumber;
         public string popularNumber;
@@ -218,6 +222,8 @@ namespace Filterartifact
         public List<PrizeNumberData> prizeNumberDataList = new List<PrizeNumberData>();
         public ForecastDataHitRate forecastDataHitRate = new ForecastDataHitRate();
         public List<ForecastDataHitRate> forecastDataHitRateList = new List<ForecastDataHitRate>();
+        public List<int> redBallSelNumberList = new List<int>();
+        public List<int> blueBallSelNumberList = new List<int>();
         //----------------------------------------------------------------------------
         public override void Deserialize()
         {
@@ -230,8 +236,92 @@ namespace Filterartifact
         }
         //----------------------------------------------------------------------------
         public override bool Initialize()
-        {
+        {    
+            InitData();
             return base.Initialize();
+        }
+
+        //----------------------------------------------------------------------------
+        private void InitData()
+        {
+            var tcbstajsonpath = Application.persistentDataPath + "/tcbstatistics.json";
+            if (File.Exists(tcbstajsonpath))
+            {
+                var streamReader = new StreamReader(tcbstajsonpath);
+                var savedata = streamReader.ReadToEnd();
+                var savejsondata = JsonReader.Deserialize<List<TCBStatisticsData>>(savedata);
+                if (savejsondata != null)
+                {
+                    tcbStatiDataList = savejsondata;
+                    tcbStatiDataList.Sort(SortTcbStatisticsDataList);
+                }
+
+            }
+            var analysisredjsonpath = Application.persistentDataPath + "/analysisreddata.json";
+            if (File.Exists(analysisredjsonpath))
+            {
+                var streamReader = new StreamReader(analysisredjsonpath);
+                var savedata = streamReader.ReadToEnd();
+                var savejsondata = JsonReader.Deserialize<AnalysisRedData>(savedata);
+                if (savejsondata != null)
+                {
+                   m_analysisRedData.Clear();
+                    m_analysisRedData = savejsondata;
+                }
+            }
+
+            var analysisbluejsonpath = Application.persistentDataPath + "/analysisbluedata.json";
+            if (File.Exists(analysisbluejsonpath))
+            {
+                var streamReader = new StreamReader(analysisbluejsonpath);
+                var savedata = streamReader.ReadToEnd();
+                var savejsondata = JsonReader.Deserialize<AnalysisBlueData>(savedata);
+                if (savejsondata != null)
+                {
+                   m_analysisBlueData.Clear();
+                 m_analysisBlueData = savejsondata;
+                }
+            }
+
+            var forecastjsonpath = Application.persistentDataPath + "/forecastdata.json";
+            if (File.Exists(forecastjsonpath))
+            {
+                var streamReader = new StreamReader(forecastjsonpath);
+                var savedata = streamReader.ReadToEnd();
+                var savejsondata = JsonReader.Deserialize<List<ForecastDataHitRate>>(savedata);
+                if (savejsondata != null)
+                {
+                forecastDataHitRateList.Clear();
+                    forecastDataHitRateList = savejsondata;
+                }
+            }
+
+            var prizenumberjsonpath = Application.persistentDataPath + "/prizenumberdata.json";
+            if (File.Exists(prizenumberjsonpath))
+            {
+                var streamReader = new StreamReader(prizenumberjsonpath);
+                var savedata = streamReader.ReadToEnd();
+                var savejsondata = JsonReader.Deserialize<List<PrizeNumberData>>(savedata);
+                if (savejsondata != null)
+                {
+                  prizeNumberDataList.Clear();
+                 prizeNumberDataList = savejsondata;
+                }
+            }
+        }
+        //----------------------------------------------------------------------------
+        private int SortTcbStatisticsDataList(TCBStatisticsData t1, TCBStatisticsData t2)//TCBStatisticsData
+        {
+            int date1 = int.Parse(t1.numperiods);
+            int date2 = int.Parse(t2.numperiods);
+            if (date1 < date2)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
         }
         //----------------------------------------------------------------------------
         public override void Clear()

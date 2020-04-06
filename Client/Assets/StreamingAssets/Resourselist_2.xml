@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Resourselist>
   <uideps>
-    <Bundle id="Scroll View.prefab" />
     <Bundle id="ui_gm.prefab">
       <Bundle id="commonpictureatlas" />
     </Bundle>
@@ -22,6 +21,7 @@
       <Bundle id="maininterface" />
     </Bundle>
     <Bundle id="ui_page_filtermethodinterface.prefab">
+      <Bundle id="commonpictureatlas" />
       <Bundle id="djjp" />
       <Bundle id="gongyong" />
     </Bundle>
@@ -34,5 +34,6 @@
       <Bundle id="loginatlas" />
     </Bundle>
     <Bundle id="ui_root_main.prefab" />
+    <Bundle id="ui_test.prefab" />
   </uideps>
 </Resourselist>
