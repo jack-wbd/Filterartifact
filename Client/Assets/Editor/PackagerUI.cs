@@ -134,7 +134,15 @@ class PackagerUI
 
         CreateAssetBundle(target);
 
-        FileUtils.CopyFolder(ExportPath, m_assetPath, true);
+        if (paths == null)
+        {
+            if (Directory.Exists(m_assetPath))
+            {
+                FileUtils.DeleteDir(m_assetPath);
+            }
+
+            FileUtils.CopyFolder(ExportPath, m_assetPath, true);
+        }
 
         WriteLabelMissingFile();
         if (m_bIsProjectBundle)
@@ -151,10 +159,15 @@ class PackagerUI
             AssetDatabase.DeleteAsset(AssetDatabase.GetAssetPath(m_obj));
             m_obj = null;
         }
-
-        depsAb.Unload(false);
-        manifest = null;
-        depsAb = null;
+        if (depsAb != null)
+        {
+            depsAb.Unload(false);
+            depsAb = null;
+        }
+        if (manifest != null)
+        {
+            manifest = null;
+        }
 
         Debug.LogError("打包完成");
     }

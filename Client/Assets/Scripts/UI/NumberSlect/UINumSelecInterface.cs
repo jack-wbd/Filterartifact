@@ -148,8 +148,11 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void ShowView()
         {
-            m_date.text = drawData.tcbStatiDataList[index].date;
-            m_selectDate.text = "双色球" + drawData.tcbStatiDataList[index].numperiods + "期";
+            if (drawData.tcbStatiDataList != null && drawData.tcbStatiDataList.Count > 0)
+            {
+                m_date.text = drawData.tcbStatiDataList[index].date;
+                m_selectDate.text = string.Format(PromptData.GetPrompt("numperiod"), drawData.tcbStatiDataList[index].numperiods);
+            }
         }
         //----------------------------------------------------------------------------
         private bool OnSelRedAllChange(Toggle toggle, bool bstate)
@@ -264,7 +267,22 @@ namespace Filterartifact
             if (redBallCount >= 6 && blueBallCount > 0)
             {
                 //m_totalLab.text = "总注数：" + Util.GetCombination(drawData.redBallSelNumberList, 6).Count * blueBallCount;
-                m_totalLab.text = "总注数：" + Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount;
+                m_totalLab.text = string.Format(PromptData.GetPrompt("totalbets"), Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount);
+                if (drawData.resultList != null || drawData.resultList.Count > 0)
+                {
+                    drawData.resultList.Clear();
+                }
+                var list = Util.GetCombination(drawData.redBallSelNumberList, 6);
+                for (int i = 0; i < list.Count; i++)
+                {
+                    string str = string.Empty;
+                    var strList = list[i];
+                    for (int j = 0; j < strList.Count; j++)
+                    {
+                        str += strList[j].ToString() + " ";
+                    }
+                    drawData.resultList.Add(str);
+                }
             }
             else
             {

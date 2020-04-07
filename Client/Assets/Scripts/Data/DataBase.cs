@@ -36,7 +36,7 @@ namespace Filterartifact
     public class DataBase
     {
         //----------------------------------------------------------------------------
-        private DataLayer m_layerData;
+        protected DataLayer m_layerData;
         //----------------------------------------------------------------------------
         public virtual bool Initialize() //初始化
         {

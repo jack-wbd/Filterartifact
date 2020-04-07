@@ -158,16 +158,22 @@ namespace Filterartifact
         List<Transform> items;
         Dictionary<int, int> contains;
         List<int> outOfContains;
-        public int childCount; //需要渲染的总数据个数
+        private int childCount; //需要渲染的总数据个数
         int scrollLineIndex; //当前第一个元素索引
         int totalCount; //在UI中显示的个数(不乘以maxPerLine)
         Vector2 startPos; //第一个元素所在位置
         int startIndex; //当前渲染起始坐标
         int endIndex; //当前渲染结束坐标
         public int maxPerLine;
-
+        private Text resultText;
+        private List<string> numListResult;
         void Start()
         {
+            if (drawData.resultList.Count > 0)
+            {
+                numListResult = drawData.resultList;
+                childCount = numListResult.Count;
+            }
             maxPerLine = maxPerLine == 0 ? 1 : maxPerLine;
             items = new List<Transform>();
             contains = new Dictionary<int, int>();
@@ -364,13 +370,12 @@ namespace Filterartifact
                                               new Vector2(row * itemSize.x + (row) * columuSpace,
                                                   -col * itemSize.y - (col) * rowSpace);
                     child.gameObject.name = i.ToString();
-                    if (onItemRender != null)
-                        onItemRender(i, child);
+                    resultText.text = numListResult[i];
+                    onItemRender?.Invoke(i, child);
                 }
                 else if (forceRender)
                 {
-                    if (onItemRender != null)
-                        onItemRender(i, items[contains[i]]);
+                    onItemRender?.Invoke(i, items[contains[i]]);
                 }
             }
 
@@ -403,12 +408,13 @@ namespace Filterartifact
             }
             else
             {
-                GameObject obj = GameObject.Instantiate(item) as GameObject;
+                GameObject obj = Instantiate(item) as GameObject;
                 obj.transform.SetParent(content);
                 obj.transform.localScale = Vector3.one;
                 child = obj.transform;
             }
             child.gameObject.name = index.ToString();
+            resultText.text = numListResult[index];
             items.Add(child);
 
             return child as RectTransform;
@@ -430,7 +436,7 @@ namespace Filterartifact
         public void SetItem(GameObject child)
         {
             if (child == null) return;
-            this.item = child;
+            item = child;
             RectTransform itemTrans = child.transform as RectTransform;
             itemTrans.pivot = new Vector2(0, 1);
             itemSize = itemTrans.sizeDelta;
@@ -471,7 +477,7 @@ namespace Filterartifact
 
             if (content == null) return;
 
-            int rc = Mathf.CeilToInt((float)childCount / (float)maxPerLine); //设置content的大小
+            int rc = Mathf.CeilToInt(childCount / (float)maxPerLine); //设置content的大小
             if (arrangement == Arrangement.Horizontal)
             {
                 content.sizeDelta = new Vector2(marginLeft + marginRight + itemSize.x * rc + columuSpace * (rc - 1),
@@ -556,7 +562,7 @@ namespace Filterartifact
             {
                 content.localPosition = new Vector3(viewPort.x - content.sizeDelta.x, 0);
             }
-            UpdateRectItem(Mathf.CeilToInt((float)childCount / (float)maxPerLine) - totalCount + 1, true);
+            UpdateRectItem(Mathf.CeilToInt(childCount / (float)maxPerLine) - totalCount + 1, true);
         }
 
         public void RefreshViewItem()
@@ -579,5 +585,14 @@ namespace Filterartifact
         {
             verticalAlign = (VerticalAlign)v;
         }
+        //----------------------------------------------------------------------------
+        DrawData drawData
+        {
+            get
+            {
+                return WorldManager.Instance().GetDataCollection<DrawData>();
+            }
+        }
+        //----------------------------------------------------------------------------
     }
 }

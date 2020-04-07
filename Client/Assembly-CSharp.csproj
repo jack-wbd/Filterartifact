@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Data\DownLoadData.cs" />
     <Compile Include="Assets\Scripts\Data\ItemInfo.cs" />
     <Compile Include="Assets\Scripts\Data\LoadingConfigData.cs" />
+    <Compile Include="Assets\Scripts\Data\PromptData.cs" />
     <Compile Include="Assets\Scripts\Data\ResourceListData.cs" />
     <Compile Include="Assets\Scripts\Data\TCBData.cs" />
     <Compile Include="Assets\Scripts\DataSerialize\DataSerialize.cs" />
@@ -166,9 +167,10 @@
     <Compile Include="Assets\Scripts\Util\GameUtil.cs" />
     <Compile Include="Assets\Scripts\Util\Util.cs" />
     <None Include="Assets\Data\data\Common\ResourseList.xml" />
+    <None Include="Assets\Data\data\Language\PromptData.xml" />
+    <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\Resources\config.xml" />
     <None Include="Assets\StreamingAssets\Resourselist_2.xml" />
-    <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\Data\data\Map\LobbyScene\LobbyScene_01_s1_p1.xml" />
     <None Include="Assets\Shader\Unlit - Transparent Colored.shader" />
     <None Include="Assets\Data\data\Map\LobbyScene\LobbyScene.xml" />

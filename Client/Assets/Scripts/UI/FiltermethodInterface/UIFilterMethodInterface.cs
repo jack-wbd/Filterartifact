@@ -51,6 +51,7 @@ namespace Filterartifact
         private GameObject selectedBlueBallTemp;
         private Dictionary<string, GameObject> redBallCloneDict = new Dictionary<string, GameObject>();
         private Dictionary<string, GameObject> blueBallCloneDict = new Dictionary<string, GameObject>();
+        private LoopScrollerView loopScrollView;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -70,6 +71,7 @@ namespace Filterartifact
                 selectedRedBallTemp = selectedRedBallParent.FindChildGO("Button");
                 selectedBlueBallParent = GetUIComponent<Transform>(m_centerAnchorPath + "selectBlueBallGroup");
                 selectedBlueBallTemp = selectedBlueBallParent.FindChildGO("Button");
+                loopScrollView = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "scrollView1");
             }
             return true;
         }
@@ -149,6 +151,13 @@ namespace Filterartifact
                     blueBallCloneDict.Add(name, redTemp);
                 }
             }
+
+            loopScrollView.Init(drawData.resultList.Count, (index, item) =>
+             {
+                 var tran = item.transform;
+                 var task = drawData.resultList[index];
+                 tran.GetComponent<Text>().text = task;
+             });
         }
         //----------------------------------------------------------------------------
         public override void Hide()

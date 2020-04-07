@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 1934478887
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 1428ef4d247e00c537971f38f6ecc4f9
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/data/Language/PromptData.xml
+Dependencies: []

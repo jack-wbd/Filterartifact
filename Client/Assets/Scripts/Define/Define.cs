@@ -155,6 +155,7 @@ public struct XmlFile
 {
     //----------------------------------------------------------------------------
     public static string LoadingTexture = "Common/LoadingConfig.xml";
+    public static string PromptLang = "Language/PromptData.xml";
 
     //----------------------------------------------------------------------------
 }

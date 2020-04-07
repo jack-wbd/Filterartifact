@@ -34,6 +34,5 @@
       <Bundle id="loginatlas" />
     </Bundle>
     <Bundle id="ui_root_main.prefab" />
-    <Bundle id="ui_test.prefab" />
   </uideps>
 </Resourselist>

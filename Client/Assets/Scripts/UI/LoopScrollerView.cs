@@ -78,10 +78,21 @@ public class LoopScrollerView : MonoBehaviour
     {
         cellWidth = (int)(cellWidth * cellWidthScale);
         cellHeight = (int)(cellHeight * cellHeightScale);
+        GameObject obj;
+        if (transform.name == "pan_scroll")
+        {
+            obj = new GameObject("Content");
+        }
+        else
+            obj = transform.Find("Viewport/Content").gameObject;
 
-        GameObject obj = new GameObject("Content");
+        if (transform.name == "pan_scroll")
+        {
+            Content = obj.AddComponent<RectTransform>();
+        }
+        else
+            Content = obj.GetComponent<RectTransform>();
 
-        Content = obj.AddComponent<RectTransform>();
         Content.anchorMin = new Vector2(0.5f, 1);
         Content.anchorMax = new Vector2(0.5f, 1);
         Content.pivot = new Vector2(0.5f, 1);

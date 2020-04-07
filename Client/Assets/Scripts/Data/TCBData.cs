@@ -224,6 +224,7 @@ namespace Filterartifact
         public List<ForecastDataHitRate> forecastDataHitRateList = new List<ForecastDataHitRate>();
         public List<int> redBallSelNumberList = new List<int>();
         public List<int> blueBallSelNumberList = new List<int>();
+        public List<string> resultList = new List<string>();
         //----------------------------------------------------------------------------
         public override void Deserialize()
         {

@@ -33,6 +33,7 @@ using UnityEditor;
 
 public class ExportAssetBundle
 {
+    public static bool m_bIsProjectBundle = false;
     //----------------------------------------------------------------------------
     public static void CreateAssetBundleAll_Win64()
     {
@@ -44,9 +45,15 @@ public class ExportAssetBundle
         PackagerUI.CreateAssetBundleSelect(BuildTarget.StandaloneWindows64);
     }
     //----------------------------------------------------------------------------
+    public static void CreateAssetBundleAll_Win32()
+    {
+        PackagerUI.CreateAssetBundleAll(BuildTarget.StandaloneWindows);
+    }
     //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
+    public static void CreateAssetBundleSelect_Win32()
+    {
+        PackagerUI.CreateAssetBundleSelect(BuildTarget.StandaloneWindows);
+    }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------

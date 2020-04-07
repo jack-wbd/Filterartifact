@@ -38,22 +38,33 @@ public class BuildMenu : EditorWindow
     /// 注意使用LZ4压缩，可以获得可以跟不压缩想媲美的加载速度，而且比不压缩文件要小.
     /// </summary>
     //----------------------------------------------------------------------------
-    [MenuItem("Assets/Export/全部打包/Windows64", false, 1001)]
+    [MenuItem("Assets/Export/全部打包/Windows64", false, 1000)]
     [MenuItem("AssetBundle/全部打包/Windows64", false, 1000)]
     public static void BuildAllAssetBundleForWindows64()
     {
         ExportAssetBundle.CreateAssetBundleAll_Win64();
     }
     //----------------------------------------------------------------------------
-    [MenuItem("Assets/Export/单独打包/Windows64", false, 1001)]
+    [MenuItem("Assets/Export/单独打包/Windows64", false, 1000)]
     [MenuItem("AssetBundle/单独打包/Windows64", false, 1000)]
     public static void BuildSelectAssetBundleForWindows64()
     {
         ExportAssetBundle.CreateAssetBundleSelect_Win64();
     }
     //----------------------------------------------------------------------------
+    [MenuItem("Assets/Export/全部打包/Windows32", false, 1001)]
+    [MenuItem("AssetBundle/全部打包/Windows32", false, 1000)]
+    public static void BuildAllAssetBundleForWindows32()
+    {
+        ExportAssetBundle.CreateAssetBundleAll_Win32();
+    }
     //----------------------------------------------------------------------------
-    //----------------------------------------------------------------------------
+    [MenuItem("Assets/Export/单独打包/Windows32", false, 1000)]
+    [MenuItem("AssetBundle/单独打包/Windows32", false, 1000)]
+    public static void BuildSelectAssetBundleForWindows32()
+    {
+        ExportAssetBundle.CreateAssetBundleSelect_Win32();
+    }
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------
     //----------------------------------------------------------------------------

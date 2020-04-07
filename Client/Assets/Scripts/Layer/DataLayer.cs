@@ -82,6 +82,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void RigisterCollection()
         {
+            AddCollection(typeof(PromptData), new PromptData());
             AddCollection(typeof(LoadingConfigData), new LoadingConfigData());
             AddCollection(typeof(DrawData), new DrawData());
         }

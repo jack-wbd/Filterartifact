@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<PromptData>
+	<SystemInfoDescription>
+	    <PromptDesc ID="numperiod" Desc="双色球{0}期"/>
+	    <PromptDesc ID="totalbets" Desc="总注数：{0}"/>
+    </SystemInfoDescription>
+</PromptData>
