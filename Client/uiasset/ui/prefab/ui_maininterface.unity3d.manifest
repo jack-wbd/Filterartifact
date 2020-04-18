@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1144650418
+CRC: 3616434250
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 49140052078622a79dd7c337feece156
+    Hash: 49244c74aa1a0e7d65f5c19e81a12b30
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 4d3e1be984194094013d2cb217073bb9
+    Hash: 2e749d9e726d04020fb8fd981cd3edce
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -20,9 +20,13 @@ ClassTypes:
 - Class: 114
   Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
 - Class: 114
+  Script: {fileID: 11500000, guid: 2a4db7a114972834c8e4117be1d82ba3, type: 3}
+- Class: 114
   Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 3312d7739989d2b4e91e6319e9a96d76, type: 3}
+- Class: 114
+  Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
 - Class: 114
   Script: {fileID: 11500000, guid: 1aa08ab6e0800fa44ae55d278d1423e3, type: 3}
 - Class: 114
@@ -47,4 +51,5 @@ Dependencies:
 - D:/Filterartifact/Client/uiasset/font/gameusefont.unity3d
 - D:/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
 - D:/Filterartifact/Client/uiasset/ui/atlas/gongyong.unity3d
+- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
 - D:/Filterartifact/Client/uiasset/ui/atlas/maininterface.unity3d

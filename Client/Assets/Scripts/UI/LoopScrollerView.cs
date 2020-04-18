@@ -78,21 +78,8 @@ public class LoopScrollerView : MonoBehaviour
     {
         cellWidth = (int)(cellWidth * cellWidthScale);
         cellHeight = (int)(cellHeight * cellHeightScale);
-        GameObject obj;
-        if (transform.name == "pan_scroll")
-        {
-            obj = new GameObject("Content");
-        }
-        else
-            obj = transform.Find("Viewport/Content").gameObject;
-
-        if (transform.name == "pan_scroll")
-        {
-            Content = obj.AddComponent<RectTransform>();
-        }
-        else
-            Content = obj.GetComponent<RectTransform>();
-
+        GameObject obj = transform.Find("Viewport/Content").gameObject;
+        Content = obj.GetComponent<RectTransform>();
         Content.anchorMin = new Vector2(0.5f, 1);
         Content.anchorMax = new Vector2(0.5f, 1);
         Content.pivot = new Vector2(0.5f, 1);
@@ -100,7 +87,7 @@ public class LoopScrollerView : MonoBehaviour
         Content.offsetMax = new Vector2(1, 0);
         Content.localScale = Vector3.one;
         Content.localRotation = Quaternion.identity;
-        Content.SetParent(transform, false);
+        //Content.SetParent(transform, false);
 
         //this.gameObject.AddComponent<Mask>().showMaskGraphic = false;
         var mask = gameObject.GetComponent<Mask>();

@@ -3,5 +3,16 @@
 	<SystemInfoDescription>
 	    <PromptDesc ID="numperiod" Desc="双色球{0}期"/>
 	    <PromptDesc ID="totalbets" Desc="总注数：{0}"/>
+	    <PromptDesc ID="redBallColor" Desc="红球({0})"/>
+	    <PromptDesc ID="blueBallColor" Desc="篮球({0})"/>
+	    <PromptDesc ID="lessThanTen" Desc="0{0}"/>
+	    <PromptDesc ID="space" Desc="{0} "/>
+	    <PromptDesc ID="spaceZero" Desc="{0} 0{1}"/>
+	    <PromptDesc ID="lSpaceR" Desc="{0} {1}"/>
+	    <PromptDesc ID="piece" Desc="{0}个"/>
+	    <PromptDesc ID="popularNumThis" Desc="本期热门号码：{0}"/>
+	    <PromptDesc ID="beforeFilterTotal" Desc="过滤前总注数：{0}"/>
+	    <PromptDesc ID="afterFilterTotal" Desc="过滤后总注数：{0}"/>
+	    <PromptDesc ID="setFilters" Desc="请先设置过滤条件"/>
     </SystemInfoDescription>
 </PromptData>

@@ -32,9 +32,6 @@
 using DG.Tweening;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using Object = UnityEngine.Object;
@@ -52,6 +49,14 @@ namespace Filterartifact
         private Dictionary<string, GameObject> redBallCloneDict = new Dictionary<string, GameObject>();
         private Dictionary<string, GameObject> blueBallCloneDict = new Dictionary<string, GameObject>();
         private LoopScrollerView loopScrollView;
+        private Toggle m_ballRotation;
+        private Text m_redBallLab;
+        private Text m_blueBallLab;
+        private Text m_totalLab;
+        private int curStrCount;
+        private List<byte> str = new List<byte>();
+        private int curRedBallSelNumber;
+        private int curBlueBallSelNumber;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -59,6 +64,8 @@ namespace Filterartifact
             if (bResult)
             {
                 BindEvent(m_centerAnchorPath + "back").AddListener(() => OnClose());
+                BindEvent(m_downAnchorPath + "btn6").AddListener(() => SixInSix());
+                BindEvent(m_downAnchorPath + "next").AddListener(() => OnNext());
             }
             return true;
         }
@@ -71,7 +78,12 @@ namespace Filterartifact
                 selectedRedBallTemp = selectedRedBallParent.FindChildGO("Button");
                 selectedBlueBallParent = GetUIComponent<Transform>(m_centerAnchorPath + "selectBlueBallGroup");
                 selectedBlueBallTemp = selectedBlueBallParent.FindChildGO("Button");
-                loopScrollView = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "scrollView1");
+                loopScrollView = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "scrollView");
+                m_ballRotation = GetUIComponent<Toggle>(m_downAnchorPath + "toggle");
+                m_ballRotation.onValueChanged.AddListener((bool isOn) => IsToggleOn(isOn));
+                m_redBallLab = GetUIComponent<Text>(m_centerAnchorPath + "redBallNumber");
+                m_blueBallLab = GetUIComponent<Text>(m_centerAnchorPath + "blueBallNumber");
+                m_totalLab = GetUIComponent<Text>(m_centerAnchorPath + "total");
             }
             return true;
         }
@@ -151,13 +163,15 @@ namespace Filterartifact
                     blueBallCloneDict.Add(name, redTemp);
                 }
             }
-
-            loopScrollView.Init(drawData.resultList.Count, (index, item) =>
-             {
-                 var tran = item.transform;
-                 var task = drawData.resultList[index];
-                 tran.GetComponent<Text>().text = task;
-             });
+            m_redBallLab.text = string.Format(PromptData.GetPrompt("redBallColor"), drawData.redBallSelNumberList.Count);
+            m_redBallLab.color = UseColor.red;
+            m_blueBallLab.text = string.Format(PromptData.GetPrompt("blueBallColor"), drawData.blueBallSelNumberList.Count);
+            m_blueBallLab.color = UseColor.blue;
+        }
+        //----------------------------------------------------------------------------
+        protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
+        {
+            base.UpdateLoopView(list, scrollView);
         }
         //----------------------------------------------------------------------------
         public override void Hide()
@@ -182,10 +196,9 @@ namespace Filterartifact
                     item.Value.Visible(false);
                 }
             }
-
         }
         //----------------------------------------------------------------------------
-        private void TweenMove()
+        private void OnNext()
         {
             var moveSize = ScreenUnit.fWidth;
             m_moveTween = m_uiTrans.GetComponent<RectTransform>().DOLocalMove(new Vector2(-moveSize, 0), 0.1f);
@@ -195,7 +208,49 @@ namespace Filterartifact
         private void OnMoveComplete()
         {
             Hide();
+            Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIPopularNumFilterInterfaceCtrl");
+        }
+        //----------------------------------------------------------------------------
+        private void IsToggleOn(bool isOn)
+        {
 
+        }
+        //----------------------------------------------------------------------------
+        private void SixInSix()
+        {
+            if (curRedBallSelNumber != drawData.redBallSelNumberList.Count|| curBlueBallSelNumber!=drawData.blueBallSelNumberList.Count)
+            {
+                curRedBallSelNumber = drawData.redBallSelNumberList.Count;
+                curBlueBallSelNumber = drawData.blueBallSelNumberList.Count;
+                str.Clear();
+                for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
+                {
+                    var st = Convert.ToByte(drawData.redBallSelNumberList[i]);
+                    str.Add(st);
+                }
+                var blueBallCount = drawData.blueBallSelNumberList.Count;
+                long totalCount;
+                if (m_ballRotation.isOn)
+                {
+                    totalCount = Util.C(drawData.redBallSelNumberList.Count, 6);
+                }
+                else
+                {
+                    totalCount = Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount;
+                }
+
+                m_totalLab.text = string.Format(PromptData.GetPrompt("totalbets"), totalCount);
+                m_totalLab.color = UseColor.pink;
+            }
+
+            if (curStrCount != str.Count)
+            {
+                curStrCount = str.Count;
+                var list = Util.GetCombination(str, 6);
+                drawData.redBallSelResult.Clear();
+                drawData.redBallSelResult = list;
+                UpdateLoopView(list, loopScrollView);
+            }
         }
         //----------------------------------------------------------------------------
         private void OnClose()

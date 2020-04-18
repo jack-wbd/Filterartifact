@@ -29,12 +29,6 @@
 //------------------------------------------------------------------------------
 //	LobbyCopyState_Normal.cs
 //------------------------------------------------------------------------------
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace Filterartifact
 {
     class LobbyCopyState_Normal : CopyState_Normal
@@ -71,6 +65,5 @@ namespace Filterartifact
             Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIMainInterfaceCtrl");
         }
         //----------------------------------------------------------------------------
-
     }
 }

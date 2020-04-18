@@ -62,24 +62,6 @@ public static class Util
         value.localScale = Vector3.one;
     }
     //----------------------------------------------------------------------------
-    /// <summary>
-    /// 查找子对象
-    /// </summary>
-    public static GameObject FindChildObject(Transform go)
-    {
-        string objName = go.name;
-        GameObject tagetObj = null;
-        if (objName.Contains("uiroot_matchex"))
-        {
-            tagetObj = go.transform.Find("MatchUI/Canvas/CneterPageNode").gameObject;
-        }
-        else
-        {
-            tagetObj = go.transform.Find("Canvas/CenterPageNode").gameObject;
-        }
-        return tagetObj;
-    }
-    //----------------------------------------------------------------------------
     public static void Visible(this Component component, bool visible, bool showError = true)
     {
         if (component == null && showError)
@@ -164,6 +146,16 @@ public static class Util
         return tf.gameObject;
     }
     //----------------------------------------------------------------------------
+    public static T GetUnityComponent<T>(this Transform tran, string path) where T : Component
+    {
+        var t = tran.FindChildGO(path).GetComponent<T>();
+        if (t == null)
+        {
+            Debug.LogError("this" + path + "is not component");
+        }
+        return t;
+    }
+    //----------------------------------------------------------------------------
     /// <summary>
     /// 求数组中n个元素的排列
     /// </summary>
@@ -172,14 +164,14 @@ public static class Util
     /// <returns>数组中n个元素的排列</returns>
 
     //----------------------------------------------------------------------------
-    public static List<List<int>> GetCombination(List<int> t, int n)
+    public static List<List<byte>> GetCombination(List<byte> t, int n)
     {
         if (t.Count < n)
         {
             return null;
         }
-        int[] temp = new int[n];
-        List<List<int>> list = new List<List<int>>();
+        byte[] temp = new byte[n];
+        List<List<byte>> list = new List<List<byte>>();
         GetCombination(ref list, t, t.Count, n, temp, n);
         return list;
     }
@@ -193,11 +185,11 @@ public static class Util
     /// <param name="m">辅助变量</param>
     /// <param name="b">辅助数组</param>
     /// <param name="M">辅助变量M</param>
-    private static void GetCombination(ref List<List<int>> list, List<int> t, int n, int m, int[] b, int M)
+    private static void GetCombination(ref List<List<byte>> list, List<byte> t, int n, int m, byte[] b, int M)
     {
         for (int i = n; i >= m; i--)
         {
-            b[m - 1] = i - 1;
+            b[m - 1] = Convert.ToByte(i - 1);
             if (m > 1)
             {
                 GetCombination(ref list, t, i - 1, m - 1, b, M);
@@ -206,12 +198,12 @@ public static class Util
             {
                 if (list == null)
                 {
-                    list = new List<List<int>>();
+                    list = new List<List<byte>>();
                 }
-                List<int> temp = new List<int>(M);
+                List<byte> temp = new List<byte>(M);
                 for (int j = 0; j < b.Length; j++)
                 {
-                    temp.Add(t[b[j]]);
+                    temp.Add(t[Convert.ToInt16(b[j])]);
                 }
                 list.Add(temp);
             }
@@ -289,6 +281,109 @@ public static class Util
     public static long C(int N, int R)
     {
         return P1(N, R) / P1(R, R);
+    }
+    //----------------------------------------------------------------------------
+    public static List<List<byte>> Combine(List<byte> a, int m)
+    {
+        int n = a.Count;
+        if (m > n)
+        {
+            throw new Exception("错误！数组a中只有" + n + "个元素。" + m + "大于" + 2 + "!!!");
+        }
+
+        List<List<byte>> result = new List<List<byte>>();
+
+        byte[] bs = new byte[n];
+        for (int i = 0; i < n; i++)
+        {
+            bs[i] = 0;
+        }
+        //初始化
+        for (int i = 0; i < m; i++)
+        {
+            bs[i] = 1;
+        }
+        bool flag = true;
+        bool tempFlag = false;
+        int pos = 0;
+        int sum = 0;
+        //首先找到第一个10组合，然后变成01，同时将左边所有的1移动到数组的最左边
+        do
+        {
+            sum = 0;
+            pos = 0;
+            tempFlag = true;
+            result.Add(Print(bs, a, m));
+
+            for (int i = 0; i < n - 1; i++)
+            {
+                if (bs[i] == 1 && bs[i + 1] == 0)
+                {
+                    bs[i] = 0;
+                    bs[i + 1] = 1;
+                    pos = i;
+                    break;
+                }
+            }
+            //将左边的1全部移动到数组的最左边
+
+            for (int i = 0; i < pos; i++)
+            {
+                if (bs[i] == 1)
+                {
+                    sum++;
+                }
+            }
+            for (int i = 0; i < pos; i++)
+            {
+                if (i < sum)
+                {
+                    bs[i] = 1;
+                }
+                else
+                {
+                    bs[i] = 0;
+                }
+            }
+
+            //检查是否所有的1都移动到了最右边
+            for (int i = n - m; i < n; i++)
+            {
+                if (bs[i] == 0)
+                {
+                    tempFlag = false;
+                    break;
+                }
+            }
+            if (tempFlag == false)
+            {
+                flag = true;
+            }
+            else
+            {
+                flag = false;
+            }
+
+        } while (flag);
+
+        result.Add(Print(bs, a, m));
+
+        Debug.Log("result Count: " + result.Count);
+
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    private static List<byte> Print(byte[] bs, List<byte> a, int m)
+    {
+        List<byte> result = new List<byte>();
+        for (int i = 0; i < bs.Length; i++)
+        {
+            if (bs[i] == 1)
+            {
+                result.Add(a[i]);
+            }
+        }
+        return result;
     }
     //----------------------------------------------------------------------------
 }

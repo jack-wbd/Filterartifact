@@ -155,11 +155,14 @@
     <Compile Include="Assets\Scripts\UI\LoopScrollItem.cs" />
     <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterface.cs" />
     <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterfaceCtrl.cs" />
+    <Compile Include="Assets\Scripts\UI\PopularNumFilterInterface\UIPopularNumFilterInterface.cs" />
+    <Compile Include="Assets\Scripts\UI\PopularNumFilterInterface\UIPopularNumFilterInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\ScreenUnit.cs" />
-    <Compile Include="Assets\Scripts\UI\ScrollList.cs" />
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\UI\UIDownload.cs" />
+    <Compile Include="Assets\Scripts\UI\UIError\UIError.cs" />
+    <Compile Include="Assets\Scripts\UI\UIError\UIErrorCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\UILogoView.cs" />
     <Compile Include="Assets\Scripts\UI\UISystem.cs" />
     <Compile Include="Assets\Scripts\UnityEngineCommon\UnityComponent\DebugUI.cs" />
@@ -168,8 +171,8 @@
     <Compile Include="Assets\Scripts\Util\Util.cs" />
     <None Include="Assets\Data\data\Common\ResourseList.xml" />
     <None Include="Assets\Data\data\Language\PromptData.xml" />
-    <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\Resources\config.xml" />
+    <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\StreamingAssets\Resourselist_2.xml" />
     <None Include="Assets\Data\data\Map\LobbyScene\LobbyScene_01_s1_p1.xml" />
     <None Include="Assets\Shader\Unlit - Transparent Colored.shader" />

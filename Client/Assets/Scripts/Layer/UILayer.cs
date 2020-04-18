@@ -65,6 +65,8 @@ namespace Filterartifact
             Register<UIGMMainCtrl, UIGMMainView>("RUP_GM", this);
             Register<UINumSelecInterfaceCtrl, UINumSelecInterface>("RUP_NumSelect", this);
             Register<UIFilterMethodInterfaceCtrl, UIFilterMethodInterface>("RUP_FilterMethod", this);
+            Register<UIPopularNumFilterInterfaceCtrl, UIPopularNumFilterInterface>("RUP_PopularNumFilter", this);
+            Register<UIErrorCtrl, UIError>("RUP_ErrorTips", this);
         }
         //----------------------------------------------------------------------------
         public TCtrl Register<TCtrl, TBase>(string strAssetID, IMsgPipe pipe, bool bLocal = true, eUIImpower _impower = eUIImpower.Default)

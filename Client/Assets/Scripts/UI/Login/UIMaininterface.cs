@@ -52,7 +52,6 @@ namespace Filterartifact
         private LoopScrollerView loopScrollView;
         private Text m_redRecommendedData;
         private Text m_blueRecommendedData;
-        private Text m_periodHite;
         Tween m_moveTween;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
@@ -79,8 +78,6 @@ namespace Filterartifact
                 m_redRecommendedData.text = string.Empty;
                 m_blueRecommendedData = m_uiTrans.Find(m_downAnchorPath + "bluesmarego/title").GetComponent<Text>();
                 m_blueRecommendedData.text = string.Empty;
-                m_periodHite = m_uiTrans.Find(m_downAnchorPath + "hite").GetComponent<Text>();
-                m_periodHite.text = string.Empty;
                 loopScrollView = m_uiTrans.Find(m_centerAnchorPath + "pan_scroll").GetComponent<LoopScrollerView>();
             }
             return true;
@@ -148,21 +145,80 @@ namespace Filterartifact
                 html = httpResult.Html;
                 Debug.Log("html: " + html);
                 DownLoadData downdata = Deserialize(html);
+                drawData.tcbdatalist.Clear();
                 drawData.tcbdatalist = downdata.result;
                 drawData.tcbdatalist.Sort(SortTcbDataList);
                 drawData.tcbNumberDataList = ParseTCBNumberData(drawData.tcbdatalist);
                 SerializeAndSaveDownData(downdata);
+                drawData.tcbStatiDataList.Clear();
                 drawData.tcbStatiDataList = CalculateData(drawData.tcbdatalist);
                 drawData.tcbStatiDataList.Sort(SortTcbStatisticsDataList);
                 SerializeAndSaveStatiData(drawData.tcbStatiDataList);
+
+                //和值数据
+                drawData.popularNumData = ParsePopularData(drawData.tcbStatiDataList);
+
+
+
             }
             else
             {
-                Debug.Log("result.StatusCode: " + httpResult.StatusCode);
+                Debug.LogError("result.StatusCode: " + httpResult.StatusCode);
             }
-
             DownLoadRedBallKillData();
             DownLoadBuleBallKillData();
+        }
+        //----------------------------------------------------------------------------
+        private PopularNumberData ParsePopularData(List<TCBStatisticsData> dataList)
+        {
+            if (dataList == null)
+            {
+                return null;
+            }
+            PopularNumberData data = new PopularNumberData();
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                if (!data.dict.ContainsKey(dataList[i].popularNumber.Count))
+                {
+                    data.dict.Add(dataList[i].popularNumber.Count, 1);
+                }
+                else
+                {
+                    data.dict[dataList[i].popularNumber.Count] += 1;
+                }
+
+                var list = dataList[i].popularNumber;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    var st = Convert.ToByte(list[j]);
+                    if (!data.numberList.Contains(st))
+                    {
+                        data.numberList.Add(st);
+                    }
+                }
+            }
+
+            foreach (var item in data.dict)
+            {
+                PopularNumber popularNum = new PopularNumber();
+                popularNum.number = item.Key;
+                popularNum.count = item.Value;
+                data.popularNumberList.Add(popularNum);
+            }
+            data.popularNumberList.Sort(OnSortPopularNumber);
+            return data;
+        }
+        //----------------------------------------------------------------------------
+        int OnSortPopularNumber(PopularNumber data1, PopularNumber data2)
+        {
+            if (data1.count > data2.count)
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
         }
         //----------------------------------------------------------------------------
         private void OnRedBallKillClick()
@@ -289,11 +345,11 @@ namespace Filterartifact
 
                 tran.Find("adjacent").GetComponent<Text>().text = task.adjacentNumber;//相邻号码
 
-                tran.Find("popular").GetComponent<Text>().text = task.popularNumber;//热门号码
+                tran.Find("popular").GetComponent<Text>().text = task.popularNumber.Count.ToString();//热门号码数量
 
-                tran.Find("unpopular").GetComponent<Text>().text = task.unpopularNumber;//冷门号码
+                tran.Find("unpopular").GetComponent<Text>().text = task.unpopularNumber.Count.ToString();//冷门号码数量
 
-                tran.Find("neutral").GetComponent<Text>().text = task.neutralNumber;//中性号码
+                tran.Find("neutral").GetComponent<Text>().text = task.neutralNumber.Count.ToString();//中性号码数量
 
                 tran.Find("interval").GetComponent<Text>().text = task.intervalNumber;//号码区间
 
@@ -357,8 +413,6 @@ namespace Filterartifact
                     drawData.forecastDataHitRateList[i].blueballHitRate = drawData.forecastDataHitRateList[i].errorblueballNum == 0 ? "100%" : "0%";
                 }
             }
-            m_periodHite.text = drawData.forecastDataHitRateList[0].numperiods + "期 红篮球命中率:" + drawData.forecastDataHitRateList[0].redballHitRate + " "
-                + drawData.forecastDataHitRateList[0].blueballHitRate;
         }
         //----------------------------------------------------------------------------
         private void SaveForecastData()
@@ -983,12 +1037,9 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        //----------------------------------------------------------------------------
         private List<TCBStatisticsData> CalculateData(List<TCBData> tcbdatalist)
         {
-
             var tcbstatisticsdatalist = new List<TCBStatisticsData>();
-
             for (int i = 0; i < tcbdatalist.Count; i++)
             {
                 var tcbstatisticsdata = new TCBStatisticsData();
@@ -1117,28 +1168,11 @@ namespace Filterartifact
             return currentNum;
         }
         //----------------------------------------------------------------------------
-        private string PopularNum(List<TCBNumberData> tcbnumberdata, TCBNumberData curentNumberdata, DownType type)
+        private List<string> PopularNum(List<TCBNumberData> tcbnumberdata, TCBNumberData curentNumberdata, DownType type)
         {
-            var popularOneNum = 0;
-            var popularTwoNum = 0;
-            var popularThreeNum = 0;
-            var popularFourNum = 0;
-            var popularFiveNum = 0;
-            var popularSixNum = 0;
-
-            var unpopularOneNum = 0;
-            var unpopularTwoNum = 0;
-            var unpopularThreeNum = 0;
-            var unpopularFourNum = 0;
-            var unpopularFiveNum = 0;
-            var unpopularSixNum = 0;
-
-            var neutralOneNum = 0;
-            var neutralTwoNum = 0;
-            var neutralThreeNum = 0;
-            var neutralFourNum = 0;
-            var neutralFiveNum = 0;
-            var neutralSixNum = 0;
+            List<string> popularList = new List<string>();
+            List<string> unpopularList = new List<string>();
+            List<string> neutralList = new List<string>();
 
             List<int> allTcbNum = new List<int>();
             for (int i = 0; i < tcbnumberdata.Count; i++)
@@ -1168,16 +1202,16 @@ namespace Filterartifact
 
                 if (dic[curentNumberdata.numberOne].RepeatNum > 21)//平均数18.18
                 {
-                    popularOneNum = 1;
+                    popularList.Add(curentNumberdata.numberOne.ToString());
 
                 }
                 else if (dic[curentNumberdata.numberOne].RepeatNum < 15)
                 {
-                    unpopularOneNum = 1;
+                    unpopularList.Add(curentNumberdata.numberOne.ToString());
                 }
                 else
                 {
-                    neutralOneNum = 1;
+                    neutralList.Add(curentNumberdata.numberOne.ToString());
                 }
 
             }
@@ -1186,16 +1220,16 @@ namespace Filterartifact
 
                 if (dic[curentNumberdata.numberTwo].RepeatNum > 21)//平均数18.18
                 {
-                    popularTwoNum = 1;
+                    popularList.Add(curentNumberdata.numberTwo.ToString());
 
                 }
                 else if (dic[curentNumberdata.numberTwo].RepeatNum < 15)
                 {
-                    unpopularTwoNum = 1;
+                    unpopularList.Add(curentNumberdata.numberTwo.ToString());
                 }
                 else
                 {
-                    neutralTwoNum = 1;
+                    neutralList.Add(curentNumberdata.numberTwo.ToString());
                 }
 
             }
@@ -1204,16 +1238,16 @@ namespace Filterartifact
 
                 if (dic[curentNumberdata.numberThree].RepeatNum > 21)//平均数18.18
                 {
-                    popularThreeNum = 1;
+                    popularList.Add(curentNumberdata.numberThree.ToString());
 
                 }
                 else if (dic[curentNumberdata.numberThree].RepeatNum < 15)
                 {
-                    unpopularThreeNum = 1;
+                    unpopularList.Add(curentNumberdata.numberThree.ToString());
                 }
                 else
                 {
-                    neutralThreeNum = 1;
+                    neutralList.Add(curentNumberdata.numberThree.ToString());
                 }
 
             }
@@ -1222,16 +1256,16 @@ namespace Filterartifact
 
                 if (dic[curentNumberdata.numberFour].RepeatNum > 21)//平均数18.18
                 {
-                    popularFourNum = 1;
+                    popularList.Add(curentNumberdata.numberFour.ToString());
 
                 }
                 else if (dic[curentNumberdata.numberFour].RepeatNum < 15)
                 {
-                    unpopularFourNum = 1;
+                    unpopularList.Add(curentNumberdata.numberFour.ToString());
                 }
                 else
                 {
-                    neutralFourNum = 1;
+                    neutralList.Add(curentNumberdata.numberFour.ToString());
                 }
 
             }
@@ -1241,16 +1275,16 @@ namespace Filterartifact
 
                 if (dic[curentNumberdata.numberFive].RepeatNum > 21)//平均数18.18
                 {
-                    popularFiveNum = 1;
+                    popularList.Add(curentNumberdata.numberFive.ToString());
 
                 }
                 else if (dic[curentNumberdata.numberFive].RepeatNum < 15)
                 {
-                    unpopularFiveNum = 1;
+                    unpopularList.Add(curentNumberdata.numberFive.ToString());
                 }
                 else
                 {
-                    neutralFiveNum = 1;
+                    neutralList.Add(curentNumberdata.numberFive.ToString());
                 }
             }
             if (dic.ContainsKey(curentNumberdata.numberSix))
@@ -1258,33 +1292,31 @@ namespace Filterartifact
 
                 if (dic[curentNumberdata.numberSix].RepeatNum > 21)//平均数18.18
                 {
-                    popularSixNum = 1;
+                    popularList.Add(curentNumberdata.numberSix.ToString());
 
                 }
                 else if (dic[curentNumberdata.numberSix].RepeatNum < 15)
                 {
-                    unpopularSixNum = 1;
+                    unpopularList.Add(curentNumberdata.numberSix.ToString());
                 }
                 else
                 {
-                    neutralSixNum = 1;
+                    neutralList.Add(curentNumberdata.numberSix.ToString());
                 }
 
 
             }
             if (type == DownType.POPULAR)
             {
-                return (popularOneNum + popularTwoNum + popularThreeNum + popularFourNum + popularFiveNum + popularSixNum).ToString();
+                return popularList;
             }
             else if (type == DownType.UNPOPULAR)
             {
-                return (unpopularOneNum + unpopularTwoNum + unpopularThreeNum + unpopularFourNum + unpopularFiveNum
-                    + unpopularSixNum).ToString();
+                return unpopularList;
             }
             else
             {
-                return (neutralOneNum + neutralTwoNum + neutralThreeNum + neutralFourNum + neutralFiveNum +
-                    neutralSixNum).ToString();
+                return neutralList;
             }
         }
 

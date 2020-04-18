@@ -66,9 +66,9 @@ namespace Filterartifact
         public string date;
         public string numperiods;
         public string prizeNumber;
-        public string popularNumber;
-        public string neutralNumber;
-        public string unpopularNumber;
+        public List<string> popularNumber = new List<string>();
+        public List<string> neutralNumber = new List<string>();
+        public List<string> unpopularNumber = new List<string>();
         public string adjacentNumber;
         public string intervalNumber;
         public string distanceNumber;
@@ -212,6 +212,21 @@ namespace Filterartifact
         public string typemoney = string.Empty;
     }
     //----------------------------------------------------------------------------
+    [Serializable]
+    public class PopularNumberData
+    {
+        public List<PopularNumber> popularNumberList = new List<PopularNumber>();
+        public Dictionary<int, int> dict = new Dictionary<int, int>();
+        public List<byte> numberList = new List<byte>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class PopularNumber
+    {
+        public int number;
+        public int count;
+    }
+    //----------------------------------------------------------------------------
     public class DrawData : DataBase
     {
         public List<TCBStatisticsData> tcbStatiDataList = new List<TCBStatisticsData>();
@@ -224,7 +239,8 @@ namespace Filterartifact
         public List<ForecastDataHitRate> forecastDataHitRateList = new List<ForecastDataHitRate>();
         public List<int> redBallSelNumberList = new List<int>();
         public List<int> blueBallSelNumberList = new List<int>();
-        public List<string> resultList = new List<string>();
+        public PopularNumberData popularNumData = new PopularNumberData();
+        public List<List<byte>> redBallSelResult = new List<List<byte>>();
         //----------------------------------------------------------------------------
         public override void Deserialize()
         {
@@ -237,7 +253,7 @@ namespace Filterartifact
         }
         //----------------------------------------------------------------------------
         public override bool Initialize()
-        {    
+        {
             InitData();
             return base.Initialize();
         }
@@ -255,6 +271,7 @@ namespace Filterartifact
                 {
                     tcbStatiDataList = savejsondata;
                     tcbStatiDataList.Sort(SortTcbStatisticsDataList);
+                    popularNumData = ParsePopularData(tcbStatiDataList);
                 }
 
             }
@@ -266,7 +283,7 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<AnalysisRedData>(savedata);
                 if (savejsondata != null)
                 {
-                   m_analysisRedData.Clear();
+                    m_analysisRedData.Clear();
                     m_analysisRedData = savejsondata;
                 }
             }
@@ -279,8 +296,8 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<AnalysisBlueData>(savedata);
                 if (savejsondata != null)
                 {
-                   m_analysisBlueData.Clear();
-                 m_analysisBlueData = savejsondata;
+                    m_analysisBlueData.Clear();
+                    m_analysisBlueData = savejsondata;
                 }
             }
 
@@ -292,7 +309,7 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<List<ForecastDataHitRate>>(savedata);
                 if (savejsondata != null)
                 {
-                forecastDataHitRateList.Clear();
+                    forecastDataHitRateList.Clear();
                     forecastDataHitRateList = savejsondata;
                 }
             }
@@ -305,8 +322,8 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<List<PrizeNumberData>>(savedata);
                 if (savejsondata != null)
                 {
-                  prizeNumberDataList.Clear();
-                 prizeNumberDataList = savejsondata;
+                    prizeNumberDataList.Clear();
+                    prizeNumberDataList = savejsondata;
                 }
             }
         }
@@ -322,6 +339,58 @@ namespace Filterartifact
             else
             {
                 return -1;
+            }
+        }
+        //----------------------------------------------------------------------------
+        private PopularNumberData ParsePopularData(List<TCBStatisticsData> dataList)
+        {
+            if (dataList == null)
+            {
+                return null;
+            }
+            PopularNumberData data = new PopularNumberData();
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                if (!data.dict.ContainsKey(dataList[i].popularNumber.Count))
+                {
+                    data.dict.Add(dataList[i].popularNumber.Count, 1);
+                }
+                else
+                {
+                    data.dict[dataList[i].popularNumber.Count] += 1;
+                }
+
+                var list = dataList[i].popularNumber;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    var st = Convert.ToByte(list[j]);
+                    if (!data.numberList.Contains(st))
+                    {
+                        data.numberList.Add(st);
+                    }
+                }
+            }
+
+            foreach (var item in data.dict)
+            {
+                PopularNumber popularNum = new PopularNumber();
+                popularNum.number = item.Key;
+                popularNum.count = item.Value;
+                data.popularNumberList.Add(popularNum);
+            }
+            data.popularNumberList.Sort(OnSortPopularNumber);
+            return data;
+        }
+        //----------------------------------------------------------------------------
+        int OnSortPopularNumber(PopularNumber data1, PopularNumber data2)
+        {
+            if (data1.count > data2.count)
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
             }
         }
         //----------------------------------------------------------------------------

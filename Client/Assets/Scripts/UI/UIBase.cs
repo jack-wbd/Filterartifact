@@ -117,9 +117,15 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        protected virtual T GetUIComponent<T>(string path) where T : Component
+        protected virtual T GetUIComponent<T>(string path = "") where T : Component
         {
-            var t = m_uiTrans.Find(path).GetComponent<T>();
+            T t;
+            if (string.IsNullOrEmpty(path))
+            {
+                t = m_uiTrans.GetComponent<T>();
+            }
+            else
+                t = m_uiTrans.Find(path).GetComponent<T>();
             if (t == null)
             {
                 Debug.LogError("this" + path + "is not this component");
@@ -390,8 +396,96 @@ namespace Filterartifact
                 {
 
                 }
+            }
+        }
+        //----------------------------------------------------------------------------
+        protected virtual void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
+        {
+            scrollView.Init(list.Count, (index, item) =>
+            {
+                var tran = item.transform;
+                #region               
+                string s1 = string.Empty;
+                string s3 = string.Empty;
+                list[index].Sort(SortList);
+                var list1 = list[index];
+                for (int j = 0; j < list1.Count; j++)
+                {
+                    if (list1[j] < 10)
+                    {
+                        s3 = string.Format(PromptData.GetPrompt("lessThanTen"), list1[j]);
+                    }
+                    else
+                    {
+                        s3 = Convert.ToString(list1[j]);
+                    }
+                    s1 += string.Format(PromptData.GetPrompt("space"), s3);
+                }
+                #region 
+                //if (m_ballRotation.isOn)
+                //{
+                //    if (index < drawData.blueBallSelNumberList.Count)
+                //    {
+                //        string s2 = string.Empty;
+                //        if (drawData.blueBallSelNumberList[index] < 10)
+                //        {
+                //            s2 = string.Format(PromptData.GetPrompt("spaceZero"), s1, drawData.blueBallSelNumberList[index]);
+                //        }
+                //        else
+                //        {
+                //            s2 += string.Format(PromptData.GetPrompt("lSpaceR"), s1, drawData.blueBallSelNumberList[index]);
+                //        }
 
+                //        s1 += s2;
 
+                //    }
+                //    else
+                //    {
+                //        string s2 = string.Empty;
+                //        var curIndex = index % drawData.blueBallSelNumberList.Count;
+                //        if (drawData.blueBallSelNumberList[curIndex] < 10)
+                //        {
+                //            s2 = string.Format(PromptData.GetPrompt("spaceZero"), s1, drawData.blueBallSelNumberList[curIndex]);
+                //        }
+                //        else
+                //        {
+                //            s2 += string.Format(PromptData.GetPrompt("lSpaceR"), s1, drawData.blueBallSelNumberList[curIndex]);
+                //        }
+                //        s1 += s2;
+                //    }
+                //}
+                //else
+                //{
+                //    for (int j = 0; j < drawData.blueBallSelNumberList.Count; j++)
+                //    {
+                //        string s2 = string.Empty;
+                //        if (drawData.blueBallSelNumberList[j] < 10)
+                //        {
+                //            s2 = string.Format(PromptData.GetPrompt("spaceZero"), s1, drawData.blueBallSelNumberList[j]);
+                //        }
+                //        else
+                //        {
+                //            s2 += string.Format(PromptData.GetPrompt("lSpaceR"), s1, drawData.blueBallSelNumberList[j]);
+                //        }
+                //        s1 += s2;
+                //    }
+                //}
+                #endregion
+                #endregion
+                tran.Find("serial").GetComponent<Text>().text = (index + 1).ToString();
+                tran.Find("number").GetComponent<Text>().text = s1;
+            });
+        }
+        //----------------------------------------------------------------------------
+        int SortList(byte s1, byte s2)
+        {
+            if (s1 < s2)
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
             }
         }
         //----------------------------------------------------------------------------

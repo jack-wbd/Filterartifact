@@ -172,18 +172,6 @@ namespace Filterartifact
                     UpdateSelectedRedBallNumShow(drawData.redBallSelNumberList[i].ToString());
                 }
             }
-            else
-            {
-                SetRedBallToggleIsOn(false);
-                if (drawData.redBallSelNumberList.Count > 0 && drawData.redBallSelNumberList != null)
-                {
-                    for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
-                    {
-                        HideSelectRedBallNumShow(drawData.redBallSelNumberList[i].ToString());
-                    }
-                    drawData.redBallSelNumberList.Clear();
-                }
-            }
             UpdateTotalShow();
             return true;
         }
@@ -203,18 +191,6 @@ namespace Filterartifact
                 for (int i = 0; i < drawData.blueBallSelNumberList.Count; i++)
                 {
                     UpdateSelectedBlueBallNumShow(drawData.blueBallSelNumberList[i].ToString());
-                }
-            }
-            else
-            {
-                SetBlueBallToggleIsOn(false);
-                if (drawData.blueBallSelNumberList.Count > 0 && drawData.blueBallSelNumberList != null)
-                {
-                    for (int i = 0; i < drawData.blueBallSelNumberList.Count; i++)
-                    {
-                        HideSelectBlueBallNumShow(drawData.blueBallSelNumberList[i].ToString());
-                    }
-                    drawData.blueBallSelNumberList.Clear();
                 }
             }
             UpdateTotalShow();
@@ -255,6 +231,7 @@ namespace Filterartifact
                     drawData.redBallSelNumberList.Remove(num);
                 }
                 HideSelectRedBallNumShow(toggle.name);
+                m_selectRedAll.isOn = false;
             }
             UpdateTotalShow();
             return true;
@@ -266,23 +243,7 @@ namespace Filterartifact
             var blueBallCount = drawData.blueBallSelNumberList.Count;
             if (redBallCount >= 6 && blueBallCount > 0)
             {
-                //m_totalLab.text = "总注数：" + Util.GetCombination(drawData.redBallSelNumberList, 6).Count * blueBallCount;
                 m_totalLab.text = string.Format(PromptData.GetPrompt("totalbets"), Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount);
-                if (drawData.resultList != null || drawData.resultList.Count > 0)
-                {
-                    drawData.resultList.Clear();
-                }
-                var list = Util.GetCombination(drawData.redBallSelNumberList, 6);
-                for (int i = 0; i < list.Count; i++)
-                {
-                    string str = string.Empty;
-                    var strList = list[i];
-                    for (int j = 0; j < strList.Count; j++)
-                    {
-                        str += strList[j].ToString() + " ";
-                    }
-                    drawData.resultList.Add(str);
-                }
             }
             else
             {
@@ -386,6 +347,7 @@ namespace Filterartifact
                     drawData.blueBallSelNumberList.Remove(num);
                 }
                 HideSelectBlueBallNumShow(toggle.name);
+                m_selectBlueAll.isOn = false;
             }
             UpdateTotalShow();
             return true;
