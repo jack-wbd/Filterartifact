@@ -153,6 +153,8 @@ namespace Filterartifact
                 drawData.tcbStatiDataList.Clear();
                 drawData.tcbStatiDataList = CalculateData(drawData.tcbdatalist);
                 drawData.tcbStatiDataList.Sort(SortTcbStatisticsDataList);
+                drawData.popularNumData = drawData.ParsePopularData(drawData.tcbStatiDataList);
+                drawData.unpopularNumData = drawData.ParseUnPopularData(drawData.tcbStatiDataList);
                 SerializeAndSaveStatiData(drawData.tcbStatiDataList);
 
                 //和值数据

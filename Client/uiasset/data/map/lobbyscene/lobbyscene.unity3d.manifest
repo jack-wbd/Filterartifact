@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 2137278393
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 4fbb0fbf6ab0cf6e5c0020dfe24be991
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/data/Map/LobbyScene/LobbyScene.xml
+Dependencies: []

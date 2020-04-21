@@ -38,6 +38,12 @@
       <Bundle id="gongyong" />
       <Bundle id="loginatlas" />
     </Bundle>
+    <Bundle id="ui_page_unpopularnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
     <Bundle id="ui_prompt_box.prefab">
       <Bundle id="commonpictureatlas" />
     </Bundle>

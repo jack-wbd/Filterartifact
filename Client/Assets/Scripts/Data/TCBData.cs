@@ -227,6 +227,22 @@ namespace Filterartifact
         public int count;
     }
     //----------------------------------------------------------------------------
+    [Serializable]
+    public class UnPopularNumberData
+    {
+        public List<UnPopularNumber> unpopularNumberList = new List<UnPopularNumber>();
+        public Dictionary<int, int> dict = new Dictionary<int, int>();
+        public List<byte> numberList = new List<byte>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class UnPopularNumber
+    {
+        public int number;
+        public int count;
+    }
+
+    //----------------------------------------------------------------------------
     public class DrawData : DataBase
     {
         public List<TCBStatisticsData> tcbStatiDataList = new List<TCBStatisticsData>();
@@ -240,6 +256,7 @@ namespace Filterartifact
         public List<int> redBallSelNumberList = new List<int>();
         public List<int> blueBallSelNumberList = new List<int>();
         public PopularNumberData popularNumData = new PopularNumberData();
+        public UnPopularNumberData unpopularNumData = new UnPopularNumberData();
         public List<List<byte>> redBallSelResult = new List<List<byte>>();
         //----------------------------------------------------------------------------
         public override void Deserialize()
@@ -272,6 +289,7 @@ namespace Filterartifact
                     tcbStatiDataList = savejsondata;
                     tcbStatiDataList.Sort(SortTcbStatisticsDataList);
                     popularNumData = ParsePopularData(tcbStatiDataList);
+                    unpopularNumData = ParseUnPopularData(tcbStatiDataList);
                 }
 
             }
@@ -342,7 +360,7 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        private PopularNumberData ParsePopularData(List<TCBStatisticsData> dataList)
+        public PopularNumberData ParsePopularData(List<TCBStatisticsData> dataList)
         {
             if (dataList == null)
             {
@@ -380,6 +398,58 @@ namespace Filterartifact
             }
             data.popularNumberList.Sort(OnSortPopularNumber);
             return data;
+        }
+        //----------------------------------------------------------------------------
+        public UnPopularNumberData ParseUnPopularData(List<TCBStatisticsData> dataList)
+        {
+            if (dataList == null)
+            {
+                return null;
+            }
+            UnPopularNumberData data = new UnPopularNumberData();
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                if (!data.dict.ContainsKey(dataList[i].unpopularNumber.Count))
+                {
+                    data.dict.Add(dataList[i].unpopularNumber.Count, 1);
+                }
+                else
+                {
+                    data.dict[dataList[i].unpopularNumber.Count] += 1;
+                }
+
+                var list = dataList[i].unpopularNumber;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    var st = Convert.ToByte(list[j]);
+                    if (!data.numberList.Contains(st))
+                    {
+                        data.numberList.Add(st);
+                    }
+                }
+            }
+            foreach (var item in data.dict)
+            {
+                UnPopularNumber popularNum = new UnPopularNumber();
+                popularNum.number = item.Key;
+                popularNum.count = item.Value;
+                data.unpopularNumberList.Add(popularNum);
+            }
+            data.unpopularNumberList.Sort(OnSortUnPopularNumber);
+            return data;
+
+        }
+        //----------------------------------------------------------------------------
+        int OnSortUnPopularNumber(UnPopularNumber data1, UnPopularNumber data2)
+        {
+            if (data1.count > data2.count)
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
         }
         //----------------------------------------------------------------------------
         int OnSortPopularNumber(PopularNumber data1, PopularNumber data2)

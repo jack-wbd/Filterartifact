@@ -66,6 +66,7 @@ namespace Filterartifact
             Register<UINumSelecInterfaceCtrl, UINumSelecInterface>("RUP_NumSelect", this);
             Register<UIFilterMethodInterfaceCtrl, UIFilterMethodInterface>("RUP_FilterMethod", this);
             Register<UIPopularNumFilterInterfaceCtrl, UIPopularNumFilterInterface>("RUP_PopularNumFilter", this);
+            Register<UIUnPopularNumFilterInterfaceCtrl, UIUnPopularNumFilterInterface>("RUP_UnPopularNumFilter", this);
             Register<UIErrorCtrl, UIError>("RUP_ErrorTips", this);
         }
         //----------------------------------------------------------------------------

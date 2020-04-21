@@ -29,6 +29,7 @@
 //------------------------------------------------------------------------------
 //	UIPopularNumFilterInterface.cs
 //------------------------------------------------------------------------------
+using DG.Tweening;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,6 +60,7 @@ namespace Filterartifact
         private List<byte> str = new List<byte>();
         private List<List<byte>> resultList = new List<List<byte>>();
         public readonly int NormalCount = 2;
+        private Tween m_moveTween;
         //----------------------------------------------------------------------------
         class SumTemp
         {
@@ -123,6 +125,7 @@ namespace Filterartifact
             {
                 BindEvent(m_centerAnchorPath + "back").AddListener(() => OnBack());
                 BindEvent(m_centerAnchorPath + "panel/begin").AddListener(() => OnBegin());
+                BindEvent(m_centerAnchorPath + "next").AddListener(() => OnNext());
             }
             return true;
         }
@@ -165,11 +168,18 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
+        private bool bFirstShow = true;
+        //----------------------------------------------------------------------------
         public override void Show(object arg = null)
         {
             base.Show(arg);
             popularNumberData = drawData.popularNumData;
-            SetSumPanelView();
+            if (bFirstShow)
+            {
+                bFirstShow = false;
+                SetSumPanelView();
+            }
+          
         }
         //----------------------------------------------------------------------------
         public override void Hide()
@@ -350,6 +360,19 @@ namespace Filterartifact
                 m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), resultList.Count);
                 UpdateLoopView(resultList, afterLoopScrollView);
             }
+        }
+        //----------------------------------------------------------------------------
+        private void OnNext()
+        {
+            var moveSize = ScreenUnit.fWidth;
+            m_moveTween = m_uiTrans.GetComponent<RectTransform>().DOLocalMove(new Vector2(-moveSize, 0), 0.1f);
+            m_moveTween.onComplete = OnMoveComplete;
+        }
+        //----------------------------------------------------------------------------
+        private void OnMoveComplete()
+        {
+            Hide();
+            Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIUnPopularNumFilterInterfaceCtrl");
         }
         //----------------------------------------------------------------------------
         private List<byte> GetSelRedBallNumberList(List<int> dataList)
