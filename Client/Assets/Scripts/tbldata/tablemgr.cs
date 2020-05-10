@@ -4,42 +4,39 @@
 ********************************************************************/
 
 using System;
-using UnityEngine;
-namespace Filterartifact
+using Filterartifact;using UnityEngine;
+
+
+ public class tablemgr
 {
-	public class tablemgr
+	private static tablemgr m_instance = null;
+	public CTblHistoryRecord g_oTblHistoryRecord = new CTblHistoryRecord();
+	public tablemgr ()
 	{
-		private static tablemgr m_instance = null;
-		public CTblHistoryRecord g_oTblHistoryRecord = new CTblHistoryRecord();
-		public tablemgr()
-		{
-		}
+	}
 
-		public static tablemgr Instance
-		{
-			get
+	public static tablemgr Instance {
+		get {
+			if (m_instance == null)
 			{
-				if (m_instance == null)
-				{
-					m_instance = new tablemgr();
-				}
-
-				return m_instance;
+				m_instance = new tablemgr();
 			}
-		}
-		public static void empty()
-		{
-			m_instance = null;
-		}
-		public bool LoadAllTables(string path = "", AssetBundle bundle = null, string language = "zh-Hans")
-		{
-			if (false == g_oTblHistoryRecord.LoadFromFile(path, bundle, language))
-			{
-				DebugLog.LogError("Read TblHistoryRecord Tabel Error!");
-				return false;
 
-			}
-			return true;
+			return m_instance;
 		}
+	}
+	public static void empty()
+	{
+		 m_instance = null; 
+	}
+	public bool LoadAllTables(string path = "", AssetBundle bundle = null, string language = "zh-Hans")
+	{
+    	if(false == g_oTblHistoryRecord.LoadFromFile(path, bundle, language))
+    	{
+    		DebugLog.LogError("Read TblHistoryRecord Tabel Error!");
+        	return false;
+
+    	}
+    	return true;
 	}
 }

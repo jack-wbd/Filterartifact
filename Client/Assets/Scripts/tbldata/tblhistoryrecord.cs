@@ -21,253 +21,253 @@ using UINT64 = System.UInt64;
 
 namespace Filterartifact
 {
-    public class StrucCTblHistoryRecord
-    {
-        public INT32 m_nIssue;
-        public string m_strDrawDate;
-        public INT32 m_nRedOne;
-        public INT32 m_nRedTwo;
-        public INT32 m_nRedThree;
-        public INT32 m_nRedFour;
-        public INT32 m_nRedFive;
-        public INT32 m_nRedSix;
-        public INT32 m_nBlue;
-        public INT32 m_nPrizePool;
-        public INT32 m_nFirstPrize;
-        public INT32 m_nFristPrizeBonus;
-        public INT32 m_nSecondPrize;
-        public INT32 m_nSecondPrizeBonus;
-        public INT32 m_nSales;
-    }
+	public class StrucCTblHistoryRecord
+	{
+    	public INT32 m_nIssue;
+    	public string m_strDrawDate;
+    	public INT32 m_nRedOne;
+    	public INT32 m_nRedTwo;
+    	public INT32 m_nRedThree;
+    	public INT32 m_nRedFour;
+    	public INT32 m_nRedFive;
+    	public INT32 m_nRedSix;
+    	public INT32 m_nBlue;
+    	public INT32 m_nPrizePool;
+    	public INT32 m_nFirstPrize;
+    	public INT32 m_nFristPrizeBonus;
+    	public INT32 m_nSecondPrize;
+    	public INT32 m_nSecondPrizeBonus;
+    	public INT32 m_nSales;
+	}
 
-    public class CTblHistoryRecord
-    {
-        public static string m_strFile = "TbData/HistoryRecord";
-        public static INT32 m_nColCount = 15;
-        public Dictionary<INT32, StrucCTblHistoryRecord> m_hTblHistoryRecord = new Dictionary<INT32, StrucCTblHistoryRecord>();
-        public bool LoadFromFile(string path = "", AssetBundle bundle = null, string language = "zh-Hans")
-        {
-            m_hTblHistoryRecord.Clear();
-            List<string> oVecLines = new List<string>();
-            string filename = m_strFile;
-            byte[] textBytes = null;
-            if (bundle != null)
-            {
-                TextAsset oTextAsset = null;
-                oTextAsset = bundle.LoadAsset<TextAsset>(filename + ".txt");
-                textBytes = oTextAsset.bytes;
-            }
-            else if (path != "")
-            {
-                WWW tableLoder = new WWW(path + filename + ".txt");
-                while (!tableLoder.isDone) { };
-                textBytes = tableLoder.bytes;
-            }
-            else
-            {
-                TextAsset oTextAsset = Resources.Load(m_strFile) as TextAsset;
-                textBytes = oTextAsset.bytes;
-            }
-            Stream s = new MemoryStream(textBytes);
-            StreamReader sr = new StreamReader(s);
-            string strLine;
-            strLine = sr.ReadLine();
-            oVecLines.Add(strLine);
-            while (strLine != null)
-            {
-                strLine = sr.ReadLine();
-                oVecLines.Add(strLine);
-            }
-            sr.Close();
-            string[] sHeaders = oVecLines[1].Split(new char[] { '\t' });
+	public class CTblHistoryRecord
+	{
+    	public static string m_strFile = "TbData/HistoryRecord";
+    	public static INT32 m_nColCount = 15;
+		public Dictionary<INT32,StrucCTblHistoryRecord> m_hTblHistoryRecord = new Dictionary<INT32,StrucCTblHistoryRecord>();
+		public bool LoadFromFile(string path = "", AssetBundle bundle = null, string language = "zh-Hans")
+		{
+    		m_hTblHistoryRecord.Clear();
+    		List<string> oVecLines = new List<string>();
+	 		string filename = m_strFile;
+	 		byte[] textBytes = null;
+	 		if(bundle != null)
+	 		{
+	 			TextAsset oTextAsset = null;
+	 			oTextAsset = bundle.LoadAsset<TextAsset>(filename + ".txt");
+	 			textBytes = oTextAsset.bytes;
+	 		}
+	 		else if(path != "")
+	 		{
+	 			WWW tableLoder = new WWW(path + filename + ".txt");
+	 			while (!tableLoder.isDone) { };
+	 			textBytes = tableLoder.bytes;
+	 		}
+	 		else
+	 		{
+	 			TextAsset oTextAsset = Resources.Load(m_strFile) as TextAsset;
+	 			textBytes = oTextAsset.bytes;
+	 		}
+    		Stream s = new MemoryStream(textBytes);
+    		StreamReader sr = new StreamReader(s);
+    		string strLine;
+    		strLine = sr.ReadLine();
+    		oVecLines.Add(strLine);
+    		while (strLine != null)
+    		{
+        		strLine = sr.ReadLine();
+        		oVecLines.Add(strLine);
+    		}
+    		sr.Close();
+    		string[] sHeaders = oVecLines[1].Split(new char[]{'\t'}); 
+    		
+    		if(sHeaders.Length != m_nColCount)
+    		{
+        		return false;
+    		}
 
-            if (sHeaders.Length != m_nColCount)
-            {
-                return false;
-            }
+    		INT32[] anIndex = new INT32[15];
+    		UINT32 i;
+    		for(i = 0; i < 15; i++)
+    		{
+        		anIndex[i] = -1;
+    		}
 
-            INT32[] anIndex = new INT32[15];
-            UINT32 i;
-            for (i = 0; i < 15; i++)
-            {
-                anIndex[i] = -1;
-            }
+    		for(i = 0; i < 15; i++)
+    		{
+        		if(sHeaders[i] == "Issue")
+        		{
+            		anIndex[0] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "DrawDate")
+        		{
+            		anIndex[1] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "RedOne")
+        		{
+            		anIndex[2] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "RedTwo")
+        		{
+            		anIndex[3] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "RedThree")
+        		{
+            		anIndex[4] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "RedFour")
+        		{
+            		anIndex[5] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "RedFive")
+        		{
+            		anIndex[6] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "RedSix")
+        		{
+            		anIndex[7] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "Blue")
+        		{
+            		anIndex[8] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "PrizePool")
+        		{
+            		anIndex[9] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "FirstPrize")
+        		{
+            		anIndex[10] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "FristPrizeBonus")
+        		{
+            		anIndex[11] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "SecondPrize")
+        		{
+            		anIndex[12] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "SecondPrizeBonus")
+        		{
+            		anIndex[13] = (INT32)i;
+        		}
+        		else if(sHeaders[i] == "Sales")
+        		{
+            		anIndex[14] = (INT32)i;
+        		}
+        		else
+        		{
+            		DebugLog.LogError(string.Format("Load File {0} failed, header {1} is invalid", m_strFile, sHeaders[i]));
+            		return false;
+        		}
+    		}
 
-            for (i = 0; i < 15; i++)
-            {
-                if (sHeaders[i] == "Issue")
-                {
-                    anIndex[0] = (INT32)i;
-                }
-                else if (sHeaders[i] == "DrawDate")
-                {
-                    anIndex[1] = (INT32)i;
-                }
-                else if (sHeaders[i] == "RedOne")
-                {
-                    anIndex[2] = (INT32)i;
-                }
-                else if (sHeaders[i] == "RedTwo")
-                {
-                    anIndex[3] = (INT32)i;
-                }
-                else if (sHeaders[i] == "RedThree")
-                {
-                    anIndex[4] = (INT32)i;
-                }
-                else if (sHeaders[i] == "RedFour")
-                {
-                    anIndex[5] = (INT32)i;
-                }
-                else if (sHeaders[i] == "RedFive")
-                {
-                    anIndex[6] = (INT32)i;
-                }
-                else if (sHeaders[i] == "RedSix")
-                {
-                    anIndex[7] = (INT32)i;
-                }
-                else if (sHeaders[i] == "Blue")
-                {
-                    anIndex[8] = (INT32)i;
-                }
-                else if (sHeaders[i] == "PrizePool")
-                {
-                    anIndex[9] = (INT32)i;
-                }
-                else if (sHeaders[i] == "FirstPrize")
-                {
-                    anIndex[10] = (INT32)i;
-                }
-                else if (sHeaders[i] == "FristPrizeBonus")
-                {
-                    anIndex[11] = (INT32)i;
-                }
-                else if (sHeaders[i] == "SecondPrize")
-                {
-                    anIndex[12] = (INT32)i;
-                }
-                else if (sHeaders[i] == "SecondPrizeBonus")
-                {
-                    anIndex[13] = (INT32)i;
-                }
-                else if (sHeaders[i] == "Sales")
-                {
-                    anIndex[14] = (INT32)i;
-                }
-                else
-                {
-                    DebugLog.LogError(string.Format("Load File {0} failed, header {1} is invalid", m_strFile, sHeaders[i]));
-                    return false;
-                }
-            }
+    		for(i = 0; i < 15; i++)
+    		{
+        		if(-1 == anIndex[i])
+        		{
+            		DebugLog.LogError(string.Format("Load File {0} failed, not find all headers", m_strFile));
+            		return false;
+        		}
+    		}
 
-            for (i = 0; i < 15; i++)
-            {
-                if (-1 == anIndex[i])
-                {
-                    DebugLog.LogError(string.Format("Load File {0} failed, not find all headers", m_strFile));
-                    return false;
-                }
-            }
+    		for(i = 2; i < oVecLines.Count-1; i++)
+    		{
+        		string[] sHeader = oVecLines[(INT32)i].Split(new char[]{'\t'}); 
 
-            for (i = 2; i < oVecLines.Count - 1; i++)
-            {
-                string[] sHeader = oVecLines[(INT32)i].Split(new char[] { '\t' });
+        		StrucCTblHistoryRecord oItem = new StrucCTblHistoryRecord();
+        		if (sHeader[anIndex[0]].Length>0)
+        		{
+            		oItem.m_nIssue = (INT32)int.Parse(sHeader[anIndex[0]]);
+        		}
+        		else
+            		oItem.m_nIssue = 0;
 
-                StrucCTblHistoryRecord oItem = new StrucCTblHistoryRecord();
-                if (sHeader[anIndex[0]].Length > 0)
-                {
-                    oItem.m_nIssue = (INT32)int.Parse(sHeader[anIndex[0]]);
-                }
-                else
-                    oItem.m_nIssue = 0;
+        		if(sHeaders.Length > anIndex[1])
+        		{
+            		oItem.m_strDrawDate = sHeader[anIndex[1]];
+        		}
+        		if(sHeader[anIndex[2]].Length > 0)
+        			oItem.m_nRedOne = (INT32)int.Parse(sHeader[anIndex[2]]);
+        		else
+        			oItem.m_nRedOne = 0;
+        		if(sHeader[anIndex[3]].Length > 0)
+        			oItem.m_nRedTwo = (INT32)int.Parse(sHeader[anIndex[3]]);
+        		else
+        			oItem.m_nRedTwo = 0;
+        		if(sHeader[anIndex[4]].Length > 0)
+        			oItem.m_nRedThree = (INT32)int.Parse(sHeader[anIndex[4]]);
+        		else
+        			oItem.m_nRedThree = 0;
+        		if(sHeader[anIndex[5]].Length > 0)
+        			oItem.m_nRedFour = (INT32)int.Parse(sHeader[anIndex[5]]);
+        		else
+        			oItem.m_nRedFour = 0;
+        		if(sHeader[anIndex[6]].Length > 0)
+        			oItem.m_nRedFive = (INT32)int.Parse(sHeader[anIndex[6]]);
+        		else
+        			oItem.m_nRedFive = 0;
+        		if(sHeader[anIndex[7]].Length > 0)
+        			oItem.m_nRedSix = (INT32)int.Parse(sHeader[anIndex[7]]);
+        		else
+        			oItem.m_nRedSix = 0;
+        		if(sHeader[anIndex[8]].Length > 0)
+        			oItem.m_nBlue = (INT32)int.Parse(sHeader[anIndex[8]]);
+        		else
+        			oItem.m_nBlue = 0;
+        		if(sHeader[anIndex[9]].Length > 0)
+        			oItem.m_nPrizePool = (INT32)int.Parse(sHeader[anIndex[9]]);
+        		else
+        			oItem.m_nPrizePool = 0;
+        		if(sHeader[anIndex[10]].Length > 0)
+        			oItem.m_nFirstPrize = (INT32)int.Parse(sHeader[anIndex[10]]);
+        		else
+        			oItem.m_nFirstPrize = 0;
+        		if(sHeader[anIndex[11]].Length > 0)
+        			oItem.m_nFristPrizeBonus = (INT32)int.Parse(sHeader[anIndex[11]]);
+        		else
+        			oItem.m_nFristPrizeBonus = 0;
+        		if(sHeader[anIndex[12]].Length > 0)
+        			oItem.m_nSecondPrize = (INT32)int.Parse(sHeader[anIndex[12]]);
+        		else
+        			oItem.m_nSecondPrize = 0;
+        		if(sHeader[anIndex[13]].Length > 0)
+        			oItem.m_nSecondPrizeBonus = (INT32)int.Parse(sHeader[anIndex[13]]);
+        		else
+        			oItem.m_nSecondPrizeBonus = 0;
+        		if(sHeader[anIndex[14]].Length > 0)
+        			oItem.m_nSales = (INT32)int.Parse(sHeader[anIndex[14]]);
+        		else
+        			oItem.m_nSales = 0;
 
-                if (sHeaders.Length > anIndex[1])
-                {
-                    oItem.m_strDrawDate = sHeader[anIndex[1]];
-                }
-                if (sHeader[anIndex[2]].Length > 0)
-                    oItem.m_nRedOne = (INT32)int.Parse(sHeader[anIndex[2]]);
-                else
-                    oItem.m_nRedOne = 0;
-                if (sHeader[anIndex[3]].Length > 0)
-                    oItem.m_nRedTwo = (INT32)int.Parse(sHeader[anIndex[3]]);
-                else
-                    oItem.m_nRedTwo = 0;
-                if (sHeader[anIndex[4]].Length > 0)
-                    oItem.m_nRedThree = (INT32)int.Parse(sHeader[anIndex[4]]);
-                else
-                    oItem.m_nRedThree = 0;
-                if (sHeader[anIndex[5]].Length > 0)
-                    oItem.m_nRedFour = (INT32)int.Parse(sHeader[anIndex[5]]);
-                else
-                    oItem.m_nRedFour = 0;
-                if (sHeader[anIndex[6]].Length > 0)
-                    oItem.m_nRedFive = (INT32)int.Parse(sHeader[anIndex[6]]);
-                else
-                    oItem.m_nRedFive = 0;
-                if (sHeader[anIndex[7]].Length > 0)
-                    oItem.m_nRedSix = (INT32)int.Parse(sHeader[anIndex[7]]);
-                else
-                    oItem.m_nRedSix = 0;
-                if (sHeader[anIndex[8]].Length > 0)
-                    oItem.m_nBlue = (INT32)int.Parse(sHeader[anIndex[8]]);
-                else
-                    oItem.m_nBlue = 0;
-                if (sHeader[anIndex[9]].Length > 0)
-                    oItem.m_nPrizePool = (INT32)int.Parse(sHeader[anIndex[9]]);
-                else
-                    oItem.m_nPrizePool = 0;
-                if (sHeader[anIndex[10]].Length > 0)
-                    oItem.m_nFirstPrize = (INT32)int.Parse(sHeader[anIndex[10]]);
-                else
-                    oItem.m_nFirstPrize = 0;
-                if (sHeader[anIndex[11]].Length > 0)
-                    oItem.m_nFristPrizeBonus = (INT32)int.Parse(sHeader[anIndex[11]]);
-                else
-                    oItem.m_nFristPrizeBonus = 0;
-                if (sHeader[anIndex[12]].Length > 0)
-                    oItem.m_nSecondPrize = (INT32)int.Parse(sHeader[anIndex[12]]);
-                else
-                    oItem.m_nSecondPrize = 0;
-                if (sHeader[anIndex[13]].Length > 0)
-                    oItem.m_nSecondPrizeBonus = (INT32)int.Parse(sHeader[anIndex[13]]);
-                else
-                    oItem.m_nSecondPrizeBonus = 0;
-                if (sHeader[anIndex[14]].Length > 0)
-                    oItem.m_nSales = (INT32)int.Parse(sHeader[anIndex[14]]);
-                else
-                    oItem.m_nSales = 0;
+        		if(false == _AddItem(oItem.m_nIssue,oItem))
+        		{
+            		return false;
+        		}
+    		}
+		
+    		DebugLog.Log(string.Format("Load File{0} ok, {1} lines, {2} cols", m_strFile, oVecLines.Count, m_nColCount));
+    		return true;
+		}
 
-                if (false == _AddItem(oItem.m_nIssue, oItem))
-                {
-                    return false;
-                }
-            }
+		public StrucCTblHistoryRecord Get(INT32 nIssue)
+		{
+    		if (m_hTblHistoryRecord.ContainsKey(nIssue))
+        		return m_hTblHistoryRecord[nIssue];
+    		return null;
+		}
 
-            DebugLog.Log(string.Format("Load File{0} ok, {1} lines, {2} cols", m_strFile, oVecLines.Count, m_nColCount));
-            return true;
-        }
+		public bool _AddItem(INT32 nIssue,StrucCTblHistoryRecord poItem)
+		{
+    		if((object)Get(nIssue) != null)
+    		{
+        		DebugLog.LogError(string.Format("Load File {0} failed, nIssue {1} repeat", m_strFile, (UINT32)nIssue));
+        		return false;
+    		}
 
-        public StrucCTblHistoryRecord Get(INT32 nIssue)
-        {
-            if (m_hTblHistoryRecord.ContainsKey(nIssue))
-                return m_hTblHistoryRecord[nIssue];
-            return null;
-        }
+    		m_hTblHistoryRecord.Add(nIssue, poItem);
+    		return true;
+		}
 
-        public bool _AddItem(INT32 nIssue, StrucCTblHistoryRecord poItem)
-        {
-            if ((object)Get(nIssue) != null)
-            {
-                DebugLog.LogError(string.Format("Load File {0} failed, nIssue {1} repeat", m_strFile, (UINT32)nIssue));
-                return false;
-            }
-
-            m_hTblHistoryRecord.Add(nIssue, poItem);
-            return true;
-        }
-
-    }
+	}
 }
