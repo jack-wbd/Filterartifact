@@ -8,8 +8,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <ProjectGuid>{12F44184-A422-5F27-22E6-507969043F15}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -147,7 +146,6 @@
     <Compile Include="Assets\Scripts\Message\DelegateMsg\Messenger.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\DelegateMsgID.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\MsgID.cs" />
-    <Compile Include="Assets\Scripts\tbldata\tablemgr.CS" />
     <Compile Include="Assets\Scripts\UI\FiltermethodInterface\UIFilterMethodInterface.cs" />
     <Compile Include="Assets\Scripts\UI\FiltermethodInterface\UIFilterMethodInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\GM\UIGMMainCtrl.cs" />
@@ -180,6 +178,7 @@
     <Compile Include="Assets\Scripts\UnityEngineCommon\UnityComponent\HUDFPS.cs" />
     <Compile Include="Assets\Scripts\Util\GameUtil.cs" />
     <Compile Include="Assets\Scripts\Util\Util.cs" />
+    <Compile Include="Assets\Scripts\tbldata\tablemgr.cs" />
     <Compile Include="Assets\Scripts\tbldata\tblhistoryrecord.cs" />
     <None Include="Assets\Shader\Unlit - Transparent Colored.shader" />
     <None Include="Assets\StreamingAssets\build_info.txt" />
