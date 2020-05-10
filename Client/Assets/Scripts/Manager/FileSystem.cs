@@ -641,6 +641,7 @@ namespace Filterartifact
                 m_ResourceList.LoadResourceListFileDev();
                 m_devLoadGameDataLeftCount = -1;
                 m_bBundleDataLoaded = true;
+                tablemgr.Instance.LoadAllTables("file:///" + m_ConfigData.m_strDataDir, null,null);
             }
         }
         //----------------------------------------------------------------------------

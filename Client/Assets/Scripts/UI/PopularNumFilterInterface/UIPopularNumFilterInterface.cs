@@ -58,7 +58,6 @@ namespace Filterartifact
         private PopularNumberData popularNumberData;
         private List<byte> curStr = new List<byte>();
         private List<byte> str = new List<byte>();
-        private List<List<byte>> resultList = new List<List<byte>>();
         public readonly int NormalCount = 2;
         private Tween m_moveTween;
         //----------------------------------------------------------------------------
@@ -179,7 +178,7 @@ namespace Filterartifact
                 bFirstShow = false;
                 SetSumPanelView();
             }
-          
+
         }
         //----------------------------------------------------------------------------
         public override void Hide()
@@ -346,19 +345,14 @@ namespace Filterartifact
                     }
                 }
                 m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), Util.C(drawData.redBallSelNumberList.Count, 6));
-                resultList = Util.GetCombination(GetSelRedBallNumberList(drawData.redBallSelNumberList), 6);
-                UpdateLoopView(resultList, afterLoopScrollView);
+                drawData.resultList = Util.GetCombination(GetSelRedBallNumberList(drawData.redBallSelNumberList), 6);
+                UpdateLoopView(drawData.resultList, afterLoopScrollView);
             }
             else
-            {
-                if (!ContainsPopularNumber())
-                {
-                    return;
-                }
-
-                resultList = GetResult();
-                m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), resultList.Count);
-                UpdateLoopView(resultList, afterLoopScrollView);
+            {           
+                drawData.resultList = GetResult();
+                m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), drawData.resultList.Count);
+                UpdateLoopView(drawData.resultList, afterLoopScrollView);
             }
         }
         //----------------------------------------------------------------------------
@@ -390,10 +384,10 @@ namespace Filterartifact
         {
             var list = popularNumberData.numberList;
             List<int> dataList = new List<int>();
-            for (int i=0;i<drawData.redBallSelNumberList.Count;i++)
+            for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
             {
                 dataList.Add(drawData.redBallSelNumberList[i]);
-            }       
+            }
             for (int i = 0; i < list.Count; i++)
             {
                 if (dataList.Contains(list[i]))
@@ -434,19 +428,6 @@ namespace Filterartifact
                 }
             }
             return result;
-        }
-        //----------------------------------------------------------------------------
-        private bool ContainsPopularNumber()
-        {
-            bool bstate = false;
-            for (int i = 0; i < selectNumList.Count; i++)
-            {
-                if (drawData.redBallSelNumberList.Contains(selectNumList[i]))
-                {
-                    return true;
-                }
-            }
-            return bstate;
         }
         //----------------------------------------------------------------------------
         private bool IsAnyToggleIsOn()

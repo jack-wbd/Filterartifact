@@ -228,6 +228,21 @@ namespace Filterartifact
     }
     //----------------------------------------------------------------------------
     [Serializable]
+    public class NeighborNumberData
+    {
+        public List<NeighborNumber> neighborNumberList = new List<NeighborNumber>();
+        public Dictionary<int, int> dict = new Dictionary<int, int>();
+        public List<byte> numberList = new List<byte>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class NeighborNumber
+    {
+        public int number;
+        public int count;
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
     public class UnPopularNumberData
     {
         public List<UnPopularNumber> unpopularNumberList = new List<UnPopularNumber>();
@@ -257,7 +272,9 @@ namespace Filterartifact
         public List<int> blueBallSelNumberList = new List<int>();
         public PopularNumberData popularNumData = new PopularNumberData();
         public UnPopularNumberData unpopularNumData = new UnPopularNumberData();
+        public NeighborNumberData neighborNumData = new NeighborNumberData();
         public List<List<byte>> redBallSelResult = new List<List<byte>>();
+        public List<List<byte>> resultList = new List<List<byte>>();//各过滤条件过滤后结果
         //----------------------------------------------------------------------------
         public override void Deserialize()
         {
@@ -290,6 +307,7 @@ namespace Filterartifact
                     tcbStatiDataList.Sort(SortTcbStatisticsDataList);
                     popularNumData = ParsePopularData(tcbStatiDataList);
                     unpopularNumData = ParseUnPopularData(tcbStatiDataList);
+                    neighborNumData = ParseNeighborData(tcbStatiDataList);
                 }
 
             }
@@ -438,6 +456,57 @@ namespace Filterartifact
             data.unpopularNumberList.Sort(OnSortUnPopularNumber);
             return data;
 
+        }
+        //----------------------------------------------------------------------------
+        public NeighborNumberData ParseNeighborData(List<TCBStatisticsData> dataList)
+        {
+            if (dataList == null)
+            {
+                return null;
+            }
+            NeighborNumberData data = new NeighborNumberData();
+            for (int i = 0; i < dataList.Count; i++)
+            {
+                if (!data.dict.ContainsKey(dataList[i].neutralNumber.Count))
+                {
+                    data.dict.Add(dataList[i].neutralNumber.Count, 1);
+                }
+                else
+                {
+                    data.dict[dataList[i].neutralNumber.Count] += 1;
+                }
+
+                var list = dataList[i].neutralNumber;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    var st = Convert.ToByte(list[j]);
+                    if (!data.numberList.Contains(st))
+                    {
+                        data.numberList.Add(st);
+                    }
+                }
+            }
+            foreach (var item in data.dict)
+            {
+                NeighborNumber numData = new NeighborNumber();
+                numData.number = item.Key;
+                numData.count = item.Value;
+                data.neighborNumberList.Add(numData);
+            }
+            data.neighborNumberList.Sort(OnSortNeighborNumber);
+            return data;
+        }
+        //----------------------------------------------------------------------------
+        int OnSortNeighborNumber(NeighborNumber data1,NeighborNumber data2)
+        {
+            if (data1.count > data2.count)
+            {
+                return -1;
+            }
+            else
+            {
+                return 1;
+            }
         }
         //----------------------------------------------------------------------------
         int OnSortUnPopularNumber(UnPopularNumber data1, UnPopularNumber data2)

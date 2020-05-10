@@ -85,6 +85,7 @@ namespace Filterartifact
             AddCollection(typeof(PromptData), new PromptData());
             AddCollection(typeof(LoadingConfigData), new LoadingConfigData());
             AddCollection(typeof(DrawData), new DrawData());
+            AddCollection(typeof(HistoryRecordData), new HistoryRecordData());
         }
         //----------------------------------------------------------------------------
         public BinaryWriter GetStreamWriter()
@@ -98,7 +99,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public BinaryReader GetStreamReader()
         {
-            if (m_fileSer!=null)
+            if (m_fileSer != null)
             {
                 return m_fileSer.GetReader();
             }
@@ -107,7 +108,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public bool HasStreamData()
         {
-            if (m_fileSer!=null)
+            if (m_fileSer != null)
             {
                 return m_fileSer.HasData();
             }
@@ -116,7 +117,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void FlushStream()
         {
-            if (m_fileSer!=null)
+            if (m_fileSer != null)
             {
                 m_fileSer.FlushStream();
             }
@@ -124,7 +125,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void SaveStreamData()
         {
-            if (m_fileSer!=null)
+            if (m_fileSer != null)
             {
                 m_fileSer.SaveStream();
             }

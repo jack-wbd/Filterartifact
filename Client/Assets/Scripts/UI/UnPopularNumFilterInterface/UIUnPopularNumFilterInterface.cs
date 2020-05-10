@@ -1,14 +1,12 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Filterartifact
 {
-        //----------------------------------------------------------------------------
     class UIUnPopularNumFilterInterface : UIBase
     {
         private readonly int MaxCount = 6;
@@ -29,9 +27,8 @@ namespace Filterartifact
         private UnPopularNumberData unPopularNumberData;
         private List<byte> curStr = new List<byte>();
         private List<byte> str = new List<byte>();
-        private List<List<byte>> resultList = new List<List<byte>>();
         public readonly int NormalCount = 2;
-        //----------------------------------------------------------------------------
+        private Tween m_moveTween;
         class SumTemp
         {
             //----------------------------------------------------------------------------
@@ -95,6 +92,7 @@ namespace Filterartifact
             {
                 BindEvent(m_centerAnchorPath + "back").AddListener(() => OnBack());
                 BindEvent(m_centerAnchorPath + "panel/begin").AddListener(() => OnBegin());
+                BindEvent(m_centerAnchorPath + "next").AddListener(() => OnNext());
             }
             return true;
         }
@@ -148,7 +146,7 @@ namespace Filterartifact
                 bFirstShow = false;
                 SetSumPanelView();
             }
-           
+
         }
         //----------------------------------------------------------------------------
         public override void Hide()
@@ -215,7 +213,7 @@ namespace Filterartifact
                     str += "," + numberList[i];
             }
 
-            m_populatLab.text = string.Format(PromptData.GetPrompt("popularNumThis"), str);
+            m_populatLab.text = string.Format(PromptData.GetPrompt("unpopularNumThis"), str);
 
             m_totalBefore.text = string.Format(PromptData.GetPrompt("beforeFilterTotal"), Util.C(drawData.redBallSelNumberList.Count, 6) * drawData.blueBallSelNumberList.Count);
 
@@ -226,6 +224,19 @@ namespace Filterartifact
         protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
         {
             base.UpdateLoopView(list, scrollView);
+        }
+        //----------------------------------------------------------------------------
+        private void OnNext()
+        {
+            var moveSize = ScreenUnit.fWidth;
+            m_moveTween = m_uiTrans.GetComponent<RectTransform>().DOLocalMove(new Vector2(-moveSize, 0), 0.1f);
+            m_moveTween.onComplete = OnMoveComplete;
+        }
+        //----------------------------------------------------------------------------
+        private void OnMoveComplete()
+        {
+            Hide();
+            Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UINeighborNumFilterInterfaceCtrl");
         }
         //----------------------------------------------------------------------------
         private void OnAllToggleChange(bool isOn)
@@ -315,19 +326,14 @@ namespace Filterartifact
                     }
                 }
                 m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), Util.C(drawData.redBallSelNumberList.Count, 6));
-                resultList = Util.GetCombination(GetSelRedBallNumberList(drawData.redBallSelNumberList), 6);
-                UpdateLoopView(resultList, afterLoopScrollView);
+                drawData.resultList = Util.GetCombination(GetSelRedBallNumberList(drawData.redBallSelNumberList), 6);
+                UpdateLoopView(drawData.resultList, afterLoopScrollView);
             }
             else
             {
-                if (!ContainsPopularNumber())
-                {
-                    return;
-                }
-
-                resultList = GetResult();
-                m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), resultList.Count);
-                UpdateLoopView(resultList, afterLoopScrollView);
+                drawData.resultList = GetResult();
+                m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), drawData.resultList.Count);
+                UpdateLoopView(drawData.resultList, afterLoopScrollView);
             }
         }
         //----------------------------------------------------------------------------
@@ -389,20 +395,9 @@ namespace Filterartifact
                     }
                 }
             }
+        
+
             return result;
-        }
-        //----------------------------------------------------------------------------
-        private bool ContainsPopularNumber()
-        {
-            bool bstate = false;
-            for (int i = 0; i < selectNumList.Count; i++)
-            {
-                if (drawData.redBallSelNumberList.Contains(selectNumList[i]))
-                {
-                    return true;
-                }
-            }
-            return bstate;
         }
         //----------------------------------------------------------------------------
         private bool IsAnyToggleIsOn()

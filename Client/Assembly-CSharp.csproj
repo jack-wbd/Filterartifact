@@ -2,8 +2,6 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <LangVersion>latest</LangVersion>
-    <CscToolPath>C:\Program Files\Unity\Editor\Data\Tools\RoslynScripts</CscToolPath>
-    <CscToolExe>unity_csc.bat</CscToolExe>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -54,6 +52,9 @@
     <UnityVersion>2019.3.0f6</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Analyzer Include="C:\Program Files (x86)\Microsoft Visual Studio Tools for Unity\16.0\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files\Unity\Editor\Data\Managed/UnityEngine/UnityEngine.dll</HintPath>
     </Reference>
@@ -90,6 +91,7 @@
     <Compile Include="Assets\Scripts\Data\ConfigData.cs" />
     <Compile Include="Assets\Scripts\Data\DataBase.cs" />
     <Compile Include="Assets\Scripts\Data\DownLoadData.cs" />
+    <Compile Include="Assets\Scripts\Data\HistoryRecordData.cs" />
     <Compile Include="Assets\Scripts\Data\ItemInfo.cs" />
     <Compile Include="Assets\Scripts\Data\LoadingConfigData.cs" />
     <Compile Include="Assets\Scripts\Data\PromptData.cs" />
@@ -128,6 +130,9 @@
     <Compile Include="Assets\Scripts\Layer\UIHistory.cs" />
     <Compile Include="Assets\Scripts\Layer\UILayer.cs" />
     <Compile Include="Assets\Scripts\Layer\XmlDataSerialize.cs" />
+    <Compile Include="Assets\Scripts\Log\DebugLog.cs" />
+    <Compile Include="Assets\Scripts\Log\ILog.cs" />
+    <Compile Include="Assets\Scripts\Log\LogBase.cs" />
     <Compile Include="Assets\Scripts\Main\Main.cs" />
     <Compile Include="Assets\Scripts\Manager\AssetsManager.cs" />
     <Compile Include="Assets\Scripts\Manager\BaseLayer.cs" />
@@ -153,6 +158,8 @@
     <Compile Include="Assets\Scripts\UI\Login\UIMaininterface.cs" />
     <Compile Include="Assets\Scripts\UI\LoopScrollItem.cs" />
     <Compile Include="Assets\Scripts\UI\LoopScrollerView.cs" />
+    <Compile Include="Assets\Scripts\UI\NeighborNumFilterInterface\UINeighborNumFilterInterface.cs" />
+    <Compile Include="Assets\Scripts\UI\NeighborNumFilterInterface\UINeighborNumFilterInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterface.cs" />
     <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\PopularNumFilterInterface\UIPopularNumFilterInterface.cs" />
@@ -171,14 +178,18 @@
     <Compile Include="Assets\Scripts\UnityEngineCommon\UnityComponent\HUDFPS.cs" />
     <Compile Include="Assets\Scripts\Util\GameUtil.cs" />
     <Compile Include="Assets\Scripts\Util\Util.cs" />
+    <Compile Include="Assets\Scripts\tbldata\tablemgr.cs" />
+    <Compile Include="Assets\Scripts\tbldata\tblhistoryrecord.cs" />
     <None Include="Assets\Shader\Unlit - Transparent Colored.shader" />
     <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\DOTween\readme.txt" />
     <None Include="Assets\StreamingAssets\Resourselist_2.xml" />
     <None Include="Assets\Resources\config.xml" />
+    <None Include="Assets\Data\data\TbData\table.xml" />
     <None Include="Assets\Data\data\Language\PromptData.xml" />
     <None Include="Assets\Data\data\Map\LobbyScene\LobbyScene_01_s1_p1.xml" />
     <None Include="Assets\Data\data\Common\LoadingConfig.xml" />
+    <None Include="Assets\Data\data\TbData\HistoryRecord.txt" />
     <None Include="Assets\Data\data\Common\ResourseList.xml" />
     <None Include="Assets\Data\data\Map\LobbyScene\LobbyScene.xml" />
     <Reference Include="Unity.Timeline.Editor">

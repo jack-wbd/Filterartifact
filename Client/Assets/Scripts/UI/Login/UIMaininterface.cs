@@ -155,6 +155,7 @@ namespace Filterartifact
                 drawData.tcbStatiDataList.Sort(SortTcbStatisticsDataList);
                 drawData.popularNumData = drawData.ParsePopularData(drawData.tcbStatiDataList);
                 drawData.unpopularNumData = drawData.ParseUnPopularData(drawData.tcbStatiDataList);
+                drawData.neighborNumData = drawData.ParseNeighborData(drawData.tcbStatiDataList);
                 SerializeAndSaveStatiData(drawData.tcbStatiDataList);
 
                 //和值数据

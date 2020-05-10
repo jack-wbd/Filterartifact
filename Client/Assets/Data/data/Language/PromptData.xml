@@ -11,6 +11,8 @@
 	    <PromptDesc ID="lSpaceR" Desc="{0} {1}"/>
 	    <PromptDesc ID="piece" Desc="{0}个"/>
 	    <PromptDesc ID="popularNumThis" Desc="本期热门号码：{0}"/>
+	    <PromptDesc ID="unpopularNumThis" Desc="本期冷门号码：{0}"/>
+	    <PromptDesc ID="neighborNumThis" Desc="本期相邻号码：{0}"/>
 	    <PromptDesc ID="beforeFilterTotal" Desc="过滤前总注数：{0}"/>
 	    <PromptDesc ID="afterFilterTotal" Desc="过滤后总注数：{0}"/>
 	    <PromptDesc ID="setFilters" Desc="请先设置过滤条件"/>

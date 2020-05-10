@@ -27,6 +27,12 @@
       <Bundle id="gongyong" />
       <Bundle id="loginatlas" />
     </Bundle>
+    <Bundle id="ui_page_neighbornumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
     <Bundle id="ui_page_numselecinterface.prefab">
       <Bundle id="commonpictureatlas" />
       <Bundle id="djjp" />
