@@ -33,6 +33,7 @@ using Pathfinding.Serialization.JsonFx;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 
 namespace Filterartifact
@@ -364,7 +365,62 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        private int SortTcbStatisticsDataList(TCBStatisticsData t1, TCBStatisticsData t2)//TCBStatisticsData
+        public void SerializeAndSaveStatiData(List<TCBStatisticsData> tcbStatiDataList)
+        {
+            var tcbstajsonpath = Application.persistentDataPath + "/tcbstatistics.json";
+            if (!File.Exists(tcbstajsonpath))
+            {
+                var data = JsonWriter.Serialize(tcbStatiDataList);
+                var streamWriter = new StreamWriter(tcbstajsonpath);
+                Debug.Log("path: " + Application.persistentDataPath);
+                streamWriter.Write(data);
+                streamWriter.Close();
+            }
+            else
+            {
+                var streamReader = new StreamReader(tcbstajsonpath);
+                var savedata = streamReader.ReadToEnd();
+                var savejsondata = JsonReader.Deserialize<List<TCBStatisticsData>>(savedata);
+                var index = savejsondata.Count - 1;
+                if (tcbStatiDataList[0].numperiods == savejsondata[0].numperiods &&
+                    !string.IsNullOrEmpty(savejsondata[index].firstprizeNumber))
+                {
+                    Debug.Log("数据分析已经是最新，不需要重新分析");
+                }
+                else
+                {
+                    streamReader.Close();
+                    var data = JsonWriter.Serialize(tcbStatiDataList);
+                    var streamWriter = new StreamWriter(tcbstajsonpath, false);
+                    streamWriter.Write(data);
+                    streamWriter.Close();
+                    Debug.Log("已经分析为最新数据");
+                }
+
+            }
+        }
+        //----------------------------------------------------------------------------
+        public List<TCBNumberData> ParseTCBNumberData(List<TCBData> tcbData)
+        {
+
+            var TCBNumberDataList = new List<TCBNumberData>();
+            for (int i = 0; i < tcbData.Count; i++)
+            {
+                var numberData = new TCBNumberData();
+                string[] redArray = tcbData[i].red.Split(',');
+                numberData.numberOne = int.Parse(redArray[0]);
+                numberData.numberTwo = int.Parse(redArray[1]);
+                numberData.numberThree = int.Parse(redArray[2]);
+                numberData.numberFour = int.Parse(redArray[3]);
+                numberData.numberFive = int.Parse(redArray[4]);
+                numberData.numberSix = int.Parse(redArray[5]);
+                numberData.numberBlue = int.Parse(tcbData[i].blue);
+                TCBNumberDataList.Add(numberData);
+            }
+            return TCBNumberDataList;
+        }
+        //----------------------------------------------------------------------------
+        public int SortTcbStatisticsDataList(TCBStatisticsData t1, TCBStatisticsData t2)//TCBStatisticsData
         {
             int date1 = int.Parse(t1.numperiods);
             int date2 = int.Parse(t2.numperiods);
@@ -376,6 +432,21 @@ namespace Filterartifact
             {
                 return -1;
             }
+        }
+        //----------------------------------------------------------------------------
+        public int SortTcbDataList(TCBData t1, TCBData t2)
+        {
+            int date1 = int.Parse(t1.code);
+            int date2 = int.Parse(t2.code);
+            if (date1 < date2)
+            {
+                return 1;
+            }
+            else
+            {
+                return -1;
+            }
+
         }
         //----------------------------------------------------------------------------
         public PopularNumberData ParsePopularData(List<TCBStatisticsData> dataList)
@@ -497,7 +568,7 @@ namespace Filterartifact
             return data;
         }
         //----------------------------------------------------------------------------
-        int OnSortNeighborNumber(NeighborNumber data1,NeighborNumber data2)
+        int OnSortNeighborNumber(NeighborNumber data1, NeighborNumber data2)
         {
             if (data1.count > data2.count)
             {
@@ -538,6 +609,480 @@ namespace Filterartifact
             base.Clear();
         }
         //----------------------------------------------------------------------------
+        public List<TCBStatisticsData> CalculateData(List<TCBData> tcbdatalist)
+        {
+            var tcbstatisticsdatalist = new List<TCBStatisticsData>();
+            for (int i = 0; i < tcbdatalist.Count; i++)
+            {
+                var tcbstatisticsdata = new TCBStatisticsData();
+                var task = tcbdatalist[i];
+                var tcbcurNumberData = tcbNumberDataList[i];
+                var tcbbeforeNumberData = new TCBNumberData();
+                if (i > 0)
+                {
+                    tcbbeforeNumberData = tcbNumberDataList[i - 1];
+                }
+                tcbstatisticsdata.date = task.date;
+                tcbstatisticsdata.numperiods = task.code;
+                tcbstatisticsdata.prizeNumber = task.red + " " + task.blue;
+                tcbstatisticsdata.salesNumber = task.sales;
+                tcbstatisticsdata.firstprizeNumber = task.prizegrades[0].typemoney;
+                tcbstatisticsdata.valuesNumber = Values(tcbcurNumberData);
+                tcbstatisticsdata.distanceNumber = MaxDistance(tcbcurNumberData);
+                if (i > 0)
+                {
+                    tcbstatisticsdata.adjacentNumber = AdjacentNumber(tcbcurNumberData, tcbbeforeNumberData);
+                }
+                else
+                {
+                    tcbstatisticsdata.adjacentNumber = 0.ToString();
+                }
+                tcbstatisticsdata.popularNumber = PopularNum(tcbNumberDataList, tcbcurNumberData, DownType.POPULAR);
+                tcbstatisticsdata.unpopularNumber = PopularNum(tcbNumberDataList, tcbcurNumberData, DownType.UNPOPULAR);
+                tcbstatisticsdata.neutralNumber = PopularNum(tcbNumberDataList, tcbcurNumberData, DownType.NEUTRAL);
+                tcbstatisticsdata.intervalNumber = IntervalType(tcbcurNumberData);
+                tcbstatisticsdata.acNumber = ACNumber(tcbcurNumberData);
+                tcbstatisticsdata.parityNumber = ParityNumber(tcbcurNumberData);
+                tcbstatisticsdata.mantissaNumber = MantissaNum(tcbcurNumberData);
+                tcbstatisticsdata.serialNumber = SerialNumber(tcbcurNumberData);
+                tcbstatisticsdata.heavyNumber = HeavyNumber(tcbcurNumberData, tcbbeforeNumberData);
+                tcbstatisticsdata.sizeratioNumber = SizeratioNumber(tcbcurNumberData);
+                tcbstatisticsdatalist.Add(tcbstatisticsdata);
+            }
+            return tcbstatisticsdatalist;
+        }
+        //----------------------------------------------------------------------------
+        //----------------------------------------------------------------------------
+        private string Values(TCBNumberData numberdata)//和值
+        {
+            int values = 0;
+            values = numberdata.numberOne + numberdata.numberTwo + numberdata.numberThree +
+                numberdata.numberFour + numberdata.numberFive + numberdata.numberSix;
+            return values.ToString();
+        }
+
+        //----------------------------------------------------------------------------
+        private string MaxDistance(TCBNumberData numberdata)//最大间隔
+        {
+            List<int> distanceList = new List<int>();
+            distanceList.Add(numberdata.numberTwo - numberdata.numberOne);
+            distanceList.Add(numberdata.numberThree - numberdata.numberTwo);
+            distanceList.Add(numberdata.numberFour - numberdata.numberThree);
+            distanceList.Add(numberdata.numberFive - numberdata.numberFour);
+            distanceList.Add(numberdata.numberSix - numberdata.numberFive);
+            //排序算法
+            int a = 0;
+            for (int i = 0; i < distanceList.Count - 1; i++)//升序
+            {
+                for (int j = 0; j < distanceList.Count - 1 - i; j++)
+                {
+                    if (distanceList[j] > distanceList[j + 1])
+                    {
+                        a = distanceList[j];
+                        distanceList[j] = distanceList[j + 1];
+                        distanceList[j + 1] = a;
+                    }
+                }
+            }
+            return distanceList[distanceList.Count - 1].ToString();
+        }
+        //----------------------------------------------------------------------------
+        private string AdjacentNumber(TCBNumberData curNumberdata, TCBNumberData beforeNumberdata)//相邻号码
+        {
+
+            var numone = 0;
+            var numtwo = 0;
+            var numthree = 0;
+            var numfour = 0;
+            var numfive = 0;
+            var numsix = 0;
+            var currentNumList = GetCurNumDataList(curNumberdata);
+            var beforeNumList = GetCurNumDataList(beforeNumberdata);
+
+            for (int j = 0; j < beforeNumList.Count; j++)
+            {
+                if (Mathf.Abs(currentNumList[0] - beforeNumList[j]) == 1)
+                {
+                    numone = 1;
+                }
+                if (Mathf.Abs(currentNumList[1] - beforeNumList[j]) == 1)
+                {
+                    numtwo = 1;
+                }
+                if (Mathf.Abs(currentNumList[2] - beforeNumList[j]) == 1)
+                {
+                    numthree = 1;
+                }
+                if (Mathf.Abs(currentNumList[3] - beforeNumList[j]) == 1)
+                {
+                    numfour = 1;
+                }
+                if (Mathf.Abs(currentNumList[4] - beforeNumList[j]) == 1)
+                {
+                    numfive = 1;
+                }
+                if (Mathf.Abs(currentNumList[5] - beforeNumList[j]) == 1)
+                {
+                    numsix = 1;
+                }
+            }
+            return (numone + numtwo + numthree + numfour + numfive + numsix).ToString();
+        }
+        //----------------------------------------------------------------------------
+        private List<int> GetCurNumDataList(TCBNumberData curNumData)
+        {
+            var currentNum = new List<int>();
+            currentNum.Add(curNumData.numberOne);
+            currentNum.Add(curNumData.numberTwo);
+            currentNum.Add(curNumData.numberThree);
+            currentNum.Add(curNumData.numberFour);
+            currentNum.Add(curNumData.numberFive);
+            currentNum.Add(curNumData.numberSix);
+            return currentNum;
+        }
+        //----------------------------------------------------------------------------
+        private List<string> PopularNum(List<TCBNumberData> tcbnumberdata, TCBNumberData curentNumberdata, DownType type)
+        {
+            List<string> popularList = new List<string>();
+            List<string> unpopularList = new List<string>();
+            List<string> neutralList = new List<string>();
+
+            List<int> allTcbNum = new List<int>();
+            for (int i = 0; i < tcbnumberdata.Count; i++)
+            {
+                allTcbNum.Add(tcbnumberdata[i].numberOne);
+                allTcbNum.Add(tcbnumberdata[i].numberTwo);
+                allTcbNum.Add(tcbnumberdata[i].numberThree);
+                allTcbNum.Add(tcbnumberdata[i].numberFour);
+                allTcbNum.Add(tcbnumberdata[i].numberFive);
+                allTcbNum.Add(tcbnumberdata[i].numberSix);
+            }
+            Dictionary<int, ItemInfo> dic = new Dictionary<int, ItemInfo>();
+
+            foreach (var item in allTcbNum)
+            {
+                if (dic.ContainsKey(item))
+                {
+                    dic[item].RepeatNum += 1;
+                }
+                else
+                {
+                    dic.Add(item, new ItemInfo(item));
+                }
+            }
+            if (dic.ContainsKey(curentNumberdata.numberOne))
+            {
+
+                if (dic[curentNumberdata.numberOne].RepeatNum > 21)//平均数18.18
+                {
+                    popularList.Add(curentNumberdata.numberOne.ToString());
+
+                }
+                else if (dic[curentNumberdata.numberOne].RepeatNum < 15)
+                {
+                    unpopularList.Add(curentNumberdata.numberOne.ToString());
+                }
+                else
+                {
+                    neutralList.Add(curentNumberdata.numberOne.ToString());
+                }
+
+            }
+            if (dic.ContainsKey(curentNumberdata.numberTwo))
+            {
+
+                if (dic[curentNumberdata.numberTwo].RepeatNum > 21)//平均数18.18
+                {
+                    popularList.Add(curentNumberdata.numberTwo.ToString());
+
+                }
+                else if (dic[curentNumberdata.numberTwo].RepeatNum < 15)
+                {
+                    unpopularList.Add(curentNumberdata.numberTwo.ToString());
+                }
+                else
+                {
+                    neutralList.Add(curentNumberdata.numberTwo.ToString());
+                }
+
+            }
+            if (dic.ContainsKey(curentNumberdata.numberThree))
+            {
+
+                if (dic[curentNumberdata.numberThree].RepeatNum > 21)//平均数18.18
+                {
+                    popularList.Add(curentNumberdata.numberThree.ToString());
+
+                }
+                else if (dic[curentNumberdata.numberThree].RepeatNum < 15)
+                {
+                    unpopularList.Add(curentNumberdata.numberThree.ToString());
+                }
+                else
+                {
+                    neutralList.Add(curentNumberdata.numberThree.ToString());
+                }
+
+            }
+            if (dic.ContainsKey(curentNumberdata.numberFour))
+            {
+
+                if (dic[curentNumberdata.numberFour].RepeatNum > 21)//平均数18.18
+                {
+                    popularList.Add(curentNumberdata.numberFour.ToString());
+
+                }
+                else if (dic[curentNumberdata.numberFour].RepeatNum < 15)
+                {
+                    unpopularList.Add(curentNumberdata.numberFour.ToString());
+                }
+                else
+                {
+                    neutralList.Add(curentNumberdata.numberFour.ToString());
+                }
+
+            }
+
+            if (dic.ContainsKey(curentNumberdata.numberFive))
+            {
+
+                if (dic[curentNumberdata.numberFive].RepeatNum > 21)//平均数18.18
+                {
+                    popularList.Add(curentNumberdata.numberFive.ToString());
+
+                }
+                else if (dic[curentNumberdata.numberFive].RepeatNum < 15)
+                {
+                    unpopularList.Add(curentNumberdata.numberFive.ToString());
+                }
+                else
+                {
+                    neutralList.Add(curentNumberdata.numberFive.ToString());
+                }
+            }
+            if (dic.ContainsKey(curentNumberdata.numberSix))
+            {
+
+                if (dic[curentNumberdata.numberSix].RepeatNum > 21)//平均数18.18
+                {
+                    popularList.Add(curentNumberdata.numberSix.ToString());
+
+                }
+                else if (dic[curentNumberdata.numberSix].RepeatNum < 15)
+                {
+                    unpopularList.Add(curentNumberdata.numberSix.ToString());
+                }
+                else
+                {
+                    neutralList.Add(curentNumberdata.numberSix.ToString());
+                }
+
+
+            }
+            if (type == DownType.POPULAR)
+            {
+                return popularList;
+            }
+            else if (type == DownType.UNPOPULAR)
+            {
+                return unpopularList;
+            }
+            else
+            {
+                return neutralList;
+            }
+        }
+
+        //----------------------------------------------------------------------------
+        private string IntervalType(TCBNumberData currentNumberData)//号码区间
+        {
+            var firstInterval = 0;
+            var secondInterval = 0;
+            var thirdInterval = 0;
+            var curNumberdataList = GetCurNumDataList(currentNumberData);
+            for (int i = 0; i < curNumberdataList.Count; i++)
+            {
+                if (curNumberdataList[i] <= 11)
+                {
+                    firstInterval += 1;
+                }
+                else if (curNumberdataList[i] > 11 && curNumberdataList[i] <= 22)
+                {
+                    secondInterval += 1;
+                }
+                else
+                {
+                    thirdInterval += 1;
+                }
+            }
+
+            return firstInterval.ToString() + secondInterval.ToString() + thirdInterval.ToString();
+
+        }
+        //----------------------------------------------------------------------------
+        private string ACNumber(TCBNumberData tcbNumberData) //AC值
+        {
+
+            var currentNum = GetCurNumDataList(tcbNumberData);
+
+            List<int> Absovallist = new List<int>();
+
+            for (int i = 0; i < currentNum.Count; i++)
+            {
+                if (i != 0)
+                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberOne - currentNum[i]));
+                if (i != 1)
+                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberTwo - currentNum[i]));
+                if (i != 2)
+                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberThree - currentNum[i]));
+                if (i != 3)
+                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberFour - currentNum[i]));
+                if (i != 4)
+                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberFive - currentNum[i]));
+                if (i != 5)
+                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberSix - currentNum[i]));
+            }
+
+            Absovallist = Absovallist.Distinct().ToList();//除去列表中重复元素Linq
+
+            return (Absovallist.Count - 5).ToString();
+
+        }
+        //----------------------------------------------------------------------------
+        private string ParityNumber(TCBNumberData currentData)//奇偶
+        {
+
+            var oldNum = 0;
+            var even = 0;
+            var currentNum = GetCurNumDataList(currentData);
+
+            for (int i = 0; i < currentNum.Count; i++)
+            {
+                if (currentNum[i] % 2 == 0)
+                {
+                    oldNum += 1;
+                }
+                else
+                {
+                    even += 1;
+                }
+            }
+            return even.ToString() + oldNum.ToString();
+        }
+        //----------------------------------------------------------------------------
+        private string MantissaNum(TCBNumberData currentNumData)//尾数
+        {
+            var mantissaNumList = new List<int>();
+
+            var currentNumList = GetCurNumDataList(currentNumData);
+
+            for (int i = 0; i < currentNumList.Count; i++)
+            {
+                if (currentNumList[i] < 10)
+                {
+                    mantissaNumList.Add(currentNumList[i]);
+                }
+                else
+                {
+                    mantissaNumList.Add(currentNumList[i] % 10);
+                }
+
+            }
+
+
+            var list = new List<int>();
+
+            foreach (var s in mantissaNumList.GroupBy(c => c))
+            {
+                list.Add(s.Count());
+            }
+
+            int num = 0;
+            bool hasValue = false;
+
+            foreach (int x in list)
+            {
+                if (hasValue)
+                {
+                    if (x > num)
+                        num = x;
+                }
+                else
+                {
+                    num = x;
+                    hasValue = true;
+                }
+            }
+
+            if (hasValue)
+                return num.ToString();
+
+            return "";
+
+
+        }
+        //----------------------------------------------------------------------------
+        private string SerialNumber(TCBNumberData crrentNumberData)//连号
+        {
+
+            var list = GetCurNumDataList(crrentNumberData);
+
+            int num = 0;
+
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i < list.Count - 1)
+                {
+                    if (list[i + 1] - list[i] == 1)
+                    {
+                        num += 1;
+                    }
+                }
+            }
+
+            return num.ToString();
+
+        }
+        //----------------------------------------------------------------------------
+        private string HeavyNumber(TCBNumberData currentNumberData, TCBNumberData curBeforeNumberData) //重号
+        {
+            var curNumList = GetCurNumDataList(currentNumberData);
+            var befNumList = GetCurNumDataList(curBeforeNumberData);
+            var num = 0;
+            for (int i = 0; i < befNumList.Count; i++)
+            {
+                for (int j = 0; j < curNumList.Count; j++)
+                {
+                    if (befNumList[i] == curNumList[j])
+                    {
+                        num += 1;
+                    }
+                }
+            }
+            return num.ToString();
+        }
+        //----------------------------------------------------------------------------
+        private string SizeratioNumber(TCBNumberData currentNumberData)//大小比
+        {
+            var list = GetCurNumDataList(currentNumberData);
+            var bigNum = 0;
+            var smallNum = 0;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i] >= 17)
+                {
+                    bigNum += 1;
+                }
+                else
+                {
+                    smallNum += 1;
+                }
+            }
+
+            return bigNum.ToString() + smallNum.ToString();
+
+        }
+        //--------------------------------------------------------------------------
     }
 
 }
