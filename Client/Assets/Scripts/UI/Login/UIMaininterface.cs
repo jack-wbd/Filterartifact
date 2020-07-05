@@ -120,6 +120,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnOneHundredClick()
         {
+            System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+            sw.Start();
             http = new HttpHelper();
             item = new HttpItem
             {
@@ -145,17 +147,8 @@ namespace Filterartifact
                 html = httpResult.Html;
                 Debug.Log("html: " + html);
                 DownLoadData downdata = Deserialize(html);
-                SerializeAndSaveDownData(downdata);
-                historyRecordData.SaveHistoryRecordData();
-                drawData.tcbNumberDataList.Clear();
-                drawData.tcbNumberDataList = drawData.ParseTCBNumberData(drawData.tcbdatalist);
-                drawData.tcbStatiDataList.Clear();
-                drawData.tcbStatiDataList = drawData.CalculateData(drawData.tcbdatalist);
-                drawData.tcbStatiDataList.Sort(drawData.SortTcbStatisticsDataList);
-                drawData.popularNumData = drawData.ParsePopularData(drawData.tcbStatiDataList);
-                drawData.unpopularNumData = drawData.ParseUnPopularData(drawData.tcbStatiDataList);
-                drawData.neighborNumData = drawData.ParseNeighborData(drawData.tcbStatiDataList);
-                drawData.SerializeAndSaveStatiData(drawData.tcbStatiDataList);
+                drawData.SerializeAndSaveDownData(downdata);
+                drawData.SerializeAndSaveHistoricalData();
             }
             else
             {
@@ -163,19 +156,8 @@ namespace Filterartifact
             }
             DownLoadRedBallKillData();
             DownLoadBuleBallKillData();
-        }
-      
-        //----------------------------------------------------------------------------
-        int OnSortPopularNumber(PopularNumber data1, PopularNumber data2)
-        {
-            if (data1.count > data2.count)
-            {
-                return -1;
-            }
-            else
-            {
-                return 1;
-            }
+            sw.Stop();
+            Debug.LogError(string.Format("下载100数据花费时间为: {0} ms", sw.ElapsedMilliseconds));
         }
         //----------------------------------------------------------------------------
         private void OnRedBallKillClick()
@@ -875,41 +857,6 @@ namespace Filterartifact
             return data;
         }
         //----------------------------------------------------------------------------
-        private void SerializeAndSaveDownData(DownLoadData downdata)
-        {
-            var jsonpath = Application.persistentDataPath + "/download.json";
-
-            if (!File.Exists(@jsonpath))
-            {
-                var data = JsonWriter.Serialize(downdata);
-                var streamWriter = new StreamWriter(jsonpath);
-                Debug.Log("path: " + Application.persistentDataPath);
-                streamWriter.Write(data);
-                streamWriter.Close();
-            }
-            else
-            {
-                var streamReader = new StreamReader(jsonpath);
-                var savedata = streamReader.ReadToEnd();
-                var savejsondata = JsonReader.Deserialize<DownLoadData>(savedata);
-                var index = savejsondata.result.Count - 1;
-                if (downdata.result[0].code == savejsondata.result[0].code &&
-                    !string.IsNullOrEmpty(savejsondata.result[index].prizegrades[0].typemoney))
-                {
-                    Debug.Log("数据已经是最新，不需要重新下载");
-                }
-                else
-                {
-                    streamReader.Close();
-                    var data = JsonWriter.Serialize(downdata);
-                    var streamWriter = new StreamWriter(jsonpath, false);
-                    streamWriter.Write(data);
-                    streamWriter.Close();
-                    Debug.Log("已经下载最新数据");
-                }
-            }
-        }
-        //----------------------------------------------------------------------------
         private int SortTcbDataList(TCBData t1, TCBData t2)
         {
             int date1 = int.Parse(t1.code);
@@ -931,11 +878,6 @@ namespace Filterartifact
             {
                 return WorldManager.Instance().GetDataCollection<DrawData>();
             }
-        }
-        //----------------------------------------------------------------------------
-        HistoryRecordData historyRecordData
-        {
-            get { return WorldManager.Instance().GetDataCollection<HistoryRecordData>(); }
         }
         //----------------------------------------------------------------------------
     }

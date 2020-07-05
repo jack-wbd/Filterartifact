@@ -1,0 +1,70 @@
+[
+	{
+		"numperiods": 2020041,
+		"redballNumList": [
+			5,
+			21,
+			25,
+			32
+		],
+		"errorredballNumList": [],
+		"redballHitRate": "",
+		"blueballNumList": [
+			1,
+			3,
+			8,
+			9,
+			13,
+			14
+		],
+		"errorblueballNum": 0,
+		"blueballHitRate": ""
+	},
+	{
+		"numperiods": 2020035,
+		"redballNumList": [
+			6,
+			13,
+			25,
+			32
+		],
+		"errorredballNumList": [
+			25
+		],
+		"redballHitRate": "75.00%",
+		"blueballNumList": [
+			1,
+			8,
+			11,
+			12
+		],
+		"errorblueballNum": 11,
+		"blueballHitRate": "0%"
+	},
+	{
+		"numperiods": 2020028,
+		"redballNumList": [
+			3,
+			4,
+			8,
+			15,
+			16,
+			25,
+			31
+		],
+		"errorredballNumList": [
+			15
+		],
+		"redballHitRate": "85.71%",
+		"blueballNumList": [
+			1,
+			2,
+			5,
+			8,
+			9,
+			10
+		],
+		"errorblueballNum": 8,
+		"blueballHitRate": "0%"
+	}
+]

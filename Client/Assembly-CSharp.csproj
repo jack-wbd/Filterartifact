@@ -91,7 +91,6 @@
     <Compile Include="Assets\Scripts\Data\ConfigData.cs" />
     <Compile Include="Assets\Scripts\Data\DataBase.cs" />
     <Compile Include="Assets\Scripts\Data\DownLoadData.cs" />
-    <Compile Include="Assets\Scripts\Data\HistoryRecordData.cs" />
     <Compile Include="Assets\Scripts\Data\ItemInfo.cs" />
     <Compile Include="Assets\Scripts\Data\LoadingConfigData.cs" />
     <Compile Include="Assets\Scripts\Data\PromptData.cs" />
@@ -122,6 +121,7 @@
     <Compile Include="Assets\Scripts\GameState\Lobby\LobbyScene.cs" />
     <Compile Include="Assets\Scripts\GameState\Lobby\LobbyStage.cs" />
     <Compile Include="Assets\Scripts\GameState\Update\GameState_Update.cs" />
+    <Compile Include="Assets\Scripts\GameState\Update\Test.cs" />
     <Compile Include="Assets\Scripts\Layer\AssetLayer.cs" />
     <Compile Include="Assets\Scripts\Layer\DataLayer.cs" />
     <Compile Include="Assets\Scripts\Layer\SingleBineryData.cs" />
@@ -413,6 +413,9 @@
     </Reference>
     <Reference Include="LitJson">
       <HintPath>D:/Filterartifact/Client/Assets/Plugins/LitJson.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>D:/Filterartifact/Client/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

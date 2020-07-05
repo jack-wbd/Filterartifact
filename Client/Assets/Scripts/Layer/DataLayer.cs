@@ -85,7 +85,6 @@ namespace Filterartifact
             AddCollection(typeof(PromptData), new PromptData());
             AddCollection(typeof(LoadingConfigData), new LoadingConfigData());
             AddCollection(typeof(DrawData), new DrawData());
-            AddCollection(typeof(HistoryRecordData), new HistoryRecordData());
         }
         //----------------------------------------------------------------------------
         public BinaryWriter GetStreamWriter()
