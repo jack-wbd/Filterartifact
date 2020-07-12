@@ -1,2 +1,19 @@
 <tables>
+<table name="TblHistoryRecord" file="TbData/HistoryRecord" key="Issue">
+		<col name="Issue" type="INT32"/>
+		<col name="DrawDate" type="string"/>
+		<col name="RedOne" type="INT32"/>
+		<col name="RedTwo" type="INT32"/>
+		<col name="RedThree" type="INT32"/>
+		<col name="RedFour" type="INT32"/>
+		<col name="RedFive" type="INT32"/>
+		<col name="RedSix" type="INT32"/>
+		<col name="Blue" type="INT32"/>
+		<col name="PrizePool" type="INT32"/>
+		<col name="FirstPrize" type="INT32"/>
+		<col name="FristPrizeBonus" type="INT32"/>
+		<col name="SecondPrize" type="INT32"/>
+		<col name="SecondPrizeBonus" type="INT32"/>
+		<col name="Sales" type="INT32"/>
+		</table>
 </tables>	

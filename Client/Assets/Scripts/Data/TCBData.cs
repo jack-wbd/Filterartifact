@@ -34,6 +34,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using UnityEngine;
 
 namespace Filterartifact
@@ -297,6 +298,33 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void InitData()
         {
+            var historyDataPath = Application.persistentDataPath + "/tcbhistory.json";
+            if (!File.Exists(historyDataPath))
+            {
+                var path = Application.dataPath + "/Data/data/jsonData/tcbhistory.json";
+                var streamReader = new StreamReader(path);
+                var savedata = streamReader.ReadToEnd();
+                var savejsondata = JsonReader.Deserialize<List<TCBData>>(savedata);
+                savejsondata.Sort(SortTcbDataList);
+                var data = JsonWriter.Serialize(savejsondata);
+                var streamWriter = new StreamWriter(historyDataPath);
+                Debug.Log("path: " + Application.persistentDataPath);
+                streamWriter.Write(data);
+                streamWriter.Close();
+            }
+            else
+            {
+                var streamReader = new StreamReader(historyDataPath);
+                var savedata = streamReader.ReadToEnd();
+                var savejsondata = JsonReader.Deserialize<List<TCBData>>(savedata);
+                if (savejsondata != null)
+                {
+                    tcbdatalist.Clear();
+
+                    tcbdatalist = savejsondata;
+                }
+            }
+
             var tcbstajsonpath = Application.persistentDataPath + "/tcbstatistics.json";
             if (File.Exists(tcbstajsonpath))
             {
@@ -307,11 +335,11 @@ namespace Filterartifact
                 {
                     tcbStatiDataList = savejsondata;
                     tcbStatiDataList.Sort(SortTcbStatisticsDataList);
-                    popularNumData = ParsePopularData();
-                    unpopularNumData = ParseUnPopularData();
-                    neighborNumData = ParseNeighborData();
                 }
-
+            }
+            else
+            {
+                CalculateTcbStaticsDataAndSave();
             }
             var analysisredjsonpath = Application.persistentDataPath + "/analysisreddata.json";
             if (File.Exists(analysisredjsonpath))
@@ -364,21 +392,134 @@ namespace Filterartifact
                     prizeNumberDataList = savejsondata;
                 }
             }
-
-            var historyDataPath = Application.persistentDataPath + "/tcbhistory.json";
-            if (!File.Exists(historyDataPath))
+        }
+        //---------------------------------------------------------------------------
+        private void ParseHistoryTplData()
+        {
+            var dict = tablemgr.Instance.g_oTblHistoryRecord.m_hTblHistoryRecord.GetEnumerator();
+            List<TCBData> tcbDataList = new List<TCBData>();
+            while (dict.MoveNext())
             {
-                var path = Application.dataPath + "/Data/data/jsonData/tcbhistory.json";
-                var streamReader = new StreamReader(path);
-                var savedata = streamReader.ReadToEnd();
-                var savejsondata = JsonReader.Deserialize<List<TCBData>>(savedata);
-                savejsondata.Sort(SortTcbDataList);
-                var data = JsonWriter.Serialize(savejsondata);
-                var streamWriter = new StreamWriter(historyDataPath);
+                var value = dict.Current.Value;
+                TCBData tcbdata = new TCBData();
+                StringBuilder builder = new StringBuilder();
+                if (value.m_nRedOne < 10)
+                {
+                    builder.Append(0);
+                    builder.Append(value.m_nRedOne);
+                    builder.Append(",");
+                }
+                else
+                {
+                    builder.Append(value.m_nRedOne);
+                    builder.Append(",");
+                }
+                if (value.m_nRedTwo < 10)
+                {
+                    builder.Append(0);
+                    builder.Append(value.m_nRedTwo);
+                    builder.Append(",");
+                }
+                else
+                {
+                    builder.Append(value.m_nRedTwo);
+                    builder.Append(",");
+                }
+
+                if (value.m_nRedThree < 10)
+                {
+                    builder.Append(0);
+                    builder.Append(value.m_nRedThree);
+                    builder.Append(",");
+                }
+                else
+                {
+                    builder.Append(value.m_nRedThree);
+                    builder.Append(",");
+                }
+
+                if (value.m_nRedFour < 10)
+                {
+                    builder.Append(0);
+                    builder.Append(value.m_nRedFour);
+                    builder.Append(",");
+                }
+                else
+                {
+                    builder.Append(value.m_nRedFour);
+                    builder.Append(",");
+                }
+
+                if (value.m_nRedFive < 10)
+                {
+                    builder.Append(0);
+                    builder.Append(value.m_nRedFive);
+                    builder.Append(",");
+                }
+                else
+                {
+                    builder.Append(value.m_nRedFive);
+                    builder.Append(",");
+                }
+                if (value.m_nRedSix < 10)
+                {
+                    builder.Append(0);
+                    builder.Append(value.m_nRedSix);
+                }
+                else
+                {
+                    builder.Append(value.m_nRedSix);
+                }
+                tcbdata.red = builder.ToString();
+                tcbdata.code = value.m_nIssue.ToString();
+                tcbdata.date = value.m_strDrawDate;
+                if (value.m_nBlue < 10)
+                {
+                    tcbdata.blue = "0" + value.m_nBlue;
+                }
+                else
+                {
+                    tcbdata.blue = value.m_nBlue.ToString();
+                }
+                tcbdata.sales = value.m_nSales.ToString();
+                tcbdata.poolmoney = value.m_nPrizePool.ToString();
+
+                tcbdata.prizegrades.Clear();
+                PrizeGrades prizeOne = new PrizeGrades();
+                prizeOne.typenum = value.m_nFirstPrize.ToString();
+                prizeOne.typemoney = value.m_nFristPrizeBonus.ToString();
+                tcbdata.prizegrades.Add(prizeOne);
+                PrizeGrades prizeTwo = new PrizeGrades();
+                prizeTwo.typenum = value.m_nSecondPrize.ToString();
+                prizeTwo.typemoney = value.m_nSecondPrizeBonus.ToString();
+                tcbdata.prizegrades.Add(prizeTwo);
+                tcbDataList.Add(tcbdata);
+            }
+            tcbDataList.Sort(SortTcbDataList);
+            var historyRedDataPath = Application.persistentDataPath + "/historyred.json";
+            if (!File.Exists(historyRedDataPath))
+            {
+                var data = JsonWriter.Serialize(tcbDataList);
+                var streamWriter = new StreamWriter(historyRedDataPath);
                 Debug.Log("path: " + Application.persistentDataPath);
                 streamWriter.Write(data);
                 streamWriter.Close();
             }
+        }
+        //---------------------------------------------------------------------------
+        private void CalculateTcbStaticsDataAndSave()
+        {
+            if (tcbStatiDataList.Count > 0 && tcbStatiDataList != null)
+            {
+                tcbStatiDataList.Clear();
+            }
+            tcbNumberDataList.Clear();
+            tcbNumberDataList = ParseTCBNumberData();
+            tcbStatiDataList = CalculateData();
+            popularNumData = ParsePopularData();
+            unpopularNumData = ParseUnPopularData();
+            neighborNumData = ParseNeighborData();
+            SerializeAndSaveStatiData();
         }
         //---------------------------------------------------------------------------
         public void SerializeAndSaveHistoricalData()
@@ -401,15 +542,7 @@ namespace Filterartifact
             {
                 tcbdatalist = historyData;
                 historyData.Sort(SortTcbDataList);
-                tcbNumberDataList.Clear();
-                tcbNumberDataList = ParseTCBNumberData();
-                tcbStatiDataList.Clear();
-                tcbStatiDataList = CalculateData();
-                tcbStatiDataList.Sort(SortTcbStatisticsDataList);
-                popularNumData = ParsePopularData();
-                unpopularNumData = ParseUnPopularData();
-                neighborNumData = ParseNeighborData();
-                SerializeAndSaveStatiData();
+                CalculateTcbStaticsDataAndSave();
             }
 
             if (!File.Exists(tcbstajsonpath) || canWrite)

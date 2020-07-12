@@ -1,61 +1,61 @@
 {
-	"curforenumperiods": "2020058",
+	"curforenumperiods": "2020061",
 	"curforeRedBallList": [
 		{
-			"redballNum": "16",
-			"isRightOrNot": "正确"
-		},
-		{
-			"redballNum": "03",
-			"isRightOrNot": "错误"
-		},
-		{
-			"redballNum": "21",
-			"isRightOrNot": "正确"
-		},
-		{
-			"redballNum": "21",
-			"isRightOrNot": "正确"
-		},
-		{
-			"redballNum": "06",
-			"isRightOrNot": "正确"
-		},
-		{
-			"redballNum": "31",
+			"redballNum": "10",
 			"isRightOrNot": "正确"
 		},
 		{
 			"redballNum": "17",
+			"isRightOrNot": "错误"
+		},
+		{
+			"redballNum": "04",
 			"isRightOrNot": "正确"
 		},
 		{
-			"redballNum": "02",
+			"redballNum": "13",
 			"isRightOrNot": "正确"
 		},
 		{
-			"redballNum": "20",
+			"redballNum": "09",
 			"isRightOrNot": "正确"
 		},
 		{
-			"redballNum": "20",
+			"redballNum": "29",
+			"isRightOrNot": "正确"
+		},
+		{
+			"redballNum": "19",
+			"isRightOrNot": "正确"
+		},
+		{
+			"redballNum": "11",
+			"isRightOrNot": "正确"
+		},
+		{
+			"redballNum": "12",
+			"isRightOrNot": "正确"
+		},
+		{
+			"redballNum": "23",
 			"isRightOrNot": "正确"
 		}
 	],
 	"curforeHitRate": "9",
-	"nextforenumperiods": "2020059",
+	"nextforenumperiods": "2020062",
 	"nextforeRedBallList": [
 		{
-			"redballNum": "18",
+			"redballNum": "29",
 			"consecutiveErrorsNum": "0",
-			"numberOfPairs": "10",
-			"totalCorrectNum": "18",
-			"accuracy": "90%",
+			"numberOfPairs": "13",
+			"totalCorrectNum": "19",
+			"accuracy": "95%",
 			"consecutiveErrorsMaxNum": "1",
-			"maximumNumOfPairs": "10"
+			"maximumNumOfPairs": "13"
 		},
 		{
-			"redballNum": "27",
+			"redballNum": "22",
 			"consecutiveErrorsNum": "1",
 			"numberOfPairs": "0",
 			"totalCorrectNum": "16",
@@ -66,74 +66,74 @@
 		{
 			"redballNum": "04",
 			"consecutiveErrorsNum": "0",
-			"numberOfPairs": "4",
+			"numberOfPairs": "2",
 			"totalCorrectNum": "16",
 			"accuracy": "80%",
 			"consecutiveErrorsMaxNum": "2",
 			"maximumNumOfPairs": "7"
 		},
 		{
-			"redballNum": "14",
+			"redballNum": "09",
 			"consecutiveErrorsNum": "0",
-			"numberOfPairs": "6",
-			"totalCorrectNum": "15",
-			"accuracy": "75%",
+			"numberOfPairs": "9",
+			"totalCorrectNum": "16",
+			"accuracy": "80%",
 			"consecutiveErrorsMaxNum": "1",
-			"maximumNumOfPairs": "6"
+			"maximumNumOfPairs": "9"
 		},
 		{
-			"redballNum": "22",
+			"redballNum": "06",
 			"consecutiveErrorsNum": "0",
-			"numberOfPairs": "8",
-			"totalCorrectNum": "18",
-			"accuracy": "90%",
+			"numberOfPairs": "2",
+			"totalCorrectNum": "17",
+			"accuracy": "85%",
 			"consecutiveErrorsMaxNum": "1",
 			"maximumNumOfPairs": "8"
 		},
 		{
-			"redballNum": "20",
+			"redballNum": "16",
 			"consecutiveErrorsNum": "0",
 			"numberOfPairs": "1",
-			"totalCorrectNum": "15",
-			"accuracy": "75%",
+			"totalCorrectNum": "14",
+			"accuracy": "70%",
 			"consecutiveErrorsMaxNum": "2",
-			"maximumNumOfPairs": "10"
+			"maximumNumOfPairs": "7"
 		},
 		{
-			"redballNum": "05",
+			"redballNum": "08",
+			"consecutiveErrorsNum": "0",
+			"numberOfPairs": "5",
+			"totalCorrectNum": "18",
+			"accuracy": "90%",
+			"consecutiveErrorsMaxNum": "1",
+			"maximumNumOfPairs": "12"
+		},
+		{
+			"redballNum": "33",
 			"consecutiveErrorsNum": "0",
 			"numberOfPairs": "2",
 			"totalCorrectNum": "18",
 			"accuracy": "90%",
 			"consecutiveErrorsMaxNum": "1",
-			"maximumNumOfPairs": "15"
-		},
-		{
-			"redballNum": "04",
-			"consecutiveErrorsNum": "0",
-			"numberOfPairs": "5",
-			"totalCorrectNum": "18",
-			"accuracy": "90%",
-			"consecutiveErrorsMaxNum": "1",
 			"maximumNumOfPairs": "11"
 		},
 		{
-			"redballNum": "24",
+			"redballNum": "30",
 			"consecutiveErrorsNum": "0",
-			"numberOfPairs": "5",
-			"totalCorrectNum": "16",
-			"accuracy": "80%",
-			"consecutiveErrorsMaxNum": "1",
-			"maximumNumOfPairs": "7"
-		},
-		{
-			"redballNum": "15",
-			"consecutiveErrorsNum": "0",
-			"numberOfPairs": "11",
+			"numberOfPairs": "8",
 			"totalCorrectNum": "17",
 			"accuracy": "85%",
 			"consecutiveErrorsMaxNum": "1",
-			"maximumNumOfPairs": "11"
+			"maximumNumOfPairs": "8"
+		},
+		{
+			"redballNum": "26",
+			"consecutiveErrorsNum": "0",
+			"numberOfPairs": "14",
+			"totalCorrectNum": "17",
+			"accuracy": "85%",
+			"consecutiveErrorsMaxNum": "1",
+			"maximumNumOfPairs": "14"
 		}
 	]
 }

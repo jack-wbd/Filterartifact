@@ -1,5 +1,41 @@
 [
 	{
+		"numperiods": 2020061,
+		"redNumberdata": [
+			8,
+			17,
+			24,
+			26,
+			27,
+			31
+		],
+		"blueBallNum": 4
+	},
+	{
+		"numperiods": 2020060,
+		"redNumberdata": [
+			5,
+			9,
+			14,
+			20,
+			24,
+			30
+		],
+		"blueBallNum": 8
+	},
+	{
+		"numperiods": 2020059,
+		"redNumberdata": [
+			2,
+			4,
+			10,
+			17,
+			22,
+			25
+		],
+		"blueBallNum": 14
+	},
+	{
 		"numperiods": 2020058,
 		"redNumberdata": [
 			1,
@@ -202,41 +238,5 @@
 			31
 		],
 		"blueBallNum": 3
-	},
-	{
-		"numperiods": 2020041,
-		"redNumberdata": [
-			6,
-			7,
-			16,
-			22,
-			24,
-			25
-		],
-		"blueBallNum": 13
-	},
-	{
-		"numperiods": 2020040,
-		"redNumberdata": [
-			1,
-			6,
-			12,
-			16,
-			19,
-			21
-		],
-		"blueBallNum": 4
-	},
-	{
-		"numperiods": 2020039,
-		"redNumberdata": [
-			2,
-			9,
-			10,
-			11,
-			16,
-			29
-		],
-		"blueBallNum": 2
 	}
 ]
