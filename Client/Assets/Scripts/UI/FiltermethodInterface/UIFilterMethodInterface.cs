@@ -65,6 +65,7 @@ namespace Filterartifact
             {
                 BindEvent(m_centerAnchorPath + "back").AddListener(() => OnClose());
                 BindEvent(m_downAnchorPath + "btn6").AddListener(() => SixInSix());
+                BindEvent(m_downAnchorPath + "btn5").AddListener(() => SixInFive());
                 BindEvent(m_downAnchorPath + "next").AddListener(() => OnNext());
             }
             return true;
@@ -208,7 +209,7 @@ namespace Filterartifact
         private void OnMoveComplete()
         {
             Hide();
-            Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIPopularNumFilterInterfaceCtrl");
+            Messenger.Broadcast<string, object>(DgMsgID.DgUI_ShowNewOneParam, "UIPopularNumFilterInterfaceCtrl", drawData.resultList);
         }
         //----------------------------------------------------------------------------
         private void IsToggleOn(bool isOn)
@@ -218,39 +219,83 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void SixInSix()
         {
-            if (curRedBallSelNumber != drawData.redBallSelNumberList.Count|| curBlueBallSelNumber!=drawData.blueBallSelNumberList.Count)
+            //if (curRedBallSelNumber != drawData.redBallSelNumberList.Count || curBlueBallSelNumber != drawData.blueBallSelNumberList.Count)
+            //{
+            curRedBallSelNumber = drawData.redBallSelNumberList.Count;
+            curBlueBallSelNumber = drawData.blueBallSelNumberList.Count;
+            str.Clear();
+            for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
             {
-                curRedBallSelNumber = drawData.redBallSelNumberList.Count;
-                curBlueBallSelNumber = drawData.blueBallSelNumberList.Count;
-                str.Clear();
-                for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
-                {
-                    var st = Convert.ToByte(drawData.redBallSelNumberList[i]);
-                    str.Add(st);
-                }
-                var blueBallCount = drawData.blueBallSelNumberList.Count;
-                long totalCount;
-                if (m_ballRotation.isOn)
-                {
-                    totalCount = Util.C(drawData.redBallSelNumberList.Count, 6);
-                }
-                else
-                {
-                    totalCount = Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount;
-                }
-
-                m_totalLab.text = string.Format(PromptData.GetPrompt("totalbets"), totalCount);
-                m_totalLab.color = UseColor.pink;
+                var st = Convert.ToByte(drawData.redBallSelNumberList[i]);
+                str.Add(st);
+            }
+            var blueBallCount = drawData.blueBallSelNumberList.Count;
+            long totalCount;
+            if (m_ballRotation.isOn)
+            {
+                totalCount = Util.C(drawData.redBallSelNumberList.Count, 6);
+            }
+            else
+            {
+                totalCount = Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount;
             }
 
-            if (curStrCount != str.Count)
+            m_totalLab.text = string.Format(PromptData.GetPrompt("totalbets"), totalCount);
+            m_totalLab.color = UseColor.pink;
+            //}
+
+            //if (curStrCount != str.Count)
+            //{
+            curStrCount = str.Count;
+            var list = Util.GetCombination(str, 6);
+            drawData.resultList.Clear();
+            drawData.resultList = list;
+            UpdateLoopView(list, loopScrollView);
+            //}
+        }
+        //----------------------------------------------------------------------------
+        private void SixInFive()
+        {
+            //if (curRedBallSelNumber != drawData.redBallSelNumberList.Count || curBlueBallSelNumber != drawData.blueBallSelNumberList.Count)
+            //{
+            curRedBallSelNumber = drawData.redBallSelNumberList.Count;
+
+            if (curRedBallSelNumber < 8 || curRedBallSelNumber > 12)
             {
-                curStrCount = str.Count;
-                var list = Util.GetCombination(str, 6);
-                drawData.redBallSelResult.Clear();
-                drawData.redBallSelResult = list;
-                UpdateLoopView(list, loopScrollView);
+                Messenger.Broadcast<string, object>(DgMsgID.DgMsg_ShowUIOneParam, "UIErrorCtrl", PromptData.GetPrompt("selNumLimit"));
+                return;
             }
+
+            curBlueBallSelNumber = drawData.blueBallSelNumberList.Count;
+            str.Clear();
+            for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
+            {
+                var st = Convert.ToByte(drawData.redBallSelNumberList[i]);
+                str.Add(st);
+            }
+            var blueBallCount = drawData.blueBallSelNumberList.Count;
+            long totalCount;
+
+            //}
+            //if (curStrCount != str.Count)
+            //{
+            curStrCount = str.Count;
+            var list = RotationMatrix.GetRotationMatrixResult(curRedBallSelNumber, str);
+            if (m_ballRotation.isOn)
+            {
+                totalCount = list.Count;
+            }
+            else
+            {
+                totalCount = list.Count * blueBallCount;
+            }
+            m_totalLab.text = string.Format(PromptData.GetPrompt("totalbets"), totalCount);
+            m_totalLab.color = UseColor.pink;
+            drawData.resultList.Clear();
+            drawData.resultList = list;
+            UpdateLoopView(list, loopScrollView);
+
+            //}
         }
         //----------------------------------------------------------------------------
         private void OnClose()

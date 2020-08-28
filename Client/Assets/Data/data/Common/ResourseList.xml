@@ -18,16 +18,18 @@
 		<Bundle id="gongyong" preload="1" file="ui/atlas/gongyong.unity3d" name=""/>
 		<Bundle id="maininterface" preload="1" file="ui/atlas/maininterface.unity3d" name=""/>
 		<Bundle id="djjp" preload="0" file="ui/atlas/djjp.unity3d" name=""/>
+	    <Bundle id="periodselection" preload="0" EnvirUse="city" file="ui/prefab/periodselection.unity3d" name=""/> 
 	</Atlas>
 	    <Bundle id="RUP_Login" preload="1" EnvirUse="login" file="ui/prefab/ui_login.unity3d" name=""/>	  
 	    <Bundle id="RUP_MainPanel" preload="1" EnvirUse="city" file="ui/prefab/ui_maininterface.unity3d" name=""/>
 	    <Bundle id="RUP_Loading" preload="1" EnvirUse="none" file="ui/prefab/ui_loading.unity3d" name=""/>
 	    <Bundle id="RUP_GM" preload="0" EnvirUse="city" file="ui/prefab/ui_gm.unity3d" name=""/>
 	    <Bundle id="RUP_NumSelect" preload="0" EnvirUse="city" file="ui/prefab/ui_page_numselecinterface.unity3d" name=""/>
-	    <Bundle id="RUP_FilterMethod" preload="1" EnvirUse="city" file="ui/prefab/ui_page_filtermethodinterface.unity3d" name=""/>
-	    <Bundle id="RUP_PopularNumFilter" preload="1" EnvirUse="city" file="ui/prefab/ui_page_popularnumfilterinterface.unity3d" name=""/>
-	    <Bundle id="RUP_UnPopularNumFilter" preload="1" EnvirUse="city" file="ui/prefab/ui_page_unpopularnumfilterinterface.unity3d" name=""/>
-	    <Bundle id="RUP_NeighborNumFilter" preload="1" EnvirUse="city" file="ui/prefab/ui_page_neighbornumfilterinterface.unity3d" name=""/>     
-	    <Bundle id="RUP_ErrorTips" preload="1" EnvirUse="city" file="ui/prefab/ui_prompt_box.unity3d" name=""/> 	    
+	    <Bundle id="RUP_FilterMethod" preload="0" EnvirUse="city" file="ui/prefab/ui_page_filtermethodinterface.unity3d" name=""/>
+	    <Bundle id="RUP_PopularNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_popularnumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_UnPopularNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_unpopularnumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_AdjacentNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_adjacentnumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_IntervalNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_intervalnumfilterinterface.unity3d" name=""/>      
+	    <Bundle id="RUP_ErrorTips" preload="1" EnvirUse="city" file="ui/prefab/ui_prompt_box.unity3d" name=""/>     	    
 	</ui>
 </Resourselist>

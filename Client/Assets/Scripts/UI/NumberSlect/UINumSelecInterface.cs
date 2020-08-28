@@ -31,9 +31,10 @@
 //------------------------------------------------------------------------------
 using DG.Tweening;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEngine.UI.Dropdown;
+using static Filterartifact.GDropDown;
 using Object = UnityEngine.Object;
 
 namespace Filterartifact
@@ -59,7 +60,7 @@ namespace Filterartifact
         private List<Toggle> redBallToggleList = new List<Toggle>();
         private List<Toggle> blueBallToggleList = new List<Toggle>();
         private Tween m_moveTween;
-        private Dropdown dropdown;
+        private GDropDown dropdown;
         private Text m_date;
         private Text m_selectDate;
         private int index = 0;
@@ -91,21 +92,20 @@ namespace Filterartifact
             m_date = m_uiTrans.Find(m_centerAnchorPath + "drawdate").GetComponent<Text>();
             m_selectDate = m_uiTrans.Find(m_centerAnchorPath + "period").GetComponent<Text>();
             m_selectRedAll = m_uiTrans.Find(m_centerAnchorPath + "selRedAll").GetComponent<Toggle>();
-            m_selectRedAll.onValueChanged.AddListener((bool isOn) => OnSelRedAllChange(m_selectRedAll, isOn));
+            m_selectRedAll.onValueChanged.AddListener((bool isOn) => OnSelRedAllChange(isOn));
             m_selectBlueAll = m_uiTrans.Find(m_centerAnchorPath + "selBlueAll").GetComponent<Toggle>();
-            m_selectBlueAll.onValueChanged.AddListener((bool isOn) => OnSelBlueAllChange(m_selectBlueAll, isOn));
-            dropdown = GetUIComponent<Dropdown>(m_centerAnchorPath + "dropdown");
-            dropdown.onValueChanged.AddListener((int value) => OnDropValueChanged(value));
-            dropdown.options = new List<OptionData>();
+            m_selectBlueAll.onValueChanged.AddListener((bool isOn) => OnSelBlueAllChange(isOn));
+            dropdown = GetUIComponent<GDropDown>(m_centerAnchorPath + "periodSelection");
             if (drawData.tcbStatiDataList != null && drawData.tcbStatiDataList.Count > 0)
             {
+                List<string> str = new List<string>();
                 for (int i = 0; i < drawData.tcbStatiDataList.Count; i++)
                 {
-                    OptionData data = new OptionData();
-                    data.text = drawData.tcbStatiDataList[i].numperiods;
-                    dropdown.options.Add(data);
+                    str.Add(drawData.tcbStatiDataList[i].numperiods);
                 }
+                dropdown.AddOptions(str);
             }
+            dropdown.RefreshShowValue();
             for (int i = 0; i < RedBallMaxNumber; i++)
             {
                 var redToggle = Object.Instantiate(redTemp, m_redParent) as GameObject;
@@ -155,43 +155,54 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        private bool OnSelRedAllChange(Toggle toggle, bool bstate)
+        private bool OnSelRedAllChange(bool bstate)
         {
-            if (bstate)
-            {
-                SetRedBallToggleIsOn(true);
-                for (int i = 1; i <= RedBallMaxNumber; i++)
-                {
-                    if (!drawData.redBallSelNumberList.Contains(i))
-                    {
-                        drawData.redBallSelNumberList.Add(i);
-                    }
-                }
+            SetRedBallToggleIsOn(bstate);
+            //if (bstate)
+            //{
+            //    for (int i = 1; i <= RedBallMaxNumber; i++)
+            //    {
+            //        if (!drawData.redBallSelNumberList.Contains(i))
+            //        {
+            //            drawData.redBallSelNumberList.Add(i);
+            //        }
+            //    }
                 for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
                 {
                     UpdateSelectedRedBallNumShow(drawData.redBallSelNumberList[i].ToString());
                 }
-            }
+            //}
             UpdateTotalShow();
             return true;
         }
         //----------------------------------------------------------------------------
-        private bool OnSelBlueAllChange(Toggle toggle, bool bstate)
+        private bool OnSelBlueAllChange(bool bstate)
         {
-            if (bstate)
+            SetBlueBallToggleIsOn(bstate);
+            //if (bstate)
+            //{
+            //    for (int i = 1; i <= BlueBallMaxNumber; i++)
+            //    {
+            //        if (!drawData.blueBallSelNumberList.Contains(i))
+            //        {
+            //            drawData.blueBallSelNumberList.Add(i);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    for (int i = 1; i <= BlueBallMaxNumber; i++)
+            //    {
+            //        if (!drawData.blueBallSelNumberList.Contains(i))
+            //        {
+            //            drawData.blueBallSelNumberList.Remove(i);
+            //        }
+            //    }
+            //}
+
+            for (int i = 0; i < drawData.blueBallSelNumberList.Count; i++)
             {
-                SetBlueBallToggleIsOn(true);
-                for (int i = 1; i <= BlueBallMaxNumber; i++)
-                {
-                    if (!drawData.blueBallSelNumberList.Contains(i))
-                    {
-                        drawData.blueBallSelNumberList.Add(i);
-                    }
-                }
-                for (int i = 0; i < drawData.blueBallSelNumberList.Count; i++)
-                {
-                    UpdateSelectedBlueBallNumShow(drawData.blueBallSelNumberList[i].ToString());
-                }
+                UpdateSelectedBlueBallNumShow(drawData.blueBallSelNumberList[i].ToString());
             }
             UpdateTotalShow();
             return true;

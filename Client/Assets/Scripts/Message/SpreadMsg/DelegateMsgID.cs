@@ -58,6 +58,7 @@ namespace Filterartifact
         DgMsg_HideLoadingUIByType = 0x10000022,
         DgUI_ShowOrHide = 0x10000023,
         DgUI_HideNew = 0x10000024,
+        DgUI_ShowNewOneParam = 0x10000025,
     }
 }
 

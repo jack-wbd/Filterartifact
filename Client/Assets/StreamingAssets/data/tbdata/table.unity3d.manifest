@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 756614973
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 7acf99a1f155b924d4fff4321ddd5b1f
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/data/TbData/table.xml
+Dependencies: []

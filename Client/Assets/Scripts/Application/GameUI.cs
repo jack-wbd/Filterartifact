@@ -51,6 +51,7 @@ namespace Filterartifact
             Messenger.AddListener<string, object>(DgMsgID.DgMsg_ShowUIOneParam, OnShowUIOneParam);
             Messenger.AddListener<string>(DgMsgID.DgUI_ShowOrHide, OnShowOrHide);
             Messenger.AddListener<string>(DgMsgID.DgUI_HideNew, OnHideNew);
+            Messenger.AddListener<string, object>(DgMsgID.DgUI_ShowNewOneParam, OnShowNewOneParam);
             return true;
         }
         //----------------------------------------------------------------------------
@@ -90,6 +91,7 @@ namespace Filterartifact
             Messenger.RemoveListener<string, object>(DgMsgID.DgMsg_ShowUIOneParam, OnShowUIOneParam);
             Messenger.RemoveListener<string>(DgMsgID.DgUI_ShowOrHide, OnShowOrHide);
             Messenger.RemoveListener<string>(DgMsgID.DgUI_HideNew, OnHideNew);
+            Messenger.RemoveListener<string, object>(DgMsgID.DgUI_ShowNewOneParam, OnShowNewOneParam);
         }
         //----------------------------------------------------------------------------
         private void OnHideNew(string strCtrl)
@@ -149,9 +151,17 @@ namespace Filterartifact
         {
             if (m_layerUI != null)
             {
-
                 // Messenger.Broadcast(DgMsgID.DgMsg_GUIDE_NewbieShowNew, (int)DgMsgID.DgMsg_GUIDE_NewbieShowNew);/新手引导先不处理
                 m_layerUI.ShowNew(strCtrl);
+            }
+        }
+        //----------------------------------------------------------------------------
+        private void OnShowNewOneParam(string strCtrl, object obj)
+        {
+            if (m_layerUI != null)
+            {
+                //Messenger.Broadcast<int>(DgMsgID.DgMsg_GUIDE_NewbieShowNew, (int)DgMsgID.DgMsg_GUIDE_NewbieShowNew);/新手引导先不处理
+                m_layerUI.ShowNew(strCtrl, obj);
             }
         }
         //----------------------------------------------------------------------------

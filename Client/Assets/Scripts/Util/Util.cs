@@ -187,6 +187,10 @@ public static class Util
     /// <param name="M">辅助变量M</param>
     private static void GetCombination(ref List<List<byte>> list, List<byte> t, int n, int m, byte[] b, int M)
     {
+        if (M <= 0)
+        {
+            return;
+        }
         for (int i = n; i >= m; i--)
         {
             b[m - 1] = Convert.ToByte(i - 1);
@@ -384,6 +388,90 @@ public static class Util
             }
         }
         return result;
+    }
+    //----------------------------------------------------------------------------
+    public static List<List<byte>> GetResult(List<byte> numberDataList, List<List<byte>> redBallSelResult, List<int> selectNumList)
+    {
+        var result = new List<List<byte>>();
+        var curSelectNumList = new List<byte>();
+        for (int i = 0; i < numberDataList.Count; i++)
+        {
+            for (int j = 0; j < redBallSelResult.Count; j++)
+            {
+                var selList = redBallSelResult[j];
+                for (int k = 0; k < selList.Count; k++)
+                {
+                    if (selList.Contains(numberDataList[i]))
+                    {
+                        var data = Convert.ToByte(numberDataList[i]);
+                        if (!curSelectNumList.Contains(data))
+                        {
+                            curSelectNumList.Add(data);
+                        }
+
+                    }
+                }
+            }
+        }
+
+        if (curSelectNumList.Count == 0)
+        {
+            return result;
+        }
+
+        var dict = GetSelectPopularNumResult(curSelectNumList, redBallSelResult);
+
+        for (int i = 0; i < selectNumList.Count; i++)
+        {
+            var num = selectNumList[i];
+            if (dict.ContainsKey(num))
+            {
+                var curList = dict[num];
+                for (int j = 0; j < curList.Count; j++)
+                {
+                    result.Add(curList[j]);
+                }
+            }
+        }
+
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    private static Dictionary<int, List<List<byte>>> GetSelectPopularNumResult(List<byte> curSelectNumList, List<List<byte>> redBallResult)
+    {
+        var dict = new Dictionary<int, List<List<byte>>>();
+        var num = 0;
+        for (int i = 0; i < redBallResult.Count; i++)
+        {
+            var list = new List<List<byte>>();
+            var result1 = redBallResult[i];
+            for (int j = 0; j < result1.Count; j++)
+            {
+                for (int k = 0; k < curSelectNumList.Count; k++)
+                {
+                    if (result1[j] == curSelectNumList[k])
+                    {
+                        num++;
+                    }
+                }
+            }
+
+            list.Add(result1);
+
+            if (dict.ContainsKey(num))
+            {
+                var curList = dict[num];
+                for (int j = 0; j < curList.Count; j++)
+                {
+                    list.Add(curList[j]);
+                }
+
+            }
+
+            dict[num] = list;
+            num = 0;
+        }
+        return dict;
     }
     //----------------------------------------------------------------------------
 }

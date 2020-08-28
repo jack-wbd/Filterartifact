@@ -16,5 +16,6 @@
 	    <PromptDesc ID="beforeFilterTotal" Desc="过滤前总注数：{0}"/>
 	    <PromptDesc ID="afterFilterTotal" Desc="过滤后总注数：{0}"/>
 	    <PromptDesc ID="setFilters" Desc="请先设置过滤条件"/>
+	    <PromptDesc ID="selNumLimit" Desc="非会员请选择8-12个红球！"/>
     </SystemInfoDescription>
 </PromptData>

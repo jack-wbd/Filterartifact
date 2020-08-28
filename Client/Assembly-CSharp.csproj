@@ -22,11 +22,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>Temp\bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;UNITY_2019_3_0;UNITY_2019_3;UNITY_2019;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;PLATFORM_ARCH_64;UNITY_64;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;GMORDER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
+    <DefineConstants>DEBUG;TRACE;UNITY_2019_3_0;UNITY_2019_3;UNITY_2019;UNITY_5_3_OR_NEWER;UNITY_5_4_OR_NEWER;UNITY_5_5_OR_NEWER;UNITY_5_6_OR_NEWER;UNITY_2017_1_OR_NEWER;UNITY_2017_2_OR_NEWER;UNITY_2017_3_OR_NEWER;UNITY_2017_4_OR_NEWER;UNITY_2018_1_OR_NEWER;UNITY_2018_2_OR_NEWER;UNITY_2018_3_OR_NEWER;UNITY_2018_4_OR_NEWER;UNITY_2019_1_OR_NEWER;UNITY_2019_2_OR_NEWER;UNITY_2019_3_OR_NEWER;UNITY_INCLUDE_TESTS;ENABLE_AR;ENABLE_AUDIO;ENABLE_CACHING;ENABLE_CLOTH;ENABLE_EVENT_QUEUE;ENABLE_MICROPHONE;ENABLE_MULTIPLE_DISPLAYS;ENABLE_PHYSICS;ENABLE_TEXTURE_STREAMING;ENABLE_UNET;ENABLE_LZMA;ENABLE_UNITYEVENTS;ENABLE_VR;ENABLE_WEBCAM;ENABLE_UNITYWEBREQUEST;ENABLE_WWW;ENABLE_CLOUD_SERVICES;ENABLE_CLOUD_SERVICES_COLLAB;ENABLE_CLOUD_SERVICES_COLLAB_SOFTLOCKS;ENABLE_CLOUD_SERVICES_ADS;ENABLE_CLOUD_SERVICES_USE_WEBREQUEST;ENABLE_CLOUD_SERVICES_CRASH_REPORTING;ENABLE_CLOUD_SERVICES_PURCHASING;ENABLE_CLOUD_SERVICES_ANALYTICS;ENABLE_CLOUD_SERVICES_UNET;ENABLE_CLOUD_SERVICES_BUILD;ENABLE_CLOUD_LICENSE;ENABLE_EDITOR_HUB_LICENSE;ENABLE_WEBSOCKET_CLIENT;ENABLE_DIRECTOR_AUDIO;ENABLE_DIRECTOR_TEXTURE;ENABLE_MANAGED_JOBS;ENABLE_MANAGED_TRANSFORM_JOBS;ENABLE_MANAGED_ANIMATION_JOBS;ENABLE_MANAGED_AUDIO_JOBS;INCLUDE_DYNAMIC_GI;ENABLE_MONO_BDWGC;ENABLE_SCRIPTING_GC_WBARRIERS;PLATFORM_SUPPORTS_MONO;RENDER_SOFTWARE_CURSOR;ENABLE_VIDEO;PLATFORM_STANDALONE;PLATFORM_STANDALONE_WIN;UNITY_STANDALONE_WIN;UNITY_STANDALONE;ENABLE_RUNTIME_GI;ENABLE_MOVIES;ENABLE_NETWORK;ENABLE_CRUNCH_TEXTURE_COMPRESSION;ENABLE_OUT_OF_PROCESS_CRASH_HANDLER;ENABLE_CLUSTER_SYNC;ENABLE_CLUSTERINPUT;ENABLE_WEBSOCKET_HOST;ENABLE_MONO;NET_STANDARD_2_0;ENABLE_PROFILER;UNITY_ASSERTIONS;UNITY_EDITOR;UNITY_EDITOR_64;UNITY_EDITOR_WIN;ENABLE_UNITY_COLLECTIONS_CHECKS;ENABLE_BURST_AOT;UNITY_TEAM_LICENSE;ENABLE_VSTU;UNITY_PRO_LICENSE;ENABLE_CUSTOM_RENDER_TEXTURE;ENABLE_DIRECTOR;ENABLE_LOCALIZATION;ENABLE_SPRITES;ENABLE_TERRAIN;ENABLE_TILEMAP;ENABLE_TIMELINE;ENABLE_LEGACY_INPUT_MANAGER;GMORDER;CSHARP_7_OR_LATER;CSHARP_7_3_OR_NEWER</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -35,7 +35,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <NoWarn>0169</NoWarn>
-    <AllowUnsafeBlocks>False</AllowUnsafeBlocks>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <NoConfig>true</NoConfig>
@@ -48,7 +48,7 @@
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
     <UnityProjectType>Game:1</UnityProjectType>
-    <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
+    <UnityBuildTarget>StandaloneWindows:5</UnityBuildTarget>
     <UnityVersion>2019.3.0f6</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
@@ -74,6 +74,32 @@
     <Compile Include="Assets\Reporter\Reporter.cs" />
     <Compile Include="Assets\Reporter\ReporterGUI.cs" />
     <Compile Include="Assets\Reporter\ReporterMessageReceiver.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\IJsonWrapper.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\JsonData.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\JsonException.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\JsonMapper.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\JsonMockWrapper.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\JsonReader.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\JsonWriter.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\Lexer.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\LitJson\ParserToken.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\01_HelloWorld\HelloWorld.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\02_Invocation\Invocation.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\03_Delegate\DelegateDemo.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\04_Inheritance\Inheritance.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\04_Inheritance\InheritanceAdapter.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\05_CLRRedirection\CLRRedirectionDemo.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\06_CLRBinding\CLRBindingDemo.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\07_Coroutine\CoroutineAdapter.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\07_Coroutine\CoroutineDemo.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\08_MonoBehaviour\MonoBehaviourAdapter.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\08_MonoBehaviour\MonoBehaviourDemo.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\09_Reflection\ReflectionDemo.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\10_LitJson\LitJsonDemo.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\11_ValueTypeBinding\QuaternionBinder.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\11_ValueTypeBinding\ValueTypeBindingDemo.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\11_ValueTypeBinding\Vector2Binder.cs" />
+    <Compile Include="Assets\Samples\ILRuntime\1.6.3\Demo\Scripts\Examples\11_ValueTypeBinding\Vector3Binder.cs" />
     <Compile Include="Assets\Scripts\Application\GameApp.cs" />
     <Compile Include="Assets\Scripts\Application\GameUI.cs" />
     <Compile Include="Assets\Scripts\Application\IGameApp.cs" />
@@ -121,7 +147,6 @@
     <Compile Include="Assets\Scripts\GameState\Lobby\LobbyScene.cs" />
     <Compile Include="Assets\Scripts\GameState\Lobby\LobbyStage.cs" />
     <Compile Include="Assets\Scripts\GameState\Update\GameState_Update.cs" />
-    <Compile Include="Assets\Scripts\GameState\Update\Test.cs" />
     <Compile Include="Assets\Scripts\Layer\AssetLayer.cs" />
     <Compile Include="Assets\Scripts\Layer\DataLayer.cs" />
     <Compile Include="Assets\Scripts\Layer\SingleBineryData.cs" />
@@ -143,13 +168,19 @@
     <Compile Include="Assets\Scripts\Manager\Manager.cs" />
     <Compile Include="Assets\Scripts\Manager\UnityCompManager.cs" />
     <Compile Include="Assets\Scripts\Manager\WorldManager.cs" />
+    <Compile Include="Assets\Scripts\Matrix\RotationMatrix.cs" />
     <Compile Include="Assets\Scripts\Message\DelegateMsg\Messenger.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\DelegateMsgID.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\MsgID.cs" />
+    <Compile Include="Assets\Scripts\UI\AdjacentNumFilterInterface\UIAdjacentNumFilterInterface.cs" />
+    <Compile Include="Assets\Scripts\UI\AdjacentNumFilterInterface\UIAdjacentNumFilterInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\FiltermethodInterface\UIFilterMethodInterface.cs" />
     <Compile Include="Assets\Scripts\UI\FiltermethodInterface\UIFilterMethodInterfaceCtrl.cs" />
+    <Compile Include="Assets\Scripts\UI\GDropDown.cs" />
     <Compile Include="Assets\Scripts\UI\GM\UIGMMainCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\GM\UIGMMainView.cs" />
+    <Compile Include="Assets\Scripts\UI\Intervalnumfilterinterface\UIIntervalnumfilterinterface.cs" />
+    <Compile Include="Assets\Scripts\UI\Intervalnumfilterinterface\UIIntervalnumfilterinterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\Loading\UILoading.cs" />
     <Compile Include="Assets\Scripts\UI\Loading\UILoadingCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\Login\UILogin.cs" />
@@ -158,13 +189,12 @@
     <Compile Include="Assets\Scripts\UI\Login\UIMaininterface.cs" />
     <Compile Include="Assets\Scripts\UI\LoopScrollItem.cs" />
     <Compile Include="Assets\Scripts\UI\LoopScrollerView.cs" />
-    <Compile Include="Assets\Scripts\UI\NeighborNumFilterInterface\UINeighborNumFilterInterface.cs" />
-    <Compile Include="Assets\Scripts\UI\NeighborNumFilterInterface\UINeighborNumFilterInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterface.cs" />
     <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\PopularNumFilterInterface\UIPopularNumFilterInterface.cs" />
     <Compile Include="Assets\Scripts\UI\PopularNumFilterInterface\UIPopularNumFilterInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\ScreenUnit.cs" />
+    <Compile Include="Assets\Scripts\UI\ScrollList.cs" />
     <Compile Include="Assets\Scripts\UI\UIBase.cs" />
     <Compile Include="Assets\Scripts\UI\UIController.cs" />
     <Compile Include="Assets\Scripts\UI\UIDownload.cs" />
@@ -181,12 +211,12 @@
     <Compile Include="Assets\Scripts\tbldata\tablemgr.cs" />
     <Compile Include="Assets\Scripts\tbldata\tblhistoryrecord.cs" />
     <None Include="Assets\Shader\Unlit - Transparent Colored.shader" />
-    <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\DOTween\readme.txt" />
     <None Include="Assets\StreamingAssets\Resourselist_2.xml" />
     <None Include="Assets\Resources\config.xml" />
     <None Include="Assets\Data\data\TbData\table.xml" />
     <None Include="Assets\Data\data\Language\PromptData.xml" />
+    <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\Data\data\Map\LobbyScene\LobbyScene_01_s1_p1.xml" />
     <None Include="Assets\Data\data\Common\LoadingConfig.xml" />
     <None Include="Assets\Data\data\TbData\HistoryRecord.txt" />
@@ -197,6 +227,9 @@
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime">
+      <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/ILRuntime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>D:/Filterartifact/Client/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
@@ -416,6 +449,21 @@
     </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>D:/Filterartifact/Client/Assets/Plugins/Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntim.Mono.Cecil">
+      <HintPath>D:/Filterartifact/Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.3/Plugins/ILRuntim.Mono.Cecil.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Mdb">
+      <HintPath>D:/Filterartifact/Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.3/Plugins/ILRuntime.Mono.Cecil.Mdb.dll</HintPath>
+    </Reference>
+    <Reference Include="ILRuntime.Mono.Cecil.Pdb">
+      <HintPath>D:/Filterartifact/Client/Library/PackageCache/com.ourpalm.ilruntime@1.6.3/Plugins/ILRuntime.Mono.Cecil.Pdb.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Xcode">
+      <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEditor.iOS.Extensions.Common">
+      <HintPath>C:/Program Files/Unity/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Common.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
       <HintPath>C:/Program Files/Unity/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>

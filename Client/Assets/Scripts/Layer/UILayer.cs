@@ -67,7 +67,8 @@ namespace Filterartifact
             Register<UIFilterMethodInterfaceCtrl, UIFilterMethodInterface>("RUP_FilterMethod", this);
             Register<UIPopularNumFilterInterfaceCtrl, UIPopularNumFilterInterface>("RUP_PopularNumFilter", this);
             Register<UIUnPopularNumFilterInterfaceCtrl, UIUnPopularNumFilterInterface>("RUP_UnPopularNumFilter", this);
-            Register<UINeighborNumFilterInterfaceCtrl, UINeighborNumFilterInterface>("RUP_NeighborNumFilter", this);
+            Register<UIAdjacentNumFilterInterfaceCtrl, UIAdjacentNumFilterInterface>("RUP_AdjacentNumFilter", this);
+            Register<UIIntervalnumfilterinterfaceCtrl, UIIntervalnumfilterinterface>("RUP_IntervalNumFilter", this);
             Register<UIErrorCtrl, UIError>("RUP_ErrorTips", this);
         }
         //----------------------------------------------------------------------------

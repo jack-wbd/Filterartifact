@@ -282,13 +282,13 @@ namespace Filterartifact
                 tran.Find("distance").GetComponent<Text>().text = task.distanceNumber;//最大间隔
 
 
-                tran.Find("adjacent").GetComponent<Text>().text = task.adjacentNumber;//相邻号码
+                tran.Find("adjacent").GetComponent<Text>().text = task.adjacentNumber.Count.ToString();//相邻号码
 
                 tran.Find("popular").GetComponent<Text>().text = task.popularNumber.Count.ToString();//热门号码数量
 
                 tran.Find("unpopular").GetComponent<Text>().text = task.unpopularNumber.Count.ToString();//冷门号码数量
 
-                tran.Find("neutral").GetComponent<Text>().text = task.neutralNumber.Count.ToString();//中性号码数量
+                //tran.Find("neutral").GetComponent<Text>().text = task.neutralNumber.Count.ToString();//中性号码数量
 
                 tran.Find("interval").GetComponent<Text>().text = task.intervalNumber;//号码区间
 
@@ -886,7 +886,6 @@ namespace Filterartifact
     {
         POPULAR = 0,
         UNPOPULAR = 1,
-        NEUTRAL = 2,
     }
     //----------------------------------------------------------------------------
 }

@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 1863603227
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 3a6f694980aff6a0a2d1b6647395f787
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/data/jsonData/prizenumberdata.json
+Dependencies: []

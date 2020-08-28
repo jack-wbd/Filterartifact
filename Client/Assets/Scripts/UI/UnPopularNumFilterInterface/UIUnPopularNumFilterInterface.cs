@@ -14,21 +14,17 @@ namespace Filterartifact
         private InputField m_inputField;
         private List<int> selectNumList = new List<int>();
         private Text m_populatLab;
-        private LoopScrollerView beforeLoopScrollView;
         private LoopScrollerView afterLoopScrollView;
-        private Text m_totalBefore;
         private Text m_totalAfter;
         private Toggle m_allToggle;
         private bool allTogIsOn = false;
         private Toggle m_clearToggle;
         private bool clearTogIsOn = false;
         private Toggle m_normalToggle;
-        private bool norTogIsOn = false;
         private UnPopularNumberData unPopularNumberData;
-        private List<byte> curStr = new List<byte>();
-        private List<byte> str = new List<byte>();
         public readonly int NormalCount = 2;
         private Tween m_moveTween;
+        private List<List<byte>> initialFilterResults = new List<List<byte>>();
         class SumTemp
         {
             //----------------------------------------------------------------------------
@@ -63,7 +59,7 @@ namespace Filterartifact
                 totalNum.text = count.ToString();
                 m_goRect.anchoredPosition3D = new Vector3(0, 100, 0);
                 m_goRect.pivot = new Vector2(0.5f, 0);
-                m_goRect.sizeDelta += new Vector2(0, count);
+                m_goRect.sizeDelta += new Vector2(0, count / 10.0f);
             }
             //----------------------------------------------------------------------------
             public void SetToggleOnOrNot(bool state)
@@ -119,10 +115,7 @@ namespace Filterartifact
                 m_inputField = GetUIComponent<InputField>(m_centerAnchorPath + "panel/inputField");
                 m_populatLab = GetUIComponent<Text>(m_centerAnchorPath + "panel/title2");
                 m_populatLab.text = string.Empty;
-                beforeLoopScrollView = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "beforeFiltering/scrollView");
                 afterLoopScrollView = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "afterFiltering/scrollView");
-                m_totalBefore = GetUIComponent<Text>(m_centerAnchorPath + "beforeFiltering/before");
-                m_totalBefore.text = string.Empty;
                 m_totalAfter = GetUIComponent<Text>(m_centerAnchorPath + "afterFiltering/after");
                 m_totalAfter.text = string.Empty;
                 m_allToggle = GetUIComponent<Toggle>(m_centerAnchorPath + "selectGroup/all");
@@ -141,6 +134,12 @@ namespace Filterartifact
         {
             base.Show(arg);
             unPopularNumberData = drawData.unpopularNumData;
+
+            if (arg != null)
+            {
+                initialFilterResults = arg as List<List<byte>>;
+            }
+
             if (bFirstShow)
             {
                 bFirstShow = false;
@@ -214,11 +213,6 @@ namespace Filterartifact
             }
 
             m_populatLab.text = string.Format(PromptData.GetPrompt("unpopularNumThis"), str);
-
-            m_totalBefore.text = string.Format(PromptData.GetPrompt("beforeFilterTotal"), Util.C(drawData.redBallSelNumberList.Count, 6) * drawData.blueBallSelNumberList.Count);
-
-            var curList = drawData.redBallSelResult;
-            UpdateLoopView(curList, beforeLoopScrollView);
         }
         //----------------------------------------------------------------------------
         protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
@@ -236,12 +230,11 @@ namespace Filterartifact
         private void OnMoveComplete()
         {
             Hide();
-            Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UINeighborNumFilterInterfaceCtrl");
+            Messenger.Broadcast<string, object>(DgMsgID.DgUI_ShowNewOneParam, "UIAdjacentNumFilterInterfaceCtrl", drawData.resultList);
         }
         //----------------------------------------------------------------------------
         private void OnAllToggleChange(bool isOn)
         {
-            var numberList = unPopularNumberData.numberList;
             if (isOn)
             {
 
@@ -298,11 +291,11 @@ namespace Filterartifact
                     m_SumTemp[i].SetToggleOnOrNot(false);
                 }
             }
-            norTogIsOn = isOn;
         }
         //----------------------------------------------------------------------------
         private void OnBack()
         {
+            drawData.resultList = initialFilterResults;
             Messenger.Broadcast(DgMsgID.DgUI_HideNew, "UIUnPopularNumFilterInterfaceCtrl");
         }
         //----------------------------------------------------------------------------
@@ -325,79 +318,15 @@ namespace Filterartifact
                         drawData.redBallSelNumberList.Add(curNum);
                     }
                 }
-                m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), Util.C(drawData.redBallSelNumberList.Count, 6));
-                drawData.resultList = Util.GetCombination(GetSelRedBallNumberList(drawData.redBallSelNumberList), 6);
+                m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), drawData.resultList.Count * drawData.blueBallSelNumberList.Count);
                 UpdateLoopView(drawData.resultList, afterLoopScrollView);
             }
             else
             {
-                drawData.resultList = GetResult();
+                drawData.resultList = Util.GetResult(unPopularNumberData.numberList, initialFilterResults, selectNumList);
                 m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), drawData.resultList.Count);
                 UpdateLoopView(drawData.resultList, afterLoopScrollView);
             }
-        }
-        //----------------------------------------------------------------------------
-        private List<byte> GetSelRedBallNumberList(List<int> dataList)
-        {
-            str.Clear();
-            for (int i = 0; i < dataList.Count; i++)
-            {
-                var st = Convert.ToByte(dataList[i]);
-                str.Add(st);
-            }
-            return str;
-        }
-        //----------------------------------------------------------------------------
-        private List<byte> GetRemovePopularNumRedBallNumberList()
-        {
-            var list = unPopularNumberData.numberList;
-            List<int> dataList = new List<int>();
-            for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
-            {
-                dataList.Add(drawData.redBallSelNumberList[i]);
-            }
-            for (int i = 0; i < list.Count; i++)
-            {
-                if (dataList.Contains(list[i]))
-                {
-                    dataList.Remove(list[i]);
-                }
-            }
-
-            return GetSelRedBallNumberList(dataList);
-        }
-
-        //----------------------------------------------------------------------------
-        private List<List<byte>> GetResult()
-        {
-            var result = new List<List<byte>>();
-            var curSelectNumList = new List<byte>();
-            var numberDataList = unPopularNumberData.numberList;
-            for (int i = 0; i < numberDataList.Count; i++)
-            {
-                if (drawData.redBallSelNumberList.Contains(numberDataList[i]))
-                {
-                    curSelectNumList.Add(Convert.ToByte(numberDataList[i]));
-                }
-            }
-
-            for (int i = 0; i < selectNumList.Count; i++)
-            {
-                var selNum = selectNumList[i];
-                var list = Util.GetCombination(curSelectNumList, selNum);
-                var selectRedBallList = Util.GetCombination(GetRemovePopularNumRedBallNumberList(), 6 - selNum);
-                for (int j = 0; j < list.Count; j++)
-                {
-                    for (int k = 0; k < selectRedBallList.Count; k++)
-                    {
-                        var res = list[j].Union(selectRedBallList[k]).ToList();
-                        result.Add(res);
-                    }
-                }
-            }
-        
-
-            return result;
         }
         //----------------------------------------------------------------------------
         private bool IsAnyToggleIsOn()

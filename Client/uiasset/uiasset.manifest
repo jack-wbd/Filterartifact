@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 3342974432
+CRC: 1433380306
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -9,67 +9,100 @@ AssetBundleManifest:
       Name: data/common/resourselist.unity3d
       Dependencies: {}
     Info_2:
-      Name: data/language/promptdata.unity3d
+      Name: data/jsondata/analysisbluedata.unity3d
       Dependencies: {}
     Info_3:
-      Name: data/map/lobbyscene/lobbyscene.unity3d
+      Name: data/jsondata/analysisreddata.unity3d
       Dependencies: {}
     Info_4:
-      Name: data/map/lobbyscene/lobbyscene_01_s1_p1.unity3d
+      Name: data/jsondata/download.unity3d
       Dependencies: {}
     Info_5:
-      Name: font/gameusefont.unity3d
+      Name: data/jsondata/forecastdata.unity3d
       Dependencies: {}
     Info_6:
-      Name: ui/atlas/chengzhen00atlas.unity3d
+      Name: data/jsondata/prizenumberdata.unity3d
       Dependencies: {}
     Info_7:
-      Name: ui/atlas/commonpictureatlas.unity3d
+      Name: data/jsondata/tcbhistory.unity3d
       Dependencies: {}
     Info_8:
-      Name: ui/atlas/djjp.unity3d
+      Name: data/jsondata/tcbstatistics.unity3d
       Dependencies: {}
     Info_9:
-      Name: ui/atlas/gongyong.unity3d
+      Name: data/jsondata/test.unity3d
       Dependencies: {}
     Info_10:
-      Name: ui/atlas/loginatlas.unity3d
+      Name: data/language/promptdata.unity3d
       Dependencies: {}
     Info_11:
-      Name: ui/atlas/maininterface.unity3d
+      Name: data/map/lobbyscene/lobbyscene.unity3d
       Dependencies: {}
     Info_12:
-      Name: ui/picture/switchpic/picture1.unity3d
+      Name: data/map/lobbyscene/lobbyscene_01_s1_p1.unity3d
       Dependencies: {}
     Info_13:
-      Name: ui/picture/switchpic/picture2.unity3d
+      Name: data/tbdata/historyrecord.unity3d
       Dependencies: {}
     Info_14:
-      Name: ui/picture/switchpic/picture3.unity3d
+      Name: data/tbdata/table.unity3d
       Dependencies: {}
     Info_15:
-      Name: ui/picture/switchpic/picture4.unity3d
+      Name: font/gameusefont.unity3d
       Dependencies: {}
     Info_16:
-      Name: ui/picture/switchpic/picture5.unity3d
+      Name: ui/atlas/chengzhen00atlas.unity3d
       Dependencies: {}
     Info_17:
+      Name: ui/atlas/commonpictureatlas.unity3d
+      Dependencies: {}
+    Info_18:
+      Name: ui/atlas/djjp.unity3d
+      Dependencies: {}
+    Info_19:
+      Name: ui/atlas/gongyong.unity3d
+      Dependencies: {}
+    Info_20:
+      Name: ui/atlas/loginatlas.unity3d
+      Dependencies: {}
+    Info_21:
+      Name: ui/atlas/maininterface.unity3d
+      Dependencies: {}
+    Info_22:
+      Name: ui/picture/switchpic/picture1.unity3d
+      Dependencies: {}
+    Info_23:
+      Name: ui/picture/switchpic/picture2.unity3d
+      Dependencies: {}
+    Info_24:
+      Name: ui/picture/switchpic/picture3.unity3d
+      Dependencies: {}
+    Info_25:
+      Name: ui/picture/switchpic/picture4.unity3d
+      Dependencies: {}
+    Info_26:
+      Name: ui/picture/switchpic/picture5.unity3d
+      Dependencies: {}
+    Info_27:
+      Name: ui/prefab/periodselection.unity3d
+      Dependencies: {}
+    Info_28:
       Name: ui/prefab/ui_gm.unity3d
       Dependencies:
         Dependency_0: ui/atlas/commonpictureatlas.unity3d
-    Info_18:
+    Info_29:
       Name: ui/prefab/ui_loading.unity3d
       Dependencies:
         Dependency_0: ui/atlas/djjp.unity3d
         Dependency_1: ui/atlas/loginatlas.unity3d
         Dependency_2: ui/picture/switchpic/picture1.unity3d
-    Info_19:
+    Info_30:
       Name: ui/prefab/ui_login.unity3d
       Dependencies:
         Dependency_0: font/gameusefont.unity3d
         Dependency_1: ui/atlas/chengzhen00atlas.unity3d
         Dependency_2: ui/atlas/commonpictureatlas.unity3d
-    Info_20:
+    Info_31:
       Name: ui/prefab/ui_maininterface.unity3d
       Dependencies:
         Dependency_0: font/gameusefont.unity3d
@@ -77,48 +110,56 @@ AssetBundleManifest:
         Dependency_2: ui/atlas/gongyong.unity3d
         Dependency_3: ui/atlas/loginatlas.unity3d
         Dependency_4: ui/atlas/maininterface.unity3d
-    Info_21:
+    Info_32:
+      Name: ui/prefab/ui_page_adjacentnumfilterinterface.unity3d
+      Dependencies:
+        Dependency_0: ui/atlas/commonpictureatlas.unity3d
+        Dependency_1: ui/atlas/djjp.unity3d
+        Dependency_2: ui/atlas/gongyong.unity3d
+        Dependency_3: ui/atlas/loginatlas.unity3d
+    Info_33:
       Name: ui/prefab/ui_page_filtermethodinterface.unity3d
       Dependencies:
         Dependency_0: ui/atlas/commonpictureatlas.unity3d
         Dependency_1: ui/atlas/djjp.unity3d
         Dependency_2: ui/atlas/gongyong.unity3d
         Dependency_3: ui/atlas/loginatlas.unity3d
-    Info_22:
-      Name: ui/prefab/ui_page_neighbornumfilterinterface.unity3d
+    Info_34:
+      Name: ui/prefab/ui_page_intervalnumfilterinterface.unity3d
       Dependencies:
         Dependency_0: ui/atlas/commonpictureatlas.unity3d
         Dependency_1: ui/atlas/djjp.unity3d
         Dependency_2: ui/atlas/gongyong.unity3d
         Dependency_3: ui/atlas/loginatlas.unity3d
-    Info_23:
+    Info_35:
       Name: ui/prefab/ui_page_numselecinterface.unity3d
       Dependencies:
         Dependency_0: ui/atlas/commonpictureatlas.unity3d
         Dependency_1: ui/atlas/djjp.unity3d
         Dependency_2: ui/atlas/gongyong.unity3d
-    Info_24:
+        Dependency_3: ui/prefab/periodselection.unity3d
+    Info_36:
       Name: ui/prefab/ui_page_popularnumfilterinterface.unity3d
       Dependencies:
         Dependency_0: ui/atlas/commonpictureatlas.unity3d
         Dependency_1: ui/atlas/djjp.unity3d
         Dependency_2: ui/atlas/gongyong.unity3d
         Dependency_3: ui/atlas/loginatlas.unity3d
-    Info_25:
+    Info_37:
       Name: ui/prefab/ui_page_unpopularnumfilterinterface.unity3d
       Dependencies:
         Dependency_0: ui/atlas/commonpictureatlas.unity3d
         Dependency_1: ui/atlas/djjp.unity3d
         Dependency_2: ui/atlas/gongyong.unity3d
         Dependency_3: ui/atlas/loginatlas.unity3d
-    Info_26:
+    Info_38:
       Name: ui/prefab/ui_prompt_box.unity3d
       Dependencies:
         Dependency_0: ui/atlas/commonpictureatlas.unity3d
-    Info_27:
+    Info_39:
       Name: ui/prefab/ui_root.unity3d
       Dependencies:
         Dependency_0: ui/atlas/loginatlas.unity3d
-    Info_28:
+    Info_40:
       Name: ui/prefab/ui_root_main.unity3d
       Dependencies: {}

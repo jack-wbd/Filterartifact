@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 734309598
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 491f7afff50aef20c73facf262abe5d4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/data/jsonData/tcbstatistics.json
+Dependencies: []

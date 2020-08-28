@@ -1,0 +1,16 @@
+ManifestFileVersion: 0
+CRC: 926502390
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: d91eabe0c687c1bb97c9c2b22f1deb38
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/data/jsonData/analysisbluedata.json
+Dependencies: []
