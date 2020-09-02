@@ -14,8 +14,8 @@ namespace HotFix_Project
         static System.Collections.IEnumerator Coroutine()
         {
             Debug.Log("开始协程,t=" + Time.time);
-            yield return new WaitForSeconds(3);
-            Debug.Log("等待了3秒,t=" + Time.time);
+            yield return new WaitForSeconds(10);
+            Debug.Log("等待了10秒,t=" + Time.time);
         }
     }
 }

@@ -1,9 +1,6 @@
 ﻿using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -11,11 +8,9 @@ namespace Filterartifact
 {
     class UIIntervalnumfilterinterface : UIBase
     {
-        private readonly int MaxCount = 28;
         private List<SumTemp> m_SumTemp = new List<SumTemp>();
         private InputField m_inputField;
-        private List<int> selectNumList = new List<int>();
-        private Text m_populatLab;
+        private List<string> selectTypeList = new List<string>();
         private LoopScrollerView afterLoopScrollView;
         private Text m_totalAfter;
         private Toggle m_allToggle;
@@ -23,20 +18,21 @@ namespace Filterartifact
         private Toggle m_clearToggle;
         private bool clearTogIsOn = false;
         private Toggle m_normalToggle;
-        private UnPopularNumberData unPopularNumberData;
-        public readonly int NormalCount = 2;
+        private IntervalNumberData intervalNumberData;
+        public readonly int NormalCount = 4;
         private Tween m_moveTween;
         private List<List<byte>> initialFilterResults = new List<List<byte>>();
+        private IOrderedEnumerable<KeyValuePair<string, int>> dictor;
         class SumTemp
         {
             //----------------------------------------------------------------------------
             UIIntervalnumfilterinterface m_parent;
-            GameObject m_ObjUI;
+            public GameObject m_ObjUI;
             Transform m_tran;
             public Toggle toggle;
             Text num;
             Text totalNum;
-            public int curNum;
+            public string type;
             RectTransform m_goRect;
             //----------------------------------------------------------------------------
             public SumTemp(GameObject go, UIIntervalnumfilterinterface _parent)
@@ -54,14 +50,14 @@ namespace Filterartifact
                 m_goRect = m_tran.GetUnityComponent<RectTransform>("go");
             }
             //----------------------------------------------------------------------------
-            public void SetView(int number, int count)
+            public void SetView(string intervalType, int count)
             {
-                curNum = number;
-                num.text = string.Format(PromptData.GetPrompt("piece"), number);
+                type = intervalType;
+                num.text = type.ToString();
                 totalNum.text = count.ToString();
                 m_goRect.anchoredPosition3D = new Vector3(0, 100, 0);
                 m_goRect.pivot = new Vector2(0.5f, 0);
-                m_goRect.sizeDelta += new Vector2(0, count / 10.0f);
+                m_goRect.sizeDelta += new Vector2(0, count / 3.0f);
             }
             //----------------------------------------------------------------------------
             public void SetToggleOnOrNot(bool state)
@@ -79,7 +75,7 @@ namespace Filterartifact
             //----------------------------------------------------------------------------
             private void OnToggleValueChanged(bool isOn)
             {
-                m_parent.SetInputFieldValue(isOn, curNum);
+                m_parent.SetInputFieldValue(isOn, type);
             }
         }
         //----------------------------------------------------------------------------
@@ -99,24 +95,7 @@ namespace Filterartifact
         {
             if (m_objUI != null)
             {
-
-                GameObject temp = m_uiTrans.Find(m_centerAnchorPath + "sumPanel/temp").gameObject;
-                Transform parent = m_uiTrans.Find(m_centerAnchorPath + "sumPanel");
-                for (int i = 0; i <= MaxCount; i++)
-                {
-                    GameObject obj = UnityEngine.Object.Instantiate(temp, parent) as GameObject;
-                    obj.name = i.ToString();
-                    obj.transform.localScale = Vector3.one;
-                    obj.transform.localRotation = Quaternion.identity;
-                    obj.transform.localPosition = temp.transform.localPosition + new Vector3(i * 45, 0, 0);
-                    SumTemp sumTemp = new SumTemp(obj, this);
-                    m_SumTemp.Add(sumTemp);
-                }
-
-                UnityEngine.Object.DestroyImmediate(temp);
                 m_inputField = GetUIComponent<InputField>(m_centerAnchorPath + "panel/inputField");
-                m_populatLab = GetUIComponent<Text>(m_centerAnchorPath + "panel/title2");
-                m_populatLab.text = string.Empty;
                 afterLoopScrollView = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "afterFiltering/scrollView");
                 m_totalAfter = GetUIComponent<Text>(m_centerAnchorPath + "afterFiltering/after");
                 m_totalAfter.text = string.Empty;
@@ -135,7 +114,7 @@ namespace Filterartifact
         public override void Show(object arg = null)
         {
             base.Show(arg);
-            unPopularNumberData = drawData.unpopularNumData;
+            intervalNumberData = drawData.intervalNumberData;
 
             if (arg != null)
             {
@@ -155,66 +134,65 @@ namespace Filterartifact
             base.Hide();
         }
         //----------------------------------------------------------------------------
-        public void SetInputFieldValue(bool bState, int number)
+        public void SetInputFieldValue(bool bState, string selectType)
         {
             if (bState)
             {
-                if (!selectNumList.Contains(number))
+                if (!selectTypeList.Contains(selectType))
                 {
-                    selectNumList.Add(number);
+                    selectTypeList.Add(selectType);
                 }
             }
             else
             {
-                if (selectNumList.Contains(number))
+                if (selectTypeList.Contains(selectType))
                 {
-                    selectNumList.Remove(number);
+                    selectTypeList.Remove(selectType);
                 }
             }
 
             string str = string.Empty;
-            for (int i = 0; i < selectNumList.Count; i++)
+            for (int i = 0; i < selectTypeList.Count; i++)
             {
                 if (i == 0)
                 {
-                    str = selectNumList[i].ToString();
+                    str = selectTypeList[i].ToString();
                 }
                 else
-                    str += "," + selectNumList[i];
+                    str += "," + selectTypeList[i];
             }
             m_inputField.text = str;
         }
         //----------------------------------------------------------------------------
         public void SetSumPanelView()
         {
-            foreach (var list in unPopularNumberData.dict)
+            GameObject temp = m_uiTrans.Find(m_centerAnchorPath + "sumPanel/temp").gameObject;
+            Transform parent = m_uiTrans.Find(m_centerAnchorPath + "sumPanel");
+            dictor = from objDic in intervalNumberData.intervalNumberDict orderby objDic.Value descending select objDic;
+            int i = 0;
+            foreach (var item in dictor)
             {
-                for (int i = 0; i < m_SumTemp.Count; i++)
-                {
-                    if (list.Key == i)
-                    {
-                        m_SumTemp[i].SetView(list.Key, list.Value);
-                    }
+                GameObject obj = UnityEngine.Object.Instantiate(temp, parent) as GameObject;
+                obj.name = item.Key.ToString();
+                obj.transform.localScale = Vector3.one;
+                obj.transform.localRotation = Quaternion.identity;
+                i++;
+                obj.transform.localPosition = temp.transform.localPosition + new Vector3(i * 45, 0, 0);
+                SumTemp sumTemp = new SumTemp(obj, this);
+                m_SumTemp.Add(sumTemp);
+            }
+            UnityEngine.Object.DestroyImmediate(temp);
 
-                    if (!unPopularNumberData.dict.ContainsKey(i))
+            foreach (var item in dictor)
+            {
+                for (int j = 0; j < m_SumTemp.Count; j++)
+                {
+                    if (m_SumTemp[j].m_ObjUI.name.Equals(item.Key))
                     {
-                        m_SumTemp[i].ShowOrHide(false);
+                        m_SumTemp[j].SetView(item.Key, item.Value);
                     }
                 }
             }
-            string str = string.Empty;
-            var numberList = unPopularNumberData.numberList;
-            for (int i = 0; i < numberList.Count; i++)
-            {
-                if (i == 0)
-                {
-                    str = numberList[i].ToString();
-                }
-                else
-                    str += "," + numberList[i];
-            }
-
-            m_populatLab.text = string.Format(PromptData.GetPrompt("unpopularNumThis"), str);
         }
         //----------------------------------------------------------------------------
         protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
@@ -232,7 +210,7 @@ namespace Filterartifact
         private void OnMoveComplete()
         {
             Hide();
-            Messenger.Broadcast<string, object>(DgMsgID.DgUI_ShowNewOneParam, "UIAdjacentNumFilterInterfaceCtrl", drawData.resultList);
+            Messenger.Broadcast<string, object>(DgMsgID.DgUI_ShowNewOneParam, "UIMaxIntervalnumfilterInterfaceCtrl", drawData.resultList);     
         }
         //----------------------------------------------------------------------------
         private void OnAllToggleChange(bool isOn)
@@ -270,27 +248,29 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnNormalToggleChange(bool isOn)
         {
-            var numberList = unPopularNumberData.unpopularNumberList;
-
             if (isOn)
             {
-                for (int j = 0; j < m_SumTemp.Count; j++)
+                int i = 0;
+                foreach (var item in dictor)
                 {
-                    for (int i = 0; i < NormalCount; i++)
+                    i++;
+                    for (int j = 0; j < m_SumTemp.Count; j++)
                     {
-                        if (m_SumTemp[j].curNum == numberList[i].number)
+                        if (i <= NormalCount)
                         {
-                            m_SumTemp[j].toggle.isOn = true;
-                            break;
+                            if (item.Key.Equals(m_SumTemp[j].m_ObjUI.name))
+                            {
+                                m_SumTemp[j].SetToggleOnOrNot(true);
+                            }
                         }
                     }
                 }
             }
             else
             {
-                for (int i = 0; i < m_SumTemp.Count; i++)
+                for (int j = 0; j < m_SumTemp.Count; j++)
                 {
-                    m_SumTemp[i].SetToggleOnOrNot(false);
+                    m_SumTemp[j].SetToggleOnOrNot(false);
                 }
             }
         }
@@ -310,22 +290,12 @@ namespace Filterartifact
             }
             else if (allTogIsOn)
             {
-                var numberList = unPopularNumberData.numberList;
-
-                for (int i = 0; i < numberList.Count; i++)
-                {
-                    var curNum = numberList[i];
-                    if (!drawData.redBallSelNumberList.Contains(curNum))
-                    {
-                        drawData.redBallSelNumberList.Add(curNum);
-                    }
-                }
-                m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), drawData.resultList.Count * drawData.blueBallSelNumberList.Count);
+                m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), drawData.resultList.Count);
                 UpdateLoopView(drawData.resultList, afterLoopScrollView);
             }
             else
             {
-                drawData.resultList = Util.GetResult(unPopularNumberData.numberList, initialFilterResults, selectNumList);
+                drawData.resultList = Util.GetResult(initialFilterResults, selectTypeList);
                 m_totalAfter.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), drawData.resultList.Count);
                 UpdateLoopView(drawData.resultList, afterLoopScrollView);
             }

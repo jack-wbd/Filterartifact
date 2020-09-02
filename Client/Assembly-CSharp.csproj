@@ -189,6 +189,8 @@
     <Compile Include="Assets\Scripts\UI\Login\UIMaininterface.cs" />
     <Compile Include="Assets\Scripts\UI\LoopScrollItem.cs" />
     <Compile Include="Assets\Scripts\UI\LoopScrollerView.cs" />
+    <Compile Include="Assets\Scripts\UI\MaxIntervalnumfilterInterface\UIMaxIntervalnumfilterInterface.cs" />
+    <Compile Include="Assets\Scripts\UI\MaxIntervalnumfilterInterface\UIMaxIntervalnumfilterInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterface.cs" />
     <Compile Include="Assets\Scripts\UI\NumberSlect\UINumSelecInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\PopularNumFilterInterface\UIPopularNumFilterInterface.cs" />

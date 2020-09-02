@@ -29,9 +29,11 @@
 //------------------------------------------------------------------------------
 //	Util.cs
 //------------------------------------------------------------------------------
+using Filterartifact;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using UnityEngine;
 
 public static class Util
@@ -390,88 +392,119 @@ public static class Util
         return result;
     }
     //----------------------------------------------------------------------------
-    public static List<List<byte>> GetResult(List<byte> numberDataList, List<List<byte>> redBallSelResult, List<int> selectNumList)
+    public static List<List<byte>> GetResult(List<byte> numberList, List<List<byte>> redBallSelResult, List<int> selectNumList)
     {
         var result = new List<List<byte>>();
-        var curSelectNumList = new List<byte>();
-        for (int i = 0; i < numberDataList.Count; i++)
+        for (int i = 0; i < redBallSelResult.Count; i++)
         {
-            for (int j = 0; j < redBallSelResult.Count; j++)
+            var list = redBallSelResult[i];
+            var num = 0;
+            for (int j = 0; j < list.Count; j++)
             {
-                var selList = redBallSelResult[j];
-                for (int k = 0; k < selList.Count; k++)
+                for (int k = 0; k < numberList.Count; k++)
                 {
-                    if (selList.Contains(numberDataList[i]))
-                    {
-                        var data = Convert.ToByte(numberDataList[i]);
-                        if (!curSelectNumList.Contains(data))
-                        {
-                            curSelectNumList.Add(data);
-                        }
-
-                    }
-                }
-            }
-        }
-
-        if (curSelectNumList.Count == 0)
-        {
-            return result;
-        }
-
-        var dict = GetSelectPopularNumResult(curSelectNumList, redBallSelResult);
-
-        for (int i = 0; i < selectNumList.Count; i++)
-        {
-            var num = selectNumList[i];
-            if (dict.ContainsKey(num))
-            {
-                var curList = dict[num];
-                for (int j = 0; j < curList.Count; j++)
-                {
-                    result.Add(curList[j]);
-                }
-            }
-        }
-
-        return result;
-    }
-    //----------------------------------------------------------------------------
-    private static Dictionary<int, List<List<byte>>> GetSelectPopularNumResult(List<byte> curSelectNumList, List<List<byte>> redBallResult)
-    {
-        var dict = new Dictionary<int, List<List<byte>>>();
-        var num = 0;
-        for (int i = 0; i < redBallResult.Count; i++)
-        {
-            var list = new List<List<byte>>();
-            var result1 = redBallResult[i];
-            for (int j = 0; j < result1.Count; j++)
-            {
-                for (int k = 0; k < curSelectNumList.Count; k++)
-                {
-                    if (result1[j] == curSelectNumList[k])
+                    if (list[j] == numberList[k])
                     {
                         num++;
                     }
                 }
             }
 
-            list.Add(result1);
-
-            if (dict.ContainsKey(num))
+            for (int k = 0; k < selectNumList.Count; k++)
             {
-                var curList = dict[num];
-                for (int j = 0; j < curList.Count; j++)
+                if (num == selectNumList[k])
                 {
-                    list.Add(curList[j]);
+                    result.Add(list);
                 }
+            }
+        }
+        return result;
+    }
+    /// <summary>
+    /// 区间号码过滤结果
+    /// </summary>
+    /// <returns></returns>
+    public static List<List<byte>> GetResult(List<List<byte>> redBallSelResult, List<string> selectType)
+    {
+        var result = new List<List<byte>>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var list = redBallSelResult[i];
+            var numOne = 0;
+            var numTwo = 0;
+            var numThree = 0;
+            for (int j = 0; j < list.Count; j++)
+            {
+                if (list[j] >= 1 && list[j] <= 11)
+                {
+                    numOne++;
+                }
+                else if (list[j] >= 12 && list[j] <= 22)
+                {
+                    numTwo++;
+                }
+                else
+                    numThree++;
 
             }
-
-            dict[num] = list;
-            num = 0;
+            var str = string.Format("{0}{1}{2}", numOne, numTwo, numThree);
+            for (int k = 0; k < selectType.Count; k++)
+            {
+                if (str.Equals(selectType[k]))
+                {
+                    result.Add(list);
+                }
+            }
         }
-        return dict;
+        return result;
+    }
+    //--------------------------------------------------------------------------------
+    /// <summary>
+    /// 最大间隔号码过滤结果
+    /// </summary>
+    /// <returns></returns>
+    public static List<List<byte>> GetMaxIntervalResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    {
+        var result = new List<List<byte>>();
+        var intervalList = new List<int>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var list = redBallSelResult[i];
+
+            intervalList.Clear();
+
+            for (int j = 0; j < list.Count; j++)
+            {
+                if (j < list.Count - 1)
+                {
+                    intervalList.Add(list[j + 1] - list[j]);
+                }
+            }
+
+            intervalList.Sort(SortBySize);
+
+            if (intervalList.Count > 0)
+            {
+                for (int j = 0; j < selectType.Count; j++)
+                {
+                    if (selectType[j] == intervalList[0])
+                    {
+                        result.Add(list);
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    static int SortBySize(int numberOne, int numberTwo)
+    {
+        if (numberOne > numberTwo)
+        {
+            return -1;
+        }
+        else
+            return 1;
     }
     //----------------------------------------------------------------------------
 }

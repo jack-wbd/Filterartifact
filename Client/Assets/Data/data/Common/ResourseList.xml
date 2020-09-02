@@ -29,7 +29,8 @@
 	    <Bundle id="RUP_PopularNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_popularnumfilterinterface.unity3d" name=""/>
 	    <Bundle id="RUP_UnPopularNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_unpopularnumfilterinterface.unity3d" name=""/>
 	    <Bundle id="RUP_AdjacentNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_adjacentnumfilterinterface.unity3d" name=""/>
-	    <Bundle id="RUP_IntervalNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_intervalnumfilterinterface.unity3d" name=""/>      
+	    <Bundle id="RUP_IntervalNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_intervalnumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_MaxIntervalNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_maxintervalnumfilterinterface.unity3d" name=""/>          
 	    <Bundle id="RUP_ErrorTips" preload="1" EnvirUse="city" file="ui/prefab/ui_prompt_box.unity3d" name=""/>     	    
 	</ui>
 </Resourselist>

@@ -230,7 +230,7 @@ namespace Filterartifact
         private void OnMoveComplete()
         {
             Hide();
-            Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIIntervalnumfilterinterfaceCtrl");
+            Messenger.Broadcast<string, object>(DgMsgID.DgUI_ShowNewOneParam, "UIIntervalnumfilterinterfaceCtrl", drawData.resultList);
         }
         //----------------------------------------------------------------------------
         private void OnAllToggleChange(bool isOn)

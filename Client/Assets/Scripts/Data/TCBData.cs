@@ -257,7 +257,20 @@ namespace Filterartifact
         public int number;
         public int count;
     }
-
+    [Serializable]
+    //----------------------------------------------------------------------------
+    public class IntervalNumberData
+    {
+        public Dictionary<string, int> intervalNumberDict = new Dictionary<string, int>();
+        public List<string> intervalType = new List<string>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class MaxIntervalNumberData
+    {
+        public Dictionary<int, int> maxIntervalNumberDict = new Dictionary<int, int>();
+        public List<int> maxIntervalType = new List<int>();
+    }
     //----------------------------------------------------------------------------
     public class DrawData : DataBase
     {
@@ -275,6 +288,8 @@ namespace Filterartifact
         public UnPopularNumberData unpopularNumData = new UnPopularNumberData();
         public AdjacentNumberData adjacentNumData = new AdjacentNumberData();
         public List<List<byte>> resultList = new List<List<byte>>();//各过滤条件过滤后结果
+        public IntervalNumberData intervalNumberData = new IntervalNumberData();
+        public MaxIntervalNumberData maxIntervalNumberData = new MaxIntervalNumberData();
         public bool canWrite = false;
         //----------------------------------------------------------------------------
         public override void Deserialize()
@@ -556,9 +571,53 @@ namespace Filterartifact
             tcbNumberDataList = ParseTCBNumberData();
             tcbStatiDataList = CalculateData();
             popularNumData = ParsePopularData();
+            intervalNumberData = ParseIntervalNumberData();
+            maxIntervalNumberData = ParseMaxIntervalNumberData();
             unpopularNumData = ParseUnPopularData();
             adjacentNumData = ParseAdjacentData();
             SerializeAndSaveStatiData();
+        }
+        //---------------------------------------------------------------------------
+        private IntervalNumberData ParseIntervalNumberData()
+        {
+            IntervalNumberData data = new IntervalNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
+            {
+                var key = tcbStatiDataList[i].intervalNumber;
+                if (data.intervalNumberDict.ContainsKey(key))
+                {
+                    data.intervalNumberDict[key]++;
+                }
+                else
+                    data.intervalNumberDict[key] = 1;
+            }
+            var itor = data.intervalNumberDict.GetEnumerator();
+            while (itor.MoveNext())
+            {
+                data.intervalType.Add(itor.Current.Key);
+            }
+            return data;
+        }
+        //---------------------------------------------------------------------------
+        private MaxIntervalNumberData ParseMaxIntervalNumberData()
+        {
+            MaxIntervalNumberData data = new MaxIntervalNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
+            {
+                var key = int.Parse(tcbStatiDataList[i].distanceNumber);
+                if (data.maxIntervalNumberDict.ContainsKey(key))
+                {
+                    data.maxIntervalNumberDict[key]++;
+                }
+                else
+                    data.maxIntervalNumberDict[key] = 1;
+            }
+            var itor = data.maxIntervalNumberDict.GetEnumerator();
+            while (itor.MoveNext())
+            {
+                data.maxIntervalType.Add(itor.Current.Key);
+            }
+            return data;
         }
         //---------------------------------------------------------------------------
         public void SerializeAndSaveHistoricalData()
