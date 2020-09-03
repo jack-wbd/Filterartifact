@@ -272,6 +272,13 @@ namespace Filterartifact
         public List<int> maxIntervalType = new List<int>();
     }
     //----------------------------------------------------------------------------
+    [Serializable]
+    public class ACNumberData
+    {
+        public Dictionary<int, int> acNumberDict = new Dictionary<int, int>();
+        public List<int> acType = new List<int>();
+    }
+    //----------------------------------------------------------------------------
     public class DrawData : DataBase
     {
         public List<TCBStatisticsData> tcbStatiDataList = new List<TCBStatisticsData>();
@@ -290,6 +297,7 @@ namespace Filterartifact
         public List<List<byte>> resultList = new List<List<byte>>();//各过滤条件过滤后结果
         public IntervalNumberData intervalNumberData = new IntervalNumberData();
         public MaxIntervalNumberData maxIntervalNumberData = new MaxIntervalNumberData();
+        public ACNumberData acNumberData = new ACNumberData();
         public bool canWrite = false;
         //----------------------------------------------------------------------------
         public override void Deserialize()
@@ -573,6 +581,7 @@ namespace Filterartifact
             popularNumData = ParsePopularData();
             intervalNumberData = ParseIntervalNumberData();
             maxIntervalNumberData = ParseMaxIntervalNumberData();
+            acNumberData = ParseAcNumberData();
             unpopularNumData = ParseUnPopularData();
             adjacentNumData = ParseAdjacentData();
             SerializeAndSaveStatiData();
@@ -616,6 +625,27 @@ namespace Filterartifact
             while (itor.MoveNext())
             {
                 data.maxIntervalType.Add(itor.Current.Key);
+            }
+            return data;
+        }
+        //---------------------------------------------------------------------------
+        private ACNumberData ParseAcNumberData()
+        {
+            ACNumberData data = new ACNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
+            {
+                var key = int.Parse(tcbStatiDataList[i].acNumber);
+                if (data.acNumberDict.ContainsKey(key))
+                {
+                    data.acNumberDict[key]++;
+                }
+                else
+                    data.acNumberDict[key] = 1;
+            }
+            var itor = data.acNumberDict.GetEnumerator();
+            while (itor.MoveNext())
+            {
+                data.acType.Add(itor.Current.Key);
             }
             return data;
         }
@@ -1170,7 +1200,7 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        private string ACNumber(TCBNumberData tcbNumberData) //AC值
+        public string ACNumber(TCBNumberData tcbNumberData) //AC值
         {
 
             var currentNum = GetCurNumDataList(tcbNumberData);

@@ -213,6 +213,7 @@ namespace Filterartifact
         private void OnMoveComplete()
         {
             Hide();
+            Messenger.Broadcast<string, object>(DgMsgID.DgUI_ShowNewOneParam, "UIAcNumfilterInterfaceCtrl", drawData.resultList);
         }
         //----------------------------------------------------------------------------
         private void OnAllToggleChange(bool isOn)

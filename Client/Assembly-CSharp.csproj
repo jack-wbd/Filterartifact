@@ -172,6 +172,8 @@
     <Compile Include="Assets\Scripts\Message\DelegateMsg\Messenger.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\DelegateMsgID.cs" />
     <Compile Include="Assets\Scripts\Message\SpreadMsg\MsgID.cs" />
+    <Compile Include="Assets\Scripts\UI\AcNumfilterInterface\UIAcNumfilterInterface.cs" />
+    <Compile Include="Assets\Scripts\UI\AcNumfilterInterface\UIAcNumfilterInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\AdjacentNumFilterInterface\UIAdjacentNumFilterInterface.cs" />
     <Compile Include="Assets\Scripts\UI\AdjacentNumFilterInterface\UIAdjacentNumFilterInterfaceCtrl.cs" />
     <Compile Include="Assets\Scripts\UI\FiltermethodInterface\UIFilterMethodInterface.cs" />

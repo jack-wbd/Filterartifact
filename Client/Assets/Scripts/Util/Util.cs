@@ -33,6 +33,7 @@ using Filterartifact;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using UnityEngine;
 
@@ -495,6 +496,50 @@ public static class Util
             }
         }
         return result;
+    }
+    //----------------------------------------------------------------------------
+    /// <summary>
+    /// AC值过滤
+    /// </summary>
+    /// <returns></returns>
+    public static List<List<byte>> GetAcFilterResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    {
+        var result = new List<List<byte>>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var curNumberData = redBallSelResult[i];
+            var acNumber = GetAcNumber(curNumberData);
+            for (int j = 0; j < selectType.Count; j++)
+            {
+                if (acNumber == selectType[j])
+                {
+                    result.Add(curNumberData);
+                }
+            }
+        }
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    private static int GetAcNumber(List<byte> curNumberData)
+    {
+        var absovallist = new List<int>();
+        for (int j = 0; j < curNumberData.Count; j++)
+        {
+            if (j != 0)
+                absovallist.Add(Mathf.Abs(curNumberData[0] - curNumberData[j]));
+            if (j != 1)
+                absovallist.Add(Mathf.Abs(curNumberData[1] - curNumberData[j]));
+            if (j != 2)
+                absovallist.Add(Mathf.Abs(curNumberData[2] - curNumberData[j]));
+            if (j != 3)
+                absovallist.Add(Mathf.Abs(curNumberData[3] - curNumberData[j]));
+            if (j != 4)
+                absovallist.Add(Mathf.Abs(curNumberData[4] - curNumberData[j]));
+            if (j != 5)
+                absovallist.Add(Mathf.Abs(curNumberData[5] - curNumberData[j]));
+        }
+        absovallist = absovallist.Distinct().ToList();//除去列表中重复元素Linq
+        return absovallist.Count - 5;
     }
     //----------------------------------------------------------------------------
     static int SortBySize(int numberOne, int numberTwo)

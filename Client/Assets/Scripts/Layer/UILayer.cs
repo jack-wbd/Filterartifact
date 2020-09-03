@@ -70,6 +70,7 @@ namespace Filterartifact
             Register<UIAdjacentNumFilterInterfaceCtrl, UIAdjacentNumFilterInterface>("RUP_AdjacentNumFilter", this);
             Register<UIIntervalnumfilterinterfaceCtrl, UIIntervalnumfilterinterface>("RUP_IntervalNumFilter", this);
             Register<UIMaxIntervalnumfilterInterfaceCtrl, UIMaxIntervalnumfilterInterface>("RUP_MaxIntervalNumFilter", this);
+            Register<UIAcNumfilterInterfaceCtrl, UIAcNumfilterInterface>("RUP_AcNumFilter", this);
             Register<UIErrorCtrl, UIError>("RUP_ErrorTips", this);
         }
         //----------------------------------------------------------------------------

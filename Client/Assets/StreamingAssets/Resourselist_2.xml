@@ -22,6 +22,12 @@
       <Bundle id="loginatlas" />
       <Bundle id="maininterface" />
     </Bundle>
+    <Bundle id="ui_page_acnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
     <Bundle id="ui_page_adjacentnumfilterinterface.prefab">
       <Bundle id="commonpictureatlas" />
       <Bundle id="djjp" />
