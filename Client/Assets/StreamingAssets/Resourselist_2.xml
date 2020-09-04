@@ -46,6 +46,12 @@
       <Bundle id="gongyong" />
       <Bundle id="loginatlas" />
     </Bundle>
+    <Bundle id="ui_page_mantissanumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
     <Bundle id="ui_page_maxintervalnumfilterinterface.prefab">
       <Bundle id="commonpictureatlas" />
       <Bundle id="djjp" />
@@ -57,6 +63,12 @@
       <Bundle id="djjp" />
       <Bundle id="gongyong" />
       <Bundle id="periodselection" />
+    </Bundle>
+    <Bundle id="ui_page_paritynumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
     </Bundle>
     <Bundle id="ui_page_popularnumfilterinterface.prefab">
       <Bundle id="commonpictureatlas" />

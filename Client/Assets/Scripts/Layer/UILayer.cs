@@ -71,6 +71,8 @@ namespace Filterartifact
             Register<UIIntervalnumfilterinterfaceCtrl, UIIntervalnumfilterinterface>("RUP_IntervalNumFilter", this);
             Register<UIMaxIntervalnumfilterInterfaceCtrl, UIMaxIntervalnumfilterInterface>("RUP_MaxIntervalNumFilter", this);
             Register<UIAcNumfilterInterfaceCtrl, UIAcNumfilterInterface>("RUP_AcNumFilter", this);
+            Register<UIParityNumfilterInterfaceCtrl, UIParityNumfilterInterface>("RUP_ParityNumFilter", this);
+            Register<UIMantissaNumFilterInterfaceCtrl, UIMantissaNumFilterInterface>("RUP_MantissaNumFilter", this);
             Register<UIErrorCtrl, UIError>("RUP_ErrorTips", this);
         }
         //----------------------------------------------------------------------------

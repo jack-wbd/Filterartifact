@@ -262,21 +262,30 @@ namespace Filterartifact
     public class IntervalNumberData
     {
         public Dictionary<string, int> intervalNumberDict = new Dictionary<string, int>();
-        public List<string> intervalType = new List<string>();
     }
     //----------------------------------------------------------------------------
     [Serializable]
     public class MaxIntervalNumberData
     {
         public Dictionary<int, int> maxIntervalNumberDict = new Dictionary<int, int>();
-        public List<int> maxIntervalType = new List<int>();
     }
     //----------------------------------------------------------------------------
     [Serializable]
     public class ACNumberData
     {
         public Dictionary<int, int> acNumberDict = new Dictionary<int, int>();
-        public List<int> acType = new List<int>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class ParityNumberData
+    {
+        public Dictionary<string, int> parityNumberDict = new Dictionary<string, int>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class MantissaNumberData
+    {
+        public Dictionary<int, int> mantissaNumberDict = new Dictionary<int, int>();
     }
     //----------------------------------------------------------------------------
     public class DrawData : DataBase
@@ -298,6 +307,8 @@ namespace Filterartifact
         public IntervalNumberData intervalNumberData = new IntervalNumberData();
         public MaxIntervalNumberData maxIntervalNumberData = new MaxIntervalNumberData();
         public ACNumberData acNumberData = new ACNumberData();
+        public ParityNumberData parityNumberData = new ParityNumberData();
+        public MantissaNumberData mantissaNumberData = new MantissaNumberData();
         public bool canWrite = false;
         //----------------------------------------------------------------------------
         public override void Deserialize()
@@ -582,6 +593,8 @@ namespace Filterartifact
             intervalNumberData = ParseIntervalNumberData();
             maxIntervalNumberData = ParseMaxIntervalNumberData();
             acNumberData = ParseAcNumberData();
+            parityNumberData = ParseParityNumberData();
+            mantissaNumberData = ParseMantissaNumberData();
             unpopularNumData = ParseUnPopularData();
             adjacentNumData = ParseAdjacentData();
             SerializeAndSaveStatiData();
@@ -600,11 +613,6 @@ namespace Filterartifact
                 else
                     data.intervalNumberDict[key] = 1;
             }
-            var itor = data.intervalNumberDict.GetEnumerator();
-            while (itor.MoveNext())
-            {
-                data.intervalType.Add(itor.Current.Key);
-            }
             return data;
         }
         //---------------------------------------------------------------------------
@@ -620,11 +628,6 @@ namespace Filterartifact
                 }
                 else
                     data.maxIntervalNumberDict[key] = 1;
-            }
-            var itor = data.maxIntervalNumberDict.GetEnumerator();
-            while (itor.MoveNext())
-            {
-                data.maxIntervalType.Add(itor.Current.Key);
             }
             return data;
         }
@@ -642,10 +645,37 @@ namespace Filterartifact
                 else
                     data.acNumberDict[key] = 1;
             }
-            var itor = data.acNumberDict.GetEnumerator();
-            while (itor.MoveNext())
+            return data;
+        }
+        //---------------------------------------------------------------------------
+        private ParityNumberData ParseParityNumberData()
+        {
+            ParityNumberData data = new ParityNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
             {
-                data.acType.Add(itor.Current.Key);
+                var key = tcbStatiDataList[i].parityNumber;
+                if (data.parityNumberDict.ContainsKey(key))
+                {
+                    data.parityNumberDict[key]++;
+                }
+                else
+                    data.parityNumberDict[key] = 1;
+            }
+            return data;
+        }
+        //---------------------------------------------------------------------------
+        private MantissaNumberData ParseMantissaNumberData()
+        {
+            MantissaNumberData data = new MantissaNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
+            {
+                var key = int.Parse(tcbStatiDataList[i].mantissaNumber);
+                if (data.mantissaNumberDict.ContainsKey(key))
+                {
+                    data.mantissaNumberDict[key]++;
+                }
+                else
+                    data.mantissaNumberDict[key] = 1;
             }
             return data;
         }

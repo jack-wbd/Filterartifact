@@ -520,6 +520,113 @@ public static class Util
         return result;
     }
     //----------------------------------------------------------------------------
+    /// <summary>
+    /// 奇偶比过滤
+    /// </summary>
+    /// <param name="curNumberData"></param>
+    /// <returns></returns>
+    public static List<List<byte>> GetParityFilterResult(List<List<byte>> redBallSelResult, List<string> selectType)
+    {
+        var result = new List<List<byte>>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var curNumberData = redBallSelResult[i];
+            var curParityNumber = GetParityNumber(curNumberData);
+            for (int j = 0; j < selectType.Count; j++)
+            {
+                if (selectType[j].Equals(curParityNumber))
+                {
+                    result.Add(curNumberData);
+                }
+            }
+        }
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    private static string GetParityNumber(List<byte> curNumberData)
+    {
+        var oldNum = 0;
+        var even = 0;
+        for (int i = 0; i < curNumberData.Count; i++)
+        {
+            if (curNumberData[i] % 2 == 0)
+            {
+                oldNum += 1;
+            }
+            else
+            {
+                even += 1;
+            }
+        }
+        return even.ToString() + oldNum.ToString();
+    }
+    /// <summary>
+    /// 尾数过滤
+    /// </summary>
+    /// <param name="redBallSelResult"></param>
+    /// <param name="selectType"></param>
+    /// <returns></returns>
+    //----------------------------------------------------------------------------
+    public static List<List<byte>> GetMantissaFilterResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    {
+        var result = new List<List<byte>>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var curNumberData = redBallSelResult[i];
+            var curMantissaNumber = GetMantissaNumber(curNumberData);
+            for (int j = 0; j < selectType.Count; j++)
+            {
+                if (selectType[j] == curMantissaNumber)
+                {
+                    result.Add(curNumberData);
+                }
+            }
+        }
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    private static int GetMantissaNumber(List<byte> currentNumList)
+    {
+        var mantissaNumList = new List<int>();
+        for (int i = 0; i < currentNumList.Count; i++)
+        {
+            if (currentNumList[i] < 10)
+            {
+                mantissaNumList.Add(currentNumList[i]);
+            }
+            else
+            {
+                mantissaNumList.Add(currentNumList[i] % 10);
+            }
+
+        }
+        var list = new List<int>();
+        foreach (var s in mantissaNumList.GroupBy(c => c))
+        {
+            list.Add(s.Count());
+        }
+        int num = 0;
+        bool hasValue = false;
+        foreach (int x in list)
+        {
+            if (hasValue)
+            {
+                if (x > num)
+                    num = x;
+            }
+            else
+            {
+                num = x;
+                hasValue = true;
+            }
+        }
+        if (hasValue)
+
+            return num;
+
+        return 0;
+    }
+    //----------------------------------------------------------------------------
     private static int GetAcNumber(List<byte> curNumberData)
     {
         var absovallist = new List<int>();

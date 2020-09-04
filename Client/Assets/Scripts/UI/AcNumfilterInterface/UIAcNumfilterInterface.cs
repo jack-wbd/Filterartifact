@@ -1,9 +1,6 @@
 ﻿using DG.Tweening;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,7 +19,7 @@ namespace Filterartifact
         private bool clearTogIsOn = false;
         private Toggle m_normalToggle;
         private ACNumberData acNumberData;
-        public readonly int NormalCount = 4;
+        public readonly int NormalCount = 2;
         private Tween m_moveTween;
         private List<List<byte>> initialFilterResults = new List<List<byte>>();
         private IOrderedEnumerable<KeyValuePair<int, int>> dictor;
@@ -213,6 +210,7 @@ namespace Filterartifact
         private void OnMoveComplete()
         {
             Hide();
+            Messenger.Broadcast<string, object>(DgMsgID.DgUI_ShowNewOneParam, "UIParityNumfilterInterfaceCtrl", drawData.resultList);
         }
         //----------------------------------------------------------------------------
         private void OnAllToggleChange(bool isOn)
