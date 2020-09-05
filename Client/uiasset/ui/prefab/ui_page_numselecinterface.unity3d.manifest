@@ -1,9 +1,9 @@
 ManifestFileVersion: 0
-CRC: 3378193176
+CRC: 418641528
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 09e8aeaa492ebc795d1067884024d18e
+    Hash: 1992ae59126c2ac83e00d61314184341
   TypeTreeHash:
     serializedVersion: 2
     Hash: 3b43c9635eae4fcbfc019875e381602a
@@ -53,4 +53,3 @@ Dependencies:
 - D:/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
 - D:/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
 - D:/Filterartifact/Client/uiasset/ui/atlas/gongyong.unity3d
-- D:/Filterartifact/Client/uiasset/ui/prefab/periodselection.unity3d

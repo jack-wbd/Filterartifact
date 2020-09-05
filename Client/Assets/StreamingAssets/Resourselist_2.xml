@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Resourselist>
   <uideps>
-    <Bundle id="periodSelection.prefab" />
     <Bundle id="ui_gm.prefab">
       <Bundle id="commonpictureatlas" />
     </Bundle>
@@ -29,6 +28,12 @@
       <Bundle id="loginatlas" />
     </Bundle>
     <Bundle id="ui_page_adjacentnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_doublenumfilterinterface.prefab">
       <Bundle id="commonpictureatlas" />
       <Bundle id="djjp" />
       <Bundle id="gongyong" />
@@ -62,7 +67,6 @@
       <Bundle id="commonpictureatlas" />
       <Bundle id="djjp" />
       <Bundle id="gongyong" />
-      <Bundle id="periodselection" />
     </Bundle>
     <Bundle id="ui_page_paritynumfilterinterface.prefab">
       <Bundle id="commonpictureatlas" />
@@ -71,6 +75,29 @@
       <Bundle id="loginatlas" />
     </Bundle>
     <Bundle id="ui_page_popularnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_redeemnumfilterinterface.prefab">
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_serialnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_sizerationumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_sumvaluenumfilterinterface.prefab">
       <Bundle id="commonpictureatlas" />
       <Bundle id="djjp" />
       <Bundle id="gongyong" />

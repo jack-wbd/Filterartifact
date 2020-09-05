@@ -288,6 +288,30 @@ namespace Filterartifact
         public Dictionary<int, int> mantissaNumberDict = new Dictionary<int, int>();
     }
     //----------------------------------------------------------------------------
+    [Serializable]
+    public class SumvalueNumberData
+    {
+        public Dictionary<int, int> sumvalueNumberDict = new Dictionary<int, int>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class SerialNumberData
+    {
+        public Dictionary<int, int> serialNumberDict = new Dictionary<int, int>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class DoubleNumberData
+    {
+        public Dictionary<int, int> doubleNumberDict = new Dictionary<int, int>();
+    }
+    //----------------------------------------------------------------------------
+    [Serializable]
+    public class SizeRatioNumberData
+    {
+        public Dictionary<string, int> sizeRatioNumberDict = new Dictionary<string, int>();
+    }
+    //----------------------------------------------------------------------------
     public class DrawData : DataBase
     {
         public List<TCBStatisticsData> tcbStatiDataList = new List<TCBStatisticsData>();
@@ -309,6 +333,10 @@ namespace Filterartifact
         public ACNumberData acNumberData = new ACNumberData();
         public ParityNumberData parityNumberData = new ParityNumberData();
         public MantissaNumberData mantissaNumberData = new MantissaNumberData();
+        public SumvalueNumberData sumvalueNumberData = new SumvalueNumberData();
+        public SerialNumberData serialNumberData = new SerialNumberData();
+        public DoubleNumberData doubleNumberData = new DoubleNumberData();
+        public SizeRatioNumberData sizeRatioNumberData = new SizeRatioNumberData();
         public bool canWrite = false;
         //----------------------------------------------------------------------------
         public override void Deserialize()
@@ -595,6 +623,10 @@ namespace Filterartifact
             acNumberData = ParseAcNumberData();
             parityNumberData = ParseParityNumberData();
             mantissaNumberData = ParseMantissaNumberData();
+            sumvalueNumberData = ParseSumvalueNumberData();
+            serialNumberData = ParseSerialNumberData();
+            doubleNumberData = ParseDoubleNumberData();
+            sizeRatioNumberData = ParseSizeRatioNumberData();
             unpopularNumData = ParseUnPopularData();
             adjacentNumData = ParseAdjacentData();
             SerializeAndSaveStatiData();
@@ -676,6 +708,70 @@ namespace Filterartifact
                 }
                 else
                     data.mantissaNumberDict[key] = 1;
+            }
+            return data;
+        }
+        //---------------------------------------------------------------------------
+        private SumvalueNumberData ParseSumvalueNumberData()
+        {
+            SumvalueNumberData data = new SumvalueNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
+            {
+                var key = int.Parse(tcbStatiDataList[i].valuesNumber) / 10;
+                if (data.sumvalueNumberDict.ContainsKey(key))
+                {
+                    data.sumvalueNumberDict[key]++;
+                }
+                else
+                    data.sumvalueNumberDict[key] = 1;
+            }
+            return data;
+        }
+        //---------------------------------------------------------------------------
+        private SerialNumberData ParseSerialNumberData()
+        {
+            SerialNumberData data = new SerialNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
+            {
+                var key = int.Parse(tcbStatiDataList[i].serialNumber);
+                if (data.serialNumberDict.ContainsKey(key))
+                {
+                    data.serialNumberDict[key]++;
+                }
+                else
+                    data.serialNumberDict[key] = 1;
+            }
+            return data;
+        }
+        //---------------------------------------------------------------------------
+        private DoubleNumberData ParseDoubleNumberData()
+        {
+            DoubleNumberData data = new DoubleNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
+            {
+                var key = int.Parse(tcbStatiDataList[i].heavyNumber);
+                if (data.doubleNumberDict.ContainsKey(key))
+                {
+                    data.doubleNumberDict[key]++;
+                }
+                else
+                    data.doubleNumberDict[key] = 1;
+            }
+            return data;
+        }
+        //---------------------------------------------------------------------------
+        private SizeRatioNumberData ParseSizeRatioNumberData()
+        {
+            SizeRatioNumberData data = new SizeRatioNumberData();
+            for (int i = 0; i < tcbStatiDataList.Count; i++)
+            {
+                var key = tcbStatiDataList[i].sizeratioNumber;
+                if (data.sizeRatioNumberDict.ContainsKey(key))
+                {
+                    data.sizeRatioNumberDict[key]++;
+                }
+                else
+                    data.sizeRatioNumberDict[key] = 1;
             }
             return data;
         }
@@ -1054,10 +1150,30 @@ namespace Filterartifact
             }
             return tcbstatisticsdatalist;
         }
+        public List<byte> GetLastPeriodNumber(string curPeroid)
+        {
+            var lastPrize = new List<byte>();
+            for (int i = 0; i < tcbdatalist.Count; i++)
+            {
+                if (tcbdatalist[i].code.Equals(curPeroid))
+                {
+                    if (i < tcbdatalist.Count - 1)
+                    {
+                        var lastPrizeStr = tcbdatalist[i + 1].red.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        for (int j = 0; j < lastPrizeStr.Length; j++)
+                        {
+                            lastPrize.Add(byte.Parse(lastPrizeStr[j]));
+                        }
+                    }
+                    break;
+                }
+            }
+            return lastPrize;
+        }
         //----------------------------------------------------------------------------
         private string Values(TCBNumberData numberdata)//和值
         {
-            int values = 0;
+            int values;
             values = numberdata.numberOne + numberdata.numberTwo + numberdata.numberThree +
                 numberdata.numberFour + numberdata.numberFive + numberdata.numberSix;
             return values.ToString();

@@ -345,15 +345,15 @@ namespace Filterartifact
             return com;
         }
 
-        /// <summary>
-        /// Release All
-        /// </summary>
-        public void OnDestroy()
-        {
-            //If Release on Drop State, Delete Mask
-            if (m_PointerMask != null)
-                m_PointerMask.SetParent(transform);
-        }
+        ///// <summary>
+        ///// Release All
+        ///// </summary>
+        //public void OnDestroy()
+        //{
+        //    //If Release on Drop State, Delete Mask
+        //    if (transform != null && m_PointerMask != null)
+        //        m_PointerMask.SetParent(transform);
+        //}
 
         /// <summary>
         /// Renderer Item in Endless List

@@ -19,7 +19,7 @@ namespace Filterartifact
         private bool clearTogIsOn = false;
         private Toggle m_normalToggle;
         private ParityNumberData parityNumberData;
-        public readonly int NormalCount = 2;
+        public readonly int NormalCount = 3;
         private Tween m_moveTween;
         private List<List<byte>> initialFilterResults = new List<List<byte>>();
         private IOrderedEnumerable<KeyValuePair<string, int>> dictor;

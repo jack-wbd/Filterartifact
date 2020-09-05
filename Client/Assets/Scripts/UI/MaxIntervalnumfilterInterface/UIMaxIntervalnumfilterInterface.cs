@@ -22,7 +22,7 @@ namespace Filterartifact
         private bool clearTogIsOn = false;
         private Toggle m_normalToggle;
         private MaxIntervalNumberData maxIntervalNumberData;
-        public readonly int NormalCount = 4;
+        public readonly int NormalCount = 5;
         private Tween m_moveTween;
         private List<List<byte>> initialFilterResults = new List<List<byte>>();
         private IOrderedEnumerable<KeyValuePair<int, int>> dictor;

@@ -585,6 +585,158 @@ public static class Util
         return result;
     }
     //----------------------------------------------------------------------------
+    /// <summary>
+    /// 和值过滤
+    /// </summary>
+    /// <param name="currentNumList"></param>
+    /// <returns></returns>
+    public static List<List<byte>> GetSumvalueFilterResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    {
+        var result = new List<List<byte>>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var curNumberData = redBallSelResult[i];
+            var curMantissaNumber = GetSumvalueNumber(curNumberData);
+            for (int j = 0; j < selectType.Count; j++)
+            {
+                if (selectType[j] == curMantissaNumber)
+                {
+                    result.Add(curNumberData);
+                }
+            }
+        }
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    /// <summary>
+    /// 连号过滤
+    /// </summary>
+    /// <param name="curNumData"></param>
+    /// <returns></returns>
+    public static List<List<byte>> GetSerialFilterResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    {
+        var result = new List<List<byte>>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var curNumberData = redBallSelResult[i];
+            var curSerialNumber = GetSerialNumber(curNumberData);
+            for (int j = 0; j < selectType.Count; j++)
+            {
+                if (selectType[j] == curSerialNumber)
+                {
+                    result.Add(curNumberData);
+                }
+            }
+        }
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    /// <summary>
+    /// 重号过滤
+    /// </summary>
+    /// <param name="curNumData"></param>
+    /// <returns></returns>
+    public static List<List<byte>> GetDoubleFilterResult(List<List<byte>> redBallSelResult, List<int> selectType, List<byte> lastIssueNumber)
+    {
+        var result = new List<List<byte>>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var curNumberData = redBallSelResult[i];
+            var curSerialNumber = GetDoubleNumber(curNumberData, lastIssueNumber);
+            for (int j = 0; j < selectType.Count; j++)
+            {
+                if (selectType[j] == curSerialNumber)
+                {
+                    result.Add(curNumberData);
+                }
+            }
+        }
+        return result;
+    }
+    /// <summary>
+    /// 大小比顾虑
+    /// </summary>
+    /// <param name="curNumberData"></param>
+    /// <param name="lastIssueNumber"></param>
+    /// <returns></returns>
+    public static List<List<byte>> GetSizeRatioFilterResult(List<List<byte>> redBallSelResult, List<string> selectType)
+    {
+        var result = new List<List<byte>>();
+        for (int i = 0; i < redBallSelResult.Count; i++)
+        {
+            var curNumberData = redBallSelResult[i];
+            var curSerialNumber = GetSizeRatioNumber(curNumberData);
+            for (int j = 0; j < selectType.Count; j++)
+            {
+                if (selectType[j].Equals(curSerialNumber))
+                {
+                    result.Add(curNumberData);
+                }
+            }
+        }
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    private static string GetSizeRatioNumber(List<byte> curNumberData)
+    {
+        var bigNum = 0;
+        var smallNum = 0;
+        for (int i = 0; i < curNumberData.Count; i++)
+        {
+            if (curNumberData[i] >= 17)
+            {
+                bigNum += 1;
+            }
+            else
+            {
+                smallNum += 1;
+            }
+        }
+        return bigNum.ToString() + smallNum.ToString();
+    }
+    //----------------------------------------------------------------------------
+    private static int GetDoubleNumber(List<byte> curNumberData, List<byte> lastIssueNumber)
+    {
+        int value = 0;
+        for (int i = 0; i < curNumberData.Count; i++)
+        {
+            for (int j = 0; j < lastIssueNumber.Count; j++)
+            {
+                if (curNumberData[i] == lastIssueNumber[j])
+                {
+                    value++;
+                }
+            }
+        }
+        return value;
+    }
+    //----------------------------------------------------------------------------
+    private static int GetSerialNumber(List<byte> curNumData)
+    {
+        int num = 0;
+        for (int i = 0; i < curNumData.Count; i++)
+        {
+            if (i < curNumData.Count - 1)
+            {
+                if (curNumData[i + 1] - curNumData[i] == 1)
+                {
+                    num += 1;
+                }
+            }
+        }
+        return num;
+    }
+    //----------------------------------------------------------------------------
+    private static int GetSumvalueNumber(List<byte> curNumData)
+    {
+        int value = 0;
+        for (int i = 0; i < curNumData.Count; i++)
+        {
+            value += curNumData[i];
+        }
+        return value / 10;
+    }
+    //----------------------------------------------------------------------------
     private static int GetMantissaNumber(List<byte> currentNumList)
     {
         var mantissaNumList = new List<int>();

@@ -73,6 +73,11 @@ namespace Filterartifact
             Register<UIAcNumfilterInterfaceCtrl, UIAcNumfilterInterface>("RUP_AcNumFilter", this);
             Register<UIParityNumfilterInterfaceCtrl, UIParityNumfilterInterface>("RUP_ParityNumFilter", this);
             Register<UIMantissaNumFilterInterfaceCtrl, UIMantissaNumFilterInterface>("RUP_MantissaNumFilter", this);
+            Register<UISumvalueNumFilterInterfaceCtrl, UISumvalueNumFilterInterface>("RUP_SumvalueNumFilter", this);
+            Register<UISerialNumFilterInterfaceCtrl, UISerialNumFilterInterface>("RUP_SerialNumFilter", this);
+            Register<UIDoubleNumFilterInterfaceCtrl, UIDoubleNumFilterInterface>("RUP_DoubleNumFilter", this);
+            Register<UISizeRatioNumFilterInterfaceCtrl, UISizeRatioNumFilterInterface>("RUP_SizeRatioNumFilter", this);
+            Register<UIRedeemNumfilterInterfaceCtrl, UIRedeemNumfilterInterface>("RUP_RedeemNumFilter", this);
             Register<UIErrorCtrl, UIError>("RUP_ErrorTips", this);
         }
         //----------------------------------------------------------------------------

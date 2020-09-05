@@ -33,7 +33,12 @@
 	    <Bundle id="RUP_MaxIntervalNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_maxintervalnumfilterinterface.unity3d" name=""/>
 	    <Bundle id="RUP_AcNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_acnumfilterinterface.unity3d" name=""/>
 	    <Bundle id="RUP_ParityNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_paritynumfilterinterface.unity3d" name=""/>
-	    <Bundle id="RUP_MantissaNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_mantissanumfilterinterface.unity3d" name=""/>               
+	    <Bundle id="RUP_MantissaNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_mantissanumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_SumvalueNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_sumvaluenumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_SerialNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_serialnumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_DoubleNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_doublenumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_SizeRatioNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_sizerationumfilterinterface.unity3d" name=""/>
+	    <Bundle id="RUP_RedeemNumFilter" preload="0" EnvirUse="city" file="ui/prefab/ui_page_redeemnumfilterinterface.unity3d" name=""/>                   
 	    <Bundle id="RUP_ErrorTips" preload="1" EnvirUse="city" file="ui/prefab/ui_prompt_box.unity3d" name=""/>     	    
 	</ui>
 </Resourselist>

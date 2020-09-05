@@ -31,10 +31,8 @@
 //------------------------------------------------------------------------------
 using DG.Tweening;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static Filterartifact.GDropDown;
 using Object = UnityEngine.Object;
 
 namespace Filterartifact
@@ -61,8 +59,8 @@ namespace Filterartifact
         private List<Toggle> blueBallToggleList = new List<Toggle>();
         private Tween m_moveTween;
         private GDropDown dropdown;
-        private Text m_date;
-        private Text m_selectDate;
+        //private Text m_date;
+        //private Text m_selectDate;
         private int index = 0;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
@@ -89,8 +87,8 @@ namespace Filterartifact
             selectedBlueBallTemp = selectedBlueBallParent.Find("Button").gameObject;
             m_totalLab = m_uiTrans.Find(m_centerAnchorPath + "total").GetComponent<Text>();
             m_totalLab.text = string.Empty;
-            m_date = m_uiTrans.Find(m_centerAnchorPath + "drawdate").GetComponent<Text>();
-            m_selectDate = m_uiTrans.Find(m_centerAnchorPath + "period").GetComponent<Text>();
+            //m_date = m_uiTrans.Find(m_centerAnchorPath + "drawdate").GetComponent<Text>();
+            //m_selectDate = m_uiTrans.Find(m_centerAnchorPath + "period").GetComponent<Text>();
             m_selectRedAll = m_uiTrans.Find(m_centerAnchorPath + "selRedAll").GetComponent<Toggle>();
             m_selectRedAll.onValueChanged.AddListener((bool isOn) => OnSelRedAllChange(isOn));
             m_selectBlueAll = m_uiTrans.Find(m_centerAnchorPath + "selBlueAll").GetComponent<Toggle>();
@@ -150,8 +148,8 @@ namespace Filterartifact
         {
             if (drawData.tcbStatiDataList != null && drawData.tcbStatiDataList.Count > 0)
             {
-                m_date.text = drawData.tcbStatiDataList[index].date;
-                m_selectDate.text = string.Format(PromptData.GetPrompt("numperiod"), drawData.tcbStatiDataList[index].numperiods);
+                //m_date.text = drawData.tcbStatiDataList[index].date;
+                //m_selectDate.text = string.Format(PromptData.GetPrompt("numperiod"), drawData.tcbStatiDataList[index].numperiods);
             }
         }
         //----------------------------------------------------------------------------

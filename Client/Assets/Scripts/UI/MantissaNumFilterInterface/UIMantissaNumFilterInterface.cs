@@ -208,7 +208,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnMoveComplete()
         {
-            Hide();
+            Hide();           
+            Messenger.Broadcast<string, object>(DgMsgID.DgUI_ShowNewOneParam, "UISumvalueNumFilterInterfaceCtrl", drawData.resultList);
         }
         //----------------------------------------------------------------------------
         private void OnAllToggleChange(bool isOn)
