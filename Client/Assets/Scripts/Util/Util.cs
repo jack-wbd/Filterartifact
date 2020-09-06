@@ -34,8 +34,11 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public static class Util
 {
@@ -167,7 +170,7 @@ public static class Util
     /// <returns>数组中n个元素的排列</returns>
 
     //----------------------------------------------------------------------------
-    public static List<List<byte>> GetCombination(List<byte> t, int n)
+    public static List<List<byte>> GetCombination(List<byte> t, int n, List<byte> blueBall, bool isOn)
     {
         if (t.Count < n)
         {
@@ -176,7 +179,25 @@ public static class Util
         byte[] temp = new byte[n];
         List<List<byte>> list = new List<List<byte>>();
         GetCombination(ref list, t, t.Count, n, temp, n);
+        GetRoundRobinCombination(ref list, blueBall, isOn);
         return list;
+    }
+    //----------------------------------------------------------------------------
+    private static void GetRoundRobinCombination(ref List<List<byte>> list, List<byte> blueBall, bool isOn)
+    {
+        var blueCount = blueBall.Count;
+
+        if (isOn)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                list[i].Add(blueBall[i % blueCount]);
+            }
+        }
+        else
+        {
+
+        }
     }
     //----------------------------------------------------------------------------
     /// <summary>
@@ -654,7 +675,7 @@ public static class Util
         return result;
     }
     /// <summary>
-    /// 大小比顾虑
+    /// 大小比过滤
     /// </summary>
     /// <param name="curNumberData"></param>
     /// <param name="lastIssueNumber"></param>
@@ -809,6 +830,40 @@ public static class Util
         }
         else
             return 1;
+    }
+    //----------------------------------------------------------------------------
+    private static int MaxCount = 6;
+    //----------------------------------------------------------------------------
+    public static Dictionary<int, List<List<byte>>> GetRedeemDict(List<byte> curPrizeNumber, List<List<byte>> selResult)
+    {
+        var dict = new Dictionary<int, List<List<byte>>>();
+        for (int i = 1; i <= MaxCount; i++)
+        {
+            var list = new List<List<byte>>();
+            for (int j = 0; j < selResult.Count; j++)
+            {
+                var res = selResult[j];
+                var num = 0;
+                for (int k = 0; k < res.Count; k++)
+                {
+                    for (int w = 0; w < curPrizeNumber.Count; w++)
+                    {
+                        if (curPrizeNumber[w] == res[k])
+                        {
+                            num++;
+                        }
+                    }
+                }
+
+                if (num == i)
+                {
+                    list.Add(res);
+                }
+
+            }
+            dict[i] = list;
+        }
+        return dict;
     }
     //----------------------------------------------------------------------------
 }

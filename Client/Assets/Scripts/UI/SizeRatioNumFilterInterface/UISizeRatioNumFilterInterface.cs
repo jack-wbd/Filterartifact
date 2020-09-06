@@ -278,8 +278,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnBack()
         {
-            drawData.resultList = initialFilterResults;    
-            Messenger.Broadcast(DgMsgID.DgUI_HideNew, "UIRedeemNumfilterInterfaceCtrl");
+            drawData.resultList = initialFilterResults;      
+            Messenger.Broadcast(DgMsgID.DgUI_HideNew, "UISizeRatioNumFilterInterfaceCtrl");
         }
         //----------------------------------------------------------------------------
         private void OnBegin()

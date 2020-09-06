@@ -1,5 +1,5 @@
 ManifestFileVersion: 0
-CRC: 2315096606
+CRC: 3730348214
 AssetBundleManifest:
   AssetBundleInfos:
     Info_0:
@@ -179,9 +179,10 @@ AssetBundleManifest:
     Info_41:
       Name: ui/prefab/ui_page_redeemnumfilterinterface.unity3d
       Dependencies:
-        Dependency_0: ui/atlas/djjp.unity3d
-        Dependency_1: ui/atlas/gongyong.unity3d
-        Dependency_2: ui/atlas/loginatlas.unity3d
+        Dependency_0: ui/atlas/commonpictureatlas.unity3d
+        Dependency_1: ui/atlas/djjp.unity3d
+        Dependency_2: ui/atlas/gongyong.unity3d
+        Dependency_3: ui/atlas/loginatlas.unity3d
     Info_42:
       Name: ui/prefab/ui_page_serialnumfilterinterface.unity3d
       Dependencies:

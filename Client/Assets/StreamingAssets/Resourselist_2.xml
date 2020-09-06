@@ -81,6 +81,7 @@
       <Bundle id="loginatlas" />
     </Bundle>
     <Bundle id="ui_page_redeemnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
       <Bundle id="djjp" />
       <Bundle id="gongyong" />
       <Bundle id="loginatlas" />

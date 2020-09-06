@@ -269,7 +269,7 @@ namespace Filterartifact
                 var tran = item.transform;
                 var task = drawData.tcbStatiDataList[idx];
 
-                tran.Find("periods").GetComponent<Text>().text = task.numperiods;
+                tran.Find("periods").GetComponent<Text>().text = task.numperiods.ToString();
 
                 tran.Find("number").GetComponent<Text>().text = task.prizeNumber;
 
@@ -315,13 +315,13 @@ namespace Filterartifact
                 {
                     if (drawData.prizeNumberDataList[i].numperiods == drawData.forecastDataHitRateList[j].numperiods)
                     {
-                        for (int z = 0; z < drawData.prizeNumberDataList[i].redNumberdata.Count; z++)
+                        for (int z = 0; z < drawData.prizeNumberDataList[i].redNumberdataList.Count; z++)
                         {
                             for (int g = 0; g < drawData.forecastDataHitRateList[j].redballNumList.Count; g++)
                             {
-                                if (drawData.prizeNumberDataList[i].redNumberdata[z] == drawData.forecastDataHitRateList[j].redballNumList[g])
+                                if (drawData.prizeNumberDataList[i].redNumberdataList[z] == drawData.forecastDataHitRateList[j].redballNumList[g])
                                 {
-                                    drawData.forecastDataHitRateList[j].errorredballNumList.Add(drawData.prizeNumberDataList[i].redNumberdata[z]);
+                                    drawData.forecastDataHitRateList[j].errorredballNumList.Add(drawData.prizeNumberDataList[i].redNumberdataList[z]);
                                 }
                             }
                             for (int g = 0; g < drawData.forecastDataHitRateList[j].blueballNumList.Count; g++)
@@ -662,7 +662,7 @@ namespace Filterartifact
             var t1 = td.Split('+')[0];
             for (int i = 0; i <= 5; i++)
             {
-                data.redNumberdata.Add(int.Parse(t1.Split(' ')[i]));
+                data.redNumberdataList.Add(byte.Parse(t1.Split(' ')[i]));
             }
             data.blueBallNum = int.Parse(td.Split('+')[1]);
         }
@@ -859,8 +859,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private int SortTcbDataList(TCBData t1, TCBData t2)
         {
-            int date1 = int.Parse(t1.code);
-            int date2 = int.Parse(t2.code);
+            int date1 = t1.code;
+            int date2 = t2.code;
             if (date1 < date2)
             {
                 return -1;

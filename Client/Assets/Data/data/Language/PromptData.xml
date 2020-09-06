@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <PromptData>
 	<SystemInfoDescription>
-	    <PromptDesc ID="numperiod" Desc="双色球{0}期"/>
+	    <PromptDesc ID="numperiod" Desc="双色球：{0}期"/>
 	    <PromptDesc ID="totalbets" Desc="总注数：{0}"/>
 	    <PromptDesc ID="redBallColor" Desc="红球({0})"/>
 	    <PromptDesc ID="blueBallColor" Desc="篮球({0})"/>
@@ -17,5 +17,9 @@
 	    <PromptDesc ID="afterFilterTotal" Desc="过滤后总注数：{0}"/>
 	    <PromptDesc ID="setFilters" Desc="请先设置过滤条件"/>
 	    <PromptDesc ID="selNumLimit" Desc="非会员请选择8-12个红球！"/>
+	    <PromptDesc ID="prizeNum" Desc="{0}(篮球)"/>
+	    <PromptDesc ID="clearRem" Desc="自行输入开奖号码，请先点击清空"/>
+	    <PromptDesc ID="fullNum" Desc="自选号码已满！"/>
+	    <PromptDesc ID="blueBalLim" Desc="所选篮球号码不能大于17！"/>
     </SystemInfoDescription>
 </PromptData>

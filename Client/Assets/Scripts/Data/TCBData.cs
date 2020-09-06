@@ -43,7 +43,7 @@ namespace Filterartifact
     public class TCBData
     {
         public string name;
-        public string code;
+        public int code;
         public string detailsLink;
         public string videoLink;
         public string date;
@@ -66,7 +66,7 @@ namespace Filterartifact
     public class TCBStatisticsData
     {
         public string date;
-        public string numperiods;
+        public int numperiods;
         public string prizeNumber;
         public List<string> popularNumber = new List<string>();
         public List<string> unpopularNumber = new List<string>();
@@ -189,20 +189,15 @@ namespace Filterartifact
     public class PrizeNumberData
     {
         public int numperiods;
-        public List<int> redNumberdata = new List<int>();
+        public List<byte> redNumberdataList = new List<byte>();
         public int blueBallNum;
     }
     [Serializable]
     //----------------------------------------------------------------------------
     public class TCBNumberData
     {
-        public int numberOne;
-        public int numberTwo;
-        public int numberThree;
-        public int numberFour;
-        public int numberFive;
-        public int numberSix;
-        public int numberBlue;
+        public List<byte> tcbNumberList = new List<byte>();
+        public byte numberBlue;
     }
     //----------------------------------------------------------------------------
     [Serializable]
@@ -315,15 +310,15 @@ namespace Filterartifact
     public class DrawData : DataBase
     {
         public List<TCBStatisticsData> tcbStatiDataList = new List<TCBStatisticsData>();
-        public List<TCBData> tcbdatalist = new List<TCBData>();
+        public List<TCBData> tcbHistorydatalist = new List<TCBData>();
         public List<TCBNumberData> tcbNumberDataList = new List<TCBNumberData>();
         public AnalysisRedData m_analysisRedData = new AnalysisRedData();
         public AnalysisBlueData m_analysisBlueData = new AnalysisBlueData();
         public List<PrizeNumberData> prizeNumberDataList = new List<PrizeNumberData>();
         public ForecastDataHitRate forecastDataHitRate = new ForecastDataHitRate();
         public List<ForecastDataHitRate> forecastDataHitRateList = new List<ForecastDataHitRate>();
-        public List<int> redBallSelNumberList = new List<int>();
-        public List<int> blueBallSelNumberList = new List<int>();
+        public List<byte> redBallSelNumberList = new List<byte>();
+        public List<byte> blueBallSelNumberList = new List<byte>();
         public PopularNumberData popularNumData = new PopularNumberData();
         public UnPopularNumberData unpopularNumData = new UnPopularNumberData();
         public AdjacentNumberData adjacentNumData = new AdjacentNumberData();
@@ -338,6 +333,8 @@ namespace Filterartifact
         public DoubleNumberData doubleNumberData = new DoubleNumberData();
         public SizeRatioNumberData sizeRatioNumberData = new SizeRatioNumberData();
         public bool canWrite = false;
+        public int curSelectPeriod = 2003001;
+        public Dictionary<int, List<byte>> redeemDict = new Dictionary<int, List<byte>>();
         //----------------------------------------------------------------------------
         public override void Deserialize()
         {
@@ -364,13 +361,11 @@ namespace Filterartifact
             List<int> allTcbNum = new List<int>();
             for (int i = 0; i < tcbNumberDataList.Count; i++)
             {
-                var list = tcbNumberDataList[i];
-                allTcbNum.Add(list.numberOne);
-                allTcbNum.Add(list.numberTwo);
-                allTcbNum.Add(list.numberThree);
-                allTcbNum.Add(list.numberFour);
-                allTcbNum.Add(list.numberFive);
-                allTcbNum.Add(list.numberSix);
+                var list = tcbNumberDataList[i].tcbNumberList;
+                for (int j = 0; j < list[j]; j++)
+                {
+                    allTcbNum.Add(list[j]);
+                }
             }
 
             Dictionary<int, ItemInfo> dic = new Dictionary<int, ItemInfo>();
@@ -420,8 +415,8 @@ namespace Filterartifact
                 var savedata = streamReader.ReadToEnd();
                 var savejsondata = JsonReader.Deserialize<List<TCBData>>(savedata);
                 savejsondata.Sort(SortTcbDataList);
-                tcbdatalist.Clear();
-                tcbdatalist = savejsondata;
+                tcbHistorydatalist.Clear();
+                tcbHistorydatalist = savejsondata;
                 var data = JsonWriter.Serialize(savejsondata);
                 var streamWriter = new StreamWriter(historyDataPath);
                 Debug.Log("path: " + Application.persistentDataPath);
@@ -435,8 +430,8 @@ namespace Filterartifact
                 var savejsondata = JsonReader.Deserialize<List<TCBData>>(savedata);
                 if (savejsondata != null)
                 {
-                    tcbdatalist.Clear();
-                    tcbdatalist = savejsondata;
+                    tcbHistorydatalist.Clear();
+                    tcbHistorydatalist = savejsondata;
                 }
             }
 
@@ -572,7 +567,7 @@ namespace Filterartifact
                     builder.Append(value.m_nRedSix);
                 }
                 tcbdata.red = builder.ToString();
-                tcbdata.code = value.m_nIssue.ToString();
+                tcbdata.code = value.m_nIssue;
                 tcbdata.date = value.m_strDrawDate;
                 if (value.m_nBlue < 10)
                 {
@@ -617,6 +612,7 @@ namespace Filterartifact
             tcbNumberDataList.Clear();
             tcbNumberDataList = ParseTCBNumberData();
             tcbStatiDataList = CalculateData();
+            redeemDict = ParseRedeemDict();
             popularNumData = ParsePopularData();
             intervalNumberData = ParseIntervalNumberData();
             maxIntervalNumberData = ParseMaxIntervalNumberData();
@@ -781,11 +777,11 @@ namespace Filterartifact
             var tcbstajsonpath = Application.persistentDataPath + "/tcbhistory.json";
             var downloadData = ProcessDownLoadData();
             var historyData = ProcessHistoryData(tcbstajsonpath);
-            var dataNewestCode = int.Parse(historyData[0].code);
+            var dataNewestCode = historyData[0].code;
             canWrite = false;
             for (int i = 0; i < downloadData.Count; i++)
             {
-                var downloadCode = int.Parse(downloadData[i].code);
+                var downloadCode = downloadData[i].code;
                 if (downloadCode > dataNewestCode)
                 {
                     historyData.Add(downloadData[i]);
@@ -794,8 +790,8 @@ namespace Filterartifact
             }
             if (canWrite)
             {
-                tcbdatalist.Clear();
-                tcbdatalist = historyData;
+                tcbHistorydatalist.Clear();
+                tcbHistorydatalist = historyData;
                 historyData.Sort(SortTcbDataList);
                 CalculateTcbStaticsDataAndSave();
             }
@@ -895,17 +891,15 @@ namespace Filterartifact
         public List<TCBNumberData> ParseTCBNumberData()
         {
             var TCBNumberDataList = new List<TCBNumberData>();
-            for (int i = 0; i < tcbdatalist.Count; i++)
+            for (int i = 0; i < tcbHistorydatalist.Count; i++)
             {
                 var numberData = new TCBNumberData();
-                string[] redArray = tcbdatalist[i].red.Split(',');
-                numberData.numberOne = int.Parse(redArray[0]);
-                numberData.numberTwo = int.Parse(redArray[1]);
-                numberData.numberThree = int.Parse(redArray[2]);
-                numberData.numberFour = int.Parse(redArray[3]);
-                numberData.numberFive = int.Parse(redArray[4]);
-                numberData.numberSix = int.Parse(redArray[5]);
-                numberData.numberBlue = int.Parse(tcbdatalist[i].blue);
+                string[] redArray = tcbHistorydatalist[i].red.Split(',');
+                for (int j = 0; j < redArray.Length; j++)
+                {
+                    numberData.tcbNumberList.Add(byte.Parse(redArray[j]));
+                }
+                numberData.numberBlue = byte.Parse(tcbHistorydatalist[i].blue);
                 TCBNumberDataList.Add(numberData);
             }
             return TCBNumberDataList;
@@ -913,8 +907,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public int SortTcbStatisticsDataList(TCBStatisticsData t1, TCBStatisticsData t2)//TCBStatisticsData
         {
-            int date1 = int.Parse(t1.numperiods);
-            int date2 = int.Parse(t2.numperiods);
+            int date1 = t1.numperiods;
+            int date2 = t2.numperiods;
             if (date1 < date2)
             {
                 return 1;
@@ -927,8 +921,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public int SortTcbDataList(TCBData t1, TCBData t2)
         {
-            int date1 = int.Parse(t1.code);
-            int date2 = int.Parse(t2.code);
+            int date1 = t1.code;
+            int date2 = t2.code;
             if (date1 < date2)
             {
                 return 1;
@@ -1116,13 +1110,13 @@ namespace Filterartifact
         public List<TCBStatisticsData> CalculateData()
         {
             var tcbstatisticsdatalist = new List<TCBStatisticsData>();
-            for (int i = 0; i < tcbdatalist.Count; i++)
+            for (int i = 0; i < tcbHistorydatalist.Count; i++)
             {
                 var tcbstatisticsdata = new TCBStatisticsData();
-                var task = tcbdatalist[i];
+                var task = tcbHistorydatalist[i];
                 var tcbcurNumberData = tcbNumberDataList[i];
                 var tcbbeforeNumberData = new TCBNumberData();
-                if (i < tcbdatalist.Count - 1)
+                if (i < tcbHistorydatalist.Count - 1)
                 {
                     tcbbeforeNumberData = tcbNumberDataList[i + 1];
                 }
@@ -1133,7 +1127,7 @@ namespace Filterartifact
                 tcbstatisticsdata.firstprizeNumber = task.prizegrades[0].typemoney;
                 tcbstatisticsdata.valuesNumber = Values(tcbcurNumberData);
                 tcbstatisticsdata.distanceNumber = MaxDistance(tcbcurNumberData);
-                if (i < tcbdatalist.Count - 1)
+                if (i < tcbHistorydatalist.Count - 1)
                 {
                     tcbstatisticsdata.adjacentNumber = AdjacentNumber(tcbcurNumberData, tcbbeforeNumberData);
                 }
@@ -1153,13 +1147,13 @@ namespace Filterartifact
         public List<byte> GetLastPeriodNumber(string curPeroid)
         {
             var lastPrize = new List<byte>();
-            for (int i = 0; i < tcbdatalist.Count; i++)
+            for (int i = 0; i < tcbHistorydatalist.Count; i++)
             {
-                if (tcbdatalist[i].code.Equals(curPeroid))
+                if (tcbHistorydatalist[i].code.Equals(curPeroid))
                 {
-                    if (i < tcbdatalist.Count - 1)
+                    if (i < tcbHistorydatalist.Count - 1)
                     {
-                        var lastPrizeStr = tcbdatalist[i + 1].red.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                        var lastPrizeStr = tcbHistorydatalist[i + 1].red.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                         for (int j = 0; j < lastPrizeStr.Length; j++)
                         {
                             lastPrize.Add(byte.Parse(lastPrizeStr[j]));
@@ -1171,11 +1165,30 @@ namespace Filterartifact
             return lastPrize;
         }
         //----------------------------------------------------------------------------
+        private Dictionary<int, List<byte>> ParseRedeemDict()
+        {
+            var dict = new Dictionary<int, List<byte>>();
+            for (int i = 0; i < tcbHistorydatalist.Count; i++)
+            {
+                var key = tcbHistorydatalist[i].code;
+                var list = new List<byte>();
+                var redStr = tcbHistorydatalist[i].red.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
+                for (int j = 0; j < redStr.Length; j++)
+                {
+                    list.Add(byte.Parse(redStr[j]));
+                }
+                dict[key] = list;
+            }
+            return dict;
+        }
+        //----------------------------------------------------------------------------
         private string Values(TCBNumberData numberdata)//和值
         {
-            int values;
-            values = numberdata.numberOne + numberdata.numberTwo + numberdata.numberThree +
-                numberdata.numberFour + numberdata.numberFive + numberdata.numberSix;
+            int values = 0;
+            for (int i = 0; i < numberdata.tcbNumberList.Count; i++)
+            {
+                values += numberdata.tcbNumberList[i];
+            }
             return values.ToString();
         }
 
@@ -1183,11 +1196,14 @@ namespace Filterartifact
         private string MaxDistance(TCBNumberData numberdata)//最大间隔
         {
             List<int> distanceList = new List<int>();
-            distanceList.Add(numberdata.numberTwo - numberdata.numberOne);
-            distanceList.Add(numberdata.numberThree - numberdata.numberTwo);
-            distanceList.Add(numberdata.numberFour - numberdata.numberThree);
-            distanceList.Add(numberdata.numberFive - numberdata.numberFour);
-            distanceList.Add(numberdata.numberSix - numberdata.numberFive);
+            var list = numberdata.tcbNumberList;
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (i < list.Count - 1)
+                {
+                    distanceList.Add(list[i + 1] - list[i]);
+                }
+            }
             //排序算法
             int a = 0;
             for (int i = 0; i < distanceList.Count - 1; i++)//升序
@@ -1207,8 +1223,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private List<string> AdjacentNumber(TCBNumberData curNumberdata, TCBNumberData beforeNumberdata)//相邻号码
         {
-            var currentNumList = GetCurNumDataList(curNumberdata);
-            var beforeNumList = GetCurNumDataList(beforeNumberdata);
+            var currentNumList = curNumberdata.tcbNumberList;
+            var beforeNumList = beforeNumberdata.tcbNumberList;
             var list = new List<string>();
             for (int i = 0; i < beforeNumList.Count; i++)
             {
@@ -1227,18 +1243,6 @@ namespace Filterartifact
             return list;
         }
         //----------------------------------------------------------------------------
-        private List<int> GetCurNumDataList(TCBNumberData curNumData)
-        {
-            var currentNum = new List<int>();
-            currentNum.Add(curNumData.numberOne);
-            currentNum.Add(curNumData.numberTwo);
-            currentNum.Add(curNumData.numberThree);
-            currentNum.Add(curNumData.numberFour);
-            currentNum.Add(curNumData.numberFive);
-            currentNum.Add(curNumData.numberSix);
-            return currentNum;
-        }
-        //----------------------------------------------------------------------------
         private List<string> PopularNum(TCBNumberData curentNumberdata, DownType type)
         {
             List<string> popularDataList = new List<string>();
@@ -1246,13 +1250,11 @@ namespace Filterartifact
             List<int> allTcbNum = new List<int>();
             for (int i = 0; i < tcbNumberDataList.Count; i++)
             {
-                var list = tcbNumberDataList[i];
-                allTcbNum.Add(list.numberOne);
-                allTcbNum.Add(list.numberTwo);
-                allTcbNum.Add(list.numberThree);
-                allTcbNum.Add(list.numberFour);
-                allTcbNum.Add(list.numberFive);
-                allTcbNum.Add(list.numberSix);
+                var list = tcbNumberDataList[i].tcbNumberList;
+                for (int j = 0; j < list.Count; j++)
+                {
+                    allTcbNum.Add(list[j]);
+                }
             }
 
             Dictionary<int, ItemInfo> dic = new Dictionary<int, ItemInfo>();
@@ -1275,13 +1277,7 @@ namespace Filterartifact
                 itemList.Add(enumerator.Current.Value);
             }
             itemList.Sort(SortByRepeatNum);
-            List<int> curData = new List<int>();
-            curData.Add(curentNumberdata.numberOne);
-            curData.Add(curentNumberdata.numberTwo);
-            curData.Add(curentNumberdata.numberThree);
-            curData.Add(curentNumberdata.numberFour);
-            curData.Add(curentNumberdata.numberFive);
-            curData.Add(curentNumberdata.numberSix);
+            var curData = curentNumberdata.tcbNumberList;
             switch (type)//前八个出现次数最多，后八个出现次数最少
             {
                 case DownType.POPULAR:
@@ -1325,7 +1321,7 @@ namespace Filterartifact
             var firstInterval = 0;
             var secondInterval = 0;
             var thirdInterval = 0;
-            var curNumberdataList = GetCurNumDataList(currentNumberData);
+            var curNumberdataList = currentNumberData.tcbNumberList;
             for (int i = 0; i < curNumberdataList.Count; i++)
             {
                 if (curNumberdataList[i] <= 11)
@@ -1349,24 +1345,24 @@ namespace Filterartifact
         public string ACNumber(TCBNumberData tcbNumberData) //AC值
         {
 
-            var currentNum = GetCurNumDataList(tcbNumberData);
+            var currentNum = tcbNumberData.tcbNumberList;
 
             List<int> Absovallist = new List<int>();
 
             for (int i = 0; i < currentNum.Count; i++)
             {
                 if (i != 0)
-                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberOne - currentNum[i]));
+                    Absovallist.Add(Mathf.Abs(currentNum[0] - currentNum[i]));
                 if (i != 1)
-                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberTwo - currentNum[i]));
+                    Absovallist.Add(Mathf.Abs(currentNum[1] - currentNum[i]));
                 if (i != 2)
-                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberThree - currentNum[i]));
+                    Absovallist.Add(Mathf.Abs(currentNum[2] - currentNum[i]));
                 if (i != 3)
-                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberFour - currentNum[i]));
+                    Absovallist.Add(Mathf.Abs(currentNum[3] - currentNum[i]));
                 if (i != 4)
-                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberFive - currentNum[i]));
+                    Absovallist.Add(Mathf.Abs(currentNum[4] - currentNum[i]));
                 if (i != 5)
-                    Absovallist.Add(Mathf.Abs(tcbNumberData.numberSix - currentNum[i]));
+                    Absovallist.Add(Mathf.Abs(currentNum[5] - currentNum[i]));
             }
 
             Absovallist = Absovallist.Distinct().ToList();//除去列表中重复元素Linq
@@ -1380,7 +1376,7 @@ namespace Filterartifact
 
             var oldNum = 0;
             var even = 0;
-            var currentNum = GetCurNumDataList(currentData);
+            var currentNum = currentData.tcbNumberList;
 
             for (int i = 0; i < currentNum.Count; i++)
             {
@@ -1400,7 +1396,7 @@ namespace Filterartifact
         {
             var mantissaNumList = new List<int>();
 
-            var currentNumList = GetCurNumDataList(currentNumData);
+            var currentNumList = currentNumData.tcbNumberList;
 
             for (int i = 0; i < currentNumList.Count; i++)
             {
@@ -1448,10 +1444,10 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        private string SerialNumber(TCBNumberData crrentNumberData)//连号
+        private string SerialNumber(TCBNumberData currenttNumberData)//连号
         {
 
-            var list = GetCurNumDataList(crrentNumberData);
+            var list = currenttNumberData.tcbNumberList;
 
             int num = 0;
 
@@ -1472,8 +1468,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private string HeavyNumber(TCBNumberData currentNumberData, TCBNumberData curBeforeNumberData) //重号
         {
-            var curNumList = GetCurNumDataList(currentNumberData);
-            var befNumList = GetCurNumDataList(curBeforeNumberData);
+            var curNumList = currentNumberData.tcbNumberList;
+            var befNumList = curBeforeNumberData.tcbNumberList;
             var num = 0;
             for (int i = 0; i < befNumList.Count; i++)
             {
@@ -1490,7 +1486,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private string SizeratioNumber(TCBNumberData currentNumberData)//大小比
         {
-            var list = GetCurNumDataList(currentNumberData);
+            var list = currentNumberData.tcbNumberList;
             var bigNum = 0;
             var smallNum = 0;
             for (int i = 0; i < list.Count; i++)

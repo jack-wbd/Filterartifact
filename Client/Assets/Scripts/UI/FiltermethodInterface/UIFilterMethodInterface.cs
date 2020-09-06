@@ -53,10 +53,9 @@ namespace Filterartifact
         private Text m_redBallLab;
         private Text m_blueBallLab;
         private Text m_totalLab;
-        private int curStrCount;
-        private List<byte> str = new List<byte>();
         private int curRedBallSelNumber;
         private int curBlueBallSelNumber;
+        private const int Six = 6;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -219,45 +218,33 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void SixInSix()
         {
-            //if (curRedBallSelNumber != drawData.redBallSelNumberList.Count || curBlueBallSelNumber != drawData.blueBallSelNumberList.Count)
-            //{
             curRedBallSelNumber = drawData.redBallSelNumberList.Count;
             curBlueBallSelNumber = drawData.blueBallSelNumberList.Count;
-            str.Clear();
-            for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
-            {
-                var st = Convert.ToByte(drawData.redBallSelNumberList[i]);
-                str.Add(st);
-            }
             var blueBallCount = drawData.blueBallSelNumberList.Count;
             long totalCount;
+            List<List<byte>> combinResult;
             if (m_ballRotation.isOn)
             {
                 totalCount = Util.C(drawData.redBallSelNumberList.Count, 6);
+                combinResult = Util.GetCombination(drawData.redBallSelNumberList, Six, drawData.blueBallSelNumberList, true);
+
             }
             else
             {
                 totalCount = Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount;
+                combinResult = Util.GetCombination(drawData.redBallSelNumberList, Six, drawData.blueBallSelNumberList, false);
             }
 
             m_totalLab.text = string.Format(PromptData.GetPrompt("totalbets"), totalCount);
             m_totalLab.color = UseColor.pink;
-            //}
-
-            //if (curStrCount != str.Count)
-            //{
-            curStrCount = str.Count;
-            var list = Util.GetCombination(str, 6);
             drawData.resultList.Clear();
-            drawData.resultList = list;
-            UpdateLoopView(list, loopScrollView);
-            //}
+            drawData.resultList = combinResult;
+            UpdateLoopView(combinResult, loopScrollView);
+
         }
         //----------------------------------------------------------------------------
         private void SixInFive()
         {
-            //if (curRedBallSelNumber != drawData.redBallSelNumberList.Count || curBlueBallSelNumber != drawData.blueBallSelNumberList.Count)
-            //{
             curRedBallSelNumber = drawData.redBallSelNumberList.Count;
 
             if (curRedBallSelNumber < 8 || curRedBallSelNumber > 12)
@@ -267,20 +254,10 @@ namespace Filterartifact
             }
 
             curBlueBallSelNumber = drawData.blueBallSelNumberList.Count;
-            str.Clear();
-            for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
-            {
-                var st = Convert.ToByte(drawData.redBallSelNumberList[i]);
-                str.Add(st);
-            }
             var blueBallCount = drawData.blueBallSelNumberList.Count;
             long totalCount;
 
-            //}
-            //if (curStrCount != str.Count)
-            //{
-            curStrCount = str.Count;
-            var list = RotationMatrix.GetRotationMatrixResult(curRedBallSelNumber, str);
+            var list = RotationMatrix.GetRotationMatrixResult(curRedBallSelNumber, drawData.redBallSelNumberList);
             if (m_ballRotation.isOn)
             {
                 totalCount = list.Count;
@@ -294,8 +271,6 @@ namespace Filterartifact
             drawData.resultList.Clear();
             drawData.resultList = list;
             UpdateLoopView(list, loopScrollView);
-
-            //}
         }
         //----------------------------------------------------------------------------
         private void OnClose()

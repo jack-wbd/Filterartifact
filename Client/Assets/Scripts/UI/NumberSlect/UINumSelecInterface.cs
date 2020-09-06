@@ -45,7 +45,6 @@ namespace Filterartifact
         private GameObject redTemp;
         private Transform m_blueParent;
         private GameObject blueTemp;
-        private List<int> redList = new List<int>(33);
         private Transform selectedRedBallParent;
         private GameObject selectedRedBallTemp;
         private GameObject selectedBlueBallTemp;
@@ -59,8 +58,6 @@ namespace Filterartifact
         private List<Toggle> blueBallToggleList = new List<Toggle>();
         private Tween m_moveTween;
         private GDropDown dropdown;
-        //private Text m_date;
-        //private Text m_selectDate;
         private int index = 0;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
@@ -87,19 +84,18 @@ namespace Filterartifact
             selectedBlueBallTemp = selectedBlueBallParent.Find("Button").gameObject;
             m_totalLab = m_uiTrans.Find(m_centerAnchorPath + "total").GetComponent<Text>();
             m_totalLab.text = string.Empty;
-            //m_date = m_uiTrans.Find(m_centerAnchorPath + "drawdate").GetComponent<Text>();
-            //m_selectDate = m_uiTrans.Find(m_centerAnchorPath + "period").GetComponent<Text>();
             m_selectRedAll = m_uiTrans.Find(m_centerAnchorPath + "selRedAll").GetComponent<Toggle>();
             m_selectRedAll.onValueChanged.AddListener((bool isOn) => OnSelRedAllChange(isOn));
             m_selectBlueAll = m_uiTrans.Find(m_centerAnchorPath + "selBlueAll").GetComponent<Toggle>();
             m_selectBlueAll.onValueChanged.AddListener((bool isOn) => OnSelBlueAllChange(isOn));
             dropdown = GetUIComponent<GDropDown>(m_centerAnchorPath + "periodSelection");
+            dropdown.OnValueChanged = OnDropValueChanged;
             if (drawData.tcbStatiDataList != null && drawData.tcbStatiDataList.Count > 0)
             {
                 List<string> str = new List<string>();
                 for (int i = 0; i < drawData.tcbStatiDataList.Count; i++)
                 {
-                    str.Add(drawData.tcbStatiDataList[i].numperiods);
+                    str.Add(drawData.tcbStatiDataList[i].numperiods.ToString());
                 }
                 dropdown.AddOptions(str);
             }
@@ -111,7 +107,6 @@ namespace Filterartifact
                 redToggle.transform.localScale = Vector3.one;
                 redToggle.transform.localRotation = Quaternion.identity;
                 redToggle.transform.Find("Label").GetComponent<Text>().text = (i + 1).ToString();
-                redList.Add(i + 1);
                 var toggle = redToggle.GetComponent<Toggle>();
                 toggle.onValueChanged.AddListener((bool isOn) => OnRedBallToggleChange(toggle, isOn));
                 redBallToggleList.Add(toggle);
@@ -135,6 +130,7 @@ namespace Filterartifact
         private void OnDropValueChanged(int value)
         {
             index = value;
+            drawData.curSelectPeriod = drawData.tcbStatiDataList[index].numperiods;
             ShowView();
         }
         //----------------------------------------------------------------------------
@@ -148,28 +144,17 @@ namespace Filterartifact
         {
             if (drawData.tcbStatiDataList != null && drawData.tcbStatiDataList.Count > 0)
             {
-                //m_date.text = drawData.tcbStatiDataList[index].date;
-                //m_selectDate.text = string.Format(PromptData.GetPrompt("numperiod"), drawData.tcbStatiDataList[index].numperiods);
+                drawData.curSelectPeriod = drawData.tcbStatiDataList[dropdown.Index].numperiods;
             }
         }
         //----------------------------------------------------------------------------
         private bool OnSelRedAllChange(bool bstate)
         {
             SetRedBallToggleIsOn(bstate);
-            //if (bstate)
-            //{
-            //    for (int i = 1; i <= RedBallMaxNumber; i++)
-            //    {
-            //        if (!drawData.redBallSelNumberList.Contains(i))
-            //        {
-            //            drawData.redBallSelNumberList.Add(i);
-            //        }
-            //    }
-                for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
-                {
-                    UpdateSelectedRedBallNumShow(drawData.redBallSelNumberList[i].ToString());
-                }
-            //}
+            for (int i = 0; i < drawData.redBallSelNumberList.Count; i++)
+            {
+                UpdateSelectedRedBallNumShow(drawData.redBallSelNumberList[i].ToString());
+            }
             UpdateTotalShow();
             return true;
         }
@@ -177,27 +162,6 @@ namespace Filterartifact
         private bool OnSelBlueAllChange(bool bstate)
         {
             SetBlueBallToggleIsOn(bstate);
-            //if (bstate)
-            //{
-            //    for (int i = 1; i <= BlueBallMaxNumber; i++)
-            //    {
-            //        if (!drawData.blueBallSelNumberList.Contains(i))
-            //        {
-            //            drawData.blueBallSelNumberList.Add(i);
-            //        }
-            //    }
-            //}
-            //else
-            //{
-            //    for (int i = 1; i <= BlueBallMaxNumber; i++)
-            //    {
-            //        if (!drawData.blueBallSelNumberList.Contains(i))
-            //        {
-            //            drawData.blueBallSelNumberList.Remove(i);
-            //        }
-            //    }
-            //}
-
             for (int i = 0; i < drawData.blueBallSelNumberList.Count; i++)
             {
                 UpdateSelectedBlueBallNumShow(drawData.blueBallSelNumberList[i].ToString());
@@ -224,7 +188,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private bool OnRedBallToggleChange(Toggle toggle, bool bstate)
         {
-            int num = int.Parse(toggle.name);
+            var num = byte.Parse(toggle.name);
             if (bstate)
             {
                 if (!drawData.redBallSelNumberList.Contains(num))
@@ -340,7 +304,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private bool OnBlueBallToggleChange(Toggle toggle, bool bstate)
         {
-            int num = int.Parse(toggle.name);
+            var num = byte.Parse(toggle.name);
             if (bstate)
             {
                 if (!drawData.blueBallSelNumberList.Contains(num))

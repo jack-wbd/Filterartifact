@@ -407,7 +407,7 @@ namespace Filterartifact
                 #region               
                 string s1 = string.Empty;
                 string s3 = string.Empty;
-                list[index].Sort(SortList);
+                //list[index].Sort(SortList);
                 var list1 = list[index];
                 for (int j = 0; j < list1.Count; j++)
                 {
