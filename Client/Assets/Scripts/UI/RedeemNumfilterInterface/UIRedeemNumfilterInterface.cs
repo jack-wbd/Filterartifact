@@ -12,13 +12,13 @@ namespace Filterartifact
     class UIRedeemNumfilterInterface : UIBase
     {
         //----------------------------------------------------------------------------
-        private List<List<byte>> m_initialFilterResults = new List<List<byte>>();
+        private List<ResultData> m_initialFilterResults = new List<ResultData>();
         private LoopScrollerView m_loopScrollView;
         private Text m_totalNum;
         private Text m_curPeriod;
         private GDropDown m_dropdown;
         private Text m_prizeNum;
-        private List<byte> prizeNum = new List<byte>();
+        private ResultData prizeNum = new ResultData();
         private static int ballMaxNumber = 33;
         private static int maxCount = 7;
         private static int maxBlueNum = 16;
@@ -80,7 +80,7 @@ namespace Filterartifact
                 Object.DestroyImmediate(temp);
                 for (int i = 1; i <= maxRewardLevel; i++)
                 {
-                    var text = GetUIComponent<Text>(string.Format(m_centerAnchorPath + "seePanel/result{0}", i));
+                    var text = GetUIComponent<Text>(string.Format(m_centerAnchorPath + "seePanel/result/{0}", i));
                     m_winningResult.Add(text);
                 }
             }
@@ -93,7 +93,7 @@ namespace Filterartifact
 
             if (arg != null)
             {
-                m_initialFilterResults = arg as List<List<byte>>;
+                m_initialFilterResults = arg as List<ResultData>;
             }
             SetSumPanelView();
         }
@@ -118,7 +118,7 @@ namespace Filterartifact
             m_prizeNum.text = string.Format(PromptData.GetPrompt("prizeNum"), drawData.tcbStatiDataList[index].prizeNumber);
         }
         //----------------------------------------------------------------------------
-        protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
+        protected override void UpdateLoopView(List<ResultData> list, LoopScrollerView scrollView)
         {
             base.UpdateLoopView(list, scrollView);
         }
@@ -191,7 +191,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnBeginRedeem()
         {
-            var dict = Util.GetRedeemDict(drawData.redeemDict[drawData.curSelectPeriod], m_initialFilterResults);
+            var dict = Util.GetRedeemDict(drawData.redeemDict[drawData.curSelectPeriod].redBallList, m_initialFilterResults);
             var itor = dict.GetEnumerator();
             while (itor.MoveNext())
             {

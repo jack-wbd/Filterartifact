@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CombineTest.cs" />
     <Compile Include="Assets\DOTween\Modules\DOTweenModuleAudio.cs" />
     <Compile Include="Assets\DOTween\Modules\DOTweenModulePhysics.cs" />
     <Compile Include="Assets\DOTween\Modules\DOTweenModulePhysics2D.cs" />
@@ -231,8 +232,8 @@
     <None Include="Assets\Shader\Unlit - Transparent Colored.shader" />
     <None Include="Assets\DOTween\readme.txt" />
     <None Include="Assets\Resources\config.xml" />
-    <None Include="Assets\StreamingAssets\Resourselist_2.xml" />
     <None Include="Assets\Data\data\TbData\table.xml" />
+    <None Include="Assets\StreamingAssets\Resourselist_2.xml" />
     <None Include="Assets\Data\data\Language\PromptData.xml" />
     <None Include="Assets\StreamingAssets\build_info.txt" />
     <None Include="Assets\Data\data\Map\LobbyScene\LobbyScene_01_s1_p1.xml" />

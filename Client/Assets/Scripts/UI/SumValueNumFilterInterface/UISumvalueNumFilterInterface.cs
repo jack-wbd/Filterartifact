@@ -22,7 +22,7 @@ namespace Filterartifact
         private SumvalueNumberData sumvalueNumberData;
         public readonly int NormalCount = 5;
         private Tween m_moveTween;
-        private List<List<byte>> initialFilterResults = new List<List<byte>>();
+        private List<ResultData> initialFilterResults = new List<ResultData>();
         private IOrderedEnumerable<KeyValuePair<int, int>> dictor;
         private bool bFirstShow = true;
         class SumTemp
@@ -118,7 +118,7 @@ namespace Filterartifact
 
             if (arg != null)
             {
-                initialFilterResults = arg as List<List<byte>>;
+                initialFilterResults = arg as List<ResultData>;
             }
 
             if (bFirstShow)
@@ -177,7 +177,7 @@ namespace Filterartifact
                 obj.transform.localScale = Vector3.one;
                 obj.transform.localRotation = Quaternion.identity;
                 i++;
-                obj.transform.localPosition = temp.transform.localPosition + new Vector3(i * 100, 0, 0);
+                obj.transform.localPosition = temp.transform.localPosition + new Vector3(i * 50, 0, 0);
                 SumTemp sumTemp = new SumTemp(obj, this, item.Key);
                 m_SumTemp.Add(sumTemp);
             }
@@ -195,7 +195,7 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
+        protected override void UpdateLoopView(List<ResultData> list, LoopScrollerView scrollView)
         {
             base.UpdateLoopView(list, scrollView);
         }

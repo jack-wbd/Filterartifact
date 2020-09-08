@@ -24,7 +24,7 @@ namespace Filterartifact
         private MaxIntervalNumberData maxIntervalNumberData;
         public readonly int NormalCount = 5;
         private Tween m_moveTween;
-        private List<List<byte>> initialFilterResults = new List<List<byte>>();
+        private List<ResultData> initialFilterResults = new List<ResultData>();
         private IOrderedEnumerable<KeyValuePair<int, int>> dictor;
         class SumTemp
         {
@@ -121,7 +121,7 @@ namespace Filterartifact
 
             if (arg != null)
             {
-                initialFilterResults = arg as List<List<byte>>;
+                initialFilterResults = arg as List<ResultData>;
             }
 
             if (bFirstShow)
@@ -198,7 +198,7 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
+        protected override void UpdateLoopView(List<ResultData> list, LoopScrollerView scrollView)
         {
             base.UpdateLoopView(list, scrollView);
         }

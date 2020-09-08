@@ -56,6 +56,7 @@ namespace Filterartifact
         private int curRedBallSelNumber;
         private int curBlueBallSelNumber;
         private const int Six = 6;
+        private const int ThiryThree = 33;
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -169,7 +170,7 @@ namespace Filterartifact
             m_blueBallLab.color = UseColor.blue;
         }
         //----------------------------------------------------------------------------
-        protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
+        protected override void UpdateLoopView(List<ResultData> list, LoopScrollerView scrollView)
         {
             base.UpdateLoopView(list, scrollView);
         }
@@ -222,17 +223,22 @@ namespace Filterartifact
             curBlueBallSelNumber = drawData.blueBallSelNumberList.Count;
             var blueBallCount = drawData.blueBallSelNumberList.Count;
             long totalCount;
-            List<List<byte>> combinResult;
+            List<ResultData> combinResult = new List<ResultData>();
             if (m_ballRotation.isOn)
             {
-                totalCount = Util.C(drawData.redBallSelNumberList.Count, 6);
+                totalCount = Util.C(drawData.redBallSelNumberList.Count, Six);
                 combinResult = Util.GetCombination(drawData.redBallSelNumberList, Six, drawData.blueBallSelNumberList, true);
 
             }
             else
             {
-                totalCount = Util.C(drawData.redBallSelNumberList.Count, 6) * blueBallCount;
+                totalCount = Util.C(drawData.redBallSelNumberList.Count, Six) * blueBallCount;
+                System.Diagnostics.Stopwatch sw = new System.Diagnostics.Stopwatch();
+                sw.Start();
                 combinResult = Util.GetCombination(drawData.redBallSelNumberList, Six, drawData.blueBallSelNumberList, false);
+                //Util.Combination(ref combinResult, drawData.redBallSelNumberList, drawData.redBallSelNumberList.Count, Six);
+                sw.Stop();
+                Debug.LogError(string.Format("下载100数据花费时间为: {0} ms", sw.ElapsedMilliseconds));
             }
 
             m_totalLab.text = string.Format(PromptData.GetPrompt("totalbets"), totalCount);

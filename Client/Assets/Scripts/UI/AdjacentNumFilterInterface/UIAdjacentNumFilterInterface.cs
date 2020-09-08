@@ -26,7 +26,7 @@ namespace Filterartifact
         private AdjacentNumberData adjacentNumberData;
         public readonly int NormalCount = 2;
         private Tween m_moveTween;
-        private List<List<byte>> initialFilterResults = new List<List<byte>>();
+        private List<ResultData> initialFilterResults = new List<ResultData>();
         class SumTemp
         {
             //----------------------------------------------------------------------------
@@ -138,7 +138,7 @@ namespace Filterartifact
             adjacentNumberData = drawData.adjacentNumData;
             if (arg != null)
             {
-                initialFilterResults = arg as List<List<byte>>;
+                initialFilterResults = arg as List<ResultData>;
             }
             if (bFirstShow)
             {
@@ -215,7 +215,7 @@ namespace Filterartifact
             m_populatLab.text = string.Format(PromptData.GetPrompt("neighborNumThis"), str);
         }
         //----------------------------------------------------------------------------
-        protected override void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
+        protected override void UpdateLoopView(List<ResultData> list, LoopScrollerView scrollView)
         {
             base.UpdateLoopView(list, scrollView);
         }

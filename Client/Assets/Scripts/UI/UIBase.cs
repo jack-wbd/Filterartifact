@@ -399,81 +399,39 @@ namespace Filterartifact
             }
         }
         //----------------------------------------------------------------------------
-        protected virtual void UpdateLoopView(List<List<byte>> list, LoopScrollerView scrollView)
+        protected virtual void UpdateLoopView(List<ResultData> list, LoopScrollerView scrollView)
         {
             scrollView.Init(list.Count, (index, item) =>
             {
+
                 var tran = item.transform;
-                #region               
-                string s1 = string.Empty;
-                string s3 = string.Empty;
-                //list[index].Sort(SortList);
-                var list1 = list[index];
+                list[index].redBallList.Sort(SortList);
+                var list1 = list[index].redBallList;
+                var blueBall = list[index].blueBall;
                 for (int j = 0; j < list1.Count; j++)
                 {
                     if (list1[j] < 10)
                     {
-                        s3 = string.Format(PromptData.GetPrompt("lessThanTen"), list1[j]);
+                        tran.Find(string.Format("{0}", j + 1)).GetComponent<Text>().text = string.Format(PromptData.GetPrompt("lessThanTen"), list1[j]);
                     }
                     else
                     {
-                        s3 = Convert.ToString(list1[j]);
+                        tran.Find(string.Format("{0}", j + 1)).GetComponent<Text>().text = list1[j].ToString();
                     }
-                    s1 += string.Format(PromptData.GetPrompt("space"), s3);
+
                 }
-                #region 
-                //if (m_ballRotation.isOn)
-                //{
-                //    if (index < drawData.blueBallSelNumberList.Count)
-                //    {
-                //        string s2 = string.Empty;
-                //        if (drawData.blueBallSelNumberList[index] < 10)
-                //        {
-                //            s2 = string.Format(PromptData.GetPrompt("spaceZero"), s1, drawData.blueBallSelNumberList[index]);
-                //        }
-                //        else
-                //        {
-                //            s2 += string.Format(PromptData.GetPrompt("lSpaceR"), s1, drawData.blueBallSelNumberList[index]);
-                //        }
 
-                //        s1 += s2;
+                if (blueBall < 10)
+                {
+                    tran.Find("blue").GetComponent<Text>().text = string.Format(PromptData.GetPrompt("lessThanTen"), blueBall);
+                }
+                else
+                {
+                    tran.Find("blue").GetComponent<Text>().text = blueBall.ToString();
+                }
 
-                //    }
-                //    else
-                //    {
-                //        string s2 = string.Empty;
-                //        var curIndex = index % drawData.blueBallSelNumberList.Count;
-                //        if (drawData.blueBallSelNumberList[curIndex] < 10)
-                //        {
-                //            s2 = string.Format(PromptData.GetPrompt("spaceZero"), s1, drawData.blueBallSelNumberList[curIndex]);
-                //        }
-                //        else
-                //        {
-                //            s2 += string.Format(PromptData.GetPrompt("lSpaceR"), s1, drawData.blueBallSelNumberList[curIndex]);
-                //        }
-                //        s1 += s2;
-                //    }
-                //}
-                //else
-                //{
-                //    for (int j = 0; j < drawData.blueBallSelNumberList.Count; j++)
-                //    {
-                //        string s2 = string.Empty;
-                //        if (drawData.blueBallSelNumberList[j] < 10)
-                //        {
-                //            s2 = string.Format(PromptData.GetPrompt("spaceZero"), s1, drawData.blueBallSelNumberList[j]);
-                //        }
-                //        else
-                //        {
-                //            s2 += string.Format(PromptData.GetPrompt("lSpaceR"), s1, drawData.blueBallSelNumberList[j]);
-                //        }
-                //        s1 += s2;
-                //    }
-                //}
-                #endregion
-                #endregion
                 tran.Find("serial").GetComponent<Text>().text = (index + 1).ToString();
-                tran.Find("number").GetComponent<Text>().text = s1;
+
             });
         }
         //----------------------------------------------------------------------------

@@ -170,20 +170,20 @@ public static class Util
     /// <returns>数组中n个元素的排列</returns>
 
     //----------------------------------------------------------------------------
-    public static List<List<byte>> GetCombination(List<byte> t, int n, List<byte> blueBall, bool isOn)
+    public static List<ResultData> GetCombination(List<byte> t, int n, List<byte> blueBall, bool isOn)
     {
         if (t.Count < n)
         {
             return null;
         }
         byte[] temp = new byte[n];
-        List<List<byte>> list = new List<List<byte>>();
+        List<ResultData> list = new List<ResultData>();
         GetCombination(ref list, t, t.Count, n, temp, n);
         GetRoundRobinCombination(ref list, blueBall, isOn);
         return list;
     }
     //----------------------------------------------------------------------------
-    private static void GetRoundRobinCombination(ref List<List<byte>> list, List<byte> blueBall, bool isOn)
+    private static void GetRoundRobinCombination(ref List<ResultData> list, List<byte> blueBall, bool isOn)
     {
         var blueCount = blueBall.Count;
 
@@ -191,13 +191,82 @@ public static class Util
         {
             for (int i = 0; i < list.Count; i++)
             {
-                list[i].Add(blueBall[i % blueCount]);
+                list[i].blueBall = blueBall[i % blueCount];
             }
         }
         else
         {
+            var result = new List<ResultData>();
+            for (int i = 0; i < blueBall.Count; i++)
+            {
+                var copyList = CopyList(list);
+                for (int j = 0; j < copyList.Count; j++)
+                {
+                    copyList[j].blueBall = blueBall[i];
+                    result.Add(copyList[j]);
+                }
+            }
+            list = result;
+        }
+    }
+    //-----------------------------------------------------------------------------
+    #region
+    //根据C的二进制表示输出一个组合 
+    static void print(ref List<ResultData> charList, List<byte> set, long C)
+    {
+        long l = 1;
+        int i = 0;
+        long k;
+        var data = new ResultData();
+        while ((k = l << i) <= C)
+        {
+            //循环测试每个bit是否为1 
+            if ((C & k) != 0)
+            {
+                data.redBallList.Add(set[i]);
+            }
+            i++;
+        }
+        charList.Add(data);
+    }
+    //------------------------------------------------------------------------------
+    //这个NextN跟之前我们讨论的是一样的，只不过省去了临时变量 
+    static long NextN(long N)
+    {
+        return (N + (N & (-N))) | ((N ^ (N + (N & (-N)))) / (N & (-N))) >> 2;
+    }
+    //------------------------------------------------------------------------------
+    //求从set中前N个元素 中选择m个的组合 
+    public static void Combination(ref List<ResultData> resultList, List<byte> set, int N, int m)
+    {
+        resultList.Clear();
+        long l = 1;
+        long C = (l << m) - 1;
+        while (C <= ((l << N) - (l << (N - m))))
+        {
+            print(ref resultList, set, C);
+            C = NextN(C);
+        }
+    }
+    #endregion
+    //-----------------------------------------------------------------------------
+    public static List<ResultData> CopyList(List<ResultData> originalList)
+    {
+        var list = new List<ResultData>();
+        for (int i = 0; i < originalList.Count; i++)
+        {
+            var data = new ResultData();
+            var curOriginList = originalList[i].redBallList;
+
+            for (int j = 0; j < curOriginList.Count; j++)
+            {
+                data.redBallList.Add(curOriginList[j]);
+            }
+
+            list.Add(data);
 
         }
+        return list;
     }
     //----------------------------------------------------------------------------
     /// <summary>
@@ -209,7 +278,7 @@ public static class Util
     /// <param name="m">辅助变量</param>
     /// <param name="b">辅助数组</param>
     /// <param name="M">辅助变量M</param>
-    private static void GetCombination(ref List<List<byte>> list, List<byte> t, int n, int m, byte[] b, int M)
+    private static void GetCombination(ref List<ResultData> list, List<byte> t, int n, int m, byte[] b, int M)
     {
         if (M <= 0)
         {
@@ -226,14 +295,16 @@ public static class Util
             {
                 if (list == null)
                 {
-                    list = new List<List<byte>>();
+                    list = new List<ResultData>();
                 }
                 List<byte> temp = new List<byte>(M);
                 for (int j = 0; j < b.Length; j++)
                 {
                     temp.Add(t[Convert.ToInt16(b[j])]);
                 }
-                list.Add(temp);
+                var data = new ResultData();
+                data.redBallList = temp;
+                list.Add(data);
             }
         }
     }
@@ -414,18 +485,18 @@ public static class Util
         return result;
     }
     //----------------------------------------------------------------------------
-    public static List<List<byte>> GetResult(List<byte> numberList, List<List<byte>> redBallSelResult, List<int> selectNumList)
+    public static List<ResultData> GetResult(List<byte> numberList, List<ResultData> selResult, List<int> selectNumList)
     {
-        var result = new List<List<byte>>();
-        for (int i = 0; i < redBallSelResult.Count; i++)
+        var result = new List<ResultData>();
+        for (int i = 0; i < selResult.Count; i++)
         {
-            var list = redBallSelResult[i];
+            var list = selResult[i];
             var num = 0;
-            for (int j = 0; j < list.Count; j++)
+            for (int j = 0; j < list.redBallList.Count; j++)
             {
                 for (int k = 0; k < numberList.Count; k++)
                 {
-                    if (list[j] == numberList[k])
+                    if (list.redBallList[j] == numberList[k])
                     {
                         num++;
                     }
@@ -446,22 +517,22 @@ public static class Util
     /// 区间号码过滤结果
     /// </summary>
     /// <returns></returns>
-    public static List<List<byte>> GetResult(List<List<byte>> redBallSelResult, List<string> selectType)
+    public static List<ResultData> GetResult(List<ResultData> selResult, List<string> selectType)
     {
-        var result = new List<List<byte>>();
-        for (int i = 0; i < redBallSelResult.Count; i++)
+        var result = new List<ResultData>();
+        for (int i = 0; i < selResult.Count; i++)
         {
-            var list = redBallSelResult[i];
+            var list = selResult[i];
             var numOne = 0;
             var numTwo = 0;
             var numThree = 0;
-            for (int j = 0; j < list.Count; j++)
+            for (int j = 0; j < list.redBallList.Count; j++)
             {
-                if (list[j] >= 1 && list[j] <= 11)
+                if (list.redBallList[j] >= 1 && list.redBallList[j] <= 11)
                 {
                     numOne++;
                 }
-                else if (list[j] >= 12 && list[j] <= 22)
+                else if (list.redBallList[j] >= 12 && list.redBallList[j] <= 22)
                 {
                     numTwo++;
                 }
@@ -485,21 +556,20 @@ public static class Util
     /// 最大间隔号码过滤结果
     /// </summary>
     /// <returns></returns>
-    public static List<List<byte>> GetMaxIntervalResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    public static List<ResultData> GetMaxIntervalResult(List<ResultData> redBallSelResult, List<int> selectType)
     {
-        var result = new List<List<byte>>();
+        var result = new List<ResultData>();
         var intervalList = new List<int>();
         for (int i = 0; i < redBallSelResult.Count; i++)
         {
             var list = redBallSelResult[i];
-
             intervalList.Clear();
 
-            for (int j = 0; j < list.Count; j++)
+            for (int j = 0; j < list.redBallList.Count; j++)
             {
-                if (j < list.Count - 1)
+                if (j < list.redBallList.Count - 1)
                 {
-                    intervalList.Add(list[j + 1] - list[j]);
+                    intervalList.Add(list.redBallList[j + 1] - list.redBallList[j]);
                 }
             }
 
@@ -523,13 +593,13 @@ public static class Util
     /// AC值过滤
     /// </summary>
     /// <returns></returns>
-    public static List<List<byte>> GetAcFilterResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    public static List<ResultData> GetAcFilterResult(List<ResultData> redBallSelResult, List<int> selectType)
     {
-        var result = new List<List<byte>>();
+        var result = new List<ResultData>();
         for (int i = 0; i < redBallSelResult.Count; i++)
         {
             var curNumberData = redBallSelResult[i];
-            var acNumber = GetAcNumber(curNumberData);
+            var acNumber = GetAcNumber(curNumberData.redBallList);
             for (int j = 0; j < selectType.Count; j++)
             {
                 if (acNumber == selectType[j])
@@ -546,13 +616,13 @@ public static class Util
     /// </summary>
     /// <param name="curNumberData"></param>
     /// <returns></returns>
-    public static List<List<byte>> GetParityFilterResult(List<List<byte>> redBallSelResult, List<string> selectType)
+    public static List<ResultData> GetParityFilterResult(List<ResultData> redBallSelResult, List<string> selectType)
     {
-        var result = new List<List<byte>>();
+        var result = new List<ResultData>();
         for (int i = 0; i < redBallSelResult.Count; i++)
         {
             var curNumberData = redBallSelResult[i];
-            var curParityNumber = GetParityNumber(curNumberData);
+            var curParityNumber = GetParityNumber(curNumberData.redBallList);
             for (int j = 0; j < selectType.Count; j++)
             {
                 if (selectType[j].Equals(curParityNumber))
@@ -588,13 +658,13 @@ public static class Util
     /// <param name="selectType"></param>
     /// <returns></returns>
     //----------------------------------------------------------------------------
-    public static List<List<byte>> GetMantissaFilterResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    public static List<ResultData> GetMantissaFilterResult(List<ResultData> redBallSelResult, List<int> selectType)
     {
-        var result = new List<List<byte>>();
+        var result = new List<ResultData>();
         for (int i = 0; i < redBallSelResult.Count; i++)
         {
             var curNumberData = redBallSelResult[i];
-            var curMantissaNumber = GetMantissaNumber(curNumberData);
+            var curMantissaNumber = GetMantissaNumber(curNumberData.redBallList);
             for (int j = 0; j < selectType.Count; j++)
             {
                 if (selectType[j] == curMantissaNumber)
@@ -611,13 +681,13 @@ public static class Util
     /// </summary>
     /// <param name="currentNumList"></param>
     /// <returns></returns>
-    public static List<List<byte>> GetSumvalueFilterResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    public static List<ResultData> GetSumvalueFilterResult(List<ResultData> redBallSelResult, List<int> selectType)
     {
-        var result = new List<List<byte>>();
+        var result = new List<ResultData>();
         for (int i = 0; i < redBallSelResult.Count; i++)
         {
             var curNumberData = redBallSelResult[i];
-            var curMantissaNumber = GetSumvalueNumber(curNumberData);
+            var curMantissaNumber = GetSumvalueNumber(curNumberData.redBallList);
             for (int j = 0; j < selectType.Count; j++)
             {
                 if (selectType[j] == curMantissaNumber)
@@ -634,13 +704,13 @@ public static class Util
     /// </summary>
     /// <param name="curNumData"></param>
     /// <returns></returns>
-    public static List<List<byte>> GetSerialFilterResult(List<List<byte>> redBallSelResult, List<int> selectType)
+    public static List<ResultData> GetSerialFilterResult(List<ResultData> selResult, List<int> selectType)
     {
-        var result = new List<List<byte>>();
-        for (int i = 0; i < redBallSelResult.Count; i++)
+        var result = new List<ResultData>();
+        for (int i = 0; i < selResult.Count; i++)
         {
-            var curNumberData = redBallSelResult[i];
-            var curSerialNumber = GetSerialNumber(curNumberData);
+            var curNumberData = selResult[i];
+            var curSerialNumber = GetSerialNumber(curNumberData.redBallList);
             for (int j = 0; j < selectType.Count; j++)
             {
                 if (selectType[j] == curSerialNumber)
@@ -657,13 +727,13 @@ public static class Util
     /// </summary>
     /// <param name="curNumData"></param>
     /// <returns></returns>
-    public static List<List<byte>> GetDoubleFilterResult(List<List<byte>> redBallSelResult, List<int> selectType, List<byte> lastIssueNumber)
+    public static List<ResultData> GetDoubleFilterResult(List<ResultData> selResult, List<int> selectType, List<byte> lastIssueNumber)
     {
-        var result = new List<List<byte>>();
-        for (int i = 0; i < redBallSelResult.Count; i++)
+        var result = new List<ResultData>();
+        for (int i = 0; i < selResult.Count; i++)
         {
-            var curNumberData = redBallSelResult[i];
-            var curSerialNumber = GetDoubleNumber(curNumberData, lastIssueNumber);
+            var curNumberData = selResult[i];
+            var curSerialNumber = GetDoubleNumber(curNumberData.redBallList, lastIssueNumber);
             for (int j = 0; j < selectType.Count; j++)
             {
                 if (selectType[j] == curSerialNumber)
@@ -680,13 +750,13 @@ public static class Util
     /// <param name="curNumberData"></param>
     /// <param name="lastIssueNumber"></param>
     /// <returns></returns>
-    public static List<List<byte>> GetSizeRatioFilterResult(List<List<byte>> redBallSelResult, List<string> selectType)
+    public static List<ResultData> GetSizeRatioFilterResult(List<ResultData> redBallSelResult, List<string> selectType)
     {
-        var result = new List<List<byte>>();
+        var result = new List<ResultData>();
         for (int i = 0; i < redBallSelResult.Count; i++)
         {
             var curNumberData = redBallSelResult[i];
-            var curSerialNumber = GetSizeRatioNumber(curNumberData);
+            var curSerialNumber = GetSizeRatioNumber(curNumberData.redBallList);
             for (int j = 0; j < selectType.Count; j++)
             {
                 if (selectType[j].Equals(curSerialNumber))
@@ -834,21 +904,21 @@ public static class Util
     //----------------------------------------------------------------------------
     private static int MaxCount = 6;
     //----------------------------------------------------------------------------
-    public static Dictionary<int, List<List<byte>>> GetRedeemDict(List<byte> curPrizeNumber, List<List<byte>> selResult)
+    public static Dictionary<int, List<ResultData>> GetRedeemDict(List<byte> curPrizeNumber, List<ResultData> selResult)
     {
-        var dict = new Dictionary<int, List<List<byte>>>();
+        var dict = new Dictionary<int, List<ResultData>>();
         for (int i = 1; i <= MaxCount; i++)
         {
-            var list = new List<List<byte>>();
+            var list = new List<ResultData>();
             for (int j = 0; j < selResult.Count; j++)
             {
                 var res = selResult[j];
                 var num = 0;
-                for (int k = 0; k < res.Count; k++)
+                for (int k = 0; k < res.redBallList.Count; k++)
                 {
                     for (int w = 0; w < curPrizeNumber.Count; w++)
                     {
-                        if (curPrizeNumber[w] == res[k])
+                        if (curPrizeNumber[w] == res.redBallList[k])
                         {
                             num++;
                         }

@@ -112,10 +112,10 @@ namespace Filterartifact
         /// <param name="numberCount"></param>
         /// <param name="choNum"></param>
         /// <returns></returns>
-        public static List<List<byte>> GetRotationMatrixResult(int numberCount, List<byte> choNum)
+        public static List<ResultData> GetRotationMatrixResult(int numberCount, List<byte> choNum)
         {
 
-            var listBytes = new List<List<byte>>();
+            var listBytes = new List<ResultData>();
 
             switch ((ChooseNumCount)numberCount)
             {
@@ -148,25 +148,25 @@ namespace Filterartifact
             return listBytes;
         }
         //-----------------------------------------------------------------------------------------
-        public static List<List<byte>> GetResult(Dictionary<int, List<Num>> dict, List<byte> choNum)
+        public static List<ResultData> GetResult(Dictionary<int, List<Num>> dict, List<byte> choNum)
         {
-            var result = new List<List<byte>>();
+            var result = new List<ResultData>();
             var dictEnumerator = dict.GetEnumerator();
             while (dictEnumerator.MoveNext())
             {
                 var list = dictEnumerator.Current.Value;
-                var listByte = new List<byte>();
+                var data = new ResultData();
                 for (int i = 0; i < list.Count; i++)
                 {
                     for (int j = 0; j < choNum.Count; j++)
                     {
                         if ((int)list[i] - 1 == j)
                         {
-                            listByte.Add(choNum[j]);
+                            data.redBallList.Add(choNum[j]);
                         }
                     }
                 }
-                result.Add(listByte);
+                result.Add(data);
             }
             return result;
         }

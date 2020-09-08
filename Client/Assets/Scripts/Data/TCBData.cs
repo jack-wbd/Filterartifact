@@ -307,6 +307,12 @@ namespace Filterartifact
         public Dictionary<string, int> sizeRatioNumberDict = new Dictionary<string, int>();
     }
     //----------------------------------------------------------------------------
+    public class ResultData
+    {
+        public List<byte> redBallList = new List<byte>();
+        public byte blueBall;
+    }
+    //----------------------------------------------------------------------------
     public class DrawData : DataBase
     {
         public List<TCBStatisticsData> tcbStatiDataList = new List<TCBStatisticsData>();
@@ -322,7 +328,7 @@ namespace Filterartifact
         public PopularNumberData popularNumData = new PopularNumberData();
         public UnPopularNumberData unpopularNumData = new UnPopularNumberData();
         public AdjacentNumberData adjacentNumData = new AdjacentNumberData();
-        public List<List<byte>> resultList = new List<List<byte>>();//各过滤条件过滤后结果
+        public List<ResultData> resultList = new List<ResultData>();//各过滤条件过滤后结果
         public IntervalNumberData intervalNumberData = new IntervalNumberData();
         public MaxIntervalNumberData maxIntervalNumberData = new MaxIntervalNumberData();
         public ACNumberData acNumberData = new ACNumberData();
@@ -334,7 +340,7 @@ namespace Filterartifact
         public SizeRatioNumberData sizeRatioNumberData = new SizeRatioNumberData();
         public bool canWrite = false;
         public int curSelectPeriod = 2003001;
-        public Dictionary<int, List<byte>> redeemDict = new Dictionary<int, List<byte>>();
+        public Dictionary<int, ResultData> redeemDict = new Dictionary<int, ResultData>();
         //----------------------------------------------------------------------------
         public override void Deserialize()
         {
@@ -1165,19 +1171,20 @@ namespace Filterartifact
             return lastPrize;
         }
         //----------------------------------------------------------------------------
-        private Dictionary<int, List<byte>> ParseRedeemDict()
+        private Dictionary<int, ResultData> ParseRedeemDict()
         {
-            var dict = new Dictionary<int, List<byte>>();
+            var dict = new Dictionary<int, ResultData>();
             for (int i = 0; i < tcbHistorydatalist.Count; i++)
             {
                 var key = tcbHistorydatalist[i].code;
-                var list = new List<byte>();
+                var data = new ResultData();
                 var redStr = tcbHistorydatalist[i].red.Split(new string[] { "," }, StringSplitOptions.RemoveEmptyEntries);
                 for (int j = 0; j < redStr.Length; j++)
                 {
-                    list.Add(byte.Parse(redStr[j]));
+                    data.redBallList.Add(byte.Parse(redStr[j]));
                 }
-                dict[key] = list;
+                data.blueBall = byte.Parse(tcbHistorydatalist[i].blue);
+                dict[key] = data;
             }
             return dict;
         }
