@@ -156,7 +156,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void LoadXml(string strFileName)
         {
-            string XmlData = FileSystem.Instance().LoadXml(strFileName);
+            string XmlData = FileSystem.Instance().LoadGameData(strFileName);
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.LoadXml(XmlData);
             XmlNode rootNode = xmlDoc.SelectSingleNode("PromptData");

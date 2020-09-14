@@ -47,11 +47,8 @@ public class ConfigData
         XmlNode node = xmlDoc.SelectSingleNode("config");
         if (node != null)
         {
-
             XmlElement Element = node.SelectSingleNode("datadir") as XmlElement;
-#if GMORDER
-            m_strDataDir = Application.dataPath + "/Data/data/";
-#endif
+            m_strDataDir = Element.InnerText;
             Element = node.SelectSingleNode("resdir") as XmlElement;
             m_strResDir = Element.InnerText;
             Element = node.SelectSingleNode("local") as XmlElement;

@@ -112,7 +112,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void LoadTextureFile(string strFileName)
         {
-            string XmlData = FileSystem.Instance().LoadXml(strFileName);
+            string XmlData = FileSystem.Instance().LoadGameData(strFileName);
             XmlDocument xmlDouc = new XmlDocument();
             xmlDouc.LoadXml(XmlData);
             XmlNode nodeRoot = xmlDouc.SelectSingleNode("LoadingConfig");

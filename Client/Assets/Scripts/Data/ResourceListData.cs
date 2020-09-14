@@ -75,7 +75,7 @@ namespace Filterartifact
             return true;
         }
         //----------------------------------------------------------------------------
-        public Dictionary<string,List<string>> GetResDepsDict()
+        public Dictionary<string, List<string>> GetResDepsDict()
         {
             return m_dictResourseList_1;
         }
@@ -90,11 +90,20 @@ namespace Filterartifact
             m_dicResourseList.TryGetValue(strID, out info);
         }
         //----------------------------------------------------------------------------
+        public void LoadResourceListFilePhone()
+        {
+            Debug.LogError("LoadResourceListFilePhone begin");
+            string strResourceList = FileSystem.Instance().LoadGameData("Resourselist_2");
+            InitResourseList_2File(strResourceList);
+            strResourceList = FileSystem.Instance().LoadGameData("Resourselist");
+            InitResourseListFile(strResourceList);
+        }
+        //----------------------------------------------------------------------------
         public void LoadResourceListFileDev()
         {
             string strResourceList = FileSystem.Instance().LoadXml_Resourselist_other(Application.streamingAssetsPath + "/Resourselist_2");
             InitResourseList_2File(strResourceList);
-            strResourceList = FileSystem.Instance().LoadXml("/Common/Resourselist");
+            strResourceList = FileSystem.Instance().LoadGameData("Resourselist");
             InitResourseListFile(strResourceList);
         }
         //----------------------------------------------------------------------------
@@ -249,19 +258,6 @@ namespace Filterartifact
             }
             else
                 return strTemp;
-        }
-        //----------------------------------------------------------------------------
-        public void LoadResourceListFileFromBundle()
-        {
-#if DEBUG
-            string strResourceList = FileSystem.Instance().LoadXml_Resourselist_other(Application.streamingAssetsPath + "/Resourselist_2");
-#else
-            string strResourceList = FileSystem.Instance().LoadXml("Common/Resourselist_2");//从bundle里读取
-#endif
-
-            InitResourseList_2File(strResourceList);
-            strResourceList = FileSystem.Instance().LoadXml("/Common/Resourselist");
-            InitResourceListFile(strResourceList);
         }
         //----------------------------------------------------------------------------
         public bool InitResourseList_2File(string strXmlData)

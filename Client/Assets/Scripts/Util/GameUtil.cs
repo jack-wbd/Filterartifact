@@ -90,7 +90,7 @@ namespace Filterartifact
                     strPerisistentDir = Application.persistentDataPath + "/StreamingAssets/";
                     break;
                 case RuntimePlatform.Android:
-                    strStreamAssetsDir = Application.streamingAssetsPath + "/";
+                    strStreamAssetsDir = Application.dataPath + "!assets/";
                     strPerisistentDir = Application.persistentDataPath + "/";
                     break;
                 case RuntimePlatform.WebGLPlayer:

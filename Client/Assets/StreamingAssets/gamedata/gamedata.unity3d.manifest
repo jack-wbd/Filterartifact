@@ -1,0 +1,30 @@
+ManifestFileVersion: 0
+CRC: 17118776
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2413708aeaf3c60e5f8d330b0816dec4
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 5ad585dd02dfb5016c0dad519eab8f49
+HashAppended: 0
+ClassTypes:
+- Class: 49
+  Script: {instanceID: 0}
+Assets:
+- Assets/Data/data/common/ResourseList.xml
+- Assets/Data/data/language/PromptData.xml
+- Assets/Data/data/jsonData/prizenumberdata.json
+- Assets/Data/data/common/Resourselist_2.xml
+- Assets/Data/data/jsonData/analysisbluedata.json
+- Assets/Data/data/jsonData/download.json
+- Assets/Data/data/tbData/HistoryRecord.txt
+- Assets/Data/data/jsonData/analysisreddata.json
+- Assets/Data/data/jsonData/tcbhistory.json
+- Assets/Data/data/jsonData/tcbstatistics.json
+- Assets/Data/data/map/LobbyScene/LobbyScene_01_s1_p1.xml
+- Assets/Data/data/tbData/table.xml
+- Assets/Data/data/jsonData/forecastdata.json
+- Assets/Data/data/map/LobbyScene/LobbyScene.xml
+- Assets/Data/data/common/LoadingConfig.xml
+Dependencies: []

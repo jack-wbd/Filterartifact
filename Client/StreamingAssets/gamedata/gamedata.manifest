@@ -1,0 +1,7 @@
+ManifestFileVersion: 0
+CRC: 3266053810
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: gamedata.unity3d
+      Dependencies: {}

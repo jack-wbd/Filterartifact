@@ -123,7 +123,7 @@ namespace Filterartifact
             }
             else
             {
-                InitDev();
+                InitGameData();
             }
 
             return true;
@@ -134,11 +134,11 @@ namespace Filterartifact
             switch (Application.platform)
             {
                 case RuntimePlatform.Android:
-                    m_strStreamAssetsDir = Application.streamingAssetsPath + "/";
+                    m_strStreamAssetsDir = Application.dataPath + "!assets/";
                     m_strPersistenDir = Application.persistentDataPath + "/";
                     break;
                 case RuntimePlatform.IPhonePlayer:
-                    m_strStreamAssetsDir = Application.streamingAssetsPath + "/";
+                    m_strStreamAssetsDir = "file://" + Application.streamingAssetsPath + "/";
                     m_strPersistenDir = Application.persistentDataPath + "/StreamingAssets/";
                     break;
                 case RuntimePlatform.WebGLPlayer:
@@ -163,9 +163,8 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         void InitAssetManifest(string manifestName)
         {
-            AssetBundle bundleManifest = null;
             var path = GameUtil.GetDataPath(manifestName);
-            bundleManifest = AssetBundle.LoadFromFile(path);
+            AssetBundle bundleManifest = AssetBundle.LoadFromFile(path);
             if (bundleManifest != null)
             {
                 AssetBundleManifest manifest = bundleManifest.LoadAsset("AssetBundleManifest") as AssetBundleManifest;
@@ -198,7 +197,6 @@ namespace Filterartifact
 
                 }
                 bundleManifest.Unload(false);
-                bundleManifest = null;
             }
         }
         //----------------------------------------------------------------------------
@@ -250,7 +248,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         public void InitAndroid()
         {
-
+            InitGameData();
         }
         //----------------------------------------------------------------------------
         public void InitWeb()
@@ -258,7 +256,7 @@ namespace Filterartifact
 
         }
         //----------------------------------------------------------------------------
-        public void InitDev()
+        public void InitGameData()
         {
             Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Load_Gamedata);
             m_devLoadGameDataLeftCount = 1;
@@ -291,8 +289,8 @@ namespace Filterartifact
         public bool StartInitData(string strBundlePath)
         {
             Messenger.Broadcast(DgMsgID.DgMsg_InitStatChange, UpdateState.Load_Gamedata);
+            Debug.LogError("strBundlePath:" + strBundlePath);
             m_abGameData = AssetBundle.LoadFromFile(strBundlePath);
-            m_ResourceList.LoadResourceListFileFromBundle();
             m_bBundleDataLoaded = true;
             return true;
         }
@@ -319,7 +317,6 @@ namespace Filterartifact
             {
                 m_assetText = bundleData.LoadAsset<TextAsset>("binery");
                 bundleData.Unload(false);
-                bundleData = null;
             }
 
             m_bSerializeDataLoaded = true;
@@ -360,6 +357,7 @@ namespace Filterartifact
             }
             else
             {
+                //UpdatePhone();
                 UpdateDev();
             }
 
@@ -383,9 +381,20 @@ namespace Filterartifact
                 case FileSystemState.File_DeCompress:
                     break;
                 case FileSystemState.File_OK:
+                    UpdateLoadRes();
                     break;
                 default:
                     break;
+            }
+            if (m_devLoadGameDataLeftCount > 0)
+            {
+                m_devLoadGameDataLeftCount--;
+            }
+            else if (m_devLoadGameDataLeftCount == 0)
+            {
+                m_ResourceList.LoadResourceListFilePhone();
+                m_devLoadGameDataLeftCount = -1;
+                m_bBundleDataLoaded = true;
             }
         }
         //----------------------------------------------------------------------------
@@ -393,6 +402,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void UpdateParseGameData()
         {
+            Debug.LogError("UpdateParseGameData");
             if (m_nCurPaseDataCount >= m_nNeedParseDataCount)
             {
                 WorldManager.Instance().CreateLayer();
@@ -608,7 +618,7 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void UpdateWeb()
         {
-
+            UpdateDev();
         }
         //----------------------------------------------------------------------------
         private void UpdateDev()
@@ -641,9 +651,8 @@ namespace Filterartifact
                 m_ResourceList.LoadResourceListFileDev();
                 m_devLoadGameDataLeftCount = -1;
                 m_bBundleDataLoaded = true;
-                //tablemgr.Instance.LoadAllTables("file:///" + m_ConfigData.m_strDataDir, null, null);
             }
-        
+
         }
         //----------------------------------------------------------------------------
         private void UpdateCheckFileOK()
@@ -768,48 +777,65 @@ namespace Filterartifact
             }
             return true;
         }
+        ////----------------------------------------------------------------------------
+        //public string LoadXml(string strFile)
+        //{
+        //    string strFileName = strFile;
+        //    if (!strFile.EndsWith(".xml"))
+        //    {
+        //        strFileName = strFile + ".xml";
+        //    }
+
+        //    if (m_abGameData != null)
+        //    {
+        //        strFileName = strFileName.Substring(strFileName.LastIndexOf("/") + 1);
+        //        var objTemp = m_abGameData.LoadAsset<TextAsset>(strFileName).text;
+        //        if (ReferenceEquals(objTemp, null))
+        //        {
+        //            ILog.LogWarning("LoadXml not Exist " + strFileName);
+        //            return null;
+        //        }
+
+        //        string strData = objTemp.ToString();
+        //        return strData;
+
+        //    }
+        //    else
+        //    {
+        //        if (m_ConfigData.m_strDataDir != "")
+        //        {
+        //            if (File.Exists(m_ConfigData.m_strDataDir + strFileName))
+        //            {
+        //                return File.ReadAllText(m_ConfigData.m_strDataDir + strFileName);
+        //            }
+        //        }
+        //    }
+
+        //    return null;
+        //}
         //----------------------------------------------------------------------------
-        public string LoadXml(string strFile)
-        {
-            string strFileName = strFile;
-            if (!strFile.EndsWith(".xml"))
-            {
-                strFileName = strFile + ".xml";
-            }
-            return LoadFile(strFileName);
-        }
-        //----------------------------------------------------------------------------
-        public string LoadFile(string strFile)
+        public string LoadGameData(string strFileName)
         {
             if (m_abGameData != null)
             {
-                string strFileName = GameUtil.GetAssetName(m_abGameData, strFile);
-                Debug.LogFormat("strFile:{0} Load strFileName:{1}", strFile, strFileName);
-                if (!string.IsNullOrEmpty(strFileName))
+                var objTemp = m_abGameData.LoadAsset<TextAsset>(strFileName).text;
+                if (ReferenceEquals(objTemp, null))
                 {
-                    UnityEngine.Object objTemp = m_abGameData.LoadAsset(strFileName);
-                    if (ReferenceEquals(objTemp, null))
-                    {
-                        Debug.LogError("LoadXml not Exist" + strFileName);
-                        return null;
-                    }
-
-                    string strData = objTemp.ToString();
-                    return strData;
+                    ILog.LogWarning("LoadXml not Exist " + strFileName);
+                    return null;
                 }
+
+                string strData = objTemp.ToString();
+                return strData;
+
             }
             else
             {
-                Debug.Log("m_abGameData is null");
                 if (m_ConfigData.m_strDataDir != "")
                 {
-                    if (File.Exists(m_ConfigData.m_strDataDir + strFile))
+                    if (File.Exists(m_ConfigData.m_strDataDir + strFileName))
                     {
-                        return File.ReadAllText(m_ConfigData.m_strDataDir + strFile);
-                    }
-                    else
-                    {
-                        Debug.LogError(m_ConfigData.m_strDataDir + "  strFile:  " + strFile + " is not exist!");
+                        return File.ReadAllText(m_ConfigData.m_strDataDir + strFileName);
                     }
                 }
             }

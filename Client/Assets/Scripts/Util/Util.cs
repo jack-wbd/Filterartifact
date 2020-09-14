@@ -179,34 +179,37 @@ public static class Util
         byte[] temp = new byte[n];
         List<ResultData> list = new List<ResultData>();
         GetCombination(ref list, t, t.Count, n, temp, n);
-        GetRoundRobinCombination(ref list, blueBall, isOn);
-        return list;
-    }
-    //----------------------------------------------------------------------------
-    private static void GetRoundRobinCombination(ref List<ResultData> list, List<byte> blueBall, bool isOn)
-    {
-        var blueCount = blueBall.Count;
-
         if (isOn)
         {
-            for (int i = 0; i < list.Count; i++)
-            {
-                list[i].blueBall = blueBall[i % blueCount];
-            }
+            GetRoundRobinCombination(ref list, blueBall);
         }
         else
         {
-            var result = new List<ResultData>();
-            for (int i = 0; i < blueBall.Count; i++)
+            return GetAllCombination(list, blueBall);
+        }
+        return list;
+    }
+    //----------------------------------------------------------------------------
+    static private List<ResultData> GetAllCombination(List<ResultData> list, List<byte> blueBall)
+    {
+        var result = new List<ResultData>();
+        foreach (var blue in blueBall)
+        {
+            foreach (var item in list)
             {
-                var copyList = CopyList(list);
-                for (int j = 0; j < copyList.Count; j++)
-                {
-                    copyList[j].blueBall = blueBall[i];
-                    result.Add(copyList[j]);
-                }
+                item.blueBall = blue;
+                result.Add(item);
             }
-            list = result;
+        }     
+        return result;
+    }
+    //----------------------------------------------------------------------------
+    private static void GetRoundRobinCombination(ref List<ResultData> list, List<byte> blueBall)
+    {
+        var blueCount = blueBall.Count;
+        for (int i = 0; i < list.Count; i++)
+        {
+            list[i].blueBall = blueBall[i % blueCount];
         }
     }
     //-----------------------------------------------------------------------------
@@ -902,38 +905,88 @@ public static class Util
             return 1;
     }
     //----------------------------------------------------------------------------
-    private static int MaxCount = 6;
-    //----------------------------------------------------------------------------
-    public static Dictionary<int, List<ResultData>> GetRedeemDict(List<byte> curPrizeNumber, List<ResultData> selResult)
+    static public List<ResultData> GetRedemptionDataList(int selLevel, ResultData curRedData, List<ResultData> selectList)
     {
-        var dict = new Dictionary<int, List<ResultData>>();
-        for (int i = 1; i <= MaxCount; i++)
+        var list = new List<ResultData>();
+        for (int i = 0; i < selectList.Count; i++)
         {
-            var list = new List<ResultData>();
-            for (int j = 0; j < selResult.Count; j++)
+            var redBallCount = 0;
+            var blueBallCount = 0;
+            var level = 0;
+            var curSelectList = selectList[i];
+            if (curSelectList.blueBall == curRedData.blueBall)
             {
-                var res = selResult[j];
-                var num = 0;
-                for (int k = 0; k < res.redBallList.Count; k++)
+                blueBallCount++;
+            }
+            for (int j = 0; j < curSelectList.redBallList.Count; j++)
+            {
+                for (int k = 0; k < curRedData.redBallList.Count; k++)
                 {
-                    for (int w = 0; w < curPrizeNumber.Count; w++)
+                    if (curSelectList.redBallList[j] == curRedData.redBallList[k])
                     {
-                        if (curPrizeNumber[w] == res.redBallList[k])
-                        {
-                            num++;
-                        }
+                        redBallCount++;
                     }
                 }
-
-                if (num == i)
+            }
+            if (redBallCount == (int)NumberCount.Six)
+            {
+                if (blueBallCount == (int)NumberCount.One)
                 {
-                    list.Add(res);
+                    level = (int)RewardLevel.First;
+                }
+                else
+                {
+                    level = (int)RewardLevel.Second;
+                }
+            }
+            if (redBallCount == (int)NumberCount.Five)
+            {
+                if (blueBallCount == (int)NumberCount.One)
+                {
+                    level = (int)RewardLevel.Third;
+                }
+                else
+                {
+                    level = (int)RewardLevel.Fourth;
+                }
+            }
+            if (redBallCount == (int)NumberCount.Four)
+            {
+                if (blueBallCount == (int)NumberCount.One)
+                {
+                    level = (int)RewardLevel.Fourth;
+                }
+                else
+                {
+                    level = (int)RewardLevel.Fifty;
+                }
+            }
+
+            if (redBallCount == (int)NumberCount.Three)
+            {
+                if (blueBallCount == (int)NumberCount.One)
+                {
+                    level = (int)RewardLevel.Fifty;
+                }
+            }
+
+            if (redBallCount < (int)NumberCount.Three)
+            {
+                if (blueBallCount == (int)NumberCount.One)
+                {
+                    level = (int)RewardLevel.Sisty;
                 }
 
             }
-            dict[i] = list;
+
+            if (selLevel == level)
+            {
+                curSelectList.level = level;
+                list.Add(curSelectList);
+
+            }
         }
-        return dict;
+        return list;
     }
     //----------------------------------------------------------------------------
 }

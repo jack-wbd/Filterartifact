@@ -18,7 +18,6 @@ namespace Filterartifact
         private Text m_curPeriod;
         private GDropDown m_dropdown;
         private Text m_prizeNum;
-        private ResultData prizeNum = new ResultData();
         private static int ballMaxNumber = 33;
         private static int maxCount = 7;
         private static int maxBlueNum = 16;
@@ -28,6 +27,8 @@ namespace Filterartifact
         private List<int> m_selectList = new List<int>();
         private List<Text> m_winningResult = new List<Text>();
         private static int maxRewardLevel = 6;
+        private LoopScrollerView m_winResultScroll;
+        public List<ResultData> redeemList = new List<ResultData>();
         //----------------------------------------------------------------------------
         protected override bool OnCreate()
         {
@@ -37,6 +38,8 @@ namespace Filterartifact
                 BindEvent(m_centerAnchorPath + "back").AddListener(() => OnBack());
                 BindEvent(m_centerAnchorPath + "seePanel/clear").AddListener(() => OnClear());
                 BindEvent(m_centerAnchorPath + "savePanel/redeem").AddListener(() => OnBeginRedeem());
+                BindEvent(m_centerAnchorPath + "backToFir").AddListener(() => OnBackToFir());
+
             }
             return true;
         }
@@ -45,8 +48,9 @@ namespace Filterartifact
         {
             if (m_objUI != null)
             {
-                m_loopScrollView = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "result/scrollView");
-                m_totalNum = GetUIComponent<Text>(m_centerAnchorPath + "result/after");
+                m_loopScrollView = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "filterResult/scrollView");
+                m_winResultScroll = GetUIComponent<LoopScrollerView>(m_centerAnchorPath + "winningResult/scrollView");
+                m_totalNum = GetUIComponent<Text>(m_centerAnchorPath + "filterResult/after");
                 m_totalNum.text = string.Empty;
                 m_curPeriod = GetUIComponent<Text>(m_centerAnchorPath + "curPeriod");
                 m_curPeriod.text = string.Empty;
@@ -81,6 +85,7 @@ namespace Filterartifact
                 for (int i = 1; i <= maxRewardLevel; i++)
                 {
                     var text = GetUIComponent<Text>(string.Format(m_centerAnchorPath + "seePanel/result/{0}", i));
+                    text.text = string.Empty;
                     m_winningResult.Add(text);
                 }
             }
@@ -103,8 +108,7 @@ namespace Filterartifact
             UpdateLoopView(m_initialFilterResults, m_loopScrollView);
             m_totalNum.text = string.Format(PromptData.GetPrompt("afterFilterTotal"), m_initialFilterResults.Count);
             m_curPeriod.text = string.Format(PromptData.GetPrompt("numperiod"), drawData.curSelectPeriod);
-            drawData.redeemDict.TryGetValue(drawData.curSelectPeriod, out prizeNum);
-            m_prizeNum.text = string.Format(PromptData.GetPrompt("prizeNum"), prizeNum);
+            m_prizeNum.text = string.Format(PromptData.GetPrompt("prizeNum"), drawData.tcbStatiDataList[m_dropdown.Index].prizeNumber);
         }
         //----------------------------------------------------------------------------
         public override void Hide()
@@ -125,63 +129,17 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnBallToggleChange(Toggle toggle, bool bstate)
         {
-            int num = int.Parse(toggle.name);
-            if (!string.IsNullOrEmpty(m_prizeNum.text))
-            {
-                Messenger.Broadcast<string, object>(DgMsgID.DgMsg_ShowUIOneParam, "UIErrorCtrl", PromptData.GetPrompt("clearRem"));
-                return;
-            }
-            if (m_selectList.Count >= maxCount)
-            {
-                Messenger.Broadcast<string, object>(DgMsgID.DgMsg_ShowUIOneParam, "UIErrorCtrl", PromptData.GetPrompt("fullNum"));
-                return;
-            }
-            if (m_selectList.Count == maxCount - 1 && m_selectList[maxCount - 2] > maxBlueNum)
-            {
-                Messenger.Broadcast<string, object>(DgMsgID.DgMsg_ShowUIOneParam, "UIErrorCtrl", PromptData.GetPrompt("blueBalLim"));
-                return;
-            }
-            if (bstate)
-            {
-                if (!m_selectList.Contains(num))
-                {
-                    m_selectList.Add(num);
-                }
-            }
-            else
-            {
-                if (m_selectList.Contains(num))
-                {
-                    m_selectList.Remove(num);
-                }
-            }
-            m_selectList.Sort(SortBySize);
-            RefrushSelShow();
-        }
-        //----------------------------------------------------------------------------
-        private void RefrushSelShow()
-        {
-            var str = "";
-            for (int i = 0; i < m_selectList.Count; i++)
-            {
-                str += m_selectList[i] + " ";
-            }
-            m_prizeNum.text = string.Format(PromptData.GetPrompt("prizeNum"), str);
-        }
-        //----------------------------------------------------------------------------
-        int SortBySize(int numberOne, int numberTwo)
-        {
-            if (numberOne < numberTwo)
-            {
-                return -1;
-            }
-            else
-                return 1;
+
         }
         //----------------------------------------------------------------------------
         private void OnBack()
         {
             Messenger.Broadcast(DgMsgID.DgUI_HideNew, "UIRedeemNumfilterInterfaceCtrl");
+        }
+        //----------------------------------------------------------------------------
+        private void OnBackToFir()
+        {
+            Messenger.Broadcast(DgMsgID.DgUI_ShowNew, "UIMainInterfaceCtrl");
         }
         //----------------------------------------------------------------------------
         private void OnClear()
@@ -191,12 +149,49 @@ namespace Filterartifact
         //----------------------------------------------------------------------------
         private void OnBeginRedeem()
         {
-            var dict = Util.GetRedeemDict(drawData.redeemDict[drawData.curSelectPeriod].redBallList, m_initialFilterResults);
-            var itor = dict.GetEnumerator();
-            while (itor.MoveNext())
+            if (redeemList.Count > 0)
             {
-
+                redeemList.Clear();
             }
+            var selRedData = drawData.redeemDict[drawData.curSelectPeriod];
+            for (int i = 0; i < m_winningResult.Count; i++)
+            {
+                var curLevel = int.Parse(m_winningResult[i].gameObject.name);
+                var result = Util.GetRedemptionDataList(curLevel, selRedData, m_initialFilterResults);
+                switch (curLevel)
+                {
+                    case 1:
+                        m_winningResult[curLevel - 1].text = string.Format(PromptData.GetPrompt("firstPrize"), result.Count);
+                        break;
+                    case 2:
+                        m_winningResult[curLevel - 1].text = string.Format(PromptData.GetPrompt("secondPrize"), result.Count);
+                        break;
+                    case 3:
+                        m_winningResult[curLevel - 1].text = string.Format(PromptData.GetPrompt("thirdPrize"), result.Count);
+                        break;
+                    case 4:
+                        m_winningResult[curLevel - 1].text = string.Format(PromptData.GetPrompt("fourthPrize"), result.Count);
+                        break;
+                    case 5:
+                        m_winningResult[curLevel - 1].text = string.Format(PromptData.GetPrompt("fifthPrize"), result.Count);
+                        break;
+                    case 6:
+                        m_winningResult[curLevel - 1].text = string.Format(PromptData.GetPrompt("sixthPrize"), result.Count);
+                        break;
+                    default:
+                        break;
+                }
+
+                if (result != null)
+                {
+                    foreach (var item in result)
+                    {
+                        redeemList.Add(item);
+                    }
+                }
+            }
+
+            UpdateLoopView(redeemList, m_winResultScroll);
         }
         //----------------------------------------------------------------------------
         DrawData drawData

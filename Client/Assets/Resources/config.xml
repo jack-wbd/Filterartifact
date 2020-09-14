@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <config>
-	<datadir>D:\Filterartifact\Client\Assets\Data\data\</datadir>
+	<datadir></datadir>
 	<resdir></resdir>
-	<local>1</local>
+	<local></local>
 	<platform>115.159.96.34:8000</platform>
 	<huandong>115.159.96.34:8001</huandong>
 	<prelog>115.159.96.34:8002</prelog>

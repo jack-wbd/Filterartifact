@@ -32,6 +32,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -47,6 +48,7 @@ namespace Filterartifact
         UnityWebRequest m_wwwUIRoot;
         private bool m_bLauncherFinish = true;
         private static ConfigData m_ConfigData = null;
+        private List<AssetBundle> m_bundleList = new List<AssetBundle>();
         //----------------------------------------------------------------------------
         public LauncherManager()
         {
@@ -59,42 +61,64 @@ namespace Filterartifact
             LoadUIRoot();
             return true;
         }
-        private List<AssetBundle> bundleList = new List<AssetBundle>();
         //----------------------------------------------------------------------------
         private void LoadUIRoot()
         {
-            bundleList.Clear();
-            var depsPath = Application.streamingAssetsPath + "/uiasset";
+            string m_strPersistenDir;
+            string m_strStreamingAssetsDir;
+            string strHead;
+            switch (Application.platform)
+            {
+                case RuntimePlatform.WebGLPlayer:
+                    {
+                        m_strStreamingAssetsDir = "StreamingAssets";
+                    }
+                    break;
+                case RuntimePlatform.IPhonePlayer:
+                    {
+                        strHead = "file://";
+                        m_strStreamingAssetsDir = strHead + Application.streamingAssetsPath;
+                        m_strPersistenDir = Application.temporaryCachePath + "/StreamingAssets";
+                        Directory.CreateDirectory(m_strPersistenDir);
+                    }
+                    break;
+                case RuntimePlatform.Android:
+                    {
+                        m_strStreamingAssetsDir = Application.dataPath + "!assets/";
+                        m_strPersistenDir = Application.persistentDataPath;
+                    }
+                    break;
+                default:
+                    {
+                        m_strStreamingAssetsDir = Application.streamingAssetsPath+"/";
+                        m_strPersistenDir = Application.persistentDataPath + "/StreamingAssets";
+                        Directory.CreateDirectory(m_strPersistenDir);
+                    }
+                    break;
+            }
+            var depsPath = m_strStreamingAssetsDir + "uiasset";
             AssetBundle depsAb = AssetBundle.LoadFromFile(depsPath);
             AssetBundleManifest manifest = depsAb.LoadAsset<AssetBundleManifest>("AssetBundleManifest");
             string[] deps = manifest.GetAllDependencies("ui/prefab/ui_root.unity3d");
             for (int i = 0; i < deps.Length; i++)
             {
-                var depBundle = AssetBundle.LoadFromFile(Application.streamingAssetsPath + "/" + deps[i]);
-                bundleList.Add(depBundle);
+                var depBundle = AssetBundle.LoadFromFile(m_strStreamingAssetsDir + deps[i]);
+                m_bundleList.Add(depBundle);
             }
-            var path = Application.streamingAssetsPath + "/ui/prefab/ui_root.unity3d";
-            if (File.Exists(path))
+            var path = m_strStreamingAssetsDir + "ui/prefab/ui_root.unity3d";
+            AssetBundle bundle = AssetBundle.LoadFromFile(path);
+            GameObject objTemp = bundle.LoadAsset<GameObject>("ui_root");
+            GameObject objUI = Object.Instantiate(objTemp);
+            if (objUI != null)
             {
-                AssetBundle bundle = AssetBundle.LoadFromFile(path);
-                GameObject objTemp = bundle.LoadAsset<GameObject>("ui_root");
-                GameObject objUI = Object.Instantiate(objTemp);
-                if (objUI != null)
-                {
-                    objUI.name = "ui_root";
-                }
-                bundle.Unload(false);
-                depsAb.Unload(false);
-                bundle = null;
-                depsAb = null;
+                objUI.name = "ui_root";
             }
-
-            for (int i = 0; i < bundleList.Count; i++)
+            bundle.Unload(false);
+            depsAb.Unload(false);
+            for (int i = 0; i < m_bundleList.Count; i++)
             {
-                bundleList[i].Unload(false);
-                bundleList[i] = null;
+                m_bundleList[i].Unload(false);
             }
-
             Resources.UnloadUnusedAssets();
             GoToRun();
 

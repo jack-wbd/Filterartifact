@@ -78,6 +78,75 @@ class PackagerUI
         PackageAssetBundle(paths, target);
     }
     //----------------------------------------------------------------------------
+    public static void CreateAssetBundleSelectToOne(BuildTarget target)
+    {
+        CreateGameDataToOne(target);
+    }
+    //-------------------------------------------------------------------------
+    static void CreateGameDataToOne(BuildTarget target)
+    {
+        string targetPath = GetExportPath("gamedata/");
+        string bundleName = "gamedata.unity3d";
+
+        AssetDatabase.Refresh();
+        string sourcePath = Application.dataPath + "/Data/data/";
+        if (!Directory.Exists(sourcePath))
+        {
+            Debug.Log("CreateGameDataToOne not exist " + sourcePath);
+            return;
+        }
+        var options = BuildAssetBundleOptions.CompleteAssets | BuildAssetBundleOptions.CollectDependencies | BuildAssetBundleOptions.DeterministicAssetBundle | BuildAssetBundleOptions.ChunkBasedCompression;
+
+        targetPath = targetPath.ToLower();
+        _CreateMultipleAssetBundleFolder(bundleName, sourcePath, options, target, targetPath);
+
+        AssetDatabase.Refresh();
+    }
+    //----------------------------------------------------------------------------
+    public static void _CreateMultipleAssetBundleFolder(string bundleName, string folder, BuildAssetBundleOptions options, BuildTarget target, string strTargetPath)
+    {
+        Debug.Log("Selected Folder: " + folder);
+        if (folder.Length != 0)
+        {
+            folder = folder.Replace("\\", "/");
+            string[] fileEntries = Directory.GetFiles(folder, "*.*", SearchOption.AllDirectories);
+            List<string> sList = new List<string>();
+            foreach (string fileName in fileEntries)
+            {
+                if (!fileName.Contains("meta") && !fileName.Contains("unity"))
+                {
+                    string fileRelativePath = fileName.Replace("\\", "/");
+                    fileRelativePath = fileRelativePath.Substring((Application.dataPath.Replace("Assets", "")).Length); //Asset开头的相对路径
+                    sList.Add(fileRelativePath);
+                }
+            }
+            List<AssetBundleBuild> buildList = new List<AssetBundleBuild>();
+            AssetBundleBuild bundle = new AssetBundleBuild();
+            bundle.assetBundleName = bundleName;
+            bundle.assetNames = sList.ToArray();
+            buildList.Add(bundle);
+            BuildPipeline.BuildAssetBundles(strTargetPath, buildList.ToArray(), options, target);
+            Debug.Log("File Count: " + sList.Count);
+        }
+    }
+    //----------------------------------------------------------------------------
+    public static string GetExportPath(string strRelativePath = null)
+    {
+        string exportPath = Application.dataPath + "/../StreamingAssets/";
+        if (strRelativePath != null)
+        {
+            Debug.Log("RelativePath: " + strRelativePath);
+            exportPath += strRelativePath.ToLower();
+        }
+        if (!Directory.Exists(exportPath))
+        {
+            Directory.CreateDirectory(exportPath);
+            //exportPath = EditorUtility.SaveFolderPanel("", "", "");
+        }
+        //Debug.Log(exportPath);
+        return exportPath;
+    }
+    //----------------------------------------------------------------------------
     public static string[] GetSelectAssetPaths()
     {
         List<string> pathList = new List<string>();
@@ -222,7 +291,7 @@ class PackagerUI
         xmlDoc.AppendChild(root);
         xmlDoc.Save(xmlPath);
         SaveXmlWithUTF8NotBOM(xmlPath, xmlDoc);
-
+        var newPath = Application.dataPath + "/Data/data/Common";
     }
     //----------------------------------------------------------------------------
     public static void SaveXmlWithUTF8NotBOM(string savePath, XmlDocument xml)
@@ -251,7 +320,6 @@ class PackagerUI
         fileNameListPath.Clear();
         for (int i = 0; i < fileInfos.Length; i++)
         {
-            string path0 = fileInfos[i].FullName.Replace("\\", "/");
             SetAssetBundleGroup(fileInfos[i], tempConfiguration);
         }
 
@@ -263,7 +331,7 @@ class PackagerUI
         string path = systemInfo.FullName.Replace("\\", "/");
         string fileName = systemInfo.Name;
         string relativePath = path.Substring((m_ResourcePath + "/").Length);
-        if (path.EndsWith(".meta") || path.EndsWith(".DS_Store"))
+        if (path.EndsWith(".meta") || path.EndsWith(".DS_Store") || path.EndsWith(".xml") || path.EndsWith(".txt") || path.EndsWith(".json"))
         {
             return;
         }

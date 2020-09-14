@@ -1,6 +1,0 @@
-D:\Filterartifact\Client\Assets\StreamingAssets\HotFix_Project.dll
-D:\Filterartifact\Client\Assets\StreamingAssets\HotFix_Project.pdb
-D:\Filterartifact\Client\Assets\Samples\ILRuntime\1.6.3\Demo\HotFix_Project~\obj\Debug\HotFix_Project.csprojAssemblyReference.cache
-D:\Filterartifact\Client\Assets\Samples\ILRuntime\1.6.3\Demo\HotFix_Project~\obj\Debug\HotFix_Project.csproj.CoreCompileInputs.cache
-D:\Filterartifact\Client\Assets\Samples\ILRuntime\1.6.3\Demo\HotFix_Project~\obj\Debug\HotFix_Project.dll
-D:\Filterartifact\Client\Assets\Samples\ILRuntime\1.6.3\Demo\HotFix_Project~\obj\Debug\HotFix_Project.pdb

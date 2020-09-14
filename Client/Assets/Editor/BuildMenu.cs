@@ -59,11 +59,32 @@ public class BuildMenu : EditorWindow
         ExportAssetBundle.CreateAssetBundleAll_Win32();
     }
     //----------------------------------------------------------------------------
+    [MenuItem("Assets/Export/AssetBundle/选中（多合一）/Android", false, 1000)]
+    [MenuItem("Export/AssetBundle/选中（多合一）/Android", false, 1000)]
+    public static void Build_AssetBundle_Multiple_Android()
+    {
+        ExportAssetBundle.CreateAssetBundleSelectToOne_Android();
+    }
+    //----------------------------------------------------------------------------
+    [MenuItem("Assets/Export/AssetBundle/选中（多合一）/Windows64", false, 1000)]
+    [MenuItem("Export/AssetBundle/选中（多合一）/Windows64", false, 1000)]
+    public static void Build_AssetBundle_Multiple_Windows64()
+    {
+        ExportAssetBundle.CreateAssetBundleSelectToOne_Windows64();
+    }
+    //----------------------------------------------------------------------------
     [MenuItem("Assets/Export/单独打包/Windows32", false, 1000)]
     [MenuItem("AssetBundle/单独打包/Windows32", false, 1000)]
     public static void BuildSelectAssetBundleForWindows32()
     {
         ExportAssetBundle.CreateAssetBundleSelect_Win32();
+    }
+    //----------------------------------------------------------------------------
+    [MenuItem("Assets/Export/全部打包/Android", false, 1000)]
+    [MenuItem("AssetBundle/全部打包/Android", false, 1000)]
+    public static void BuildAllAssetBundleForAndroid()
+    {
+        ExportAssetBundle.CreateAssetBundleAll_Android();
     }
     //----------------------------------------------------------------------------
 }

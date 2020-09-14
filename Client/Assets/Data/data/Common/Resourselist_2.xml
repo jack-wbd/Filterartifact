@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Resourselist>
+  <uideps>
+    <Bundle id="ui_gm.prefab">
+      <Bundle id="commonpictureatlas" />
+    </Bundle>
+    <Bundle id="ui_loading.prefab">
+      <Bundle id="djjp" />
+      <Bundle id="loginatlas" />
+      <Bundle id="picture1" />
+    </Bundle>
+    <Bundle id="ui_login.prefab">
+      <Bundle id="gameusefont" />
+      <Bundle id="chengzhen00atlas" />
+      <Bundle id="commonpictureatlas" />
+    </Bundle>
+    <Bundle id="ui_maininterface.prefab">
+      <Bundle id="gameusefont" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+      <Bundle id="maininterface" />
+    </Bundle>
+    <Bundle id="ui_page_acnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_adjacentnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_doublenumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_filtermethodinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_intervalnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_mantissanumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_maxintervalnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_numselecinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+    </Bundle>
+    <Bundle id="ui_page_paritynumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_popularnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_redeemnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_serialnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_sizerationumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_sumvaluenumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_page_unpopularnumfilterinterface.prefab">
+      <Bundle id="commonpictureatlas" />
+      <Bundle id="djjp" />
+      <Bundle id="gongyong" />
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_prompt_box.prefab">
+      <Bundle id="commonpictureatlas" />
+    </Bundle>
+    <Bundle id="ui_root.prefab">
+      <Bundle id="loginatlas" />
+    </Bundle>
+    <Bundle id="ui_root_main.prefab" />
+  </uideps>
+</Resourselist>

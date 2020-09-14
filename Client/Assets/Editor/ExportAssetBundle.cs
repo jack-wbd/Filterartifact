@@ -40,9 +40,24 @@ public class ExportAssetBundle
         PackagerUI.CreateAssetBundleAll(BuildTarget.StandaloneWindows64);
     }
     //----------------------------------------------------------------------------
+    public static void CreateAssetBundleAll_Android()
+    {
+        PackagerUI.CreateAssetBundleAll(BuildTarget.Android);
+    }
+    //----------------------------------------------------------------------------
     public static void CreateAssetBundleSelect_Win64()
     {
         PackagerUI.CreateAssetBundleSelect(BuildTarget.StandaloneWindows64);
+    }
+    //----------------------------------------------------------------------------
+    public static void CreateAssetBundleSelectToOne_Android()
+    {
+        PackagerUI.CreateAssetBundleSelectToOne(BuildTarget.Android);
+    }
+    //----------------------------------------------------------------------------
+    public static void CreateAssetBundleSelectToOne_Windows64()
+    {
+        PackagerUI.CreateAssetBundleSelectToOne(BuildTarget.StandaloneWindows64);
     }
     //----------------------------------------------------------------------------
     public static void CreateAssetBundleAll_Win32()

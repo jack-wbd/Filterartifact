@@ -41,26 +41,22 @@ namespace Filterartifact
     public class CopyFactory
     {
         //----------------------------------------------------------------------------
-        public Copy Constract_Copy(string strCopyName,StageLayer layer)
+        public Copy Constract_Copy(string strCopyName, StageLayer layer)
         {
             Copy newCopy = null;
-            string strRootPath = "Map/";
-            strRootPath += strCopyName + "/";
-            string strXmlFileName = strRootPath;
-            strXmlFileName += strCopyName;
             XmlDocument xmlDouc = new XmlDocument();
-            string XmlData = FileSystem.Instance().LoadXml(strXmlFileName + ".xml");
+            string XmlData = FileSystem.Instance().LoadGameData(strCopyName+".xml");
             xmlDouc.LoadXml(XmlData);
             XmlElement copyElement = xmlDouc.SelectSingleNode("Copy") as XmlElement;
-            if (copyElement==null)
+            if (copyElement == null)
             {
                 return null;
             }
             int nType = int.Parse(copyElement.GetAttribute("TypeID"));
             eSceneType type = eSceneType.BATTLE_SCENE;
             type = GetCopyType(nType);
-            newCopy = CreateCopy(type,layer);
-            if (!newCopy.Create(copyElement,ref strCopyName,type))
+            newCopy = CreateCopy(type, layer);
+            if (!newCopy.Create(copyElement, ref strCopyName, type))
             {
                 newCopy = null;
                 return null;
@@ -175,7 +171,7 @@ namespace Filterartifact
             return sceneType;
         }
         //----------------------------------------------------------------------------
-        public static Scene CreateScene(eSceneType Type,Copy copy)
+        public static Scene CreateScene(eSceneType Type, Copy copy)
         {
             Scene scene = null;
             switch (Type)

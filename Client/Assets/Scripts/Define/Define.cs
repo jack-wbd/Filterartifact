@@ -154,8 +154,8 @@ public enum UpdateState
 //----------------------------------------------------------------------------
 public struct XmlFile
 {
-    public static string LoadingTexture = "Common/LoadingConfig.xml";
-    public static string PromptLang = "Language/PromptData.xml";
+    public static string LoadingTexture = "LoadingConfig.xml";
+    public static string PromptLang = "PromptData.xml";
 }
 //----------------------------------------------------------------------------
 public struct UseColor

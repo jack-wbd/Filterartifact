@@ -432,6 +432,12 @@ namespace Filterartifact
 
                 tran.Find("serial").GetComponent<Text>().text = (index + 1).ToString();
 
+                var levelLab = tran.Find("level");
+                if (levelLab != null)
+                {
+                    levelLab.GetComponent<Text>().text = string.Format(PromptData.GetPrompt("prizeLevel"), list[index].level);
+                }
+
             });
         }
         //----------------------------------------------------------------------------

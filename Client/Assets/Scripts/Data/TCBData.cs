@@ -311,6 +311,27 @@ namespace Filterartifact
     {
         public List<byte> redBallList = new List<byte>();
         public byte blueBall;
+        public int level = 0;
+    }
+    //----------------------------------------------------------------------------
+    public enum NumberCount
+    {
+        One = 1,
+        Two = 2,
+        Three = 3,
+        Four = 4,
+        Five = 5,
+        Six = 6,
+    }
+    //----------------------------------------------------------------------------
+    public enum RewardLevel
+    {
+        First = 1,
+        Second = 2,
+        Third = 3,
+        Fourth = 4,
+        Fifty = 5,
+        Sisty = 6,
     }
     //----------------------------------------------------------------------------
     public class DrawData : DataBase
@@ -355,8 +376,7 @@ namespace Filterartifact
         public override bool Initialize()
         {
             InitData();
-            //Test();
-            return base.Initialize();
+            return true;
         }
         //----------------------------------------------------------------------------
         private void Test()
@@ -416,9 +436,7 @@ namespace Filterartifact
             var historyDataPath = Application.persistentDataPath + "/tcbhistory.json";
             if (!File.Exists(historyDataPath))
             {
-                var path = Application.dataPath + "/Data/data/jsonData/tcbhistory.json";
-                var streamReader = new StreamReader(path);
-                var savedata = streamReader.ReadToEnd();
+                var savedata = FileSystem.Instance().LoadGameData("tcbhistory.json");
                 var savejsondata = JsonReader.Deserialize<List<TCBData>>(savedata);
                 savejsondata.Sort(SortTcbDataList);
                 tcbHistorydatalist.Clear();
