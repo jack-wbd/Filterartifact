@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2913670676
+CRC: 2843003880
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 13a16da35629c1abff25f3d65a149637
+    Hash: 739fdcec98accc50e36e92f1ac2606a0
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 4388fb3352ff9b6cb72eeec77d86e6af
+    Hash: f7bfcc83dbde884ba13e32029c26b636
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -35,7 +35,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Data/ui/prefab/ui_gm.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d

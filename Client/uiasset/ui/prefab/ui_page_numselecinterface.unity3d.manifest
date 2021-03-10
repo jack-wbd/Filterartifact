@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 1699915027
+CRC: 2703338913
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 0fc6afad25977c4a44fc47e25b0981b0
+    Hash: c2fa21c7423e4a1e9e06abe9a2af565c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 3b43c9635eae4fcbfc019875e381602a
+    Hash: bee7c04fe99119324e9c0ae55333bc94
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -47,9 +47,10 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Data/ui/prefab/ui_page_numselecinterface.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/gongyong.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/gongyong.unity3d

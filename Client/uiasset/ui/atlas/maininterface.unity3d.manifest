@@ -1,18 +1,19 @@
 ManifestFileVersion: 0
-CRC: 2939693269
+CRC: 740608122
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 26106a97b0bccee69bfacc4c078f143d
+    Hash: 32cbc4e6d307e6f27873da45f74b38ce
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9e6ad29cbd2df8fbe1a15315db0e51ab
+    Hash: c90fc19e2679e5295d10bd00f33cb4c3
 HashAppended: 0
 ClassTypes:
 - Class: 28
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Data/ui/atlas/maininterface/01_an_jiahao_033.png
 - Assets/Data/ui/atlas/maininterface/jiaobiaosuodi.png

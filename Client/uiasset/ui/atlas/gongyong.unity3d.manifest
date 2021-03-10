@@ -1,18 +1,19 @@
 ManifestFileVersion: 0
-CRC: 2692803452
+CRC: 2305661797
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 2ecdd1029cbaa7c60693324fd725e57e
+    Hash: 8b2ad298d7c8962a84ddfd7db41c5640
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9e6ad29cbd2df8fbe1a15315db0e51ab
+    Hash: c90fc19e2679e5295d10bd00f33cb4c3
 HashAppended: 0
 ClassTypes:
 - Class: 28
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Data/ui/atlas/gongyong/01_xinhao02.png
 - Assets/Data/ui/atlas/gongyong/01_wjzs_002.png

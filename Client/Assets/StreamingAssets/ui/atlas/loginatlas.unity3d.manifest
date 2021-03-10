@@ -1,18 +1,19 @@
 ManifestFileVersion: 0
-CRC: 1726157956
+CRC: 3703114431
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 66d387297c2b1df420f118fc06ab413a
+    Hash: ba6ed2f04391292431d1ee11b239f5fb
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 9e6ad29cbd2df8fbe1a15315db0e51ab
+    Hash: c90fc19e2679e5295d10bd00f33cb4c3
 HashAppended: 0
 ClassTypes:
 - Class: 28
   Script: {instanceID: 0}
 - Class: 213
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Data/ui/atlas/loginatlas/number3.png
 - Assets/Data/ui/atlas/loginatlas/xsyd_d4.png

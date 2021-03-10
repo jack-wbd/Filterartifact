@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2969351903
+CRC: 3883993223
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 88227326007e57a4bdd79183a16862de
+    Hash: 818ecdc6026140e3cb935357a89d6b8c
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 66c9cfbd9df144f11ec9dbce3c09bf39
+    Hash: 9147f818be421b5935dbd3a64c96f67c
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -31,7 +31,8 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Data/ui/prefab/ui_prompt_box.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d

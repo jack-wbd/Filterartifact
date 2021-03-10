@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2817137287
+CRC: 2292830309
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 9b6719f26e83dfc1d6dd92baa72b5d1a
+    Hash: d69f4f1681b0c050b3c2db13645202e7
   TypeTreeHash:
     serializedVersion: 2
-    Hash: 96f68cecd30eb59fb583d2becf7d45ff
+    Hash: fe41681aaf5434d97714476c53807b53
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -31,9 +31,10 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Data/ui/prefab/ui_loading.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
-- D:/Filterartifact/Client/uiasset/ui/picture/switchpic/picture1.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/picture/switchpic/picture1.unity3d

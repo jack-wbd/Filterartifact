@@ -132,7 +132,7 @@ class PackagerUI
     //----------------------------------------------------------------------------
     public static string GetExportPath(string strRelativePath = null)
     {
-        string exportPath = Application.dataPath + "/../StreamingAssets/";
+        string exportPath = Application.dataPath + "/StreamingAssets/";
         if (strRelativePath != null)
         {
             Debug.Log("RelativePath: " + strRelativePath);

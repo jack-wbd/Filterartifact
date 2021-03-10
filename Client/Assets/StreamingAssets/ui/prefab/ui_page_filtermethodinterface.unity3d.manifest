@@ -1,12 +1,12 @@
 ManifestFileVersion: 0
-CRC: 2690321708
+CRC: 869202732
 Hashes:
   AssetFileHash:
     serializedVersion: 2
-    Hash: 8baf038e58bc79a7b620404674b72603
+    Hash: cc35c3461503c2e4ce98734eb2ff2ae7
   TypeTreeHash:
     serializedVersion: 2
-    Hash: e921d391874f0ee8708db91041c50d9b
+    Hash: a1940df27039a9fb3dbb6d5d96cc67f5
 HashAppended: 0
 ClassTypes:
 - Class: 1
@@ -49,10 +49,11 @@ ClassTypes:
   Script: {instanceID: 0}
 - Class: 224
   Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers: []
 Assets:
 - Assets/Data/ui/prefab/ui_page_filtermethodinterface.prefab
 Dependencies:
-- D:/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/gongyong.unity3d
-- D:/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/commonpictureatlas.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/djjp.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/gongyong.unity3d
+- E:/UnityProject/Filterartifact/Client/uiasset/ui/atlas/loginatlas.unity3d
